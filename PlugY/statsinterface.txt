@@ -1,0 +1,60 @@
+*desc	enabled	page	x	y	color	font	statID	end
+item_magicbonus	1	1	35	720	4	6	80	0
+item_goldbonus	1	1	35	705	4	6	79	0
+item_manaafterkill	1	1	35	690		6	138	0
+item_fastercastrate	1	1	35	675		6	105	0
+item_fasterattackrate	1	1	35	660		6	93	0
+lifedrainmindam	1	1	35	645		6	60	0
+manadrainmindam	1	1	35	630		6	62	0
+item_fastermovevelocity	1	1	35	615		6	96	0
+item_fastergethitrate	1	1	35	600		6	99	0
+item_reducedprices	1	1	35	585		6	87	0
+item_addexperience	1	1	35	570		6	85	0
+item_damagetomana	1	1	35	555		6	114	0
+manarecoverybonus	1	1	35	540		6	27	0
+hpregen	1	1	35	525		6	74	0
+item_freeze	1	1	35	510		6	134	0
+item_howl	1	1	35	495		6	112	0
+item_attackertakesdamage	1	1	35	480		6	78	0
+item_demondamage_percent	1	1	35	465		6	121	0
+item_undeaddamage_percent	1	1	35	450		6	122	0
+item_openwounds	1	1	35	435		6	135	0
+item_crushingblow	1	1	35	420		6	136	0
+item_deadlystrike	1	1	35	405		6	141	0
+cubepoints_string	1	2	35	720		6	183	0
+damageresist	1	2	35	705		6	36	0
+normal_damage_reduction	1	2	35	690		6	34	0
+magic_damage_reduction	1	2	35	675		6	35	0
+magicresist	1	2	35	660		6	37	0
+fireresist	1	2	35	645	1	6	39	0
+coldresist	1	2	35	630	3	6	43	0
+lightresist	1	2	35	615	9	6	41	0
+poisonresist	1	2	35	600	2	6	45	0
+maxmagicresist	1	2	35	585		6	38	0
+maxfireresist	1	2	35	570	1	6	40	0
+maxcoldresist	1	2	35	555	3	6	44	0
+maxlightresist	1	2	35	540	9	6	42	0
+maxpoisonresist	1	2	35	525	2	6	46	0
+item_absorbmagic_percent	1	2	35	510		6	146	0
+item_absorbfire_percent	1	2	35	495	1	6	142	0
+item_absorbcold_percent	1	2	35	480	3	6	148	0
+item_absorblight_percent	1	2	35	465	9	6	144	0
+item_poisonlengthresist	1	2	35	450	2	6	110	0
+passive_fire_mastery	1	2	35	435	1	6	329	0
+passive_cold_mastery	1	2	35	420	3	6	331	0
+passive_ltng_mastery	1	2	35	405	9	6	330	0
+passive_pois_mastery	1	2	35	390	2	6	332	0
+passive_mag_mastery	1	2	35	375		6	357	0
+passive_fire_pierce	1	2	35	360	1	6	333	0
+passive_cold_pierce	1	2	35	345	3	6	335	0
+passive_ltng_pierce	1	2	35	330	9	6	334	0
+passive_pois_pierce	1	2	35	315	2	6	336	0
+passive_mag_pierce	1	2	35	300		6	358	0
+firemindam	1	2	35	285		6	48	0
+firemaxdam	1	2	35	270		6	49	0
+lightmindam	1	2	35	255		6	50	0
+lightmaxdam	1	2	35	240		6	51	0
+magicmindam	1	2	35	225		6	52	0
+magicmaxdam	1	2	35	210		6	53	0
+coldmindam	1	2	35	195		6	54	0
+coldmaxdam	1	2	35	180		6	55	0
