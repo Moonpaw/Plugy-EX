@@ -79,39 +79,39 @@ DWORD SharedMainIndexPageColor = RED;
 
 
 DWORD	getXPreviousBtn()		{return RX(posXPreviousBtn<0? D2GetResolution()?0x80:0xAF : posXPreviousBtn);}
-#define	getLPreviousBtn()		32
+//#define	getLPreviousBtn()		32
 DWORD	getYPreviousBtn()		{return RY(posYPreviousBtn<0 ? 0x40 : posYPreviousBtn);}
-#define	getHPreviousBtn()		32
+//#define	getHPreviousBtn()		32
 
 DWORD	getXNextBtn()			{return RX(posXNextBtn<0 ? D2GetResolution()?0xA0:0xCF :posXNextBtn);}//?169:SEL_X(0x63, 0x63, 0xCF, 0xA0));}
-#define	getLNextBtn()			32
+//#define	getLNextBtn()			32
 DWORD	getYNextBtn()			{return RY(posYNextBtn<0 ? 0x40 : posYNextBtn);}
-#define	getHNextBtn()			32
+//#define	getHNextBtn()			32
 
 DWORD	getXSharedBtn()			{return RX(posXSharedBtn<0 ? D2GetResolution()?0x10:0x6F :posXSharedBtn);}//17:SEL_X(0xE3, 0xE3, 0x6F, 0x10));}//0xD8
-#define	getLSharedBtn()			32
+//#define	getLSharedBtn()			32
 DWORD	getYSharedBtn()			{return RY(posYSharedBtn<0 ? 0x40 : posYSharedBtn);}
-#define	getHSharedBtn()			32
+//#define	getHSharedBtn()			32
 
 DWORD	getXPreviousIndexBtn()	{return RX(posXPreviousIndexBtn<0 ?  D2GetResolution()?0x60:0x8F :posXPreviousIndexBtn);}//73:SEL_X(0x18, 0x60, 0x8F, 0x60));}
-#define	getLPreviousIndexBtn()	32
+//#define	getLPreviousIndexBtn()	32
 DWORD	getYPreviousIndexBtn()	{return RY(posYPreviousIndexBtn<0 ? 0x40 : posYPreviousIndexBtn);}
-#define	getHPreviousIndexBtn()	32
+//#define	getHPreviousIndexBtn()	32
 
 DWORD	getXNextIndexBtn()		{return RX(posXNextIndexBtn<0? D2GetResolution()?0xC0:0xEF : posXNextIndexBtn);}//217:SEL_X(0x128, 0xC0, 0xEF, 0xC0));}
-#define	getLNextIndexBtn()		32
+//#define	getLNextIndexBtn()		32
 DWORD	getYNextIndexBtn()		{return RY(posYNextIndexBtn<0 ? 0x40 : posYNextIndexBtn);}
-#define	getHNextIndexBtn()		32
+//#define	getHNextIndexBtn()		32
 
 DWORD	getXPutGoldBtn()		{return RX(posXPutGoldBtn<0? 0x1C : posXPutGoldBtn);}
-#define	getLPutGoldBtn()		32
+//#define	getLPutGoldBtn()		32
 DWORD	getYPutGoldBtn()		{return RY(posYPutGoldBtn<0 ? 0x1A8 : posYPutGoldBtn);}
-#define	getHPutGoldBtn()		32
+//#define	getHPutGoldBtn()		32
 
 DWORD	getXTakeGoldBtn()		{return RX(posXTakeGoldBtn<0? 0x105 : posXTakeGoldBtn);}
-#define	getLTakeGoldBtn()		32
+//#define	getLTakeGoldBtn()		32
 DWORD	getYTakeGoldBtn()		{return RY(posYTakeGoldBtn<0 ? 0x1A8 : posYTakeGoldBtn);}
-#define	getHTakeGoldBtn()		32
+//#define	getHTakeGoldBtn()		32
 DWORD	getXStashNameField()	{return RX(posXStashNameField<0 ? 0x4A : posXStashNameField);}
 DWORD	getYStashNameField()	{return RY(posYStashNameField<0 ? 0x19A : posYStashNameField);}
 DWORD	getXStashGoldField()	{return RX(posXStashGoldField<0 ? 0x61 : posXStashGoldField);}
@@ -199,6 +199,7 @@ void* STDCALL printBtns()
 
 
 	LPWSTR lpText;
+	WCHAR text[100];
 	DWORD mx = D2GetMouseX();
 	DWORD my = D2GetMouseY();
 
@@ -222,12 +223,12 @@ void* STDCALL printBtns()
 		}
 
 	} else if (isOnButtonPreviousIndexStash(mx,my)) {
-		lpText = getLocalString(STR_STASH_PREVIOUS_INDEX);
-		D2PrintPopup(lpText, getXPreviousIndexBtn()+posWPreviousIndexBtn/2, getYPreviousIndexBtn()-posHPreviousIndexBtn, WHITE, 1);
-
+		swprintf(text, getLocalString(STR_STASH_PREVIOUS_INDEX), nbPagesPerIndex, nbPagesPerIndex2);
+		D2PrintPopup(text, getXPreviousIndexBtn()+posWPreviousIndexBtn/2, getYPreviousIndexBtn()-posHPreviousIndexBtn, WHITE, 1);
+		
 	} else if (isOnButtonNextIndexStash(mx,my))	{
-		lpText = getLocalString(STR_STASH_NEXT_INDEX);
-		D2PrintPopup(lpText, getXNextIndexBtn()+posWNextIndexBtn/2, getYNextIndexBtn()-posHNextIndexBtn, WHITE, 1);
+		swprintf(text, getLocalString(STR_STASH_NEXT_INDEX), nbPagesPerIndex, nbPagesPerIndex2);
+		D2PrintPopup(text, getXNextIndexBtn()+posWNextIndexBtn/2, getYNextIndexBtn()-posHNextIndexBtn, WHITE, 1);
 
 	} else if (active_sharedGold && isOnButtonPutGold(mx,my))	{
 		lpText = getLocalString(STR_PUT_GOLD);
