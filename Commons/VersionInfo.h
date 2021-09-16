@@ -10,7 +10,7 @@
 
 enum eGameVersion
 {
-	UNKNOW = -1,
+	UNKNOWN = -1,
 	V100 = 0,
 	V107,
 	V108,
@@ -32,5 +32,3 @@ enum eGameVersion
 const char* GetVersionString(int version);
 eGameVersion GetD2Version(char* gamePath);
 eGameVersion GetD2Version(HMODULE hModule);
-
-///////////////////////// END OF FILE ///////////////////////

@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Headers\Commons">
+      <UniqueIdentifier>{2b3c63e4-ea96-4220-ac3a-9adc426f6b86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Sources\Commons">
+      <UniqueIdentifier>{0c45a059-41bb-46da-bb4f-304fa76d2581}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BigStash.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientSaveFile.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Commands.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Common.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomLibraries.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="D2functions.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="D2wrapper.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Error.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtendedSaveFile.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtraOptions.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalVariable.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="InfinityStash.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="INIfile.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface_Skills.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface_Stash.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface_Stats.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Language.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadPlayerData.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="LocalizedStrings.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="MainScreen.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ModifMemory.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="NewInterface_CubeListing.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="NewInterface_Runewords.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="NewInterface_Stats.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="NewInterface_StatsPageTwo.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="NewInterfaces.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="OthersFeatures.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Parameters.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCustomData.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="PlugY.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="PlugYFiles.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SavePath.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SavePlayerData.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedSaveFile.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillPerLevelUp.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillsPoints.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="StatPerLevelUp.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="StatsPoints.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="UberQuest.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateClient.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateServer.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Windowed.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldEvent.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Commons\VersionInfo.cpp">
+      <Filter>Sources\Commons</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bigStash.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="clientSaveFile.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="commands.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="customData.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="customLibraries.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="d2functions.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="d2wrapper.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="error.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="extendedSaveFile.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="extraOptions.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="globalVariable.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="infinityStash.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="INIfile.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="interface_Skills.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="interface_Stash.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="interface_Stats.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="language.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="loadPlayerData.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="LocalizedStrings.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="mainScreen.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="modifMemory.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="newInterface_CubeListing.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="newInterface_Runewords.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="newInterface_Stats.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="newInterface_StatsPageTwo.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="newInterfaces.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="othersFeatures.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="parameters.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="playerCustomData.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="plugYFiles.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="savePath.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="savePlayerData.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sharedSaveFile.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="skillPerLevelUp.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="skillsPoints.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="statPerLevelUp.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="statsPoints.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="uberQuest.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="updateClient.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="updateServer.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="windowed.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="worldEvent.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Commons\d2BinFile.h">
+      <Filter>Headers\Commons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Commons\d2constants.h">
+      <Filter>Headers\Commons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Commons\D2Funcs.h">
+      <Filter>Headers\Commons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Commons\d2StringTblStruct.h">
+      <Filter>Headers\Commons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Commons\d2Struct.h">
+      <Filter>Headers\Commons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Commons\D2UnitStruct.h">
+      <Filter>Headers\Commons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Commons\updatingConst.h">
+      <Filter>Headers\Commons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Commons\VersionInfo.h">
+      <Filter>Headers\Commons</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PlugY.rc">
+      <Filter>Ressources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
