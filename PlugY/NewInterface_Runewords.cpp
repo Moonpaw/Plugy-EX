@@ -13,86 +13,76 @@
 using std::vector;
 using std::find;
 
-#define NB_RUNES_PER_PAGE 25
+constexpr auto RunesPerPage = 25;
+constexpr auto ButtonHeight = 32;
+constexpr auto ButtonLength = 32;
 
-#define	getXCloseBtn()			360
-#define	getLCloseBtn()			32
-#define	getYCloseBtn()			RY(0x50)
-#define	getHCloseBtn()			32
-#define isOnCloseBtn(x,y)		isOnRect(x, y, getXCloseBtn(), getYCloseBtn(), getLCloseBtn(), getHCloseBtn())
+constexpr auto getXCloseBtn() { return 360; }
+constexpr auto getYCloseBtn() { return RY(0x50); }
 
-#define	getXNextPageBtn()		RX(D2GetResolution()?0xBA:0xBA)
-#define	getLNextPageBtn()		32
-#define	getYNextPageBtn()		RY(D2GetResolution()?0x50:0x50)
-#define	getHNextPageBtn()		32
-#define isOnNextPageBtn(x,y)	isOnRect(x, y, getXNextPageBtn(), getYNextPageBtn(), getLNextPageBtn(), getHNextPageBtn())
+auto isOnCloseBtn(DWORD x, DWORD y) { return isOnRect(x, y, getXCloseBtn(), getYCloseBtn(), ButtonLength, ButtonHeight); }
 
-#define	getXPrevRunesBtn()		107
-#define	getLPrevRunesBtn()		32
-#define	getYPrevRunesBtn()		RY(D2GetResolution()?0x50:0x50)
-#define	getHPrevRunesBtn()		32
-#define isOnPrevRunesBtn(x,y)	isOnRect(x, y, getXPrevRunesBtn(), getYPrevRunesBtn(), getLPrevRunesBtn(), getHPrevRunesBtn())
+constexpr auto getXNextPageBtn() { return RX(0xBA); }
+constexpr auto getYNextPageBtn() { return RY(0x50); }
 
-#define	getXNextRunesBtn()		RX(0x95)
-#define	getLNextRunesBtn()		32
-#define	getYNextRunesBtn()		RY(D2GetResolution()?0x50:0x50)
-#define	getHNextRunesBtn()		32
-#define isOnNextRunesBtn(x,y)	isOnRect(x, y, getXNextRunesBtn(), getYNextRunesBtn(), getLNextRunesBtn(), getHNextRunesBtn())
+auto isOnNextPageBtn(DWORD x, DWORD y) { return isOnRect(x, y, getXNextPageBtn(), getYNextPageBtn(), ButtonLength, ButtonHeight); }
 
-#define	getXTwoRunesBtn()		RX(0x6B)
-#define	getLTwoRunesBtn()		32
-#define	getYTwoRunesBtn()		RY(D2GetResolution()?0x7A:0x7A)
-#define	getHTwoRunesBtn()		32
-#define isOnTwoRunesBtn(x,y)	isOnRect(x, y, getXTwoRunesBtn(), getYTwoRunesBtn(), getLTwoRunesBtn(), getHTwoRunesBtn())
+constexpr auto getXPrevRunesBtn() { return RX(0xF9); }
+constexpr auto getYPrevRunesBtn() { return RY(0x50); }
 
-#define	getXThreeRunesBtn()		RX(0x95)
-#define	getLThreeRunesBtn()		32
-#define	getYThreeRunesBtn()		RY(D2GetResolution()?0x7A:0x7A)
-#define	getHThreeRunesBtn()		32
-#define isOnThreeRunesBtn(x,y)	isOnRect(x, y, getXThreeRunesBtn(), getYThreeRunesBtn(), getLThreeRunesBtn(), getHThreeRunesBtn())
+auto isOnPrevRunesBtn(DWORD x, DWORD y) { return isOnRect(x, y, getXPrevRunesBtn(), getYPrevRunesBtn(), ButtonLength, ButtonHeight); }
 
-#define	getXFourRunesBtn()		RX(0xBF)
-#define	getLFourRunesBtn()		32
-#define	getYFourRunesBtn()		RY(D2GetResolution()?0x7A:0x7A)
-#define	getHFourRunesBtn()		32
-#define isOnFourRunesBtn(x,y)	isOnRect(x, y, getXFourRunesBtn(), getYFourRunesBtn(), getLFourRunesBtn(), getHFourRunesBtn())
+constexpr auto getXNextRunesBtn() { return RX(0x123); }
+constexpr auto getYNextRunesBtn() { return RY(0x50); }
 
-#define	getXFiveRunesBtn()		RX(0xE9)
-#define	getLFiveRunesBtn()		32
-#define	getYFiveRunesBtn()		RY(D2GetResolution()?0x7A:0x7A)
-#define	getHFiveRunesBtn()		32
-#define isOnFiveRunesBtn(x,y)	isOnRect(x, y, getXFiveRunesBtn(), getYFiveRunesBtn(), getLFiveRunesBtn(), getHFiveRunesBtn())
+auto isOnNextRunesBtn(DWORD x, DWORD y) { return isOnRect(x, y, getXNextRunesBtn(), getYNextRunesBtn(), ButtonLength, ButtonHeight); }
 
-#define	getXSixRunesBtn()		RX(0x113)
-#define	getLSixRunesBtn()		32
-#define	getYSixRunesBtn()		RY(D2GetResolution()?0x7A:0x7A)
-#define	getHSixRunesBtn()		32
-#define isOnSixRunesBtn(x,y)	isOnRect(x, y, getXSixRunesBtn(), getYSixRunesBtn(), getLSixRunesBtn(), getHSixRunesBtn())
+constexpr auto getXTwoRunesBtn() { return RX(0x6B); }
+constexpr auto getYTwoRunesBtn() { return RY(0x7A); }
+
+auto isOnTwoRunesBtn(DWORD x, DWORD y) { return isOnRect(x, y, getXTwoRunesBtn(), getYTwoRunesBtn(), ButtonLength, ButtonHeight); }
+
+constexpr auto getXThreeRunesBtn() { return RX(0x95); }
+constexpr auto getYThreeRunesBtn() { return RY(0x7A); }
+
+auto isOnThreeRunesBtn(DWORD x, DWORD y) { return isOnRect(x, y, getXThreeRunesBtn(), getYThreeRunesBtn(), ButtonLength, ButtonHeight); }
+
+constexpr auto getXFourRunesBtn() { return RX(0xBF); }
+constexpr auto getYFourRunesBtn() { return RY(0x7A); }
+
+auto isOnFourRunesBtn(DWORD x, DWORD y) { return isOnRect(x, y, getXFourRunesBtn(), getYFourRunesBtn(), ButtonLength, ButtonHeight); }
+
+constexpr auto getXFiveRunesBtn() { return RX(0xE9); }
+constexpr auto getYFiveRunesBtn() { return RY(0x7A); }
+
+auto isOnFiveRunesBtn(DWORD x, DWORD y) { return isOnRect(x, y, getXFiveRunesBtn(), getYFiveRunesBtn(), ButtonLength, ButtonHeight); }
+
+constexpr auto getXSixRunesBtn() { return RX(0x113); }
+constexpr auto getYSixRunesBtn() { return RY(0x7A); }
+
+auto isOnSixRunesBtn(DWORD x, DWORD y) { return isOnRect(x, y, getXSixRunesBtn(), getYSixRunesBtn(), ButtonLength, ButtonHeight); }
 
 
 //Itemtype filtering
-#define	getXShowWepBtn()		RX(0x13D)
-#define	getLShowWepBtn()		32
-#define	getYShowWepBtn()		RY(D2GetResolution()?0x7A:0x7A)
-#define	getHShowWepBtn()		32
-#define isOnShowWepBtn(x,y)		isOnRect(x, y, getXShowWepBtn(), getYShowWepBtn(), getLShowWepBtn(), getHShowWepBtn())
+constexpr auto getXShowWepBtn() { return RX(0x13D); }
+constexpr auto getYShowWepBtn() { return RY(0x7A); }
 
-#define	getXShowArmorBtn()		RX(0x167)
-#define	getLShowArmorBtn()		32
-#define	getYShowArmorBtn()		RY(D2GetResolution()?0x7A:0x7A)
-#define	getHShowArmorBtn()		32
-#define isOnShowArmorBtn(x,y)	isOnRect(x, y, getXShowArmorBtn(), getYShowArmorBtn(), getLShowArmorBtn(), getHShowArmorBtn())
+auto isOnShowWepBtn(DWORD x, DWORD y) { return isOnRect(x, y, getXShowWepBtn(), getYShowWepBtn(), ButtonLength, ButtonHeight); }
 
-#define	getXShowCharmsBtn()		RX(0x191)
-#define	getLShowCharmsBtn()		32
-#define	getYShowCharmsBtn()		RY(D2GetResolution()?0x7A:0x7A)
-#define	getHShowCharmsBtn()		32
-#define isOnShowCharmsBtn(x,y)	isOnRect(x, y, getXShowCharmsBtn(), getYShowCharmsBtn(), getLShowCharmsBtn(), getHShowCharmsBtn())
+constexpr auto getXShowArmorBtn() { return RX(0x167); }
+constexpr auto getYShowArmorBtn() { return RY(0x7A); }
+
+auto isOnShowArmorBtn(DWORD x, DWORD y) { return isOnRect(x, y, getXShowArmorBtn(), getYShowArmorBtn(), ButtonLength, ButtonHeight); }
+
+constexpr auto getXShowCharmsBtn() { return RX(0x191); }
+constexpr auto getYShowCharmsBtn() { return RY(0x7A); }
+
+auto isOnShowCharmsBtn(DWORD x, DWORD y) { return isOnRect(x, y, getXShowCharmsBtn(), getYShowCharmsBtn(), ButtonLength, ButtonHeight); }
 
 vector<int> weps = { 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 42, 43, 44, 45, 46, 47, 48, 49, 55, 56, 57, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 85, 86, 87, 88, 112, 123, 124, 125 };
 vector<int> arms = { 2, 3, 15, 16, 19, 37, 50, 51, 70, 71, 72, 73, 75 };
 vector<int> charms = { 13, 83, 84, 106, 107, 108, 119, 120, 121, 138 };
-vector<vector<int>> allowedTypes = {weps, arms, charms};
+vector<vector<int>> allowedTypes = { weps, arms, charms };
 
 const bool IsInVector(int element, vector<int> v) {
 	return find(v.begin(), v.end(), element) != v.end();
@@ -108,7 +98,8 @@ const bool ITypeIsAllowed(const int iType, const vector<vector<int>> v) {
 }
 
 int curRunesPage = 0;
-int maxRunesPage = 0xFFFF;
+int MaxRunesPage = 0xFFFF;
+int CompleteRunewords = 0;
 bool twoRunes = true;
 bool threeRunes = true;
 bool fourRunes = true;
@@ -117,8 +108,8 @@ bool sixRunes = true;
 bool showarmors = true;
 bool showweapons = true;
 bool showcharms = true;
-bool runewordRects[NB_RUNES_PER_PAGE];
-RunesBIN* runesOnPage[NB_RUNES_PER_PAGE];
+bool runewordRects[RunesPerPage];
+RunesBIN* runesOnPage[RunesPerPage];
 
 static struct
 {
@@ -146,7 +137,7 @@ void printRuneword(RunesBIN* runesData, DWORD pos)
 	WCHAR temp[50];
 	WCHAR runesList[50];
 	WCHAR typesList[50];
-	int x = 250;
+	DWORD x = 250;
 	LPWSTR lpText = D2GetStringFromIndex(runesData->RuneNameID);
 	D2SetFont(6);
 	DWORD nbPixel = D2GetPixelLen(lpText);
@@ -208,6 +199,7 @@ void printRuneword(RunesBIN* runesData, DWORD pos)
 }
 
 static RunesBIN* CachedGlobalRunesBin = nullptr;
+static int RuneWordsCount = 0;
 
 void LogItypes(RunesBIN* runeword)
 {
@@ -231,12 +223,26 @@ void LogRunewords()
 	}
 }
 
+void InitMaxRunesPage()
+{
+	int runewordsCount = *D2GetNbRunesBIN();
+	int runesCompleted = 0;
+	for (RunesBIN* runeword = CachedGlobalRunesBin; runeword < CachedGlobalRunesBin + runewordsCount; runeword++) {
+		if (!runeword->Complete || runeword->Server) continue;
+		++runesCompleted;
+	}
+	CompleteRunewords = runesCompleted;
+	MaxRunesPage = runesCompleted ? (runesCompleted - 1) / RunesPerPage : 0;
+}
+
 void EnsureGlobalRunesAreCached()
 {
 	if (!CachedGlobalRunesBin)
 	{
 		CachedGlobalRunesBin = D2GetRunesBIN(1);
+		RuneWordsCount = *D2GetNbRunesBIN();
 		LogRunewords();
+		InitMaxRunesPage();
 	}
 }
 
@@ -260,17 +266,17 @@ int GetRuneCount(RunesBIN* runeword) {
 }
 
 const bool ContainsAllowedType(RunesBIN* runeword) {
-	for (int i = 0; i < 6; i++)	{
-		
-		if (ITypeIsAllowed(runeword->Itypes[i], allowedTypes))			{
-				return true;
+	for (int i = 0; i < 6; i++) {
+
+		if (ITypeIsAllowed(runeword->Itypes[i], allowedTypes)) {
+			return true;
 		}
 	}
 	return false;
 }
 
-#define BUFSIZE 0x80
-//6FB21FAA
+constexpr auto BUFSIZE = 0x80;
+
 void STDCALL printRunewordsPage()
 {
 	EnsureGlobalRunesAreCached();
@@ -291,60 +297,51 @@ void STDCALL printRunewordsPage()
 
 	D2SetFont(6);
 
-	int nbRunes = *D2GetNbRunesBIN();
-	RunesBIN* runesFirst = nbRunes > 1 ? D2GetRunesBIN(1) - 1 : NULL;
-	RunesBIN* runesLast = runesFirst ? runesFirst + nbRunes : NULL;
-	log_msg("nbRunes(%d,%d) runesFirst(%08X, %08X) runesLast(%08X, %08X)", nbRunes, SgptDataTables->nbRunes, runesFirst, SgptDataTables->runes, runesLast, SgptDataTables->runes + SgptDataTables->nbRunes);
-
-	int nbRunesCompleted = 0;
+	//int nbRunesCompleted = 0;
 	int runewordsOnPage = 0;
 	int matchingRunewords = 0;
 	ResetRunes();
-
-	if (showarmors || showcharms || showweapons)
+	if (allowedTypes.empty()) return;
+	
+	DWORD curNbRunes = 0;
+	for (RunesBIN* runesData = CachedGlobalRunesBin; runesData < CachedGlobalRunesBin + RuneWordsCount; runesData++)
 	{
-		DWORD curNbRunes = 0;
-		for (RunesBIN* runesData = runesFirst; runesData < runesLast; runesData++)
-		{
-			if (!runesData->Complete || runesData->Server) continue;
-			nbRunesCompleted++;
-			const int runecount = GetRuneCount(runesData);
+		if (!runesData->Complete || runesData->Server) continue;
+		const int runecount = GetRuneCount(runesData);
 
-			if (runewordsOnPage < NB_RUNES_PER_PAGE && RunecountMatchesLengthFilter(runecount) && ContainsAllowedType(runesData))
+		if (runewordsOnPage < RunesPerPage
+			&& RuneCountMatchesLengthFilter(runecount)
+			&& ContainsAllowedType(runesData))
+		{
+			matchingRunewords++;
+			if (matchingRunewords > curRunesPage * RunesPerPage
+				&& matchingRunewords <= (curRunesPage + 1) * RunesPerPage)
 			{
-				matchingRunewords++;
-				if (matchingRunewords > curRunesPage * NB_RUNES_PER_PAGE && matchingRunewords <= (curRunesPage + 1) * NB_RUNES_PER_PAGE)
-				{
-					runesOnPage[runewordsOnPage] = runesData;
-					runewordRects[runewordsOnPage] = true;
-					printRuneword(runesData, curNbRunes++);
-					runewordsOnPage++;
-				}
-			}
-			else if ((curRunesPage * NB_RUNES_PER_PAGE > nbRunesCompleted))
-			{
-				for (int j = runewordsOnPage; j < 25; j++)
-				{
-					runewordRects[j] = false;
-				}
+				runesOnPage[runewordsOnPage] = runesData;
+				runewordRects[runewordsOnPage] = true;
+				printRuneword(runesData, curNbRunes++);
+				runewordsOnPage++;
 			}
 		}
+		else if (curRunesPage * RunesPerPage > CompleteRunewords)
+		{
+			for (int j = runewordsOnPage; j < RunesPerPage; j++)
+				runewordRects[j] = false;
+		}
 	}
-	maxRunesPage = nbRunesCompleted ? (nbRunesCompleted - 1) / NB_RUNES_PER_PAGE : 0;
-
 	PrintPopupRunewords(lpText);
 }
 
 void ResetRunes()
 {
-	for (int j = 0; j < NB_RUNES_PER_PAGE; j++)
+	for (int j = 0; j < RunesPerPage; j++)
 	{
 		runewordRects[j] = false;
 		runesOnPage[j] = nullptr;
 	}
 }
 
-bool RunecountMatchesLengthFilter(int runecount)
+bool RuneCountMatchesLengthFilter(int runecount)
 {
 	return (runecount == 2 && twoRunes)
 		|| (runecount == 3 && threeRunes)
@@ -410,19 +407,18 @@ void PrintCloseButton(sDrawImageInfo& data)
 	setImage(&data, D2LoadBuySelBtn());
 	setFrame(&data, 10 + isDownBtn.close);
 	D2PrintImage(&data, getXCloseBtn(), getYCloseBtn(), -1, 5, 0);
-
 }
 
 void PrintBackground(sDrawImageInfo& data)
 {
-	fillRect(RX(0), RY(816), 512, 768, 0, 5);//552
+	fillRect(RX(0), RY(816), 512, 768, 0, 5);
 	setImage(&data, newStatsInterfaceImages);
 	setFrame(&data, 0);
 	D2PrintImage(&data, RX(0), RY(512), -1, 5, 0);
 	setFrame(&data, 1);
-	D2PrintImage(&data, RX(256), RY(512), -1, 5, 0);//256
+	D2PrintImage(&data, RX(256), RY(512), -1, 5, 0);
 	setFrame(&data, 2);
-	D2PrintImage(&data, RX(0), RY(256), -1, 5, 0);//432
+	D2PrintImage(&data, RX(0), RY(256), -1, 5, 0);
 	setFrame(&data, 3);
 	D2PrintImage(&data, RX(256), RY(256), -1, 5, 0);
 	setFrame(&data, 4);
@@ -438,19 +434,19 @@ void PrintPopupRunewords(LPWSTR& lpText)
 
 	if (isOnCloseBtn(x, y))			// print popup "close"
 	{
-		D2PrintPopup(D2GetStringFromIndex(0x1030), getXCloseBtn() + getLCloseBtn() / 2, getYCloseBtn() - getHCloseBtn(), WHITE, 1);
+		D2PrintPopup(D2GetStringFromIndex(0x1030), getXCloseBtn() + ButtonLength / 2, getYCloseBtn() - ButtonHeight, WHITE, 1);
 	}
 	else if (isOnNextPageBtn(x, y))	// print popup "next page"
 	{
 		lpText = getLocalString(STR_NEXT_PAGE);
-		D2PrintPopup(lpText, getXNextPageBtn() + getLNextPageBtn() / 2, getYNextPageBtn() - getHNextPageBtn(), WHITE, 1);
+		D2PrintPopup(lpText, getXNextPageBtn() + ButtonLength / 2, getYNextPageBtn() - ButtonHeight, WHITE, 1);
 	}
 	//Show runeword properties as floating text
 	//if (x >= 125 && x <= 250)
 	//{
 	//	//mouse isnt in spalte für runewort namen?
 	//	int yRunewordRect = (y - 90) / 20;
-	//	if (yRunewordRect < 25 && runewordRects[yRunewordRect])
+	//	if (yRunewordRect < RunesPerPage && runewordRects[yRunewordRect])
 	//	{
 	//		RunesBIN* runesData = runesOnPage[yRunewordRect];
 	//		LPWSTR lpText = D2GetStringFromIndex(runesData->t1code1);
@@ -465,8 +461,6 @@ void PrintPopupRunewords(LPWSTR& lpText)
 	//Unit* ptChar = D2GetClientPlayer();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-
 DWORD STDCALL mouseRunewordsPageLeftDown(sWinMessage* msg)
 {
 	if (IsUnexpectedGameType()) return -1;
@@ -475,74 +469,62 @@ DWORD STDCALL mouseRunewordsPageLeftDown(sWinMessage* msg)
 
 	if (isOnCloseBtn(msg->x, msg->y))
 	{
-		//log_msg("push down left button close\n");
 		isDownBtn.close = 1;
 		D2PlaySound(4, 0, 0, 0, 0);
 	}
 	else if (isOnNextPageBtn(msg->x, msg->y))
 	{
-		//log_msg("push down left button next page\n");
 		isDownBtn.nextPage = 1;
 		D2PlaySound(4, 0, 0, 0, 0);
 	}
 	else if (isOnPrevRunesBtn(msg->x, msg->y))
 	{
-		//log_msg("push down left button prev page\n");
 		isDownBtn.prevRunes = 1;
 		D2PlaySound(4, 0, 0, 0, 0);
 	}
 	else if (isOnNextRunesBtn(msg->x, msg->y))
 	{
-		//log_msg("push down left button next runes\n");
 		isDownBtn.nextRunes = 1;
 		D2PlaySound(4, 0, 0, 0, 0);
 	}
 	else if (isOnTwoRunesBtn(msg->x, msg->y))
 	{
-		//log_msg("push down left button two runes\n");
 		isDownBtn.twoRunes = 1;
 		D2PlaySound(4, 0, 0, 0, 0);
 	}
 	else if (isOnThreeRunesBtn(msg->x, msg->y))
 	{
-		//log_msg("push down left button 3 runes\n");
 		isDownBtn.threeRunes = 1;
 		D2PlaySound(4, 0, 0, 0, 0);
 	}
 	else if (isOnFourRunesBtn(msg->x, msg->y))
 	{
-		//log_msg("push down left button 4 runes\n");
 		isDownBtn.fourRunes = 1;
 		D2PlaySound(4, 0, 0, 0, 0);
 	}
 	else if (isOnFiveRunesBtn(msg->x, msg->y))
 	{
-		//log_msg("push down left button 5 runes\n");
 		isDownBtn.fiveRunes = 1;
 		D2PlaySound(4, 0, 0, 0, 0);
 	}
 	else if (isOnSixRunesBtn(msg->x, msg->y))
 	{
-		//log_msg("push down left button 6 runes\n");
 		isDownBtn.sixRunes = 1;
 		D2PlaySound(4, 0, 0, 0, 0);
 	}
 	//Itemtype filtering
 	else if (isOnShowWepBtn(msg->x, msg->y))
 	{
-		log_msg("push down left button show weapons\n");
 		isDownBtn.weapons = 1;
 		D2PlaySound(4, 0, 0, 0, 0);
 	}
 	else if (isOnShowArmorBtn(msg->x, msg->y))
 	{
-		log_msg("push down left button show armor\n");
 		isDownBtn.armors = 1;
 		D2PlaySound(4, 0, 0, 0, 0);
 	}
 	else if (isOnShowCharmsBtn(msg->x, msg->y))
 	{
-		log_msg("push down left button show charms\n");
 		isDownBtn.charms = 1;
 		D2PlaySound(4, 0, 0, 0, 0);
 	}
@@ -551,99 +533,10 @@ DWORD STDCALL mouseRunewordsPageLeftDown(sWinMessage* msg)
 	return 0;
 }
 
-
-DWORD STDCALL mouseRunewordsPageLeftUp(sWinMessage* msg)
+void ToggleButton(bool& btn)
 {
-	if (IsUnexpectedGameType()) return -1;
-
-	if (!isOnStatsPage(msg->x, msg->y)) return 1;
-
-	if (isOnCloseBtn(msg->x, msg->y))
-	{
-		log_msg("push up left button close\n");
-		//if (isDownBtn.close)
-		D2TogglePage(2, 1, 0);
-	}
-	else if (isOnNextPageBtn(msg->x, msg->y))
-	{
-		log_msg("push up left button next page\n");
-		/*if (isDownBtn.nextPage)
-		{*/
-		GoStatPage(GetCurrentPage() + 1);
-		log_msg("next page press\n");
-		//}
-	}
-	else if (isOnPrevRunesBtn(msg->x, msg->y))
-	{
-		log_msg("push up left button prev runes\n");
-		/*if (isDownBtn.prevRunes)
-		{*/
-		if (curRunesPage)
-			curRunesPage--;
-		//}
-	}
-	else if (isOnNextRunesBtn(msg->x, msg->y))
-	{
-		log_msg("push up left button next runes\n");
-		/*if (isDownBtn.nextRunes)
-		{*/
-		if (curRunesPage < maxRunesPage)
-			curRunesPage++;
-		/*}*/
-	}
-	else if (isOnTwoRunesBtn(msg->x, msg->y))
-	{
-		//log_msg("push up left button two runes filter\n");
-		twoRunes = !twoRunes;
-	}
-
-	else if (isOnThreeRunesBtn(msg->x, msg->y))
-	{
-		//log_msg("push up left button two runes filter\n");
-		threeRunes = !threeRunes;
-	}
-
-	else if (isOnFourRunesBtn(msg->x, msg->y))
-	{
-		//log_msg("push up left button two runes filter\n");
-		fourRunes = !fourRunes;
-	}
-
-	else if (isOnFiveRunesBtn(msg->x, msg->y))
-	{
-		//log_msg("push up left button two runes filter\n");
-		fiveRunes = !fiveRunes;
-	}
-
-	else if (isOnSixRunesBtn(msg->x, msg->y))
-	{
-		//log_msg("push up left button two runes filter\n");
-		sixRunes = !sixRunes;
-	}
-	//Itemtype filtering
-	else if (isOnShowWepBtn(msg->x, msg->y))
-	{
-		log_msg("push up left button showweapons filter\n");
-		showweapons = !showweapons;
-		UpdateAllowedTypes();
-	}
-	else if (isOnShowArmorBtn(msg->x, msg->y))
-	{
-		log_msg("push up left button showarmors filter\n");
-		showarmors = !showarmors;
-		UpdateAllowedTypes();
-	}
-	else if (isOnShowCharmsBtn(msg->x, msg->y))
-	{
-		log_msg("push up left button showcharms filter\n");
-		showcharms = !showcharms;
-		UpdateAllowedTypes();
-	}
-
-	D2CleanStatMouseUp();
-	freeMessage(msg);
-	isDownBtn.all = 0;
-	return 0;
+	btn = !btn;
+	D2PlaySound(4, 0, 0, 0, 0);
 }
 
 void UpdateAllowedTypes()
@@ -661,4 +554,77 @@ void UpdateAllowedTypes()
 	{
 		allowedTypes.push_back(charms);
 	}
+}
+
+DWORD STDCALL mouseRunewordsPageLeftUp(sWinMessage* msg)
+{
+	if (IsUnexpectedGameType()) return -1;
+
+	if (!isOnStatsPage(msg->x, msg->y)) return 1;
+
+	if (isOnCloseBtn(msg->x, msg->y))
+	{
+		D2TogglePage(2, 1, 0);
+	}
+	else if (isOnNextPageBtn(msg->x, msg->y))
+	{
+		GoStatPage(GetCurrentPage() + 1);
+	}
+	else if (isOnPrevRunesBtn(msg->x, msg->y))
+	{
+		if (curRunesPage)
+			curRunesPage--;
+		D2PlaySound(4, 0, 0, 0, 0);
+	}
+	else if (isOnNextRunesBtn(msg->x, msg->y))
+	{
+		if (curRunesPage < MaxRunesPage)
+			curRunesPage++;
+		D2PlaySound(4, 0, 0, 0, 0);
+	}
+	else if (isOnTwoRunesBtn(msg->x, msg->y))
+	{
+		ToggleButton(twoRunes);
+	}
+
+	else if (isOnThreeRunesBtn(msg->x, msg->y))
+	{
+		ToggleButton(threeRunes);
+	}
+
+	else if (isOnFourRunesBtn(msg->x, msg->y))
+	{
+		ToggleButton(fourRunes);
+	}
+
+	else if (isOnFiveRunesBtn(msg->x, msg->y))
+	{
+		ToggleButton(fiveRunes);
+	}
+
+	else if (isOnSixRunesBtn(msg->x, msg->y))
+	{
+		ToggleButton(sixRunes);
+	}
+	//Itemtype filtering
+	else if (isOnShowWepBtn(msg->x, msg->y))
+	{
+		ToggleButton(showweapons);
+		UpdateAllowedTypes();
+	}
+	else if (isOnShowArmorBtn(msg->x, msg->y))
+	{
+		ToggleButton(showarmors);
+		UpdateAllowedTypes();
+	}
+	else if (isOnShowCharmsBtn(msg->x, msg->y))
+	{
+		ToggleButton(showcharms);
+		UpdateAllowedTypes();
+	}
+
+	D2CleanStatMouseUp();
+	freeMessage(msg);
+	isDownBtn.all = 0;
+	return 0;
 }

@@ -13,7 +13,7 @@ void ResetRunes();
 void EnsureGlobalRunesAreCached();
 void LogRunewords();
 void LogItypes(RunesBIN* runeword);
-bool RunecountMatchesLengthFilter(int runecount);
+bool RuneCountMatchesLengthFilter(int runecount);
 bool IsUnexpectedGameType();
 void PrintRuneFilterButtons(sDrawImageInfo& data);
 void PrintNextRunesButton(sDrawImageInfo& data);
@@ -24,6 +24,8 @@ void PrintBackground(sDrawImageInfo& data);
 void PrintPopupRunewords(LPWSTR& lpText);
 DWORD STDCALL mouseRunewordsPageLeftDown(sWinMessage* msg);
 DWORD STDCALL mouseRunewordsPageLeftUp(sWinMessage* msg);
+
+void ToggleButton();
 
 void UpdateAllowedTypes();
 
