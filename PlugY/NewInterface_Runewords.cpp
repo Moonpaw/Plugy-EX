@@ -277,32 +277,10 @@ const bool ContainsAllowedType(RunesBIN* runeword) {
 
 constexpr auto BUFSIZE = 0x80;
 
-void STDCALL printRunewordsPage()
+void PrintRuneWords()
 {
-	EnsureGlobalRunesAreCached();
-
-	if (IsUnexpectedGameType()) return D2PrintStatsPage();
-
-	LPWSTR lpText;
-	bDontPrintBorder = true;
-
-	sDrawImageInfo data = CreateDrawImageInfo();
-
-	PrintBackground(data);
-	PrintCloseButton(data);
-	PrintNextPageButton(data);
-	PrintPreviousRunesButton(data);
-	PrintNextRunesButton(data);
-	PrintRuneFilterButtons(data);
-
-	D2SetFont(6);
-
-	//int nbRunesCompleted = 0;
 	int runewordsOnPage = 0;
 	int matchingRunewords = 0;
-	ResetRunes();
-	if (allowedTypes.empty()) return;
-	
 	DWORD curNbRunes = 0;
 	for (RunesBIN* runesData = CachedGlobalRunesBin; runesData < CachedGlobalRunesBin + RuneWordsCount; runesData++)
 	{
@@ -329,8 +307,36 @@ void STDCALL printRunewordsPage()
 				runewordRects[j] = false;
 		}
 	}
+}
+
+void STDCALL printRunewordsPage()
+{
+	EnsureGlobalRunesAreCached();
+
+	if (IsUnexpectedGameType()) return D2PrintStatsPage();
+
+	LPWSTR lpText;
+	bDontPrintBorder = true;
+
+	sDrawImageInfo data = CreateDrawImageInfo();
+
+	PrintBackground(data);
+	PrintCloseButton(data);
+	PrintNextPageButton(data);
+	PrintPreviousRunesButton(data);
+	PrintNextRunesButton(data);
+	PrintRuneFilterButtons(data);
+
+	D2SetFont(6);
+
+	ResetRunes();
+	if (allowedTypes.empty()) return;
+	
+	PrintRuneWords();
 	PrintPopupRunewords(lpText);
 }
+
+
 
 void ResetRunes()
 {

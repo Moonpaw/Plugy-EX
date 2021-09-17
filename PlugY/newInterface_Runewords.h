@@ -9,6 +9,7 @@
 #include "common.h"
 
 void STDCALL printRunewordsPage();
+void PrintRuneWords();
 void ResetRunes();
 void EnsureGlobalRunesAreCached();
 void LogRunewords();
