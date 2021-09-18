@@ -59,28 +59,28 @@ int GetCurrentPage()
 }
 
 //Itemtype filtering
-//bool ItemtypeIsAllowed(WORD* iTypes, std::string weps, std::string arms, std::string charms, bool showweapons, bool showarmors, bool showcharms)
+//bool ItemtypeIsAllowed(WORD* iTypes, std::string weapons, std::string arms, std::string charms, bool showWeapons, bool showArmors, bool showCharms)
 //{
 //	for (int i = 0; i < 6; i++)
 //	{
 //		int iType = iTypes[i];
 //		if (iType >= 0)
 //		{
-//			if (showweapons)
+//			if (showWeapons)
 //			{
-//				if (weps.find(" " + std::to_string(iType) + ",") != std::string::npos)
+//				if (weapons.find(" " + std::to_string(iType) + ",") != std::string::npos)
 //				{
 //					return true;
 //				}
 //			}
-//			else if (showarmors)
+//			else if (showArmors)
 //			{
 //				if (arms.find(" " + std::to_string(iType) + ",") != std::string::npos)
 //				{
 //					return true;
 //				}
 //			}
-//			else if (showcharms)
+//			else if (showCharms)
 //			{
 //				if (charms.find(" " + std::to_string(iType) + ",") != std::string::npos)
 //				{
@@ -97,7 +97,7 @@ void STDCALL printCustomPage()
 	if ( (selectedPage > 0) && (selectedPage<=lastPage) )
 		printNewStatsPageTwo(selectedPage);
 	else if (selectedPage == lastPage+1)
-		printRunewordsPage();
+        printRuneWordsPage();
 	else if (selectedPage == lastPage+2)
 		printNewStatsPage();
 	else
@@ -110,7 +110,7 @@ DWORD STDCALL mouseCustomPageLeftDown(sWinMessage* msg)
 	if ( (selectedPage > 0) && (selectedPage<=lastPage) )
 		return mouseNewStatsPageTwoLeftDown(msg);
 	else if (selectedPage == lastPage+1)
-		return mouseRunewordsPageLeftDown(msg);
+		return mouseRuneWordsPageLeftDown(msg);
 	else if (selectedPage == lastPage+2)
 		return mouseNewStatsPageLeftDown(msg);
 	else
@@ -123,7 +123,7 @@ DWORD STDCALL mouseCustomPageLeftUp(sWinMessage* msg)
 	if ( (selectedPage > 0) && (selectedPage <= lastPage) )
 		return mouseNewStatsPageTwoLeftUp(msg);
 	else if (selectedPage == lastPage+1)
-		return mouseRunewordsPageLeftUp(msg);
+		return mouseRuneWordsPageLeftUp(msg);
 	else if (selectedPage == lastPage+2)
 		return mouseNewStatsPageLeftUp(msg);
 	else

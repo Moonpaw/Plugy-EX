@@ -95,7 +95,7 @@ void log_msg( const char* pFormat, ... )
 	}
 }
 
-void d2_assert( bool pCondition, char* pMessage, char* pLocation, int pLineNbr )
+void d2_assert( bool pCondition, const char* pMessage, const char* pLocation, int pLineNbr )
 {
 	if( pCondition )
 	{
