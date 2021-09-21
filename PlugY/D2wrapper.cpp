@@ -291,6 +291,7 @@ void loadCustomLibraries()
 	log_msg("\n\n");
 }
 
+/*
 void loadLibrary(LPCSTR libName, int* libVersion, DWORD* libOffset, int shift, DWORD v109b, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c)
 {
 	*libOffset = (DWORD)LoadLibrary(libName);
@@ -386,6 +387,273 @@ void initD2modules()
 
 	log_msg("\n\n");
 }
+*/
+
+IMAGE_NT_HEADERS* GetHeader(LPBYTE pBase) {
+	if (pBase == NULL)
+		return NULL;
+
+	IMAGE_DOS_HEADER* pDosHeader = (IMAGE_DOS_HEADER*)pBase;
+
+	if (IsBadReadPtr(pDosHeader, sizeof(IMAGE_DOS_HEADER)))
+		return NULL;
+
+	if (pDosHeader->e_magic != IMAGE_DOS_SIGNATURE)
+		return NULL;
+
+	IMAGE_NT_HEADERS* pHeader = (IMAGE_NT_HEADERS*)(pBase + pDosHeader->e_lfanew);
+	if (IsBadReadPtr(pHeader, sizeof(IMAGE_NT_HEADERS)))
+		return NULL;
+
+	if (pHeader->Signature != IMAGE_NT_SIGNATURE)
+		return NULL;
+
+	return pHeader;
+}
+
+void initD2modules()
+{
+	log_msg("***** Get D2 Modules address and version *****\n\n");
+
+	offset_D2Client		= (DWORD)LoadLibrary("D2Client.dll");
+	offset_D2CMP		= (DWORD)LoadLibrary("D2CMP.dll");
+	offset_D2Common		= (DWORD)LoadLibrary("D2Common.dll");
+	offset_D2Game		= (DWORD)LoadLibrary("D2Game.dll");
+	offset_D2gfx		= (DWORD)LoadLibrary("D2gfx.dll");
+	offset_D2Lang		= (DWORD)LoadLibrary("D2Lang.dll");
+	offset_D2Launch		= (DWORD)LoadLibrary("D2Launch.dll");
+	offset_D2Net		= (DWORD)LoadLibrary("D2Net.dll");
+	offset_D2Win		= (DWORD)LoadLibrary("D2Win.dll");
+	offset_Fog			= (DWORD)LoadLibrary("Fog.dll");
+	offset_Storm		= (DWORD)LoadLibrary("Storm.dll");
+
+	int count_109b = 0;
+	int count_109d = 0;
+	int count_110f = 0;
+	int count_111 = 0;
+	int count_111b = 0;
+	int count_112a = 0;
+	int count_113c = 0;
+	int count_113d = 0;
+	int count_114a = 0;
+	int count_114b = 0;
+	int count_114c = 0;
+	int count_114d = 0;
+
+	IMAGE_NT_HEADERS* pHeader;
+
+	if (offset_D2Client != NULL) {
+		pHeader = GetHeader((LPBYTE)offset_D2Client);
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000C234D) count_109b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000C16CD) count_109d++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000C1C1D) count_110f++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000045E6) count_111++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000045EE) count_111b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000045FA) count_112a++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000045F6) count_113c++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000045DE) count_113d++;
+	}
+
+	if (offset_D2CMP != NULL) {
+		pHeader = GetHeader((LPBYTE)offset_D2CMP);
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00011361) count_109b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00011361) count_109d++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00010E61) count_110f++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00002C23) count_111++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00002C23) count_111b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00002C23) count_112a++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00002C23) count_113c++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00002C23) count_113d++;
+	}
+
+	if (offset_D2Common != NULL) {
+		pHeader = GetHeader((LPBYTE)offset_D2Common);
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00074D1D) count_109b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00074E2D) count_109d++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000856DD) count_110f++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00002C94) count_111++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00002C8D) count_111b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00002C97) count_112a++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00002C8F) count_113c++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000047C7) count_113d++;
+	}
+
+	if (offset_D2Game != NULL) {
+		pHeader = GetHeader((LPBYTE)offset_D2Game);
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000C66AC) count_109b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000C6D5C) count_109d++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000EDC2C) count_110f++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000036E6) count_111++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x0000373D) count_111b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x0000374B) count_112a++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x0000373C) count_113c++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00003747) count_113d++;
+	}
+
+	if (offset_D2gfx != NULL) {
+		pHeader = GetHeader((LPBYTE)offset_D2gfx);
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000054EB) count_109b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000054EB) count_109d++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000054A5) count_110f++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001807) count_111++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001807) count_111b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001807) count_112a++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001807) count_113c++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001807) count_113d++;
+	}
+
+	if (offset_D2Lang != NULL) {
+		pHeader = GetHeader((LPBYTE)offset_D2Lang);
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00005148) count_109b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00005138) count_109d++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00005048) count_110f++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001A6A) count_111++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001A5B) count_111b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001A75) count_112a++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001A71) count_113c++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001A5A) count_113d++;
+	}
+
+	if (offset_D2Launch != NULL) {
+		pHeader = GetHeader((LPBYTE)offset_D2Launch);
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000172C3) count_109b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00017243) count_109d++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00018DC7) count_110f++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001A84) count_111++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001A85) count_111b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001A85) count_112a++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001A87) count_113c++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001A84) count_113d++;
+	}
+
+	if (offset_D2Net != NULL) {
+		pHeader = GetHeader((LPBYTE)offset_D2Net);
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00002BCE) count_109b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00002BCE) count_109d++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00002C6E) count_110f++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001676) count_111++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001676) count_111b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x0000167E) count_112a++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001676) count_113c++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x0000167E) count_113d++;
+	}
+
+	if (offset_D2Win != NULL) {
+		pHeader = GetHeader((LPBYTE)offset_D2Win);
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00014F38) count_109b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00014F38) count_109d++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00012EC0) count_110f++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x0000187E) count_111++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x0000187E) count_111b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x0000188E) count_112a++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x0000187E) count_113c++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00001887) count_113d++;
+	}
+
+	if (offset_Fog != NULL) {
+		pHeader = GetHeader((LPBYTE)offset_Fog);
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00013658) count_109b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000142E7) count_109d++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000162B0) count_110f++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00003159) count_111++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00003142) count_111b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x0000314A) count_112a++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00003162) count_113c++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00003142) count_113d++;
+	}
+
+	if (offset_Storm != NULL) {
+		pHeader = GetHeader((LPBYTE)offset_Storm);
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00013658) count_109b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000142E7) count_109d++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x000162B0) count_110f++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00003159) count_111++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00003142) count_111b++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x0000314A) count_112a++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00003162) count_113c++;
+		if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x0003C3E0) count_113d++;
+	}
+
+	int minimum_match_dll = 7;
+
+	if (count_109b >= minimum_match_dll) version_Game = V109b;
+	if (count_109d >= minimum_match_dll) version_Game = V109d;
+	if (count_110f >= minimum_match_dll) version_Game = V110;
+	if (count_111 >= minimum_match_dll) version_Game = V111;
+	if (count_111b >= minimum_match_dll) version_Game = V111b;
+	if (count_112a >= minimum_match_dll) version_Game = V112;
+	if (count_113c >= minimum_match_dll) version_Game = V113c;
+	if (count_113d >= minimum_match_dll) version_Game = V113d;
+
+	//version_SmackW32 = version_Game;
+	version_D2Common = version_Game;
+	//version_ijl11 = version_Game;
+	//version_D2Gdi = version_Game;
+	version_D2Win = version_Game;
+	//version_D2sound = version_Game;
+	//version_D2MCPCLI = version_Game;
+	version_D2Launch = version_Game;
+	version_D2gfx = version_Game;
+	version_D2Client = version_Game;
+	version_D2Net = version_Game;
+	version_D2Lang = version_Game;
+	version_D2Game = version_Game;
+	version_D2CMP = version_Game;
+	//version_Bnclient = version;
+	version_Fog = version_Game;
+	version_Storm = version_Game;
+
+	log_msg("DLL match for version 1.09b :\t%d\n", count_109b);
+	log_msg("DLL match for version 1.09d :\t%d\n", count_109d);
+	log_msg("DLL match for version 1.10f :\t%d\n", count_110f);
+	log_msg("DLL match for version 1.11  :\t%d\n", count_111);
+	log_msg("DLL match for version 1.11b :\t%d\n", count_111b);
+	log_msg("DLL match for version 1.12a :\t%d\n", count_112a);
+	log_msg("DLL match for version 1.13c :\t%d\n", count_113c);
+	log_msg("\n");
+
+	offset_Game = (DWORD)GetModuleHandle("Game.exe");
+	if (offset_Game != NULL) {
+		version_Game = GetD2Version((HMODULE)offset_Game);
+		log_msg("Game.exe loaded at:\t%08X (%s)\n", offset_Game, GetVersionString(version_Game));
+		if (version_Game >= V114a)
+		{
+			//version_SmackW32 = version_Game;
+			version_D2Common = version_Game;
+			//version_ijl11 = version_Game;
+			//version_D2Gdi = version_Game;
+			version_D2Win = version_Game;
+			//version_D2sound = version_Game;
+			//version_D2MCPCLI = version_Game;
+			version_D2Launch = version_Game;
+			version_D2gfx = version_Game;
+			version_D2Client = version_Game;
+			version_D2Net = version_Game;
+			version_D2Lang = version_Game;
+			version_D2Game = version_Game;
+			version_D2CMP = version_Game;
+			//version_Bnclient = version;
+			version_Fog = version_Game;
+			version_Storm = version_Game;
+		}
+	}
+
+	//if (offset_Game != NULL) {
+	//	pHeader = GetHeader((LPBYTE)offset_Game);
+	//	if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00291342) count_114a++;
+	//	if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x002854F2) count_114b++;
+	//	if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x002850E2) count_114c++;
+	//	if (pHeader->OptionalHeader.AddressOfEntryPoint == 0x00282985) count_114d++;
+	//}
+
+	log_msg("Version game is:\t(%s)\n\n", GetVersionString(version_Game));
+
+	if (version_Game == UNKNOWN)
+	{
+		MessageBoxA(NULL, "This version of Diablo II is not supported by Plugy. Please upgrade or downgrade to a supported version.", "Plugy 14.01", MB_OK);
+	}
+}
+
 //////////////////////////////////// EXPORTS FUNCTIONS ////////////////////////////////////
 
 
