@@ -368,12 +368,8 @@ DWORD STDCALL manageBtnUp(sWinMessage *msg) {
 
 DWORD getXStashGoldField() { return RX(posXStashGoldField < 0 ? 0x61 : posXStashGoldField); }
 
-//DWORD getYStashGoldField() { return RY(posYStashGoldField < 0 ? 0x1B6 : posYStashGoldField); }
-
 bool isOnStashGoldField(DWORD x, DWORD y) {
-    return isOnRect(x, y, 192, 45, 152, 18);
-    //apparently getYStashGoldField() always returns 330, no matter the configuration, which is just wrong
-    //return isOnRect(x, y, getXStashGoldField(), getYStashGoldField(), posWStashGoldField, posHStashGoldField);
+    return isOnRect(x, y, getXStashGoldField(), 45, 152, 18);
 }
 
 void printGoldMaxPopup(LPWSTR maxGoldText, const Unit *ptChar, WCHAR *sharedGoldText) {
@@ -407,8 +403,10 @@ void printStashNamePopup(WCHAR *popupText, DWORD pageId) {
     if (!isOnStashNameField(mx, my)) return;
     LPWSTR changePageTypeTxt = getLocalString(STR_PAGE_TYPE_CHANGE);
     _snwprintf(popupText, 0x400, changePageTypeTxt, pageId);
-    DWORD x = getXStashNameField() + posWStashNameField / 2;
-    DWORD y = getYStashNameField() + posHStashNameField + 76;
+    DWORD halfFieldWidth = posWStashNameField / 2;
+    DWORD x = getXStashNameField() + halfFieldWidth;
+    DWORD fieldHeightPlusOffset = posHStashNameField + 76;
+    DWORD y = getYStashNameField() + fieldHeightPlusOffset;
     D2PrintPopup(popupText, x, y, WHITE, 1);
 }
 

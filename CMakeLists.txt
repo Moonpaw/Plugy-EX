@@ -114,4 +114,4 @@ add_library(PlugY SHARED
 
 add_custom_command(TARGET PlugY
         POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:PlugY> "C:/Games/Diablo II - D2SE/MODS/D2SE_Zy-El mod v1.8 by Moonpaw")
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:PlugY> "C:/Games/Diablo II - D2SE/MODS/Zy El by Moonpaw")
