@@ -1,12 +1,3 @@
-/*================================================
-	File created by Yohann NICOLAS.
-	Add support 1.13d by L'Autour.
-	Add support 1.14d by haxifix.
-
-    This file implements some common and useful
-    function related to some Diablo II mechanisms.
-
-================================================*/
 #pragma once
 
 // Convertion to 1.09
@@ -33,13 +24,10 @@ extern s_shifting shifting;
 #define RANDOMF() ((double)rand() / (double)RAND_MAX)
 //#define RANDOM(V) (rand()%(V))
 
-//#define PY(C) (*(PYPlayerData**)((BYTE*)(ptChar)+shifting.ptPYPlayerData))
 #define PCPlayerData (*(PlayerData**)((DWORD)(ptChar)+shifting.ptSpecificData)) //->ptPlayerData
 #define PCGame (*(Game**)((DWORD)(ptChar)+shifting.ptGame)) //->ptGame
 #define PClientGame (*(Game**)((DWORD)(ptClient)+shifting.ptClientGame)) //ptClient->ptGame
 #define PCInventory (*(Inventory**)((DWORD)(ptChar)+shifting.ptInventory)) //->ptInventory
-//#define PIItemData (*(ItemData**)((DWORD)(ptItem)+shifting.ptSpecificData)) //->ptItemData
-//#define PCPY (*(PYPlayerData**)((DWORD)(ptChar)+shifting.ptPYPlayerData)) //->ptPYPlayerData
 #define PCPY ((PYPlayerData*)((DWORD)PCPlayerData+shifting.ptPYPlayerData)) //->ptPYPlayerData
 #define PCSkills (*(Skills**)((DWORD)(ptChar)+shifting.ptSkills)) //->ptSkills
 
@@ -62,20 +50,6 @@ extern s_shifting shifting;
 
 #include "../Commons/D2Funcs.h"
 extern DataTables* SgptDataTables;
-//ONLY UNTIL 1.10 :
-//E2F(D2Client,0,	DWORD,		D2isLODGame, ());
-//E2F(D2Client,0,	BYTE,		D2GetDifficultyLevel, ());
-//E2S(D2Client,0,	DWORD,		D2GetMouseX, ());
-//E2S(D2Client,0,	DWORD,		D2GetMouseY, ());
-//E2S(D2Client,0,	Unit*,		D2GetClientPlayer, ());
-//E2F(D2Client,0,	void,		D2SendToServer3, (BYTE type, WORD p));
-////E2F(D2Client,0,	void,		D2SendToServer7, (BYTE type, WORD p1, WORD p2, WORD p3));
-////E2F(D2Client,0,	void,		D2SendToServer5, (BYTE type, DWORD p));
-////E2F(D2Client,0,	void,		D2SendToServer9, (BYTE type, DWORD p1, DWORD p2));
-////E2F(D2Client,0,	void,		D2SendToServer13,(BYTE type, DWORD p1, DWORD p2, DWORD p3));
-//E2F(D2Game,0,	NetClient*,	D2GetClient, (Unit* ptUnit, char* lpszErrFile, DWORD ErrLine));
-//E2F(D2Client,0,	void,		D2CleanStatMouseUp, ());
-
 
 #undef F8
 #undef A8
