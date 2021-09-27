@@ -1,16 +1,7 @@
-/******************************************************************************
-	File modified by Yohann NICOLAS.
-
-	NAME
-		inifile.h
-
-	DESCRIPTION
-		Memory cached INI file read/write class to replace legacy MS code
-
-	COPYRIGHT
-		©1999-2004 Ultrafunk (www.ultrafunk.com) - info@ultrafunk.com
-
-******************************************************************************/
+///	Memory cached INI file read/write class to replace legacy MS code
+///
+///	COPYRIGHT
+///		©1999-2004 Ultrafunk (www.ultrafunk.com) - info@ultrafunk.com
 #pragma once
 
 #include <windows.h>
@@ -53,7 +44,7 @@ public:
 	BOOL InitReadWrite(const char *path, int readWrite, DWORD writeCacheSize);
 	BOOL close();
 	int GetPrivateProfileString(LPCWSTR section, LPCWSTR key, LPCWSTR def, LPWSTR dest, DWORD size);
-	int GetPrivateProfileStringList(LPCWSTR section, LPCWSTR key, DWORD** codes, LPWSTR** values);
+//	int GetPrivateProfileStringList(LPCWSTR section, LPCWSTR key, DWORD** codes, LPWSTR** values);
 	//BOOL WritePrivateProfileString(char *section, char *key, char *string);
 	LPWSTR m_cache;
 
@@ -66,4 +57,3 @@ private:
 	HANDLE  m_file;
 	DWORD	m_cacheWritePos;
 };
-/*================================= END OF FILE =================================*/
