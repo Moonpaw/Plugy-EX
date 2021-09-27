@@ -1,10 +1,3 @@
-/*=================================================================
-	File created by Yohann NICOLAS.
-
-	@brief Diablo II Tbl Structures definitions.
-
-=================================================================*/
-
 #pragma once
 
 #include <windows.h>
@@ -36,8 +29,3 @@ struct TblNode
 
 
 #pragma pack()
-
-//#define TBLHEADERSIZE	0x15
-//#define TBLNODESIZE		0x11
-
-/*================================= END OF FILE =================================*/

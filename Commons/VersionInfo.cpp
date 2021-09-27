@@ -1,11 +1,3 @@
-/*=================================================================
-	File created by Yohann NICOLAS.
-
-	Get Game version.
-
-=================================================================*/
-
-//#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #include "VersionInfo.h"
 
 #pragma comment(lib, "Version.Lib")
@@ -81,5 +73,3 @@ eGameVersion GetD2Version(HMODULE hModule)
 	FreeResource(hResData);
 	return version;
 }
-
-///////////////////////// END OF FILE ///////////////////////

@@ -1,10 +1,3 @@
-/*=================================================================
-	File created by Yohann NICOLAS.
-
-	NOT TESTED IN 1.10 (1.09b)
-
-=================================================================*/
-
 #pragma once
 
 #include <windows.h>
@@ -27,15 +20,6 @@ struct sWinMessage
 };
 #pragma pack()
 
-/*
-struct sDrawImageInfo//size = 0x48 (until 1.10)
-{
-	void* reserved;
-	void* image;
-	DWORD frame;
-	DWORD zero[0xF];
-};*/
-
 struct sDrawImageInfo//size = 0x48
 {
 	DWORD uk1;
@@ -47,7 +31,6 @@ struct sDrawImageInfo//size = 0x48
 	DWORD uk5[0xB];
 	DWORD frame;
 };
-
 
 struct saveBitField
 {
@@ -124,6 +107,3 @@ struct DataPacket
 	DWORD mParam2;		// +1C
 	DWORD mParam3;		// +20
 };
-
-
-/*================================= END OF FILE =================================*/

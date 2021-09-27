@@ -1,10 +1,3 @@
-/*=================================================================
-	File created by Yohann NICOLAS.
-
-	Updating Client and Server constantes.
-
-=================================================================*/
-
 #pragma once
 
 enum UpdateClientConst
@@ -64,5 +57,3 @@ enum UpdateServerConst
 	US_TEST2,	//For CB
 	US_TEST3	//For CB
 };
-
-/*================================= END OF FILE =================================*/
