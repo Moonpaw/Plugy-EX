@@ -9,7 +9,6 @@ include_directories(PlugY)
 add_library(PlugY SHARED
         Commons/d2BinFile.h
         Commons/d2constants.h
-        Commons/D2Funcs.h
         Commons/d2StringTblStruct.h
         Commons/d2Struct.h
         Commons/D2UnitStruct.h

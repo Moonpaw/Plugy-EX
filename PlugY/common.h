@@ -8,7 +8,7 @@
 //#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #include <windows.h>
 
-#include "../Commons/d2Constants.h"
+#include "../Commons/d2constants.h"
 #include "../Commons/d2BinFile.h"
 #include "../Commons/d2Struct.h"
 #include "../Commons/d2StringTblStruct.h"
