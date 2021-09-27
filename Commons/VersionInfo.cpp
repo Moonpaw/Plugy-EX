@@ -50,14 +50,14 @@ eGameVersion GetD2Version(LPCVOID pVersionResource)
 
 eGameVersion GetD2Version(char* gameExe)
 {
-	DWORD len = GetFileVersionInfoSize(gameExe, NULL);
+	DWORD len = GetFileVersionInfoSize(gameExe, nullptr);
 	if (len == 0)
 		return UNKNOWN;
 
 	BYTE* pVersionResource = new BYTE[len];
 	GetFileVersionInfo(gameExe, NULL, len, pVersionResource);
 	eGameVersion version = GetD2Version(pVersionResource);
-	delete pVersionResource;
+	delete[] pVersionResource;
 
 	return version;
 }
