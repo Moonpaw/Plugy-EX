@@ -340,9 +340,15 @@ DataTables *SgptDataTables;
 
 #define D2S(F, I, R, N, P)    typedef R (STDCALL  *T##N) P; T##N N;
 
-D2S(D2Common, 10581, CharStatsBIN*, D2Common10581, (DWORD charID));//ONLY in 1.09
-D2S(D2Common, 10598, ItemStatCostBIN*, D2Common10598, (DWORD itemStatCostID));//ONLY in 1.09
-D2S(D2Common, 10673, ItemTypesBIN*, D2Common10673, (DWORD itemTypesID));//ONLY in 1.09
+typedef CharStatsBIN *(__stdcall *TD2Common10581)(DWORD charID);
+
+TD2Common10581 D2Common10581;;//ONLY in 1.09
+typedef ItemStatCostBIN *(__stdcall *TD2Common10598)(DWORD itemStatCostID);
+
+TD2Common10598 D2Common10598;;//ONLY in 1.09
+typedef ItemTypesBIN *(__stdcall *TD2Common10673)(DWORD itemTypesID);
+
+TD2Common10673 D2Common10673;;//ONLY in 1.09
 #undef D2S
 
 TD2AddPlayerStat V2AddPlayerStat;
@@ -1186,14 +1192,140 @@ void setFctAddr(DWORD *addr, HMODULE module, LPCSTR index) {
         *addr = NULL;
 }
 
+void misc_fct() {//////////////// MISC FCT ////////////////
+    getDescStrPos = version_D2Common >= V110 ? getDescStrPos_10 : getDescStrPos_9;
+    compileTxtFile114_1 = offset_D2Client + 0x002BD640;
+    compileTxtFile114_2 = offset_D2Client + 0x002BCDE0;
+    compileTxtFile114_3 = offset_D2Client + 0x002E6370;
+    compileTxtFile114_5 = offset_D2Client + 0x00281EF0;
+    compileTxtFile114_6 = offset_D2Client + 0x002BD780;
+    compileTxtFile114_7 = offset_D2Client + 0x002BCDA0;
+    compileTxtFile = version_D2Common >= V114a ? compileTxtFile_114 : version_D2Common >= V111 ? compileTxtFile_111 :
+                                                                      version_D2Common == V110 ? compileTxtFile_10
+                                                                                               : compileTxtFile_9;
+    V2AddPlayerStat = D2AddPlayerStat;
+    V2GetPlayerStat = D2GetPlayerStat;
+    V2GetPlayerBaseStat = D2GetPlayerBaseStat;
+    V2SetSkillBaseLevel = D2SetSkillBaseLevel;
+    V2SetSkillBaseLevelOnClient = D2SetSkillBaseLevelOnClient;
+    V2PrintStat = D2PrintStat;
+    V2SendMsgToAll = D2SendMsgToAll;
+    V2SetColorPopup = D2SetColorPopup;
+    V2LoadImage = D2LoadImage;
+    V2PlaySound = D2PlaySound;
+    V2GetCharStatsBIN = D2GetCharStatsBIN;
+    V2GetItemStatCostBIN = D2GetItemStatCostBIN;
+    V2SendToServer = D2SendToServer;
+    V2SendPacket = D2SendPacket;
+    V2LoadInventory = D2LoadInventory;
+    V2CompileCubeInput = D2CompileCubeInput;
+    V2BroadcastFunction = D2BroadcastFunction;
+    V2GetGameByClientID = D2GetGameByClientID;
+    V2SpawnSuperUnique = D2SpawnSuperUnique;
+    V2SpawnMonster = D2SpawnMonster;
+    V2VerifIfNotCarry1 = D2VerifIfNotCarry1;
+    V2GameGetObject = D2GameGetObject;
+    V2TestPositionInRoom = D2TestPositionInRoom;
+    V2GetItemTypesBIN = D2GetItemTypesBIN;
+    V2SaveGame = D2SaveGame;
+    V2MonsterUseSkill = D2MonsterUseSkill;
+    V2LinkPortal = D2LinkPortal;
+    V2Game235C0 = D2Game235C0;
+    V2ReadFile = D2ReadFile;
+}
+
+void redirect_to_custom_functions() {
+    if (version_D2Client == V114d) {
+        D2SendToServer3 = (TD2SendToServer3) D2SendToServer3_114;
+        D2PrintStat = (TD2PrintStat) D2PrintStat_114;
+        D2SendPacket = (TD2SendPacket) D2SendPacket_114;
+        D2CompileCubeInput = (TD2CompileCubeInput) D2CompileCubeInput_114;
+        D2SpawnSuperUnique = (TD2SpawnSuperUnique) D2SpawnSuperUnique_114;
+        D2VerifIfNotCarry1 = (TD2VerifIfNotCarry1) D2VerifIfNotCarry1_111;
+        D2isLODGame = D2isLODGame_111;
+        D2GetMouseX = D2GetMouseX_111;
+        D2GetMouseY = D2GetMouseY_111;
+        D2SpawnMonster = (TD2SpawnMonster) D2SpawnMonster_114;
+        D2LinkPortal = (TD2LinkPortal) D2LinkPortal_114;
+        D2Game235C0 = (TD2Game235C0) D2Game235C0_114;
+        D2GetGameByClientID = (TD2GetGameByClientID) D2GetGameByClientID_1XX;
+        D2SaveGame = (TD2SaveGame) D2SaveGame_1XX;
+    } else if (version_D2Client >= V111) {
+        D2SendMsgToAll = (TD2SendMsgToAll) D2SendMsgToAll_111;
+        D2SetColorPopup = (TD2SetColorPopup) D2SetColorPopup_111;
+        D2LoadImage = (TD2LoadImage) D2LoadImage_111;
+        D2FreeImage = (TD2FreeImage) D2FreeImage_111;
+        D2PlaySound = (TD2PlaySound) D2PlaySound_111;
+        D2GetClient = (TD2GetClient) D2GetClient_111;
+        D2SendToServer3 = (TD2SendToServer3) D2SendToServer3_111;
+        D2SetSkillBaseLevelOnClient = (TD2SetSkillBaseLevelOnClient) D2SetSkillBaseLevelOnClient_111;
+        D2GetCharStatsBIN = (TD2GetCharStatsBIN) D2GetCharStatsBIN_111;
+        D2GetItemStatCostBIN = (TD2GetItemStatCostBIN) D2GetItemStatCostBIN_111;
+        D2PrintStat = (TD2PrintStat) D2PrintStat_111;
+        D2SendPacket = (TD2SendPacket) D2SendPacket_111;
+        D2LoadInventory = (TD2LoadInventory) D2LoadInventory_111;
+        D2CompileCubeInput = (TD2CompileCubeInput) D2CompileCubeInput_111;
+        //D2CompileCubeOutput = (TD2CompileCubeOutput) D2CompileCubeOutput_111;
+        D2BroadcastFunction = (TD2BroadcastFunction) D2BroadcastFunction_111;
+        D2SpawnSuperUnique = version_D2Game >= V111b ? (TD2SpawnSuperUnique) D2SpawnSuperUnique_111b
+                                                     : (TD2SpawnSuperUnique) D2SpawnSuperUnique_111;
+        D2VerifIfNotCarry1 = (TD2VerifIfNotCarry1) D2VerifIfNotCarry1_111;
+        D2GameGetObject = (TD2GameGetObject) D2GameGetObject_111;
+        D2GetItemTypesBIN = (TD2GetItemTypesBIN) D2GetItemTypesBIN_111;
+        D2TestPositionInRoom = (TD2TestPositionInRoom) D2TestPositionInRoom_111;
+        //D2OpenNPCMenu = (TD2OpenNPCMenu) D2OpenNPCMenu_111;
+        D2isLODGame = D2isLODGame_111;
+        D2GetDifficultyLevel = D2GetDifficultyLevel_111;
+        D2GetMouseX = D2GetMouseX_111;
+        D2GetMouseY = D2GetMouseY_111;
+        D2GetClientPlayer = D2GetClientPlayer_111;
+        D2GetRealItem = D2GetRealItem_111;
+        D2CleanStatMouseUp = D2CleanStatMouseUp_111;
+        D2MonsterUseSkill = (TD2MonsterUseSkill) D2MonsterUseSkill_111;
+        D2ReadFile = (TD2ReadFile) D2ReadFile_111;
+        StatMouse1 = (DWORD *) R8(D2Client, 0000, 0000, 0000, 11C004, 11C2F4, 11C040, 11C3DC, 11D224, 3A0650);
+        StatMouse2 = (DWORD *) R8(D2Client, 0000, 0000, 0000, 11C008, 11C2F8, 11C044, 11C3E0, 11D228, 3A0654);
+        StatMouse3 = (DWORD *) R8(D2Client, 0000, 0000, 0000, 11C020, 11C310, 11C05C, 11C3F8, 11D240, 3A0658);
+        StatMouse4 = (DWORD *) R8(D2Client, 0000, 0000, 0000, 11C024, 11C314, 11C060, 11C3FC, 11D244, 3A065C);
+    } else {
+        D2SendToServer = (TD2SendToServer) D2SendToServer_1XX;
+        D2GetGameByClientID = (TD2GetGameByClientID) D2GetGameByClientID_1XX;
+        D2SaveGame = (TD2SaveGame) D2SaveGame_1XX;
+    }
+
+    if (version_D2Common <= V109d) {
+        //D2SetPlayerStat =				(TD2SetPlayerStat) D2SetPlayerStat_9;
+        D2AddPlayerStat = (TD2AddPlayerStat) D2AddPlayerStat_9;
+        D2GetPlayerStat = (TD2GetPlayerStat) D2GetPlayerStat_9;
+        //D2GetPlayerStat20 =				(TD2GetPlayerStat20) D2GetPlayerStat20_9;
+        D2GetPlayerBaseStat = (TD2GetPlayerBaseStat) D2GetPlayerBaseStat_9;
+        D2SetSkillBaseLevel = (TD2SetSkillBaseLevel) D2SetSkillBaseLevel_9;
+        D2GetCharStatsBIN = (TD2GetCharStatsBIN) D2GetCharStatsBIN_9;
+        D2GetItemStatCostBIN = (TD2GetItemStatCostBIN) D2GetItemStatCostBIN_9;
+        D2GetItemTypesBIN = (TD2GetItemTypesBIN) D2GetItemTypesBIN_9;
+    }
+
+    if (version_D2Client <= V109d)
+        D2PrintStat = (TD2PrintStat) D2PrintStat_9;
+
+    if (version_D2Game <= V109d)
+        D2SetSkillBaseLevelOnClient = (TD2SetSkillBaseLevelOnClient) D2SetSkillBaseLevelOnClient_9;
+}
+
+void structure_management() {//////////////// STRUCTURE MANAGEMENT ////////////////
+
+    shifting.ptPYPlayerData = *(DWORD *) ((DWORD) D2InitPlayerData + V8(D2Common, 5D, 5D, 5D, 49, 49, 49, 49, 49, 48));
+    shifting.ptSpecificData = V8(D2Common, 70, 70, 14, 14, 14, 14, 14, 14, 14);
+    shifting.ptGame = V8(D2Common, A4, A4, 80, 80, 80, 80, 80, 80, 80);
+    shifting.ptClientGame = V8(D2Common, 170, 194, 1A8, 1A8, 1A8, 1A8, 1A8, 1A8, 1A8);
+    shifting.ptInventory = V8(D2Common, 84, 84, 60, 60, 60, 60, 60, 60, 60);
+    shifting.ptSkills = V8(D2Common, CC, CC, A8, A8, A8, A8, A8, A8, A8);
+    shifting.ptImage = V8(D2Common, 04, 04, 04, 08, 08, 3C, 34, 34, 34);
+    shifting.ptFrame = V8(D2Common, 08, 08, 08, 44, 44, 40, 00, 00, 00);
+}
+
 void initD2functions() {
-//	#define D2S(F, I, R, N, P)	N = (F##I)GetProcAddress((HMODULE)offset_##F, (LPCSTR)I);
-//	#define D2F(F, I, R, N, P)	N = (F##I)GetProcAddress((HMODULE)offset_##F, (LPCSTR)I);
-#define D2S(F, I, R, N, P)    SETFCTADDR(F, I, N);
-#define D2F(F, I, R, N, P)    SETFCTADDR(F, I, N);
-#define E2S(F, A, R, N, P)    N = (T##N)(offset_##F + 0x##A);
-#define E2F(F, A, R, N, P)    N = (T##N)(offset_##F + 0x##A);
-#define E2C(F, A, T, N)        pt##N = (T*)(offset_##F + 0x##A);
+
 #define F8(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) if (version_##Z > V113d) { N = (T##N)R8(Z,A,B,C,D,E,F,G,H,I); } else setFctAddr((DWORD*)&N, (HMODULE)offset_##Z, (LPCSTR)(version_##Z == V113d? H : (version_##Z == V113c? G : (version_##Z == V112? F : (version_##Z == V111b? E : (version_##Z == V111? D : (version_##Z == V110? C : (version_##Z == V109d? B : A))))))));
 #define A8(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) N = (T##N)R8(Z,A,B,C,D,E,F,G,H,I);
 #define C8(Z, A, B, C, D, E, F, G, H, I, T, N)       pt##N = (T*)R8(Z,A,B,C,D,E,F,G,H,I);
@@ -1527,11 +1659,12 @@ void initD2functions() {
 
     C8(D2Client, DB918, DA828, 000000, 000000, 000000, 000000, 000000, 000000, 000000, DWORD, NbStatDesc);
     C8(D2Client, DAF98, D9EA8, 000000, 000000, 000000, 000000, 000000, 000000, 000000, DWORD, StatDescTable);
+
     SgptDataTables = *(DataTables **) R8(D2Common, 0000, 0000, 96A20, 9B74C, 9EE8C, 9B500, 99E1C, A33F0, 344304);
     if (version_D2Common < V110) {
-        D2S(D2Common, 10581, CharStatsBIN*, D2Common10581, (DWORD charID));//ONLY in 1.09
-        D2S(D2Common, 10598, ItemStatCostBIN*, D2Common10598, (DWORD itemStatCostID));//ONLY in 1.09
-        D2S(D2Common, 10673, ItemTypesBIN*, D2Common10673, (DWORD itemTypesID));//ONLY in 1.09
+        setFctAddr((DWORD *) &D2Common10581, (HMODULE) offset_D2Common, (LPCSTR) 10581);;//ONLY in 1.09
+        setFctAddr((DWORD *) &D2Common10598, (HMODULE) offset_D2Common, (LPCSTR) 10598);;//ONLY in 1.09
+        setFctAddr((DWORD *) &D2Common10673, (HMODULE) offset_D2Common, (LPCSTR) 10673);;//ONLY in 1.09
     }
 #undef F8
 #undef A8
@@ -1541,136 +1674,9 @@ void initD2functions() {
 #undef E2S
 #undef E2F
 #undef E2C
-
-    //////////////// MISC FCT ////////////////
-    getDescStrPos = version_D2Common >= V110 ? getDescStrPos_10 : getDescStrPos_9;
-    compileTxtFile114_1 = offset_D2Client + 0x002BD640;
-    compileTxtFile114_2 = offset_D2Client + 0x002BCDE0;
-    compileTxtFile114_3 = offset_D2Client + 0x002E6370;
-    compileTxtFile114_5 = offset_D2Client + 0x00281EF0;
-    compileTxtFile114_6 = offset_D2Client + 0x002BD780;
-    compileTxtFile114_7 = offset_D2Client + 0x002BCDA0;
-    compileTxtFile = version_D2Common >= V114a ? compileTxtFile_114 : version_D2Common >= V111 ? compileTxtFile_111 :
-                                                                      version_D2Common == V110 ? compileTxtFile_10
-                                                                                               : compileTxtFile_9;
-    V2AddPlayerStat = D2AddPlayerStat;
-    V2GetPlayerStat = D2GetPlayerStat;
-    V2GetPlayerBaseStat = D2GetPlayerBaseStat;
-    V2SetSkillBaseLevel = D2SetSkillBaseLevel;
-    V2SetSkillBaseLevelOnClient = D2SetSkillBaseLevelOnClient;
-    V2PrintStat = D2PrintStat;
-    V2SendMsgToAll = D2SendMsgToAll;
-    V2SetColorPopup = D2SetColorPopup;
-    V2LoadImage = D2LoadImage;
-    V2PlaySound = D2PlaySound;
-    V2GetCharStatsBIN = D2GetCharStatsBIN;
-    V2GetItemStatCostBIN = D2GetItemStatCostBIN;
-    V2SendToServer = D2SendToServer;
-    V2SendPacket = D2SendPacket;
-    V2LoadInventory = D2LoadInventory;
-    V2CompileCubeInput = D2CompileCubeInput;
-    V2BroadcastFunction = D2BroadcastFunction;
-    V2GetGameByClientID = D2GetGameByClientID;
-    V2SpawnSuperUnique = D2SpawnSuperUnique;
-    V2SpawnMonster = D2SpawnMonster;
-    V2VerifIfNotCarry1 = D2VerifIfNotCarry1;
-    V2GameGetObject = D2GameGetObject;
-    V2TestPositionInRoom = D2TestPositionInRoom;
-    V2GetItemTypesBIN = D2GetItemTypesBIN;
-    V2SaveGame = D2SaveGame;
-    V2MonsterUseSkill = D2MonsterUseSkill;
-    V2LinkPortal = D2LinkPortal;
-    V2Game235C0 = D2Game235C0;
-    V2ReadFile = D2ReadFile;
-    //////////////// REDIRECT ON CUSTOM FUNCTIONS ////////////////
-
-    if (version_D2Client == V114d) {
-        D2SendToServer3 = (TD2SendToServer3) D2SendToServer3_114;
-        D2PrintStat = (TD2PrintStat) D2PrintStat_114;
-        D2SendPacket = (TD2SendPacket) D2SendPacket_114;
-        D2CompileCubeInput = (TD2CompileCubeInput) D2CompileCubeInput_114;
-        D2SpawnSuperUnique = (TD2SpawnSuperUnique) D2SpawnSuperUnique_114;
-        D2VerifIfNotCarry1 = (TD2VerifIfNotCarry1) D2VerifIfNotCarry1_111;
-        D2isLODGame = D2isLODGame_111;
-        D2GetMouseX = D2GetMouseX_111;
-        D2GetMouseY = D2GetMouseY_111;
-        D2SpawnMonster = (TD2SpawnMonster) D2SpawnMonster_114;
-        D2LinkPortal = (TD2LinkPortal) D2LinkPortal_114;
-        D2Game235C0 = (TD2Game235C0) D2Game235C0_114;
-        D2GetGameByClientID = (TD2GetGameByClientID) D2GetGameByClientID_1XX;
-        D2SaveGame = (TD2SaveGame) D2SaveGame_1XX;
-    } else if (version_D2Client >= V111) {
-        D2SendMsgToAll = (TD2SendMsgToAll) D2SendMsgToAll_111;
-        D2SetColorPopup = (TD2SetColorPopup) D2SetColorPopup_111;
-        D2LoadImage = (TD2LoadImage) D2LoadImage_111;
-        D2FreeImage = (TD2FreeImage) D2FreeImage_111;
-        D2PlaySound = (TD2PlaySound) D2PlaySound_111;
-        D2GetClient = (TD2GetClient) D2GetClient_111;
-        D2SendToServer3 = (TD2SendToServer3) D2SendToServer3_111;
-        D2SetSkillBaseLevelOnClient = (TD2SetSkillBaseLevelOnClient) D2SetSkillBaseLevelOnClient_111;
-        D2GetCharStatsBIN = (TD2GetCharStatsBIN) D2GetCharStatsBIN_111;
-        D2GetItemStatCostBIN = (TD2GetItemStatCostBIN) D2GetItemStatCostBIN_111;
-        D2PrintStat = (TD2PrintStat) D2PrintStat_111;
-        D2SendPacket = (TD2SendPacket) D2SendPacket_111;
-        D2LoadInventory = (TD2LoadInventory) D2LoadInventory_111;
-        D2CompileCubeInput = (TD2CompileCubeInput) D2CompileCubeInput_111;
-        //D2CompileCubeOutput = (TD2CompileCubeOutput) D2CompileCubeOutput_111;
-        D2BroadcastFunction = (TD2BroadcastFunction) D2BroadcastFunction_111;
-        D2SpawnSuperUnique = version_D2Game >= V111b ? (TD2SpawnSuperUnique) D2SpawnSuperUnique_111b
-                                                     : (TD2SpawnSuperUnique) D2SpawnSuperUnique_111;
-        D2VerifIfNotCarry1 = (TD2VerifIfNotCarry1) D2VerifIfNotCarry1_111;
-        D2GameGetObject = (TD2GameGetObject) D2GameGetObject_111;
-        D2GetItemTypesBIN = (TD2GetItemTypesBIN) D2GetItemTypesBIN_111;
-        D2TestPositionInRoom = (TD2TestPositionInRoom) D2TestPositionInRoom_111;
-        //D2OpenNPCMenu = (TD2OpenNPCMenu) D2OpenNPCMenu_111;
-        D2isLODGame = D2isLODGame_111;
-        D2GetDifficultyLevel = D2GetDifficultyLevel_111;
-        D2GetMouseX = D2GetMouseX_111;
-        D2GetMouseY = D2GetMouseY_111;
-        D2GetClientPlayer = D2GetClientPlayer_111;
-        D2GetRealItem = D2GetRealItem_111;
-        D2CleanStatMouseUp = D2CleanStatMouseUp_111;
-        D2MonsterUseSkill = (TD2MonsterUseSkill) D2MonsterUseSkill_111;
-        D2ReadFile = (TD2ReadFile) D2ReadFile_111;
-        StatMouse1 = (DWORD *) R8(D2Client, 0000, 0000, 0000, 11C004, 11C2F4, 11C040, 11C3DC, 11D224, 3A0650);
-        StatMouse2 = (DWORD *) R8(D2Client, 0000, 0000, 0000, 11C008, 11C2F8, 11C044, 11C3E0, 11D228, 3A0654);
-        StatMouse3 = (DWORD *) R8(D2Client, 0000, 0000, 0000, 11C020, 11C310, 11C05C, 11C3F8, 11D240, 3A0658);
-        StatMouse4 = (DWORD *) R8(D2Client, 0000, 0000, 0000, 11C024, 11C314, 11C060, 11C3FC, 11D244, 3A065C);
-    } else {
-        D2SendToServer = (TD2SendToServer) D2SendToServer_1XX;
-        D2GetGameByClientID = (TD2GetGameByClientID) D2GetGameByClientID_1XX;
-        D2SaveGame = (TD2SaveGame) D2SaveGame_1XX;
-    }
-
-    if (version_D2Common <= V109d) {
-        //D2SetPlayerStat =				(TD2SetPlayerStat) D2SetPlayerStat_9;
-        D2AddPlayerStat = (TD2AddPlayerStat) D2AddPlayerStat_9;
-        D2GetPlayerStat = (TD2GetPlayerStat) D2GetPlayerStat_9;
-        //D2GetPlayerStat20 =				(TD2GetPlayerStat20) D2GetPlayerStat20_9;
-        D2GetPlayerBaseStat = (TD2GetPlayerBaseStat) D2GetPlayerBaseStat_9;
-        D2SetSkillBaseLevel = (TD2SetSkillBaseLevel) D2SetSkillBaseLevel_9;
-        D2GetCharStatsBIN = (TD2GetCharStatsBIN) D2GetCharStatsBIN_9;
-        D2GetItemStatCostBIN = (TD2GetItemStatCostBIN) D2GetItemStatCostBIN_9;
-        D2GetItemTypesBIN = (TD2GetItemTypesBIN) D2GetItemTypesBIN_9;
-    }
-
-    if (version_D2Client <= V109d)
-        D2PrintStat = (TD2PrintStat) D2PrintStat_9;
-
-    if (version_D2Game <= V109d)
-        D2SetSkillBaseLevelOnClient = (TD2SetSkillBaseLevelOnClient) D2SetSkillBaseLevelOnClient_9;
-
-
-    //////////////// STRUCTURE MANAGEMENT ////////////////
-
-    shifting.ptPYPlayerData = *(DWORD *) ((DWORD) D2InitPlayerData + V8(D2Common, 5D, 5D, 5D, 49, 49, 49, 49, 49, 48));
-    shifting.ptSpecificData = V8(D2Common, 70, 70, 14, 14, 14, 14, 14, 14, 14);
-    shifting.ptGame = V8(D2Common, A4, A4, 80, 80, 80, 80, 80, 80, 80);
-    shifting.ptClientGame = V8(D2Common, 170, 194, 1A8, 1A8, 1A8, 1A8, 1A8, 1A8, 1A8);
-    shifting.ptInventory = V8(D2Common, 84, 84, 60, 60, 60, 60, 60, 60, 60);
-    shifting.ptSkills = V8(D2Common, CC, CC, A8, A8, A8, A8, A8, A8, A8);
-    shifting.ptImage = V8(D2Common, 04, 04, 04, 08, 08, 3C, 34, 34, 34);
-    shifting.ptFrame = V8(D2Common, 08, 08, 08, 44, 44, 40, 00, 00, 00);
+    misc_fct();
+    redirect_to_custom_functions();
+    structure_management();
 }
 
 /*================================= END OF FILE =================================*/
