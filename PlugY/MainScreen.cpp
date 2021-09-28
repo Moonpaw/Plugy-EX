@@ -37,7 +37,9 @@ void STDCALL printPlugYVersion(void** childrens, DWORD* sgnNumChildren)
 
 void** childrens;
 DWORD* sgnNumChildren;
-FCT_ASM ( caller_printPlugYVersion114 )
+
+__declspec(naked)void caller_printPlugYVersion114() {
+    __asm{
 	PUSH sgnNumChildren
 	PUSH childrens
 	CALL printPlugYVersion
@@ -45,7 +47,8 @@ FCT_ASM ( caller_printPlugYVersion114 )
 	RETN
 }}
 
-FCT_ASM ( caller_printPlugYVersion )
+__declspec(naked)void caller_printPlugYVersion() {
+    __asm{
 	POP ESI
 	PUSH DWORD PTR [ESI+2]
 	PUSH DWORD PTR [ESI+9]
@@ -96,7 +99,8 @@ void FASTCALL versionChange(void* screen, char* text, DWORD color)
 	D2PrintLineOnTextBox(screen,versionText,modVersionColor);
 }
 
-FCT_ASM ( caller_VersionChange_114 )
+__declspec(naked)void caller_VersionChange_114() {
+    __asm{
 	MOV CL, BYTE PTR DS:[modVersionColor]
 	MOV BYTE PTR SS:[ESP+4], CL
 	MOV EDX,versionText
@@ -104,7 +108,8 @@ FCT_ASM ( caller_VersionChange_114 )
 	RETN
 }}
 
-FCT_ASM ( caller_VersionChange_10 )
+__declspec(naked)void caller_VersionChange_10() {
+    __asm{
 	MOV CL, BYTE PTR DS:[modVersionColor]
 	MOV BYTE PTR SS:[ESP+4], CL
 	MOV EDX,versionText

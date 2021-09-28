@@ -192,7 +192,8 @@ void STDCALL SaveSPPlayerCustomData(Unit* ptChar)
 }
 
 
-FCT_ASM ( caller_SaveSPPlayerCustomData_114 )
+__declspec(naked)void caller_SaveSPPlayerCustomData_114() {
+    __asm{
 	MOV EAX,DWORD PTR SS:[ESP+8]
 	TEST EAX,EAX
 	JE next
@@ -206,7 +207,8 @@ next:
 	JMP D2SaveSPChar
 }}
 
-FCT_ASM ( caller_SaveSPPlayerCustomData_111 )
+__declspec(naked)void caller_SaveSPPlayerCustomData_111() {
+    __asm{
 	MOV EAX,DWORD PTR SS:[ESP+0x14]
 	TEST EAX,EAX
 	JE next
@@ -224,14 +226,16 @@ next:
 	RETN
 }}*/
 
-FCT_ASM ( caller_SaveSPPlayerCustomData )
+__declspec(naked)void caller_SaveSPPlayerCustomData() {
+    __asm{
 	CALL D2FogGetSavePath
 	PUSH EDI
 	CALL SaveSPPlayerCustomData
 	RETN
 }}
 
-FCT_ASM ( caller_SaveSPPlayerCustomData_9 )
+__declspec(naked)void caller_SaveSPPlayerCustomData_9() {
+    __asm{
 	CALL D2FogGetSavePath
 	PUSH ESI
 	CALL SaveSPPlayerCustomData
@@ -563,7 +567,8 @@ FCT_ASM ( caller_SendSaveFilesToSave )
 }}
 */
 
-FCT_ASM( caller_ManageNextPacketToSend )
+__declspec(naked)void caller_ManageNextPacketToSend() {
+    __asm{
 	PUSH ESI
 	CALL ManageNextPacketToSend
 	TEST EAX,EAX
@@ -575,7 +580,8 @@ end_caller_ManageNextPacketToSend:
 	RETN
 }}
 
-FCT_ASM( caller_ManageNextPacketToSend_9 )
+__declspec(naked)void caller_ManageNextPacketToSend_9() {
+    __asm{
 	PUSH ESI
 	CALL ManageNextPacketToSend
 	TEST EAX,EAX
@@ -589,7 +595,8 @@ end_caller_ManageNextPacketToSend_9:
 	RETN
 }}
 
-FCT_ASM( caller_ManageNextPacketToSend_9d )
+__declspec(naked)void caller_ManageNextPacketToSend_9d() {
+    __asm{
 	PUSH ESI
 	CALL ManageNextPacketToSend
 	TEST EAX,EAX
@@ -603,14 +610,16 @@ end_caller_ManageNextPacketToSend_9d:
 	RETN
 }}
 
-FCT_ASM( caller_SendSaveFilesToSave_114 )
+__declspec(naked)void caller_SendSaveFilesToSave_114() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+0x4]
 	CALL SendSaveFilesToSave
 	MOV EDI,DWORD PTR SS:[EBP-0x2008]
 	RETN
 }}
 
-FCT_ASM( caller_SendSaveFilesToSave_111 )
+__declspec(naked)void caller_SendSaveFilesToSave_111() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+0x2014]
 	CALL SendSaveFilesToSave
 	MOV EAX,DWORD PTR SS:[ESP+0x8]
@@ -618,7 +627,8 @@ FCT_ASM( caller_SendSaveFilesToSave_111 )
 	RETN
 }}
 
-FCT_ASM( caller_SendSaveFilesToSave )
+__declspec(naked)void caller_SendSaveFilesToSave() {
+    __asm{
 	PUSH EDI
 	CALL SendSaveFilesToSave
 	MOV EDI,DWORD PTR SS:[ESP+0x14]
@@ -626,7 +636,8 @@ FCT_ASM( caller_SendSaveFilesToSave )
 	RETN
 }}
 
-FCT_ASM( caller_SendSaveFilesToSave_9 )
+__declspec(naked)void caller_SendSaveFilesToSave_9() {
+    __asm{
 	PUSH ESI
 	CALL SendSaveFilesToSave
 	MOV ESI,DWORD PTR SS:[ESP+0x14]
@@ -634,7 +645,8 @@ FCT_ASM( caller_SendSaveFilesToSave_9 )
 	RETN
 }}
 
-FCT_ASM ( caller_ReceivedSaveFilesToSave_114 )
+__declspec(naked)void caller_ReceivedSaveFilesToSave_114() {
+    __asm{
 	CMP EDX,-1
 	JE continue_rcvFct
 	PUSH ECX
@@ -650,7 +662,8 @@ continue_rcvFct:
 	JMP D2ReceivePacket
 }}
 
-FCT_ASM ( caller_ReceivedSaveFilesToSave_111 )
+__declspec(naked)void caller_ReceivedSaveFilesToSave_111() {
+    __asm{
 	LEA EAX,DWORD PTR SS:[ESP+0x10]
 	PUSH EAX
 	CALL ReceiveSaveFilesToSave
@@ -663,7 +676,8 @@ continue_rcvFct:
 	RETN
 }}
 
-FCT_ASM ( caller_ReceivedSaveFilesToSave )
+__declspec(naked)void caller_ReceivedSaveFilesToSave() {
+    __asm{
 	CMP EDX,-1
 	JE continue_rcvFct
 	PUSH ECX
@@ -684,7 +698,8 @@ continue_rcvFct:
 //	JMP DWORD PTR SS:[ESP+0x5F0]
 }}
 
-FCT_ASM ( caller_SaveMPPlayerCustomData_111 )
+__declspec(naked)void caller_SaveMPPlayerCustomData_111() {
+    __asm{
 	PUSH EAX
 	PUSH ECX
 	PUSH EAX
@@ -695,7 +710,8 @@ FCT_ASM ( caller_SaveMPPlayerCustomData_111 )
 	RETN
 }}
 
-FCT_ASM ( caller_SaveMPPlayerCustomData )
+__declspec(naked)void caller_SaveMPPlayerCustomData() {
+    __asm{
 	PUSH ECX
 	PUSH ECX
 	CALL SaveMPPlayerCustomData

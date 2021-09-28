@@ -130,7 +130,8 @@ DWORD STDCALL mouseCustomPageLeftUp(sWinMessage* msg)
 		return -1;
 }
 
-FCT_ASM ( caller_DontPrintBorder_114 )
+__declspec(naked)void caller_DontPrintBorder_114() {
+    __asm{
 	MOV ECX,bDontPrintBorder
 	TEST ECX,ECX
 	JE printBorder
@@ -144,7 +145,8 @@ printBorder:
 	JMP ECX
 }}
 
-FCT_ASM ( caller_DontPrintBorder_111 )
+__declspec(naked)void caller_DontPrintBorder_111() {
+    __asm{
 	MOV ECX,bDontPrintBorder
 	TEST ECX,ECX
 	JE printBorder
@@ -156,7 +158,8 @@ printBorder:
 	RETN
 }}
 
-FCT_ASM ( caller_DontPrintBorder )
+__declspec(naked)void caller_DontPrintBorder() {
+    __asm{
 	MOV ECX,bDontPrintBorder
 	TEST ECX,ECX
 	JE printBorder
@@ -168,7 +171,8 @@ printBorder:
 	RETN
 }}
 
-FCT_ASM ( caller_mouseCustomPageLeftDown_114 )
+__declspec(naked)void caller_mouseCustomPageLeftDown_114() {
+    __asm{
 	PUSH EAX
 	PUSH ESI
 	CALL mouseCustomPageLeftDown
@@ -193,7 +197,8 @@ end_mouseNewPageLDown:
 }}
 
 
-FCT_ASM ( caller_mouseCustomPageLeftDown_111 )
+__declspec(naked)void caller_mouseCustomPageLeftDown_111() {
+    __asm{
 	PUSH EAX
 	PUSH ESI
 	CALL mouseCustomPageLeftDown
@@ -217,7 +222,8 @@ end_mouseNewPageLDown:
 	RETN 4
 }}
 
-FCT_ASM ( caller_mouseCustomPageLeftDown )
+__declspec(naked)void caller_mouseCustomPageLeftDown() {
+    __asm{
 	PUSH EAX
 	PUSH EDI
 	CALL mouseCustomPageLeftDown
@@ -239,7 +245,8 @@ end_mouseNewPageLDown:
 	RETN 4
 }}
 
-FCT_ASM ( caller_mouseCustomPageLeftDown_9 )
+__declspec(naked)void caller_mouseCustomPageLeftDown_9() {
+    __asm{
 	PUSH EAX
 	PUSH EDI
 	CALL mouseCustomPageLeftDown
@@ -261,7 +268,8 @@ end_mouseNewPageLDown:
 	RETN 4
 }}
 
-FCT_ASM ( caller_mouseCustomPageLeftUp_114 )
+__declspec(naked)void caller_mouseCustomPageLeftUp_114() {
+    __asm{
 	PUSH EBP
 	CALL mouseCustomPageLeftUp
 	TEST EAX,EAX
@@ -283,7 +291,8 @@ end_mouseNewPageLUp:
 	RETN 4
 }}
 
-FCT_ASM ( caller_mouseCustomPageLeftUp_111 )
+__declspec(naked)void caller_mouseCustomPageLeftUp_111() {
+    __asm{
 	PUSH EBP
 	CALL mouseCustomPageLeftUp
 	TEST EAX,EAX
@@ -306,7 +315,8 @@ end_mouseNewPageLUp:
 }}
 
 
-FCT_ASM ( caller_mouseCustomPageLeftUp )
+__declspec(naked)void caller_mouseCustomPageLeftUp() {
+    __asm{
 	PUSH EBP
 	CALL mouseCustomPageLeftUp
 	TEST EAX,EAX
@@ -329,7 +339,8 @@ end_mouseNewPageLUp:
 }}
 
 
-FCT_ASM ( caller_mouseCustomPageLeftUp_9 )
+__declspec(naked)void caller_mouseCustomPageLeftUp_9() {
+    __asm{
 	PUSH EBP
 	CALL mouseCustomPageLeftUp
 	TEST EAX,EAX
@@ -352,8 +363,8 @@ end_mouseNewPageLUp:
 }}
 
 
-
-FCT_ASM ( caller_resetSelected_114 )
+__declspec(naked)void caller_resetSelected_114() {
+    __asm{
 	CMP ECX,2
 	JNZ NO_RESET
 	MOV selectedPage, 0
@@ -367,7 +378,8 @@ NO_RESET:
 }}
 
 
-FCT_ASM ( caller_resetSelectedPageByToolBar )
+__declspec(naked)void caller_resetSelectedPageByToolBar() {
+    __asm{
 	MOV selectedPage,0
 	CMP EAX,0x26
 	JNZ noJump
@@ -376,7 +388,8 @@ noJump:
 	RETN
 }}
 
-FCT_ASM ( caller_resetSelectedPageByKey )
+__declspec(naked)void caller_resetSelectedPageByKey() {
+    __asm{
 	MOV selectedPage,0
 	POP EAX
 	PUSH EBP
@@ -386,7 +399,8 @@ FCT_ASM ( caller_resetSelectedPageByKey )
 }}
 
 
-FCT_ASM ( caller_resetSelectedPage )
+__declspec(naked)void caller_resetSelectedPage() {
+    __asm{
 	TEST EAX,EAX
 	SETE DL
 	JNZ END_resetSelectedPage

@@ -186,7 +186,8 @@ void STDCALL printDisabledStatsBtn(WORD statID, sDrawImageInfo* data, DWORD x, D
 	D2PrintImage(data,x,y,p4,p5,p6);
 }
 
-FCT_ASM ( caller_printUnassignStatsBtn )
+__declspec(naked)void caller_printUnassignStatsBtn() {
+    __asm{
 	POP EAX
 	XOR ECX,ECX
 	MOV CX,WORD PTR DS:[ESI+8]
@@ -205,7 +206,8 @@ WORD UnassignStats()
 	return GetKeyState(keyUsedForUnassignStatPoint);
 }
 
-FCT_ASM ( caller_UnassignStats_9 )
+__declspec(naked)void caller_UnassignStats_9() {
+    __asm{
 	PUSH EAX
 	CALL UnassignStats
 	TEST AX,AX
@@ -229,7 +231,8 @@ NOT_CTRL:
 }}
 
 
-FCT_ASM ( caller_UnassignStats )
+__declspec(naked)void caller_UnassignStats() {
+    __asm{
 	PUSH EAX
 	CALL UnassignStats
 	TEST AX,AX
@@ -254,7 +257,8 @@ END_UNASSGNSTATS:
 	RETN
 }}
 
-FCT_ASM ( caller_setValue_114 )
+__declspec(naked)void caller_setValue_114() {
+    __asm{
 	MOV CL,0x3A
 	OR DX,WORD PTR DS:[ESI]
 	ADD DL, currentMsgID
@@ -262,13 +266,15 @@ FCT_ASM ( caller_setValue_114 )
 	RETN
 }}
 
-FCT_ASM ( caller_setValue_111 )
+__declspec(naked)void caller_setValue_111() {
+    __asm{
 	ADD CL,currentMsgID
 	MOV WORD PTR SS:[ESP+0x19],CX
 	RETN
 }}
 
-FCT_ASM ( caller_setValue )
+__declspec(naked)void caller_setValue() {
+    __asm{
 	ADD DL,currentMsgID
 	JMP D2SendToServer3
 }}
@@ -300,7 +306,8 @@ DWORD STDCALL pushDown (DWORD num)
 	return 0;
 }
 
-FCT_ASM( caller_pushDown_114 )
+__declspec(naked)void caller_pushDown_114() {
+    __asm{
 	PUSH EDX
 	PUSH DWORD PTR SS:[EBP+0x8]
 	CALL pushDown
@@ -315,7 +322,8 @@ end_pushDown :
 	RETN
 }}
 
-FCT_ASM ( caller_pushDown_111 )
+__declspec(naked)void caller_pushDown_111() {
+    __asm{
 	PUSH EDX
 	PUSH EDX
 	CALL pushDown
@@ -329,7 +337,8 @@ end_pushDown:
 	RETN
 }}
 
-FCT_ASM ( caller_pushDown )
+__declspec(naked)void caller_pushDown() {
+    __asm{
 	PUSH EDX
 	PUSH EDX
 	CALL pushDown
@@ -506,7 +515,8 @@ void Install_StatsPoints()
 /*********************************************************************************/
 
 
-FCT_ASM ( caller_LimitShift_111 )
+__declspec(naked)void caller_LimitShift_111() {
+    __asm{
 	CMP EDI,limitValueToShiftClick
 	JL DontTruncTheValue
 	MOV EDI,limitValueToShiftClick
@@ -514,7 +524,8 @@ DontTruncTheValue:
 	JMP DWORD PTR DS:[GetKeyState]
 }}
 
-FCT_ASM ( caller_LimitShift )
+__declspec(naked)void caller_LimitShift() {
+    __asm{
 	CMP ESI,limitValueToShiftClick
 	JL DontTruncTheValue
 	MOV ESI,limitValueToShiftClick

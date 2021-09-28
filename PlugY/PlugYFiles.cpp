@@ -56,7 +56,8 @@ DWORD STDCALL isModFile_114 (char* filename)
 	return false;
 }
 
-FCT_ASM ( caller_isModFile )
+__declspec(naked)void caller_isModFile() {
+    __asm{
 	TEST ESI,ESI
 	JNZ ISNOTMODDATA
 	MOV EBP, DWORD PTR SS:[ESP+0x140]
@@ -74,7 +75,8 @@ ISNOTMODDATA:
 	JMP DWORD PTR CS:[LeaveCriticalSection]
 }}
 
-FCT_ASM ( caller_isModFile_111 )
+__declspec(naked)void caller_isModFile_111() {
+    __asm{
 	TEST EDI,EDI
 	JNZ ISNOTMODDATA
 	MOV ESI, DWORD PTR SS:[ESP+0x130]
@@ -113,7 +115,8 @@ ISNOTMODDATA:
 }}
 */
 
-FCT_ASM( caller_isModFile_114 )
+__declspec(naked)void caller_isModFile_114() {
+    __asm{
 	PUSH EDX
 	PUSH EBX
 	CALL isModFile_114
@@ -203,26 +206,30 @@ void STDCALL freeCustomImages()
 	FREE_IMAGE_FILE(statsBackgroundImages);
 }
 
-FCT_ASM ( caller_loadCustomImages_114 )
+__declspec(naked)void caller_loadCustomImages_114() {
+    __asm{
 	PUSH ECX
 	CALL loadCustomImages
 	POP ECX
 	JMP D2LoadResImage
 }}
 
-FCT_ASM ( caller_loadCustomImages )
+__declspec(naked)void caller_loadCustomImages() {
+    __asm{
 	CALL loadCustomImages
 	MOV ECX,0x0C
 	RETN
 }}
 
-FCT_ASM ( caller_freeCustomImages_114 )
+__declspec(naked)void caller_freeCustomImages_114() {
+    __asm{
 	CALL freeCustomImages
 	CALL D2FreeResImages
 	RETN
 }}
 
-FCT_ASM ( caller_freeCustomImages )
+__declspec(naked)void caller_freeCustomImages() {
+    __asm{
 	CALL freeCustomImages
 	MOV ECX,0x0C
 	RETN
@@ -318,20 +325,23 @@ void FASTCALL freeTxtFiles()
 	freeStatsInterfaceDesc();
 }
 
-FCT_ASM ( caller_loadTxtFiles_111 )
+__declspec(naked)void caller_loadTxtFiles_111() {
+    __asm{
 	MOV ECX,DWORD PTR SS:[ESP+4]
 	CALL loadTxtFiles
 	JMP D2LoadSuperuniques
 }}
 
-FCT_ASM ( caller_loadTxtFiles )
+__declspec(naked)void caller_loadTxtFiles() {
+    __asm{
 	PUSH ECX
 	CALL loadTxtFiles
 	POP ECX
 	JMP D2LoadSuperuniques
 }}
 
-FCT_ASM ( caller_freeTxtFiles )
+__declspec(naked)void caller_freeTxtFiles() {
+    __asm{
 	CALL freeTxtFiles
 	JMP D2Fog10212
 }}

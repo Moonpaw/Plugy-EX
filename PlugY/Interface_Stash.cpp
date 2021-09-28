@@ -528,7 +528,8 @@ Unit *STDCALL initGetNextItemForSet(Inventory *ptInventory) {
     return getNextItemForSet(item);
 }
 
-FCT_ASM(caller_manageBtnDown_114)
+__declspec(naked)void caller_manageBtnDown_114() {
+    __asm{
     PUSH EBX
     CALL manageBtnDown
     TEST EAX, EAX
@@ -546,7 +547,8 @@ FCT_ASM(caller_manageBtnDown_114)
     JMP D2ClickOnStashButton
     }}
 
-FCT_ASM(caller_manageBtnDown_111)
+__declspec(naked)void caller_manageBtnDown_111() {
+    __asm{
     PUSH EBP
     CALL manageBtnDown
     TEST EAX, EAX
@@ -563,7 +565,8 @@ FCT_ASM(caller_manageBtnDown_111)
     JMP D2ClickOnStashButton
     }}
 
-FCT_ASM(caller_manageBtnDown)
+__declspec(naked)void caller_manageBtnDown() {
+    __asm{
     PUSH EDI
     CALL manageBtnDown
     TEST EAX, EAX
@@ -580,7 +583,8 @@ FCT_ASM(caller_manageBtnDown)
     JMP D2isLODGame
     }}
 
-FCT_ASM(caller_manageBtnUp_114)
+__declspec(naked)void caller_manageBtnUp_114() {
+    __asm{
     PUSH EBX
     CALL manageBtnUp
     MOV isDownBtn.all, 0
@@ -605,7 +609,8 @@ FCT_ASM(caller_manageBtnUp_114)
     JMP D2ClickOnStashButton
     }}
 
-FCT_ASM(caller_manageBtnUp_111)
+__declspec(naked)void caller_manageBtnUp_111() {
+    __asm{
     PUSH EBX
     CALL manageBtnUp
     MOV isDownBtn.all, 0
@@ -630,7 +635,8 @@ FCT_ASM(caller_manageBtnUp_111)
     JMP D2ClickOnStashButton
     }}
 
-FCT_ASM(caller_manageBtnUp)
+__declspec(naked)void caller_manageBtnUp() {
+    __asm{
     PUSH EBP
     CALL manageBtnUp
     MOV isDownBtn.all, 0
@@ -654,7 +660,8 @@ FCT_ASM(caller_manageBtnUp)
     JMP D2isLODGame
     }}
 
-FCT_ASM (initBtnsStates_114)
+__declspec(naked)void initBtnsStates_114() {
+    __asm{
     MOV isDownBtn.all, 0
     POP ECX
     MOV ESP, EBP
@@ -662,7 +669,8 @@ FCT_ASM (initBtnsStates_114)
     RETN
     }}
 
-FCT_ASM (initBtnsStates)
+__declspec(naked)void initBtnsStates() {
+    __asm{
     MOV isDownBtn.all, 0
     ADD ESP, 0x104
     RETN

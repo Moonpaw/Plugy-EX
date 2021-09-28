@@ -54,7 +54,8 @@ DWORD STDCALL LoadSPCustomData(Unit* ptChar)
 	return ret;
 }
 
-FCT_ASM (caller_LoadSPPlayerCustomData_114 )
+__declspec(naked)void caller_LoadSPPlayerCustomData_114() {
+    __asm{
 	MOV EDI,EAX
 	TEST EDI,EDI
 	JNZ JMP_LoadSPPlayerCustomData
@@ -69,7 +70,8 @@ JMP_LoadSPPlayerCustomData:
 	RETN
 }}
 
-FCT_ASM (caller_LoadSPPlayerCustomData )
+__declspec(naked)void caller_LoadSPPlayerCustomData() {
+    __asm{
 	MOV ESI,EAX
 	TEST ESI,ESI
 	JNZ JMP_LoadSPPlayerCustomData
@@ -371,7 +373,8 @@ DWORD STDCALL LoadMPCustomData(Unit* ptChar)
 	return ret;
 }
 
-FCT_ASM ( caller_LoadMPPlayerCustomData_114 )
+__declspec(naked)void caller_LoadMPPlayerCustomData_114() {
+    __asm{
 	PUSH DWORD PTR SS:[EDI]
 	CALL LoadMPCustomData
 	TEST EAX,EAX
@@ -387,7 +390,8 @@ JMP_LoadMPlayerCustomData:
 }}
 
 
-FCT_ASM ( caller_LoadMPPlayerCustomData_111 )
+__declspec(naked)void caller_LoadMPPlayerCustomData_111() {
+    __asm{
 	PUSH DWORD PTR SS:[EBX]
 	CALL LoadMPCustomData
 	TEST EAX,EAX
@@ -403,7 +407,8 @@ JMP_LoadMPlayerCustomData:
 }}
 
 
-FCT_ASM ( caller_LoadMPPlayerCustomData )
+__declspec(naked)void caller_LoadMPPlayerCustomData() {
+    __asm{
 	PUSH DWORD PTR SS:[EDI]
 	CALL LoadMPCustomData
 	TEST EAX,EAX
@@ -418,7 +423,8 @@ JMP_LoadMPlayerCustomData:
 	RETN
 }}
 
-FCT_ASM ( caller_LoadMPPlayerCustomData_9 )
+__declspec(naked)void caller_LoadMPPlayerCustomData_9() {
+    __asm{
 	PUSH DWORD PTR SS:[EDI]
 	CALL LoadMPCustomData
 	TEST EAX,EAX
@@ -434,21 +440,24 @@ JMP_LoadMPlayerCustomData:
 }}
 
 
-FCT_ASM ( caller_SendSaveFiles_111 )
+__declspec(naked)void caller_SendSaveFiles_111() {
+    __asm{
 	POP EAX
 	PUSH DWORD PTR CS:[EAX+0x01] //"name"
 	PUSH EAX
 	JMP SendSaveFiles
 }}
 
-FCT_ASM ( caller_SendSaveFiles )
+__declspec(naked)void caller_SendSaveFiles() {
+    __asm{
 	POP EAX
 	PUSH DWORD PTR CS:[EAX+0x0F] //"name"
 	PUSH EAX
 	JMP SendSaveFiles
 }}
 
-FCT_ASM ( caller_ReceiveSaveFiles_114 )
+__declspec(naked)void caller_ReceiveSaveFiles_114() {
+    __asm{
 	PUSH ECX
 	PUSH EDX
 	LEA EBX,DWORD PTR DS:[ESI+4]
@@ -462,7 +471,8 @@ FCT_ASM ( caller_ReceiveSaveFiles_114 )
 }}
 
 
-FCT_ASM ( caller_ReceiveSaveFiles_111 )
+__declspec(naked)void caller_ReceiveSaveFiles_111() {
+    __asm{
 	PUSH ECX
 	PUSH EDX
 	LEA EBX,DWORD PTR DS:[EBP+4]
@@ -476,7 +486,8 @@ FCT_ASM ( caller_ReceiveSaveFiles_111 )
 }}
 
 
-FCT_ASM ( caller_ReceiveSaveFiles )
+__declspec(naked)void caller_ReceiveSaveFiles() {
+    __asm{
 	PUSH ECX
 	PUSH EDX
 	LEA EDI,DWORD PTR DS:[ESI+4]
@@ -490,7 +501,8 @@ FCT_ASM ( caller_ReceiveSaveFiles )
 }}
 
 
-FCT_ASM ( caller_BugFix109b )
+__declspec(naked)void caller_BugFix109b() {
+    __asm{
 	MOV EAX,DWORD PTR DS:[EDI+0xBD0]
 	TEST EAX,EAX
 	JE go_to_default
@@ -502,7 +514,8 @@ go_to_default:
 	RETN
 }}
 
-FCT_ASM ( caller_BugFix109d )
+__declspec(naked)void caller_BugFix109d() {
+    __asm{
 	MOV EAX,DWORD PTR DS:[ESI+0xAB0]
 	TEST EAX,EAX
 	JE go_to_default

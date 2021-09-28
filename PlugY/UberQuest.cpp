@@ -449,7 +449,8 @@ void FASTCALL uberBaalAI(Game* ptGame, Unit* ptMonster, AIParam* ptAIArgs)
 	D2BaalAI(ptGame, ptMonster, ptAIArgs);
 }
 
-FCT_ASM ( caller_spawnUber )
+__declspec(naked)void caller_spawnUber() {
+    __asm{
 	PUSH EDX
 	PUSH ECX
 	CALL spawnUber

@@ -36,7 +36,8 @@ void STDCALL displayItemlevel(LPWSTR popup, Unit* ptItem)
 	wcscat(popup,text);
 }
 
-FCT_ASM ( caller_displayItemlevel_114 )
+__declspec(naked)void caller_displayItemlevel_114() {
+    __asm{
 	PUSH ECX
 	PUSH EAX
 	PUSH ECX
@@ -50,7 +51,8 @@ FCT_ASM ( caller_displayItemlevel_114 )
 	JMP EDX
 }}
 
-FCT_ASM ( caller_displayItemlevel_113 )
+__declspec(naked)void caller_displayItemlevel_113() {
+    __asm{
 	PUSH ECX
 	PUSH EAX
 	PUSH EAX
@@ -64,7 +66,8 @@ FCT_ASM ( caller_displayItemlevel_113 )
 	JMP EDX
 }}
 
-FCT_ASM ( caller_displayItemlevel_111 )
+__declspec(naked)void caller_displayItemlevel_111() {
+    __asm{
 	PUSH ECX
 	PUSH EDX
 	PUSH ECX
@@ -78,7 +81,8 @@ FCT_ASM ( caller_displayItemlevel_111 )
 	JMP EAX
 }}
 
-FCT_ASM ( caller_displayItemlevelSet_114 )
+__declspec(naked)void caller_displayItemlevelSet_114() {
+    __asm{
 	PUSH ECX
 	PUSH EDX
 	PUSH ECX
@@ -91,7 +95,9 @@ FCT_ASM ( caller_displayItemlevelSet_114 )
 	PUSH 0x100
 	JMP EAX
 }}
-FCT_ASM ( caller_displayItemlevelSet_111 )
+
+__declspec(naked)void caller_displayItemlevelSet_111() {
+    __asm{
 	PUSH ECX
 	PUSH EDX
 	PUSH ECX
@@ -106,7 +112,8 @@ FCT_ASM ( caller_displayItemlevelSet_111 )
 }}
 
 
-FCT_ASM ( caller_displayItemlevel )
+__declspec(naked)void caller_displayItemlevel() {
+    __asm{
 	PUSH ECX
 	PUSH EDX
 	PUSH ECX
@@ -120,7 +127,8 @@ FCT_ASM ( caller_displayItemlevel )
 	JMP EAX
 }}
 
-FCT_ASM ( caller_displayItemlevelSet )
+__declspec(naked)void caller_displayItemlevelSet() {
+    __asm{
 	PUSH ECX
 	PUSH EDX
 	PUSH ECX
@@ -134,7 +142,8 @@ FCT_ASM ( caller_displayItemlevelSet )
 	JMP EAX
 }}
 
-FCT_ASM ( caller_displayItemlevel_9 )
+__declspec(naked)void caller_displayItemlevel_9() {
+    __asm{
 	PUSH ECX
 	PUSH EDX
 	PUSH ECX
@@ -148,7 +157,8 @@ FCT_ASM ( caller_displayItemlevel_9 )
 	JMP EAX
 }}
 
-FCT_ASM ( caller_displayItemlevelSet_9 )
+__declspec(naked)void caller_displayItemlevelSet_9() {
+    __asm{
 	PUSH ECX
 	PUSH EDX
 	PUSH ECX
@@ -247,7 +257,8 @@ void SendPlayersCommand()
 //	JMP D2GetResolution
 //}}
 
-FCT_ASM ( caller_SendPlayersCommand )
+__declspec(naked)void caller_SendPlayersCommand() {
+    __asm{
 	PUSH ECX
 	CALL SendPlayersCommand
 	POP ECX
@@ -347,7 +358,8 @@ void Install_RunLODs()
 
 /****************************************************************************************************/
 
-FCT_ASM (caller_AlwaysDisplayLife_114)
+__declspec(naked)void caller_AlwaysDisplayLife_114() {
+    __asm{
 	JNZ displayLife
 	CMP onRealm,0
 	JNZ normalDisplayLife
@@ -362,7 +374,8 @@ normalDisplayLife:
 	RETN
 }}
 
-FCT_ASM (caller_AlwaysDisplayLife_113)
+__declspec(naked)void caller_AlwaysDisplayLife_113() {
+    __asm{
 	POP EAX
 	CMP onRealm,0
 	JNZ normalDisplayLife
@@ -378,7 +391,8 @@ cont:
 	JMP EAX
 }}
 
-FCT_ASM (caller_AlwaysDisplayLife_111)
+__declspec(naked)void caller_AlwaysDisplayLife_111() {
+    __asm{
 	CMP onRealm,0
 	JNZ normalDisplayLife
 	CMP active_AlwaysDisplayLifeMana,0
@@ -392,7 +406,8 @@ normalDisplayLife:
 	RETN
 }}
 
-FCT_ASM (caller_AlwaysDisplayLife)
+__declspec(naked)void caller_AlwaysDisplayLife() {
+    __asm{
 	CMP onRealm,0
 	JNZ normalDisplayLife
 	CMP active_AlwaysDisplayLifeMana,0
@@ -406,7 +421,8 @@ normalDisplayLife:
 	RETN
 }}
 
-FCT_ASM (caller_AlwaysDisplayMana_114)
+__declspec(naked)void caller_AlwaysDisplayMana_114() {
+    __asm{
 	CMP onRealm,0
 	JNZ normalDisplayMana
 	CMP active_AlwaysDisplayLifeMana,0
@@ -420,7 +436,8 @@ normalDisplayMana:
 	RETN
 }}
 
-FCT_ASM (caller_AlwaysDisplayMana_113)
+__declspec(naked)void caller_AlwaysDisplayMana_113() {
+    __asm{
 	MOV EAX,DWORD PTR DS:[ptResolutionY]
 	MOV EAX,DWORD PTR DS:[EAX]
 	CMP onRealm,0
@@ -434,7 +451,8 @@ normalDisplayMana:
 	RETN
 }}
 
-FCT_ASM (caller_AlwaysDisplayMana)
+__declspec(naked)void caller_AlwaysDisplayMana() {
+    __asm{
 	CMP onRealm,0
 	JNZ normalDisplayMana
 	CMP active_AlwaysDisplayLifeMana,0
@@ -453,7 +471,8 @@ normalDisplayMana:
 	RETN
 }}
 
-FCT_ASM (caller_AlwaysDisplayMana_9)
+__declspec(naked)void caller_AlwaysDisplayMana_9() {
+    __asm{
 	CMP onRealm,0
 	JNZ normalDisplayMana
 	CMP active_AlwaysDisplayLifeMana,0
@@ -626,7 +645,8 @@ void STDCALL printDisplayBaseStatsValue(WORD statID, sDrawImageInfo* data, DWORD
 	D2PrintImage(data,x,y,p4,p5,p6);
 }
 
-FCT_ASM ( caller_displayBaseStatsValue )
+__declspec(naked)void caller_displayBaseStatsValue() {
+    __asm{
 	POP EAX
 	XOR ECX,ECX
 	MOV CX,WORD PTR DS:[ESI+8]
@@ -877,7 +897,8 @@ void* FASTCALL updateHarrogath(DWORD unused, char* filename, DWORD* size, const 
 	return data;
 }
 
-FCT_ASM ( caller_updateHarrogath )
+__declspec(naked)void caller_updateHarrogath() {
+    __asm{
 	MOV ECX,DWORD PTR SS:[ESP+4]
 	PUSH 0
 	PUSH 0
@@ -932,7 +953,8 @@ ExperienceBIN* STDCALL modifExperienceBin(ExperienceBIN* ptExperienceBIN)
 	return ptExperienceBIN;
 }
 
-FCT_ASM ( caller_modifExperienceBin )
+__declspec(naked)void caller_modifExperienceBin() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+0x14]
 	PUSH DWORD PTR SS:[ESP+0x14]
 	PUSH DWORD PTR SS:[ESP+0x14]

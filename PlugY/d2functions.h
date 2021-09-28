@@ -19,7 +19,6 @@ extern s_shifting shifting;
 //#define FASTCALL __msfastcall
 //#endif
 #define STDCALL		__stdcall
-#define FCT_ASM(N) __declspec(naked) void N() {__asm{
 #define RANDOM(V) ((int)(rand()/(RAND_MAX+1.0)*(V)))
 #define RANDOMF() ((double)rand() / (double)RAND_MAX)
 //#define RANDOM(V) (rand()%(V))

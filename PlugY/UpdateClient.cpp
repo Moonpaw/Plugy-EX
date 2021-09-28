@@ -73,7 +73,8 @@ DWORD FASTCALL handleClientUpdate(DataPacket* packet)
 	}
 }
 
-FCT_ASM ( caller_handleClientUpdate_114 )
+__declspec(naked)void caller_handleClientUpdate_114() {
+    __asm{
 	LEA ECX,DWORD PTR SS:[ESP]
 	CALL handleClientUpdate
 	MOV ESP,EBP
@@ -81,7 +82,8 @@ FCT_ASM ( caller_handleClientUpdate_114 )
 	RETN
 }}
 
-FCT_ASM ( caller_handleClientUpdate_111 )
+__declspec(naked)void caller_handleClientUpdate_111() {
+    __asm{
 	LEA ECX,DWORD PTR SS:[ESP+8]
 	CALL handleClientUpdate
 	POP EDI
@@ -91,7 +93,8 @@ FCT_ASM ( caller_handleClientUpdate_111 )
 	RETN
 }}
 
-FCT_ASM ( caller_handleClientUpdate )
+__declspec(naked)void caller_handleClientUpdate() {
+    __asm{
 	LEA ECX,DWORD PTR SS:[ESP]
 	CALL handleClientUpdate
 	ADD ESP,0x104

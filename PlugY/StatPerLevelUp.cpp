@@ -13,21 +13,24 @@
 bool active_StatPerLevelUpChange=0;
 DWORD statPerLevelUp=5;
 
-FCT_ASM ( caller_changeStatPerLevelUp_114 )
+__declspec(naked)void caller_changeStatPerLevelUp_114() {
+    __asm{
 	MOV EAX,statPerLevelUp
 	IMUL EAX,EDI
 	MOV DWORD PTR SS:[ESP+0xC], EAX
 	JMP V2AddPlayerStat
 }}
 
-FCT_ASM ( caller_changeStatPerLevelUp_111 )
+__declspec(naked)void caller_changeStatPerLevelUp_111() {
+    __asm{
 	MOV EAX,statPerLevelUp
 	IMUL EAX,EBX
 	MOV DWORD PTR SS:[ESP+0xC], EAX
 	JMP V2AddPlayerStat
 }}
 
-FCT_ASM ( caller_changeStatPerLevelUp )
+__declspec(naked)void caller_changeStatPerLevelUp() {
+    __asm{
 	MOV EAX,statPerLevelUp
 	IMUL EAX,EDI
 	MOV DWORD PTR SS:[ESP+0xC], EAX

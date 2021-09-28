@@ -14,7 +14,8 @@ char* savePath = NULL;
 bool active_changingSavePath = false;
 
 
-FCT_ASM( changeSavePath )
+__declspec(naked)void changeSavePath() {
+    __asm{
 	PUSH EDI
 	PUSH EDX
 	PUSH ESI
@@ -50,7 +51,8 @@ END_CHANGESP:
 	RETN
 }}
 
-FCT_ASM( changeSavePath_114 )
+__declspec(naked)void changeSavePath_114() {
+    __asm{
 	PUSH EAX
 	PUSH EDI
 	PUSH EDX
@@ -94,7 +96,8 @@ DONOT_JMP:
 	RETN
 }}
 
-FCT_ASM( changeSavePath_111 )
+__declspec(naked)void changeSavePath_111() {
+    __asm{
 	PUSH EAX
 	PUSH EDI
 	PUSH EDX
@@ -134,7 +137,8 @@ DONOT_JMP:
 }}
 
 
-FCT_ASM ( forCreateSavePath )
+__declspec(naked)void forCreateSavePath() {
+    __asm{
 	PUSH EDI
 	MOV EDI,DWORD PTR DS:[savePath]
 	MOV ECX,EDI

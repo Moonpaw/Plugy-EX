@@ -896,7 +896,8 @@ Unit* STDCALL initGetNextItem(Unit* ptChar, Unit* ptItem)
 	return getNextItem(ptChar,ptItem);
 }
 
-FCT_ASM ( caller_initGetNextItem )
+__declspec(naked)void caller_initGetNextItem() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+0x20]
 	PUSH DWORD PTR SS:[ESP+0xC]
 	CALL initGetNextItem
@@ -906,7 +907,8 @@ FCT_ASM ( caller_initGetNextItem )
 }}
 
 
-FCT_ASM ( caller_getNextItem )
+__declspec(naked)void caller_getNextItem() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+4]
 	PUSH DWORD PTR SS:[ESP+0x10]
 	CALL getNextItem
@@ -936,7 +938,8 @@ DWORD STDCALL carry1Limit(Unit* ptChar, Unit* ptItemParam, DWORD itemNum, BYTE p
 	return 0;
 }
 
-FCT_ASM ( caller_carry1Limit_114 )
+__declspec(naked)void caller_carry1Limit_114() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+0x08]//page
 	PUSH 0//EDI
 	PUSH DWORD PTR SS:[ESP+0x0C]
@@ -956,7 +959,8 @@ end_carry1Limit:
 	RETN 8
 }}
 
-FCT_ASM ( caller_carry1Limit_111 )
+__declspec(naked)void caller_carry1Limit_111() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+0x08]//page
 	PUSH 0//EDI
 	PUSH DWORD PTR SS:[ESP+0x0C]
@@ -975,7 +979,8 @@ end_carry1Limit:
 	RETN 8
 }}
 
-FCT_ASM ( caller_carry1Limit )
+__declspec(naked)void caller_carry1Limit() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+0x08]//page
 	PUSH 0//EBP
 	PUSH DWORD PTR SS:[ESP+0x0C]
@@ -995,7 +1000,8 @@ end_carry1Limit:
 	RETN 8
 }}
 
-FCT_ASM ( caller_carry1LimitSwap_114 )
+__declspec(naked)void caller_carry1LimitSwap_114() {
+    __asm{
 	PUSH EAX
 	PUSH DWORD PTR SS:[ESP+0x20]
 	PUSH 0
@@ -1015,7 +1021,8 @@ end_carry1Limit:
 	RETN 8
 }}
 
-FCT_ASM ( caller_carry1LimitSwap_112 )
+__declspec(naked)void caller_carry1LimitSwap_112() {
+    __asm{
 	PUSH EAX
 	PUSH DWORD PTR SS:[ESP+0x1C]
 	PUSH 0
@@ -1035,7 +1042,8 @@ end_carry1Limit:
 	RETN 8
 }}
 
-FCT_ASM ( caller_carry1LimitSwap_111 )
+__declspec(naked)void caller_carry1LimitSwap_111() {
+    __asm{
 	PUSH EAX
 	PUSH EBP
 	PUSH 0
@@ -1055,7 +1063,8 @@ end_carry1Limit:
 	RETN 8
 }}
 
-FCT_ASM ( caller_carry1LimitSwap )
+__declspec(naked)void caller_carry1LimitSwap() {
+    __asm{
 	PUSH EAX
 	PUSH DWORD PTR SS:[ESP+0x20]
 	PUSH 0
@@ -1092,7 +1101,8 @@ END_carry1LimitWhenDrop:
 	RETN
 }}*/
 
-FCT_ASM ( caller_carry1LimitWhenDrop_114 )
+__declspec(naked)void caller_carry1LimitWhenDrop_114() {
+    __asm{
 	PUSH 0
 	PUSH 0
 	PUSH DWORD PTR SS:[ESP+0x10] //ptItem
@@ -1106,7 +1116,8 @@ end_carry1Limit:
 	RETN 0x1C
 }}
 
-FCT_ASM ( caller_carry1LimitWhenDrop_111 )
+__declspec(naked)void caller_carry1LimitWhenDrop_111() {
+    __asm{
 	PUSH 0
 	PUSH 0
 	PUSH DWORD PTR SS:[ESP+0x10] //ptItem
@@ -1134,7 +1145,8 @@ end_carry1Limit:
 }}*/
 
 
-FCT_ASM ( caller_carry1LimitWhenDrop )
+__declspec(naked)void caller_carry1LimitWhenDrop() {
+    __asm{
 	PUSH EAX
 	PUSH 0
 	PUSH 0
@@ -1151,7 +1163,8 @@ END_carry1LimitWhenDrop:
 	RETN
 }}
 
-FCT_ASM ( caller_carry1OutOfStash_114 )
+__declspec(naked)void caller_carry1OutOfStash_114() {
+    __asm{
 	PUSH ESI
 	CALL D2ItemGetPage
 	CMP AL,4
@@ -1165,7 +1178,8 @@ continue_carry1OutOfStash:
 	RETN
 }}
 
-FCT_ASM ( caller_carry1OutOfStash_111 )
+__declspec(naked)void caller_carry1OutOfStash_111() {
+    __asm{
 	PUSH EDI
 	CALL D2ItemGetPage
 	CMP AL,4
@@ -1178,7 +1192,8 @@ continue_carry1OutOfStash:
 	RETN
 }}
 
-FCT_ASM ( caller_carry1OutOfStash )
+__declspec(naked)void caller_carry1OutOfStash() {
+    __asm{
 	PUSH ESI
 	CALL D2ItemGetPage
 	CMP AL,4

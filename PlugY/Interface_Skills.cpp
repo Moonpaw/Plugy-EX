@@ -70,7 +70,8 @@ void STDCALL skillsPageMouseUp()
 }
 
 
-FCT_ASM ( caller_printSkillsPageBtns_111 )
+__declspec(naked)void caller_printSkillsPageBtns_111() {
+    __asm{
 	CALL printSkillsPageBtns
 	POP EDI
 	POP ESI
@@ -79,7 +80,8 @@ FCT_ASM ( caller_printSkillsPageBtns_111 )
 }}
 
 
-FCT_ASM ( caller_printSkillsPageBtns )
+__declspec(naked)void caller_printSkillsPageBtns() {
+    __asm{
 	CALL printSkillsPageBtns
 	POP EDI
 	POP ESI
@@ -89,7 +91,8 @@ FCT_ASM ( caller_printSkillsPageBtns )
 	RETN
 }}
 
-FCT_ASM ( caller_DontPrintSkillPointsRemaining_114 )
+__declspec(naked)void caller_DontPrintSkillPointsRemaining_114() {
+    __asm{
 	MOV AL,BYTE PTR DS:[onRealm]
 	TEST AL,AL
 	JNZ dontPrint
@@ -100,7 +103,8 @@ dontPrint:
 	RETN
 }}
 
-FCT_ASM ( caller_DontPrintSkillPointsRemaining_111 )
+__declspec(naked)void caller_DontPrintSkillPointsRemaining_111() {
+    __asm{
 	MOV AL,BYTE PTR DS:[onRealm]
 	TEST AL,AL
 	JNZ dontPrint
@@ -111,7 +115,8 @@ dontPrint:
 	RETN
 }}
 
-FCT_ASM ( caller_DontPrintSkillPointsRemaining )
+__declspec(naked)void caller_DontPrintSkillPointsRemaining() {
+    __asm{
 	MOV AL,BYTE PTR DS:[onRealm]
 	TEST AL,AL
 	JNZ dontPrint
@@ -122,26 +127,30 @@ dontPrint:
 	RETN
 }}
 
-FCT_ASM ( caller_skillsPageMouseDown_114 )
+__declspec(naked)void caller_skillsPageMouseDown_114() {
+    __asm{
 	PUSH ESI
 	CALL skillsPageMouseDown
 	RETN
 }}
 
-FCT_ASM ( caller_skillsPageMouseDown_111 )
+__declspec(naked)void caller_skillsPageMouseDown_111() {
+    __asm{
 	PUSH EBP
 	CALL skillsPageMouseDown
 	RETN
 }}
 
 
-FCT_ASM ( caller_skillsPageMouseDown )
+__declspec(naked)void caller_skillsPageMouseDown() {
+    __asm{
 	PUSH EBX
 	CALL skillsPageMouseDown
 	RETN
 }}
 
-FCT_ASM ( caller_skillsPageMouseUp )
+__declspec(naked)void caller_skillsPageMouseUp() {
+    __asm{
 	CALL skillsPageMouseUp
 	JMP D2FreeWinMessage
 }}

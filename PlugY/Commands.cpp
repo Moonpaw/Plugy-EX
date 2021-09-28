@@ -651,7 +651,8 @@ int STDCALL commands (char* ptText)
 	return 1;
 }
 
-FCT_ASM ( caller_Commands )
+__declspec(naked)void caller_Commands() {
+    __asm{
 	TEST EAX,EAX
 	JE MANAGESOUNDCHAOSDEBUG
 	PUSH DWORD PTR SS:[ESP+0x1C]
@@ -663,7 +664,8 @@ MANAGESOUNDCHAOSDEBUG:
 	RETN 8
 }}
 
-FCT_ASM ( caller_Commands_111 )
+__declspec(naked)void caller_Commands_111() {
+    __asm{
 	TEST EAX,EAX
 	JE MANAGESOUNDCHAOSDEBUG
 	PUSH ESI
@@ -675,7 +677,8 @@ MANAGESOUNDCHAOSDEBUG:
 	RETN 8
 }}
 
-FCT_ASM ( caller_Commands_113d )
+__declspec(naked)void caller_Commands_113d() {
+    __asm{
 	TEST EAX,EAX
 	JE MANAGESOUNDCHAOSDEBUG
 	PUSH EDI

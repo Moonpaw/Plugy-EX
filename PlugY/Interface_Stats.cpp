@@ -139,7 +139,8 @@ Unit* STDCALL statsPageMouseUp(sWinMessage* msg)
 	return ptChar;
 }
 
-FCT_ASM ( caller_printStatsPageBtns_114 )
+__declspec(naked)void caller_printStatsPageBtns_114() {
+    __asm{
 	CALL printStatsPageBtns
 	POP EDI
 	POP ESI
@@ -149,7 +150,8 @@ FCT_ASM ( caller_printStatsPageBtns_114 )
 	RETN
 }}
 
-FCT_ASM ( caller_printStatsPageBtns_111 )
+__declspec(naked)void caller_printStatsPageBtns_111() {
+    __asm{
 	CALL printStatsPageBtns
 	POP EDI
 	POP ESI
@@ -160,7 +162,8 @@ FCT_ASM ( caller_printStatsPageBtns_111 )
 }}
 
 
-FCT_ASM ( caller_printStatsPageBtns )
+__declspec(naked)void caller_printStatsPageBtns() {
+    __asm{
 	CALL printStatsPageBtns
 	POP EDI
 	POP ESI
@@ -170,7 +173,8 @@ FCT_ASM ( caller_printStatsPageBtns )
 	RETN
 }}
 
-FCT_ASM ( caller_printStatsPageBtns_9 )
+__declspec(naked)void caller_printStatsPageBtns_9() {
+    __asm{
 	CALL printStatsPageBtns
 	POP EDI
 	POP ESI
@@ -181,7 +185,8 @@ FCT_ASM ( caller_printStatsPageBtns_9 )
 }}
 
 
-FCT_ASM ( caller_statsPageMouseDown_114 )
+__declspec(naked)void caller_statsPageMouseDown_114() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+0x18]
 	CALL statsPageMouseDown
 	TEST EAX,EAX
@@ -196,7 +201,8 @@ fin_statsPageMouseDown:
 	RETN 4
 }}
 
-FCT_ASM ( caller_statsPageMouseDown_111 )
+__declspec(naked)void caller_statsPageMouseDown_111() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+0x20]
 	CALL statsPageMouseDown
 	TEST EAX,EAX
@@ -211,7 +217,8 @@ fin_statsPageMouseDown:
 	RETN 4
 }}
 
-FCT_ASM ( caller_statsPageMouseDown )
+__declspec(naked)void caller_statsPageMouseDown() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+0x18]
 	CALL statsPageMouseDown
 	TEST EAX,EAX
@@ -226,7 +233,8 @@ fin_statsPageMouseDown:
 	RETN 4
 }}
 
-FCT_ASM ( caller_statsPageMouseUp_114 )
+__declspec(naked)void caller_statsPageMouseUp_114() {
+    __asm{
 	PUSH DWORD PTR SS:[EBP+0x8]
 	CALL statsPageMouseUp
 	TEST EAX,EAX
@@ -242,7 +250,8 @@ fin_statsPageMouseUp:
 	RETN 4
 }}
 
-FCT_ASM ( caller_statsPageMouseUp )
+__declspec(naked)void caller_statsPageMouseUp() {
+    __asm{
 	PUSH EBP
 	CALL statsPageMouseUp
 	TEST EAX,EAX
@@ -258,7 +267,8 @@ fin_statsPageMouseUp:
 	RETN 4
 }}
 
-FCT_ASM ( caller_statsPageMouseUp_9 )
+__declspec(naked)void caller_statsPageMouseUp_9() {
+    __asm{
 	PUSH EBP
 	CALL statsPageMouseUp
 	TEST EAX,EAX

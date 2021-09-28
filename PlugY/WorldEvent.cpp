@@ -172,13 +172,15 @@ void initWorldEventVariables()
 	log_msg("initWorldEventVariables - nbSOJSold = %d, nbNeedSOJSold = %d\n", nbSOJSold, nbNeedSOJSold);
 }
 
-FCT_ASM ( caller_WEManagement_114 )
+__declspec(naked)void caller_WEManagement_114() {
+    __asm{
 	PUSH ECX
 	CALL WEManagement
 	RETN
 }}
 
-FCT_ASM ( caller_WEManagement_1XX )
+__declspec(naked)void caller_WEManagement_1XX() {
+    __asm{
 	POP EAX
 	PUSH ECX
 	PUSH EAX
@@ -186,7 +188,8 @@ FCT_ASM ( caller_WEManagement_1XX )
 }}
 
 
-FCT_ASM ( caller_spawnDClone_111 )
+__declspec(naked)void caller_spawnDClone_111() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+0x14]
 	PUSH EAX
 	PUSH DWORD PTR SS:[ESP+0x18]
@@ -198,7 +201,8 @@ FCT_ASM ( caller_spawnDClone_111 )
 	RETN 0x14
 }}
 
-FCT_ASM ( caller_spawnDClone_111b )
+__declspec(naked)void caller_spawnDClone_111b() {
+    __asm{
 	PUSH EDX
 	PUSH ECX
 	PUSH DWORD PTR SS:[ESP+0x1C]
@@ -211,7 +215,8 @@ FCT_ASM ( caller_spawnDClone_111b )
 	RETN 0x14
 }}
 
-FCT_ASM( caller_spawnDClone_114 )
+__declspec(naked)void caller_spawnDClone_114() {
+    __asm{
   PUSH EBX
   PUSH ECX
   PUSH EDX
@@ -235,7 +240,9 @@ FCT_ASM( caller_spawnDClone_114 )
   POP EBX
   RETN 0x18
 }}
-FCT_ASM( caller_addClientForWE_111 )
+
+__declspec(naked)void caller_addClientForWE_111() {
+    __asm{
 	PUSH EAX
 	CALL initWorldEventVariables
 	POP EAX
@@ -243,7 +250,8 @@ FCT_ASM( caller_addClientForWE_111 )
 }}
 
 
-FCT_ASM( caller_addClientForWE )
+__declspec(naked)void caller_addClientForWE() {
+    __asm{
 	PUSH ECX
 	CALL initWorldEventVariables
 	POP ECX

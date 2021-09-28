@@ -13,7 +13,8 @@
 bool active_SkillPerLevelUpChange=0;
 DWORD skillPerLevelUp=1;
 
-FCT_ASM ( caller_changeSkillPerLevelUp_114 )
+__declspec(naked)void caller_changeSkillPerLevelUp_114() {
+    __asm{
 	MOV EAX,skillPerLevelUp
 	IMUL EAX,EDI
 	MOV DWORD PTR SS:[ESP+0xC], EAX
@@ -21,7 +22,8 @@ FCT_ASM ( caller_changeSkillPerLevelUp_114 )
 }}
 
 
-FCT_ASM ( caller_changeSkillPerLevelUp_111 )
+__declspec(naked)void caller_changeSkillPerLevelUp_111() {
+    __asm{
 	MOV EAX,skillPerLevelUp
 	IMUL EAX,EBX
 	MOV DWORD PTR SS:[ESP+0xC], EAX
@@ -29,7 +31,8 @@ FCT_ASM ( caller_changeSkillPerLevelUp_111 )
 }}
 
 
-FCT_ASM ( caller_changeSkillPerLevelUp )
+__declspec(naked)void caller_changeSkillPerLevelUp() {
+    __asm{
 	MOV EAX,skillPerLevelUp
 	IMUL EAX,EDI
 	MOV DWORD PTR SS:[ESP+0xC], EAX

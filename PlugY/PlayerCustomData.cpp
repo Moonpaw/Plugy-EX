@@ -183,14 +183,16 @@ Unit* STDCALL getNextItemToFree(Unit* ptChar, Unit* ptItem)
 //	}
 //}
 
-FCT_ASM( caller_updateItem_114 )
+__declspec(naked)void caller_updateItem_114() {
+    __asm{
 	PUSH EDI
 	PUSH DWORD PTR SS : [ESP + 0x8]
 	CALL updateItem
 	RETN 4
 }}
 
-FCT_ASM ( caller_updateItem_111 )
+__declspec(naked)void caller_updateItem_111() {
+    __asm{
 	MOV ECX,ESI
 	MOV EDX,EBP
 	CALL updateItem_111
@@ -200,7 +202,8 @@ FCT_ASM ( caller_updateItem_111 )
 	JMP EAX
 }}
 
-FCT_ASM ( caller_updateItemB_111 )
+__declspec(naked)void caller_updateItemB_111() {
+    __asm{
 	MOV EDX,EBP
 	CALL updateItem_111
 	POP EAX
@@ -209,21 +212,24 @@ FCT_ASM ( caller_updateItemB_111 )
 	JMP EAX
 }}
 
-FCT_ASM ( caller_updateItem )
+__declspec(naked)void caller_updateItem() {
+    __asm{
 	PUSH EBP
 	PUSH DWORD PTR SS:[ESP+0x8]
 	CALL updateItem
 	RETN 4
 }}
 
-FCT_ASM ( caller_updateItem_9 )
+__declspec(naked)void caller_updateItem_9() {
+    __asm{
 	PUSH EBX
 	PUSH DWORD PTR SS:[ESP+0x8]
 	CALL updateItem
 	RETN 4
 }}
 
-FCT_ASM ( caller_updateClientPlayerOnLoading_114 )
+__declspec(naked)void caller_updateClientPlayerOnLoading_114() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+0x14]
 	CALL updateClientPlayerOnLoading
 	POP ECX
@@ -234,7 +240,8 @@ FCT_ASM ( caller_updateClientPlayerOnLoading_114 )
 	JMP ECX
 }}
 
-FCT_ASM ( caller_updateClientPlayerOnLoading )
+__declspec(naked)void caller_updateClientPlayerOnLoading() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+0x14]
 	CALL updateClientPlayerOnLoading
 	POP ECX
@@ -245,56 +252,64 @@ FCT_ASM ( caller_updateClientPlayerOnLoading )
 	JMP ECX
 }}
 
-FCT_ASM ( callerServer_getNextItemToFree_114 )
+__declspec(naked)void callerServer_getNextItemToFree_114() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+4]
 	PUSH DWORD PTR SS:[EBP-8]
 	CALL getNextItemToFree
 	RETN 4
 }}
 
-FCT_ASM ( callerServer_getNextItemToFree_111 )
+__declspec(naked)void callerServer_getNextItemToFree_111() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+4]
 	PUSH DWORD PTR SS:[ESP+0x30]
 	CALL getNextItemToFree
 	RETN 4
 }}
 
-FCT_ASM ( callerServer_getNextItemToFree )
+__declspec(naked)void callerServer_getNextItemToFree() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+4]
 	PUSH DWORD PTR SS:[ESP+0x28]
 	CALL getNextItemToFree
 	RETN 4
 }}
 
-FCT_ASM ( callerServer_getNextItemToFree_9 )
+__declspec(naked)void callerServer_getNextItemToFree_9() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+4]
 	PUSH DWORD PTR SS:[ESP+0x1C]
 	CALL getNextItemToFree
 	RETN 4
 }}
 
-FCT_ASM ( callerClient_getNextItemToFree_114 )
+__declspec(naked)void callerClient_getNextItemToFree_114() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+4]
 	PUSH DWORD PTR SS:[EBP-4]
 	CALL getNextItemToFree
 	RETN 4
 }}
 
-FCT_ASM ( callerClient_getNextItemToFree_111 )
+__declspec(naked)void callerClient_getNextItemToFree_111() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+4]
 	PUSH EBX
 	CALL getNextItemToFree
 	RETN 4
 }}
 
-FCT_ASM ( callerClient_getNextItemToFree )
+__declspec(naked)void callerClient_getNextItemToFree() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+4]
 	PUSH DWORD PTR SS:[ESP+0x24]
 	CALL getNextItemToFree
 	RETN 4
 }}
 
-FCT_ASM ( callerClient_getNextItemToFree_9 )
+__declspec(naked)void callerClient_getNextItemToFree_9() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+4]
 	PUSH DWORD PTR SS:[ESP+0x28]
 	CALL getNextItemToFree

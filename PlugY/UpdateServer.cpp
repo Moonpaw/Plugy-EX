@@ -101,7 +101,8 @@ int STDCALL handleServerUpdate(Unit* ptChar, WORD param)
 	}
 }
 
-FCT_ASM( caller_handleServerUpdate_114)
+__declspec(naked)void caller_handleServerUpdate_114() {
+    __asm{
 	PUSH ESI
 	PUSH EBX
 	CALL handleServerUpdate
@@ -121,7 +122,8 @@ END_RCM:
 	RETN 8
 }}
 
-FCT_ASM( caller_handleServerUpdate)
+__declspec(naked)void caller_handleServerUpdate() {
+    __asm{
 	PUSH ESI
 	PUSH EBX
 	CALL handleServerUpdate
@@ -142,7 +144,8 @@ END_RCM:
 }}
 
 
-FCT_ASM( caller_handleServerUpdate_9)
+__declspec(naked)void caller_handleServerUpdate_9() {
+    __asm{
 	XOR EDX,EDX
 	MOV DX,WORD PTR DS:[EAX+1]
 	PUSH ECX

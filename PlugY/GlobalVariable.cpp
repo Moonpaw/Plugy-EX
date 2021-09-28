@@ -33,7 +33,8 @@ void STDCALL BtnPress(int mode)
 	previouslyOnRealm = onRealm;
 }
 
-FCT_ASM ( caller_BnetBtnPress114 )
+__declspec(naked)void caller_BnetBtnPress114() {
+    __asm{
 	CMP active_DisableBattleNet,1
 	JE disableBattleNet
 	MOV onRealm,1
@@ -49,7 +50,8 @@ disableBattleNet:
 	RETN
 }}
 
-FCT_ASM ( caller_BnetBtnPress )
+__declspec(naked)void caller_BnetBtnPress() {
+    __asm{
 	CMP active_DisableBattleNet,1
 	JE disableBattleNet
 	MOV onRealm,1
@@ -72,7 +74,8 @@ FCT_ASM ( caller_MultiPlayerBtnPress )
 }}
 */
 
-FCT_ASM ( caller_TCPIPBtnPress114 )
+__declspec(naked)void caller_TCPIPBtnPress114() {
+    __asm{
 	MOV onRealm,0
 	PUSH 1
 	CALL BtnPress
@@ -81,7 +84,8 @@ FCT_ASM ( caller_TCPIPBtnPress114 )
 	JMP ECX
 }}
 
-FCT_ASM ( caller_TCPIPBtnPress111 )
+__declspec(naked)void caller_TCPIPBtnPress111() {
+    __asm{
 	MOV onRealm,0
 	PUSH 1
 	CALL BtnPress
@@ -89,7 +93,8 @@ FCT_ASM ( caller_TCPIPBtnPress111 )
 	RETN
 }}
 
-FCT_ASM ( caller_TCPIPBtnPress )
+__declspec(naked)void caller_TCPIPBtnPress() {
+    __asm{
 	MOV onRealm,0
 	PUSH 1
 	CALL BtnPress
@@ -97,7 +102,8 @@ FCT_ASM ( caller_TCPIPBtnPress )
 	RETN
 }}
 
-FCT_ASM ( caller_SinglePlayerBtnPress )
+__declspec(naked)void caller_SinglePlayerBtnPress() {
+    __asm{
 	MOV onRealm,0
 	PUSH 0
 	CALL BtnPress
@@ -106,7 +112,8 @@ FCT_ASM ( caller_SinglePlayerBtnPress )
 }}
 
 
-FCT_ASM ( caller_fixClientRemovingBug )
+__declspec(naked)void caller_fixClientRemovingBug() {
+    __asm{
 	TEST ECX,ECX
 	JE notFound
 	CMP DWORD PTR DS:[ECX],EBP

@@ -45,7 +45,8 @@ InventoryBIN* STDCALL modifStashGrid(InventoryBIN* ptInventoryBin)
 	return ptInventoryBin;
 }
 
-FCT_ASM ( caller_modifStashGrid )
+__declspec(naked)void caller_modifStashGrid() {
+    __asm{
 	PUSH DWORD PTR SS:[ESP+0x14]
 	PUSH DWORD PTR SS:[ESP+0x14]
 	PUSH DWORD PTR SS:[ESP+0x14]
@@ -65,7 +66,8 @@ FCT_ASM ( caller_modifStashGrid )
 //	JMP ESI
 //}}
 
-FCT_ASM ( caller_changeTradeStash )
+__declspec(naked)void caller_changeTradeStash() {
+    __asm{
 	CMP onRealm,0
 	JNZ normalTradeStash
 	MOV EAX,modDataDirectory
