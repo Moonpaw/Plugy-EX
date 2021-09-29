@@ -15,15 +15,16 @@ struct s_shifting {
 };
 extern s_shifting shifting;
 
-//#ifdef MSVC
 #define FASTCALL __fastcall
-//#else
-//#define FASTCALL __msfastcall
-//#endif
 #define STDCALL        __stdcall
-#define RANDOM(V) ((int)(rand()/(RAND_MAX+1.0)*(V)))
-#define RANDOMF() ((double)rand() / (double)RAND_MAX)
-//#define RANDOM(V) (rand()%(V))
+
+inline int RANDOM(int V) {
+    return int(rand()/(RAND_MAX+1.0)*(V));
+}
+
+inline double RANDOMF() {
+    return (double)rand() / (double)RAND_MAX;
+}
 
 #define PCPlayerData (*(PlayerData**)((DWORD)(ptChar)+shifting.ptSpecificData)) //->ptPlayerData
 #define PCGame (*(Game**)((DWORD)(ptChar)+shifting.ptGame)) //->ptGame
