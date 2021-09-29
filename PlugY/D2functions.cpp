@@ -1313,17 +1313,15 @@ void redirect_to_custom_functions() {
 }
 
 void init_shifting() {
-    int playerData = V8_(version_D2Common, 0x5D, 0x5D, 0x5D, 0x49, 0x49, 0x49, 0x49, 0x49, 0x48);
-    shifting.ptPYPlayerData = *(DWORD *) ((DWORD) D2InitPlayerData + playerData);
-    shifting.ptSpecificData =
-            V8_(version_D2Common, 0x70, 0x70, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14);
-    shifting.ptGame = get_offset_or_default(
-            version_D2Common, 0xA4, 0xA4, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80);
-    shifting.ptClientGame = V8(D2Common, 170, 194, 1A8, 1A8, 1A8, 1A8, 1A8, 1A8, 1A8);
-    shifting.ptInventory = V8(D2Common, 84, 84, 60, 60, 60, 60, 60, 60, 60);
-    shifting.ptSkills = V8(D2Common, CC, CC, A8, A8, A8, A8, A8, A8, A8);
-    shifting.ptImage = V8(D2Common, 04, 04, 04, 08, 08, 3C, 34, 34, 34);
-    shifting.ptFrame = V8(D2Common, 08, 08, 08, 44, 44, 40, 00, 00, 00);
+    const int player_data = v8(version_D2Common, 0x5D, 0x5D, 0x5D, 0x49, 0x49, 0x49, 0x49, 0x49, 0x48);
+    shifting.ptPYPlayerData = *(DWORD *) ((DWORD) D2InitPlayerData + player_data);
+    shifting.ptSpecificData = v8(version_D2Common, 0x70, 0x70, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14);
+    shifting.ptGame = v8(version_D2Common, 0xA4, 0xA4, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80);
+    shifting.ptClientGame = v8(version_D2Common, 0x170, 0x194, 0x1A8, 0x1A8, 0x1A8, 0x1A8, 0x1A8, 0x1A8, 0x1A8);
+    shifting.ptInventory = v8(version_D2Common, 84, 84, 60, 60, 60, 60, 60, 60, 60);
+    shifting.ptSkills = v8(version_D2Common, 0xCC, 0xCC, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8);
+    shifting.ptImage = v8(version_D2Common, 0x04, 0x04, 0x04, 0x08, 0x08, 0x3C, 0x34, 0x34, 0x34);
+    shifting.ptFrame = v8(version_D2Common, 0x08, 0x08, 0x08, 0x44, 0x44, 0x40, 0x00, 0x00, 0x00);
 }
 
 void initD2functions() {

@@ -665,9 +665,9 @@ void Install_DisplayBaseStatsValue()
 	// Always print stat button images.
 	mem_seek R8(D2Client, 29B12, 29B02, 30073, 82BBA, 8963A, 6B59A, BD1B5, BF955, A7FFB);
 	memt_byte( 0x8B, 0xEB );	// JMP SHORT D2Client.6FAD0088
-	memt_byte( version_D2Client == V114d ? 0x4D : 0x4C, V8(D2Client, 12, 12, 13, 13, 13, 13, 13, 13, 12) );
+	memt_byte( version_D2Client == V114d ? 0x4D : 0x4C, v8(version_D2Client, 0x12, 0x12, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x12) );
 	memt_byte( version_D2Client == V114d ? 0xF8 : 0x24, 0x90 );	// NOP
-	if (version_D2Client < V114d) memt_byte( V8(D2Client, 20, 20, 14, 1C, 1C, 1C, 1C, 1C, 53), 0x90 );			// NOP (V109d:0x20 , V110:0x14
+	if (version_D2Client < V114d) memt_byte( v8(version_D2Client, 0x20, 0x20, 0x14, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x53), 0x90 );			// NOP (V109d:0x20 , V110:0x14
 	//6FAD0073     8B4C24 14         MOV ECX,DWORD PTR SS:[ESP+14]
 	//6FB32BBA   > 8B4C24 1C         MOV ECX,DWORD PTR SS:[ESP+1C]
 	//6FB3963A   > 8B4C24 1C         MOV ECX,DWORD PTR SS:[ESP+1C]

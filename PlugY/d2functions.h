@@ -34,32 +34,7 @@ extern s_shifting shifting;
 
 #define R8(Z, A, B, C, D, E, F, G, H, I) (offset_##Z + (version_##Z == V114d? 0x##I : (version_##Z == V113d? 0x##H : (version_##Z == V113c? 0x##G : (version_##Z == V112? 0x##F : (version_##Z == V111b? 0x##E : (version_##Z == V111? 0x##D : (version_##Z == V110? 0x##C : (version_##Z == V109d? 0x##B : 0x##A)))))))))
 
-#define V8(Z, A, B, C, D, E, F, G, H, I) (version_##Z == V114d? 0x##I : (version_##Z == V113d? 0x##H : (version_##Z == V113c? 0x##G : (version_##Z == V112? 0x##F : (version_##Z == V111b? 0x##E : (version_##Z == V111? 0x##D : (version_##Z == V110? 0x##C : (version_##Z == V109d? 0x##B : 0x##A))))))))
-
-inline int V8_(int version, int A, int B, int C, int D, int E, int F, int G, int H, int I) {
-    switch (version) {
-        case V114d:
-            return I;
-        case V113d:
-            return H;
-        case V113c:
-            return G;
-        case V112:
-            return F;
-        case V111b:
-            return E;
-        case V111:
-            return D;
-        case V110:
-            return C;
-        case V109d:
-            return B;
-        default:
-            return A;
-    }
-}
-
-inline int get_offset_or_default(int version, int defaultValue, int B, int C, int D, int E, int F, int G, int H, int I) {
+inline int v8(int version, int defaultValue, int B, int C, int D, int E, int F, int G, int H, int I) {
     std::map<int, int> versions = {
             {V114d, I},
             {V113d, H},
