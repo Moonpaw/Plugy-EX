@@ -42,7 +42,7 @@ void UnassignAllSkillsPoints(Unit* ptChar)
 	DWORD nbPoints = 0;
 
 	void* ptClient = D2GetClient(ptChar,__FILE__,__LINE__);
-	SkillData* ptSkill = PCSkills->ptFirstSkill;
+	SkillData* ptSkill = PCSkills(ptChar)->ptFirstSkill;
 
 	while (ptSkill)
 	{
