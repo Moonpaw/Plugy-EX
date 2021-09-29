@@ -1313,26 +1313,17 @@ void redirect_to_custom_functions() {
 }
 
 void init_shifting() {
-    shifting.ptPYPlayerData = *(DWORD *) ((DWORD) D2InitPlayerData + V8_(version_D2Common, 0x5D, 0x5D, 0x5D, 0x49, 0x49, 0x49, 0x49, 0x49, 0x48));
-    shifting.ptSpecificData = V8(D2Common, 70, 70, 14, 14, 14, 14, 14, 14, 14);
-    shifting.ptGame = V8(D2Common, A4, A4, 80, 80, 80, 80, 80, 80, 80);
+    int playerData = V8_(version_D2Common, 0x5D, 0x5D, 0x5D, 0x49, 0x49, 0x49, 0x49, 0x49, 0x48);
+    shifting.ptPYPlayerData = *(DWORD *) ((DWORD) D2InitPlayerData + playerData);
+    shifting.ptSpecificData =
+            V8_(version_D2Common, 0x70, 0x70, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14);
+    shifting.ptGame = get_offset_or_default(
+            version_D2Common, 0xA4, 0xA4, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80);
     shifting.ptClientGame = V8(D2Common, 170, 194, 1A8, 1A8, 1A8, 1A8, 1A8, 1A8, 1A8);
     shifting.ptInventory = V8(D2Common, 84, 84, 60, 60, 60, 60, 60, 60, 60);
     shifting.ptSkills = V8(D2Common, CC, CC, A8, A8, A8, A8, A8, A8, A8);
     shifting.ptImage = V8(D2Common, 04, 04, 04, 08, 08, 3C, 34, 34, 34);
     shifting.ptFrame = V8(D2Common, 08, 08, 08, 44, 44, 40, 00, 00, 00);
-}
-
-void init_shifting_unpacked() {
-
-    shifting.ptPYPlayerData = *(DWORD *) ((DWORD) D2InitPlayerData + (version_D2Common == V114d? 0x48 : (version_D2Common == V113d? 0x49 : (version_D2Common == V113c? 0x49 : (version_D2Common == V112? 0x49 : (version_D2Common == V111b? 0x49 : (version_D2Common == V111? 0x49 : (version_D2Common == V110? 0x5D : (version_D2Common == V109d? 0x5D : 0x5D)))))))));
-    shifting.ptSpecificData = (version_D2Common == V114d? 0x14 : (version_D2Common == V113d? 0x14 : (version_D2Common == V113c? 0x14 : (version_D2Common == V112? 0x14 : (version_D2Common == V111b? 0x14 : (version_D2Common == V111? 0x14 : (version_D2Common == V110? 0x14 : (version_D2Common == V109d? 0x70 : 0x70))))))));
-    shifting.ptGame = (version_D2Common == V114d? 0x80 : (version_D2Common == V113d? 0x80 : (version_D2Common == V113c? 0x80 : (version_D2Common == V112? 0x80 : (version_D2Common == V111b? 0x80 : (version_D2Common == V111? 0x80 : (version_D2Common == V110? 0x80 : (version_D2Common == V109d? 0xA4 : 0xA4))))))));
-    shifting.ptClientGame = (version_D2Common == V114d? 0x1A8 : (version_D2Common == V113d? 0x1A8 : (version_D2Common == V113c? 0x1A8 : (version_D2Common == V112? 0x1A8 : (version_D2Common == V111b? 0x1A8 : (version_D2Common == V111? 0x1A8 : (version_D2Common == V110? 0x1A8 : (version_D2Common == V109d? 0x194 : 0x170))))))));
-    shifting.ptInventory = (version_D2Common == V114d? 0x60 : (version_D2Common == V113d? 0x60 : (version_D2Common == V113c? 0x60 : (version_D2Common == V112? 0x60 : (version_D2Common == V111b? 0x60 : (version_D2Common == V111? 0x60 : (version_D2Common == V110? 0x60 : (version_D2Common == V109d? 0x84 : 0x84))))))));
-    shifting.ptSkills = (version_D2Common == V114d? 0xA8 : (version_D2Common == V113d? 0xA8 : (version_D2Common == V113c? 0xA8 : (version_D2Common == V112? 0xA8 : (version_D2Common == V111b? 0xA8 : (version_D2Common == V111? 0xA8 : (version_D2Common == V110? 0xA8 : (version_D2Common == V109d? 0xCC : 0xCC))))))));
-    shifting.ptImage = (version_D2Common == V114d? 0x34 : (version_D2Common == V113d? 0x34 : (version_D2Common == V113c? 0x34 : (version_D2Common == V112? 0x3C : (version_D2Common == V111b? 0x08 : (version_D2Common == V111? 0x08 : (version_D2Common == V110? 0x04 : (version_D2Common == V109d? 0x04 : 0x04))))))));
-    shifting.ptFrame = (version_D2Common == V114d? 0x00 : (version_D2Common == V113d? 0x00 : (version_D2Common == V113c? 0x00 : (version_D2Common == V112? 0x40 : (version_D2Common == V111b? 0x44 : (version_D2Common == V111? 0x44 : (version_D2Common == V110? 0x08 : (version_D2Common == V109d? 0x08 : 0x08))))))));
 }
 
 void initD2functions() {
