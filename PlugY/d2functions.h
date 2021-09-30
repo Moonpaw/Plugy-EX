@@ -7,6 +7,93 @@
 
 namespace PlugY {
 // Convertion to 1.09
+struct s_shifting {
+    DWORD ptInventory;
+    DWORD ptSpecificData;
+    DWORD ptPYPlayerData;
+    DWORD ptGame;
+    DWORD ptClientGame;
+    DWORD ptSkills;
+    DWORD ptImage;
+    DWORD ptFrame;
+};
+extern s_shifting shifting;
+
+enum D2DllName {
+    Game,
+    binkw32,
+    Bnclient,
+    D2Client,
+    D2Common,
+    D2DDraw,
+    D2Direct3D,
+    D2Game,
+    D2Gdi,
+    D2gfx,
+    D2Glide,
+    D2Lang,
+    D2Launch,
+    D2MCPClient,
+    D2Multi,
+    D2Net,
+    D2sound,
+    D2Win,
+    Fog,
+    ijl11,
+    SmackW32,
+    Storm
+};
+
+std::map<int, int> dllVersions = {
+        {Game, version_Game},
+        {Bnclient, version_Bnclient},
+        {binkw32, version_binkw32},
+        {D2Client, version_D2Client},
+        {D2Common, version_D2Common},
+        {D2DDraw, version_D2DDraw},
+        {D2Direct3D, version_D2Direct3D},
+        {D2Game, version_D2Game},
+        {D2Gdi, version_D2Gdi},
+        {D2gfx, version_D2gfx},
+        {D2Glide, version_D2Glide},
+        {D2Lang, version_D2Lang},
+        {D2Launch, version_D2Launch},
+        {D2MCPClient, version_D2MCPClient},
+        {D2Multi, version_D2Multi},
+        {D2Net, version_D2Net},
+        {D2sound, version_D2sound},
+        {D2Win, version_D2Win},
+        {Fog, version_Fog},
+        {ijl11, version_ijl11},
+        {SmackW32, version_SmackW32},
+        {Storm, version_Storm}
+};
+
+std::map<int, int> dllOffsets = {
+        {Game, offset_Game},
+        {Bnclient, offset_Bnclient},
+        {binkw32, offset_binkw32},
+        {D2Client, offset_D2Client},
+        {D2Common, offset_D2Common},
+        {D2DDraw, offset_D2DDraw},
+        {D2Direct3D, offset_D2Direct3D},
+        {D2Game, offset_D2Game},
+        {D2Gdi, offset_D2Gdi},
+        {D2gfx, offset_D2gfx},
+        {D2Glide, offset_D2Glide},
+        {D2Lang, offset_D2Lang},
+        {D2Launch, offset_D2Launch},
+        {D2MCPClient, offset_D2MCPClient},
+        {D2Multi, offset_D2Multi},
+        {D2Net, offset_D2Net},
+        {D2sound, offset_D2sound},
+        {D2Win, offset_D2Win},
+        {Fog, offset_Fog},
+        {ijl11, offset_ijl11},
+        {SmackW32, offset_SmackW32},
+        {Storm, offset_Storm}
+};
+
     struct s_shifting {
         DWORD ptInventory;
         DWORD ptSpecificData;
@@ -21,10 +108,16 @@ namespace PlugY {
 #define FASTCALL __fastcall
 #define STDCALL        __stdcall
 
+inline int RANDOM(int V) {
+    return int(rand() / (RAND_MAX + 1.0) * (V));
+}
     extern inline int RANDOM(int V) {
         return int(rand() / (RAND_MAX + 1.0) * (V));
     }
 
+inline double RANDOMF() {
+    return (double) rand() / (double) RAND_MAX;
+}
     extern inline double RANDOMF() {
         return (double) rand() / (double) RAND_MAX;
     }
