@@ -98,7 +98,17 @@ inline std::map<int, int> dllOffsets = {
         {Storm, offset_Storm}
 };
 
-inline int r8(int offset, int version, int defaultValue, int B, int C, int D, int E, int F, int G, int H, int I) {
+inline int findVersionOrDefault(int dll, int defaultValue) {
+    auto result = dllVersions.find(dll);
+    return result != dllVersions.end() ? result->second : defaultValue;
+}
+
+inline int findOffsetOrDefault(int dll, int defaultValue) {
+    auto result = dllOffsets.find(dll);
+    return result != dllOffsets.end() ? result->second : defaultValue;
+}
+
+inline int r8(int d2DllName, int defaultValue, int B, int C, int D, int E, int F, int G, int H, int I) {
     std::map<int, int> versions = {
             {V114d, I},
             {V113d, H},
@@ -109,8 +119,9 @@ inline int r8(int offset, int version, int defaultValue, int B, int C, int D, in
             {V110,  C},
             {V109d, B},
     };
-    auto result = versions.find(version);
-    return result != versions.end() ? offset + result->second : offset + defaultValue;
+    auto ver = findVersionOrDefault(d2DllName, defaultValue);
+    auto offset = findOffsetOrDefault(d2DllName, defaultValue);
+    return offset + ver;
 }
 
 inline int v8(int version, int defaultValue, int B, int C, int D, int E, int F, int G, int H, int I) {
