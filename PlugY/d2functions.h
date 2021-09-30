@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include "../Commons/D2TypeDefMacros.h"
 
 // Convertion to 1.09
 struct s_shifting {
@@ -14,16 +15,15 @@ struct s_shifting {
     DWORD ptFrame;
 };
 extern s_shifting shifting;
-
 #define FASTCALL __fastcall
 #define STDCALL        __stdcall
 
 inline int RANDOM(int V) {
-    return int(rand()/(RAND_MAX+1.0)*(V));
+    return int(rand() / (RAND_MAX + 1.0) * (V));
 }
 
 inline double RANDOMF() {
-    return (double)rand() / (double)RAND_MAX;
+    return (double) rand() / (double) RAND_MAX;
 }
 
 #define PCPlayerData (*(PlayerData**)((DWORD)(ptChar)+shifting.ptSpecificData)) //->ptPlayerData
@@ -31,6 +31,7 @@ inline double RANDOMF() {
 #define PClientGame (*(Game**)((DWORD)(ptClient)+shifting.ptClientGame)) //ptClient->ptGame
 #define PCInventory (*(Inventory**)((DWORD)(ptChar)+shifting.ptInventory)) //->ptInventory
 #define PCPY ((PYPlayerData*)((DWORD)PCPlayerData+shifting.ptPYPlayerData)) //->ptPYPlayerData
+
 //#define PCSkills (*(Skills**)((DWORD)(ptChar)+shifting.ptSkills)) //->ptSkills
 inline Skills *PCSkills(Unit *ptChar) { return (*(Skills **) ((DWORD) (ptChar) + shifting.ptSkills)); }
 
@@ -44,7 +45,6 @@ inline Skills *PCSkills(Unit *ptChar) { return (*(Skills **) ((DWORD) (ptChar) +
 (version_##Z == V111? 0x##D :            \
 (version_##Z == V110? 0x##C :            \
 (version_##Z == V109d? 0x##B : 0x##A)))))))))
-
 enum D2DllName {
     game,
     binkw32,
@@ -69,33 +69,31 @@ enum D2DllName {
     SmackW32,
     Storm
 };
-
 inline std::map<int, int> dllVersions = {
-        {game, version_Game},
+        {game,     version_Game},
         {D2Client, version_D2Client},
         {D2Common, version_D2Common},
-        {D2Game, version_D2Game},
-        {D2gfx, version_D2gfx},
-        {D2Lang, version_D2Lang},
+        {D2Game,   version_D2Game},
+        {D2gfx,    version_D2gfx},
+        {D2Lang,   version_D2Lang},
         {D2Launch, version_D2Launch},
-        {D2Net, version_D2Net},
-        {D2Win, version_D2Win},
-        {Fog, version_Fog},
-        {Storm, version_Storm}
+        {D2Net,    version_D2Net},
+        {D2Win,    version_D2Win},
+        {Fog,      version_Fog},
+        {Storm,    version_Storm}
 };
-
 inline std::map<int, int> dllOffsets = {
-        {game, offset_Game},
+        {game,     offset_Game},
         {D2Client, offset_D2Client},
         {D2Common, offset_D2Common},
-        {D2Game, offset_D2Game},
-        {D2gfx, offset_D2gfx},
-        {D2Lang, offset_D2Lang},
+        {D2Game,   offset_D2Game},
+        {D2gfx,    offset_D2gfx},
+        {D2Lang,   offset_D2Lang},
         {D2Launch, offset_D2Launch},
-        {D2Net, offset_D2Net},
-        {D2Win, offset_D2Win},
-        {Fog, offset_Fog},
-        {Storm, offset_Storm}
+        {D2Net,    offset_D2Net},
+        {D2Win,    offset_D2Win},
+        {Fog,      offset_Fog},
+        {Storm,    offset_Storm}
 };
 
 inline int findVersionOrDefault(int dll, int defaultValue) {
@@ -142,30 +140,7 @@ inline int v8(int version, int defaultValue, int B, int C, int D, int E, int F, 
 #define RX(v) (WindowStartX+(v))
 #define RY(v) (ResolutionY+NegWindowStartY-(v))
 
-
-#define D2S(F, I, R, N, P)    typedef R (STDCALL  *T##N) P; extern T##N N;//static D N = (D)(A);
-#define D2F(F, I, R, N, P)    typedef R (FASTCALL *T##N) P; extern T##N N;//static D N = (D)(A);
-#define E2S(F, A, R, N, P)    typedef R (STDCALL  *T##N) P; extern T##N N;
-#define E2F(F, A, R, N, P)    typedef R (FASTCALL *T##N) P; extern T##N N;
-#define E2C(F, A, T, N)        extern T* pt##N;
-
-#define F8Def(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) typedef R (X##CALL  *T##N) P; extern T##N N;
-#define A8Def(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) typedef R (X##CALL  *T##N) P; extern T##N N;
-#define C8Def(Z, A, B, C, D, E, F, G, H, I, T, N)       extern T* pt##N;
-
-/* TODO: Warning, never include code like this.. */
-#include "../Commons/D2TypeDefMacros.h"
-
 extern DataTables *SgptDataTables;
-
-#undef F8Def
-#undef A8Def
-#undef C8Def
-#undef D2S
-#undef D2F
-#undef E2S
-#undef E2F
-#undef E2C
 
 extern TD2AddPlayerStat V2AddPlayerStat;
 extern TD2GetGameByClientID V2GetGameByClientID;
@@ -173,14 +148,9 @@ extern TD2SpawnSuperUnique V2SpawnSuperUnique;
 extern TD2SpawnMonster V2SpawnMonster;
 extern TD2Game235C0 V2Game235C0;
 extern TD2ReadFile V2ReadFile;
-
 extern WORD (*getDescStrPos)(DWORD statID);
-
-extern void *(STDCALL *compileTxtFile)(DWORD unused, const char *filename, BINField *ptFields, DWORD *ptRecordCount,
-                                       DWORD recordLength);
-
+extern void *(STDCALL *compileTxtFile)(DWORD unused, const char *filename, BINField *ptFields, DWORD *ptRecordCount, DWORD recordLength);
 void setImage(sDrawImageInfo *data, void *image);
-
 void setFrame(sDrawImageInfo *data, DWORD frame);
 
 void __inline fillRect(DWORD x, DWORD y, DWORD Width, DWORD Height, DWORD color, DWORD transTbl) {
@@ -200,5 +170,4 @@ void __inline fillRect(DWORD x, DWORD y, DWORD Width, DWORD Height, DWORD color,
 #define ptClientChar (*ptptClientChar)
 #define InputCommandLen (*ptInputCommandLen)
 #define InputCommand (*ptInputCommand)
-
 void initD2functions();
