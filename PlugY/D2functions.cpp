@@ -1,28 +1,9 @@
 #include "common.h"
+#include "../Commons/D2TypeNameMacros.h"
 
 s_shifting shifting;
 
-#define D2S(F, I, R, N, P)    T##N N;
-#define D2F(F, I, R, N, P)    T##N N;
-#define E2S(F, A, R, N, P)    T##N N;
-#define E2F(F, A, R, N, P)    T##N N;
-#define E2C(F, A, T, N)        T* pt##N;
-#define F8Name(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) T##N N;
-#define A8Name(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) T##N N;
-#define C8Name(Z, A, B, C, D, E, F, G, H, I, T, N)       T* pt##N;
-
-/* Warning, all this code is used for macro replacement only */
-#include "../Commons/D2TypeNameMacros.h"
 DataTables *SgptDataTables;
-
-#undef F8Name
-#undef A8Name
-#undef C8Name
-#undef D2S
-#undef D2F
-#undef E2S
-#undef E2F
-#undef E2C
 
 #define D2S(F, I, R, N, P) typedef R (STDCALL  *T##N) P; T##N N;
 
