@@ -114,7 +114,12 @@ add_library(PlugY SHARED
         PlugY/Windowed.cpp
         PlugY/windowed.h
         PlugY/WorldEvent.cpp
-        PlugY/worldEvent.h)
+        PlugY/worldEvent.h PlugY/Tests/initTests.cpp
+        PlugY/Tests/initTests.cpp)
+
+add_executable(tests
+        PlugY/Tests/doctest.h
+        PlugY/Tests/initTests.cpp)
 
 add_custom_command(TARGET PlugY
         POST_BUILD
