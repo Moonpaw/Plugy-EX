@@ -7,25 +7,24 @@ s_shifting shifting;
 #define E2S(F, A, R, N, P)    T##N N;
 #define E2F(F, A, R, N, P)    T##N N;
 #define E2C(F, A, T, N)        T* pt##N;
-#define F8(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) T##N N;
-#define A8(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) T##N N;
-#define C8(Z, A, B, C, D, E, F, G, H, I, T, N)       T* pt##N;
-
+#define F8Name(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) T##N N;
+#define A8Name(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) T##N N;
+#define C8Name(Z, A, B, C, D, E, F, G, H, I, T, N)       T* pt##N;
 
 /* Warning, all this code is used for macro replacement only */
-#include "../Commons/D2Macros.h"
+#include "../Commons/D2TypeNameMacros.h"
 DataTables *SgptDataTables;
 
-#undef F8
-#undef A8
-#undef C8
+#undef F8Name
+#undef A8Name
+#undef C8Name
 #undef D2S
 #undef D2F
 #undef E2S
 #undef E2F
 #undef E2C
 
-#define D2S(F, I, R, N, P)    typedef R (STDCALL  *T##N) P; T##N N;
+#define D2S(F, I, R, N, P) typedef R (STDCALL  *T##N) P; T##N N;
 
 typedef CharStatsBIN *(__stdcall *TD2Common10581)(DWORD charID);
 
@@ -1013,7 +1012,7 @@ void init_shifting() {
 
 void initD2functions() {
 
-#define F8(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) \
+#define F8Init(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) \
 if (version_##Z > V113d) { N = (T##N)R8(Z,A,B,C,D,E,F,G,H,I); } \
 else setFctAddr((DWORD*)&N, (HMODULE)offset_##Z,     \
     (LPCSTR)(version_##Z == V113d? H :               \
@@ -1024,11 +1023,11 @@ else setFctAddr((DWORD*)&N, (HMODULE)offset_##Z,     \
     (version_##Z == V110? C :                        \
     (version_##Z == V109d? B :                       \
     A))))))));
-#define A8(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) N = (T##N)R8(Z,A,B,C,D,E,F,G,H,I);
-#define C8(Z, A, B, C, D, E, F, G, H, I, T, N)       pt##N = (T*)R8(Z,A,B,C,D,E,F,G,H,I);
+#define A8Init(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) N = (T##N)R8(Z,A,B,C,D,E,F,G,H,I);
+#define C8Init(Z, A, B, C, D, E, F, G, H, I, T, N)       pt##N = (T*)R8(Z,A,B,C,D,E,F,G,H,I);
 
-    /*TODO:  Warning, all this code is used for macro replacement only */
-#include "../Commons/D2Macros.h"
+/*TODO:  Warning, all this code is used for macro replacement only */
+#include "../Commons/D2InitMacros.h"
 
     SgptDataTables = *(DataTables **) R8(D2Common, 0000, 0000, 96A20, 9B74C, 9EE8C, 9B500, 99E1C, A33F0, 344304);
     if (version_D2Common < V110) {
@@ -1036,9 +1035,9 @@ else setFctAddr((DWORD*)&N, (HMODULE)offset_##Z,     \
         setFctAddr((DWORD *) &D2Common10598, (HMODULE) offset_D2Common, (LPCSTR) 10598);;//ONLY in 1.09
         setFctAddr((DWORD *) &D2Common10673, (HMODULE) offset_D2Common, (LPCSTR) 10673);;//ONLY in 1.09
     }
-#undef F8
-#undef A8
-#undef C8
+#undef F8Init
+#undef A8Init
+#undef C8Init
 #undef D2S
 #undef D2F
 #undef E2S

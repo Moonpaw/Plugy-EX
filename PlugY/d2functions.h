@@ -148,18 +148,19 @@ inline int v8(int version, int defaultValue, int B, int C, int D, int E, int F, 
 #define E2S(F, A, R, N, P)    typedef R (STDCALL  *T##N) P; extern T##N N;
 #define E2F(F, A, R, N, P)    typedef R (FASTCALL *T##N) P; extern T##N N;
 #define E2C(F, A, T, N)        extern T* pt##N;
-#define F8(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) typedef R (X##CALL  *T##N) P; extern T##N N;
-#define A8(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) typedef R (X##CALL  *T##N) P; extern T##N N;
-#define C8(Z, A, B, C, D, E, F, G, H, I, T, N)       extern T* pt##N;
 
-/* Warning, never include code like this.. */
-#include "../Commons/D2Macros.h"
+#define F8Def(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) typedef R (X##CALL  *T##N) P; extern T##N N;
+#define A8Def(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) typedef R (X##CALL  *T##N) P; extern T##N N;
+#define C8Def(Z, A, B, C, D, E, F, G, H, I, T, N)       extern T* pt##N;
+
+/* TODO: Warning, never include code like this.. */
+#include "../Commons/D2TypeDefMacros.h"
 
 extern DataTables *SgptDataTables;
 
-#undef F8
-#undef A8
-#undef C8
+#undef F8Def
+#undef A8Def
+#undef C8Def
 #undef D2S
 #undef D2F
 #undef E2S
