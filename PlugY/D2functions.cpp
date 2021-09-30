@@ -1326,7 +1326,17 @@ void init_shifting() {
 
 void initD2functions() {
 
-#define F8(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) if (version_##Z > V113d) { N = (T##N)R8(Z,A,B,C,D,E,F,G,H,I); } else setFctAddr((DWORD*)&N, (HMODULE)offset_##Z, (LPCSTR)(version_##Z == V113d? H : (version_##Z == V113c? G : (version_##Z == V112? F : (version_##Z == V111b? E : (version_##Z == V111? D : (version_##Z == V110? C : (version_##Z == V109d? B : A))))))));
+#define F8(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) \
+if (version_##Z > V113d) { N = (T##N)R8(Z,A,B,C,D,E,F,G,H,I); } \
+else setFctAddr((DWORD*)&N, (HMODULE)offset_##Z,     \
+    (LPCSTR)(version_##Z == V113d? H :               \
+    (version_##Z == V113c? G :                       \
+    (version_##Z == V112? F :                        \
+    (version_##Z == V111b? E :                       \
+    (version_##Z == V111? D :                        \
+    (version_##Z == V110? C :                        \
+    (version_##Z == V109d? B :                       \
+    A))))))));
 #define A8(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) N = (T##N)R8(Z,A,B,C,D,E,F,G,H,I);
 #define C8(Z, A, B, C, D, E, F, G, H, I, T, N)       pt##N = (T*)R8(Z,A,B,C,D,E,F,G,H,I);
 

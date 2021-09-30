@@ -45,6 +45,59 @@ inline Skills *PCSkills(Unit *ptChar) { return (*(Skills **) ((DWORD) (ptChar) +
 (version_##Z == V110? 0x##C :            \
 (version_##Z == V109d? 0x##B : 0x##A)))))))))
 
+enum D2DllName {
+    game,
+    binkw32,
+    Bnclient,
+    D2Client,
+    D2Common,
+    D2DDraw,
+    D2Direct3D,
+    D2Game,
+    D2Gdi,
+    D2gfx,
+    D2Glide,
+    D2Lang,
+    D2Launch,
+    D2MCPClient,
+    D2Multi,
+    D2Net,
+    D2sound,
+    D2Win,
+    Fog,
+    ijl11,
+    SmackW32,
+    Storm
+};
+
+inline std::map<int, int> dllVersions = {
+        {game, version_Game},
+        {D2Client, version_D2Client},
+        {D2Common, version_D2Common},
+        {D2Game, version_D2Game},
+        {D2gfx, version_D2gfx},
+        {D2Lang, version_D2Lang},
+        {D2Launch, version_D2Launch},
+        {D2Net, version_D2Net},
+        {D2Win, version_D2Win},
+        {Fog, version_Fog},
+        {Storm, version_Storm}
+};
+
+inline std::map<int, int> dllOffsets = {
+        {game, offset_Game},
+        {D2Client, offset_D2Client},
+        {D2Common, offset_D2Common},
+        {D2Game, offset_D2Game},
+        {D2gfx, offset_D2gfx},
+        {D2Lang, offset_D2Lang},
+        {D2Launch, offset_D2Launch},
+        {D2Net, offset_D2Net},
+        {D2Win, offset_D2Win},
+        {Fog, offset_Fog},
+        {Storm, offset_Storm}
+};
+
 inline int r8(int offset, int version, int defaultValue, int B, int C, int D, int E, int F, int G, int H, int I) {
     std::map<int, int> versions = {
             {V114d, I},
