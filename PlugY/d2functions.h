@@ -15,8 +15,38 @@ struct s_shifting {
 };
 extern s_shifting shifting;
 
+#define FASTCALL __fastcall
+#define STDCALL        __stdcall
+
+inline int RANDOM(int V) {
+    return int(rand()/(RAND_MAX+1.0)*(V));
+}
+
+inline double RANDOMF() {
+    return (double)rand() / (double)RAND_MAX;
+}
+
+#define PCPlayerData (*(PlayerData**)((DWORD)(ptChar)+shifting.ptSpecificData)) //->ptPlayerData
+#define PCGame (*(Game**)((DWORD)(ptChar)+shifting.ptGame)) //->ptGame
+#define PClientGame (*(Game**)((DWORD)(ptClient)+shifting.ptClientGame)) //ptClient->ptGame
+#define PCInventory (*(Inventory**)((DWORD)(ptChar)+shifting.ptInventory)) //->ptInventory
+#define PCPY ((PYPlayerData*)((DWORD)PCPlayerData+shifting.ptPYPlayerData)) //->ptPYPlayerData
+//#define PCSkills (*(Skills**)((DWORD)(ptChar)+shifting.ptSkills)) //->ptSkills
+inline Skills *PCSkills(Unit *ptChar) { return (*(Skills **) ((DWORD) (ptChar) + shifting.ptSkills)); }
+
+#define R8(Z, A, B, C, D, E, F, G, H, I) \
+(offset_##Z +                            \
+(version_##Z == V114d? 0x##I :           \
+(version_##Z == V113d? 0x##H :           \
+(version_##Z == V113c? 0x##G :           \
+(version_##Z == V112? 0x##F :            \
+(version_##Z == V111b? 0x##E :           \
+(version_##Z == V111? 0x##D :            \
+(version_##Z == V110? 0x##C :            \
+(version_##Z == V109d? 0x##B : 0x##A)))))))))
+
 enum D2DllName {
-    Game,
+    game,
     binkw32,
     Bnclient,
     D2Client,
@@ -40,91 +70,33 @@ enum D2DllName {
     Storm
 };
 
-std::map<int, int> dllVersions = {
-        {Game, version_Game},
-        {Bnclient, version_Bnclient},
-        {binkw32, version_binkw32},
+inline std::map<int, int> dllVersions = {
+        {game, version_Game},
         {D2Client, version_D2Client},
         {D2Common, version_D2Common},
-        {D2DDraw, version_D2DDraw},
-        {D2Direct3D, version_D2Direct3D},
         {D2Game, version_D2Game},
-        {D2Gdi, version_D2Gdi},
         {D2gfx, version_D2gfx},
-        {D2Glide, version_D2Glide},
         {D2Lang, version_D2Lang},
         {D2Launch, version_D2Launch},
-        {D2MCPClient, version_D2MCPClient},
-        {D2Multi, version_D2Multi},
         {D2Net, version_D2Net},
-        {D2sound, version_D2sound},
         {D2Win, version_D2Win},
         {Fog, version_Fog},
-        {ijl11, version_ijl11},
-        {SmackW32, version_SmackW32},
         {Storm, version_Storm}
 };
 
-std::map<int, int> dllOffsets = {
-        {Game, offset_Game},
-        {Bnclient, offset_Bnclient},
-        {binkw32, offset_binkw32},
+inline std::map<int, int> dllOffsets = {
+        {game, offset_Game},
         {D2Client, offset_D2Client},
         {D2Common, offset_D2Common},
-        {D2DDraw, offset_D2DDraw},
-        {D2Direct3D, offset_D2Direct3D},
         {D2Game, offset_D2Game},
-        {D2Gdi, offset_D2Gdi},
         {D2gfx, offset_D2gfx},
-        {D2Glide, offset_D2Glide},
         {D2Lang, offset_D2Lang},
         {D2Launch, offset_D2Launch},
-        {D2MCPClient, offset_D2MCPClient},
-        {D2Multi, offset_D2Multi},
         {D2Net, offset_D2Net},
-        {D2sound, offset_D2sound},
         {D2Win, offset_D2Win},
         {Fog, offset_Fog},
-        {ijl11, offset_ijl11},
-        {SmackW32, offset_SmackW32},
         {Storm, offset_Storm}
 };
-
-#define FASTCALL __fastcall
-#define STDCALL        __stdcall
-
-inline int RANDOM(int V) {
-    return int(rand() / (RAND_MAX + 1.0) * (V));
-}
-
-inline double RANDOMF() {
-    return (double) rand() / (double) RAND_MAX;
-}
-
-#define PCPlayerData (*(PlayerData**)((DWORD)(ptChar)+shifting.ptSpecificData)) //->ptPlayerData
-#define PCGame (*(Game**)((DWORD)(ptChar)+shifting.ptGame)) //->ptGame
-#define PClientGame (*(Game**)((DWORD)(ptClient)+shifting.ptClientGame)) //ptClient->ptGame
-#define PCInventory (*(Inventory**)((DWORD)(ptChar)+shifting.ptInventory)) //->ptInventory
-#define PCPY ((PYPlayerData*)((DWORD)PCPlayerData+shifting.ptPYPlayerData)) //->ptPYPlayerData
-
-//#define PCSkills (*(Skills**)((DWORD)(ptChar)+shifting.ptSkills)) //->ptSkills
-inline Skills *PCSkills(Unit *ptChar) { return (*(Skills **) ((DWORD) (ptChar) + shifting.ptSkills)); }
-
-#define R8(Z, A, B, C, D, E, F, G, H, I) \
-(offset_##Z +                            \
-(version_##Z == V114d? 0x##I :           \
-(version_##Z == V113d? 0x##H :           \
-(version_##Z == V113c? 0x##G :           \
-(version_##Z == V112? 0x##F :            \
-(version_##Z == V111b? 0x##E :           \
-(version_##Z == V111? 0x##D :            \
-(version_##Z == V110? 0x##C :            \
-(version_##Z == V109d? 0x##B : 0x##A)))))))))
-
-inline int findVersionOrDefault(D2DllName dll, int defaultValue) {
-    auto result = dllVersions.find(dll);
-    return result != dllVersions.end() ? result->second : defaultValue;
-}
 
 inline int r8(int offset, int version, int defaultValue, int B, int C, int D, int E, int F, int G, int H, int I) {
     std::map<int, int> versions = {
@@ -141,7 +113,7 @@ inline int r8(int offset, int version, int defaultValue, int B, int C, int D, in
     return result != versions.end() ? offset + result->second : offset + defaultValue;
 }
 
-inline int v8(D2DllName dll, int defaultValue, int B, int C, int D, int E, int F, int G, int H, int I) {
+inline int v8(int version, int defaultValue, int B, int C, int D, int E, int F, int G, int H, int I) {
     std::map<int, int> versions = {
             {V114d, I},
             {V113d, H},
@@ -152,20 +124,21 @@ inline int v8(D2DllName dll, int defaultValue, int B, int C, int D, int E, int F
             {V110,  C},
             {V109d, B},
     };
-    return findVersionOrDefault(dll, defaultValue);
+    auto result = versions.find(version);
+    return result != versions.end() ? result->second : defaultValue;
 }
 
 #define RX(v) (WindowStartX+(v))
 #define RY(v) (ResolutionY+NegWindowStartY-(v))
+
 
 #define D2S(F, I, R, N, P)    typedef R (STDCALL  *T##N) P; extern T##N N;//static D N = (D)(A);
 #define D2F(F, I, R, N, P)    typedef R (FASTCALL *T##N) P; extern T##N N;//static D N = (D)(A);
 #define E2S(F, A, R, N, P)    typedef R (STDCALL  *T##N) P; extern T##N N;
 #define E2F(F, A, R, N, P)    typedef R (FASTCALL *T##N) P; extern T##N N;
 #define E2C(F, A, T, N)        extern T* pt##N;
-#define F8(X, Z, A, B, C, D, E, F, G, H, I, TypeName, N, P) typedef TypeName (X##CALL  *T##N) P; extern T##N N;
-#define A8(X, Z, A, B, C, D, E, F, G, H, I, TypeName, N, P) typedef TypeName (X##CALL  *T##N) P; extern T##N N;
-//inline a8(X, Z, A, B, C, D, E, F, G, H, I, TypeName, N, P) typedef TypeName (X##CALL  *T##N) P; extern T##N N;
+#define F8(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) typedef R (X##CALL  *T##N) P; extern T##N N;
+#define A8(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) typedef R (X##CALL  *T##N) P; extern T##N N;
 #define C8(Z, A, B, C, D, E, F, G, H, I, T, N)       extern T* pt##N;
 
 /* Warning, all this code is used for macro replacement only */
@@ -407,7 +380,7 @@ F8(FAST, D2Game, 10059, 10059, 10059, 10039, 10007, 10037, 10049, 10002, 135780,
 
 A8(FAST, D2Game, 00000, 00000, 6C60, E3DA0, E8210, EB060, 49930, E5070, 12C550, void, D2AddClient, (DWORD clientID))
 
-A8(STD, D2Game, 00000, 00000, 94E0, E0520, E49A0, A6360, 2AAE0, BC700, 12E860, Game *, D2GetGameByClientID,
+A8(STD, D2Game, 00000, 00000, 94E0, E0520, E49A0, A6360, 2AAE0, BC700, 12E860, Game*, D2GetGameByClientID,
    (DWORD clientID))
 
 A8(FAST, D2Game, 00000, 00000, B0E0, DF250, E36D0, A5080, 29820, BB510, 12DED0, void, D2BroadcastFunction,
@@ -586,7 +559,7 @@ A8(STD, D2Client, B6670, B59F0, B7BC0, 00000, 00000, 00000, 00000, 00000, 00000,
 
 A8(STD, D2Client, B6680, B5A00, B7BD0, 00000, 00000, 00000, 00000, 00000, 00000, DWORD, D2GetMouseY, ())
 
-A8(STD, D2Client, 8DC40, 8CFC0, 883D0, 00000, 00000, 00000, 00000, 00000, 63DD0, Unit *, D2GetClientPlayer, ())
+A8(STD, D2Client, 8DC40, 8CFC0, 883D0, 00000, 00000, 00000, 00000, 00000, 63DD0, Unit*, D2GetClientPlayer, ())
 
 A8(FAST, D2Client, B920, B910, BF60, 00000, 00000, 00000, 00000, 00000, 4DA70, void, D2CleanStatMouseUp, ())
 
@@ -606,7 +579,7 @@ C8(D2Client, 000000, 000000, 000000, FB3F4, 11A2F4, 10330C, 119854, 1087B4, 3A04
 C8(D2Client, 000000, 000000, 10795C, 11BFB8, 11C2A8, 11BFF4, 000000, 000000, 000000, BYTE, DifficultyLevel)
 C8(D2Client, 000000, 000000, 000000, 10A40C, 11B414, 101634, 11B824, 11C94C, 3A6AAC, DWORD, MouseY)
 C8(D2Client, 000000, 000000, 000000, 10A410, 11B418, 101638, 11B828, 11C950, 3A6AB0, DWORD, MouseX)
-C8(D2Client, 000000, 000000, 000000, 11C4F0, 11C1E0, 11C3D0, 11BBFC, 11D050, 3A6A70, Unit *, ptClientChar)
+C8(D2Client, 000000, 000000, 000000, 11C4F0, 11C1E0, 11C3D0, 11BBFC, 11D050, 3A6A70, Unit*, ptClientChar)
 C8(D2Client, 11E0F4, 11CF54, 112D04, 11B9A8, 11BB30, 11BF48, 11C028, 11CAA4, 3BB5E8, DWORD, InputCommandLen)
 C8(D2Client, 11CE50, 11BCB0, 111A58, 11C590, 11D590, 11FC40, 11EC80, 11D650, 3BB638, WCHAR, InputCommand)
 
