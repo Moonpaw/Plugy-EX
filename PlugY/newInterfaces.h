@@ -10,22 +10,25 @@
 #include <stdio.h>
 #include <string>
 #include <iostream>
+namespace PlugY {
+#define MILIEU(X, L, N) (X + ((N<L)? (L-N)/2 : 0))
+#define isOnStatsPage(x, y)        ((x<592) && (y<889))
 
-#define MILIEU(X,L,N) (X + ((N<L)? (L-N)/2 : 0))
-#define isOnStatsPage(x,y)		((x<592) && (y<889))
+    extern DWORD bDontPrintBorder;
+    extern int extraHiddenPage;
 
-extern DWORD bDontPrintBorder;
-extern int extraHiddenPage;
+    void GoNextStatPage();
 
-void GoNextStatPage();
-void GoPreviousStatPage();
-void GoStatPage(int page);
-int GetCurrentPage();
+    void GoPreviousStatPage();
 
-extern bool active_newInterfaces;
-extern bool selectMainPageOnOpenning;
-extern bool printBackgroundOnMainPage;
+    void GoStatPage(int page);
 
-void Install_NewInterfaces();
+    int GetCurrentPage();
 
-/*================================= END OF FILE =================================*/
+    extern bool active_newInterfaces;
+    extern bool selectMainPageOnOpenning;
+    extern bool printBackgroundOnMainPage;
+
+    void Install_NewInterfaces();
+
+}

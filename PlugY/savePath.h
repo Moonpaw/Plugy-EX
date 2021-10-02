@@ -7,10 +7,10 @@
 #pragma once
 
 #include "common.h"
+namespace PlugY {
+    extern char *savePath;
+    extern bool active_changingSavePath;
 
-extern char* savePath;
-extern bool active_changingSavePath;
+    void Install_ChangingSavePath();
 
-void Install_ChangingSavePath();
-
-/*================================= END OF FILE =================================*/
+}

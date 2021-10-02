@@ -8,9 +8,9 @@
 
 #include "common.h"
 
-extern bool onRealm;
-extern bool needToInit;
+namespace PlugY {
+    extern bool onRealm;
+    extern bool needToInit;
 
-void Install_VariableOnRealm();
-
-/*================================= END OF FILE =================================*/
+    void Install_VariableOnRealm();
+}

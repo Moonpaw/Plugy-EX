@@ -7,9 +7,11 @@
 #pragma once
 
 #include "common.h"
+namespace PlugY {
+    void Install_UpdateClient();
 
-void Install_UpdateClient();
-void updateClient(Unit* ptChar, DWORD mFunc, DWORD p1, DWORD p2, DWORD p3);
-void updateClient(Unit* ptChar, DWORD mFunc, char* msg);
+    void updateClient(Commons::Unit *ptChar, DWORD mFunc, DWORD p1, DWORD p2, DWORD p3);
 
-/*================================= END OF FILE =================================*/
+    void updateClient(Commons::Unit *ptChar, DWORD mFunc, char *msg);
+
+}

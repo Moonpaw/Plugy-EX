@@ -8,13 +8,15 @@
 
 #include "common.h"
 
-extern bool active_SkillsPoints;
-extern bool unassignSkillsPointsOneForOne;
-extern int posXUnassignSkillBtn, posYUnassignSkillBtn;
+namespace PlugY {
+    extern bool active_SkillsPoints;
+    extern bool unassignSkillsPointsOneForOne;
+    extern int posXUnassignSkillBtn, posYUnassignSkillBtn;
 
-void UnassignAllSkillsPoints(Unit* ptChar);
-void client_UnassignAllSkillsPoints();
+    void UnassignAllSkillsPoints(Commons::Unit *ptChar);
 
-void Install_SkillsPoints();
+    void client_UnassignAllSkillsPoints();
 
-/*================================= END OF FILE =================================*/
+    void Install_SkillsPoints();
+
+}

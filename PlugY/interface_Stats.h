@@ -7,7 +7,7 @@
 #pragma once
 
 #include "common.h"
+namespace PlugY {
+    void Install_InterfaceStats();
 
-void Install_InterfaceStats();
-
-/*================================= END OF FILE =================================*/
+}

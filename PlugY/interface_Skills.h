@@ -8,6 +8,7 @@
 
 #include "common.h"
 
-void Install_InterfaceSkills();
+namespace PlugY {
+    void Install_InterfaceSkills();
 
-/*================================= END OF FILE =================================*/
+}

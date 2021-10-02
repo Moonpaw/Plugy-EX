@@ -6,22 +6,22 @@
 =================================================================*/
 #pragma once
 
+namespace PlugY {
 #define PLUGY_VERSION "14.03"
 
-enum TargetMod
-{
-	MOD_NO = 0,
-};
+    enum TargetMod {
+        MOD_NO = 0,
+    };
 
 // Global variable (user parameters)
-extern char* modDataDirectory;
-extern bool active_plugin;
-extern bool active_DisableBattleNet;
-extern bool active_CheckMemory;
-extern char* dllFilenames;
-extern bool active_D2Mod;
-extern TargetMod selectModParam;
+    extern char *modDataDirectory;
+    extern bool active_plugin;
+    extern bool active_DisableBattleNet;
+    extern bool active_CheckMemory;
+    extern char *dllFilenames;
+    extern bool active_D2Mod;
+    extern TargetMod selectModParam;
 
-void loadParameters();
+    void loadParameters();
 
-/*================================= END OF FILE =================================*/
+}

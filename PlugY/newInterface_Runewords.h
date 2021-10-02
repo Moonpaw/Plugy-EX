@@ -1,7 +1,10 @@
 #pragma once
 
 #include "common.h"
+#include "d2functions.h"
 
-void STDCALL printRuneWordsPage();
-DWORD STDCALL mouseRuneWordsPageLeftDown(sWinMessage* msg);
-DWORD STDCALL mouseRuneWordsPageLeftUp(sWinMessage* msg);
+namespace PlugY {
+    void STDCALL printRuneWordsPage();
+    DWORD STDCALL mouseRuneWordsPageLeftDown(sWinMessage *msg);
+    DWORD STDCALL mouseRuneWordsPageLeftUp(sWinMessage *msg);
+}

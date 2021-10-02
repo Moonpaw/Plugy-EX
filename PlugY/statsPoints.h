@@ -8,21 +8,30 @@
 
 #include "common.h"
 
-extern bool active_StatsPoints;
-extern DWORD keyUsedForUnassignStatPoint;
-extern bool active_StatsShiftClickLimit;
-extern DWORD limitValueToShiftClick;
+namespace PlugY {
+    extern bool active_StatsPoints;
+    extern DWORD keyUsedForUnassignStatPoint;
+    extern bool active_StatsShiftClickLimit;
+    extern DWORD limitValueToShiftClick;
 
-void UnassignStrPoint(Unit* ptChar);
-void UnassignStrPoints(Unit* ptChar);
-void UnassignDexPoint(Unit* ptChar);
-void UnassignDexPoints(Unit* ptChar);
-void UnassignVitPoint(Unit* ptChar);
-void UnassignVitPoints(Unit* ptChar);
-void UnassignEnePoint(Unit* ptChar);
-void UnassignEnePoints(Unit* ptChar);
+    void UnassignStrPoint(Commons::Unit *ptChar);
 
-void Install_StatsLimitShiftClick();
-void Install_StatsPoints();
+    void UnassignStrPoints(Commons::Unit *ptChar);
 
-/*================================= END OF FILE =================================*/
+    void UnassignDexPoint(Commons::Unit *ptChar);
+
+    void UnassignDexPoints(Commons::Unit *ptChar);
+
+    void UnassignVitPoint(Commons::Unit *ptChar);
+
+    void UnassignVitPoints(Commons::Unit *ptChar);
+
+    void UnassignEnePoint(Commons::Unit *ptChar);
+
+    void UnassignEnePoints(Commons::Unit *ptChar);
+
+    void Install_StatsLimitShiftClick();
+
+    void Install_StatsPoints();
+
+}

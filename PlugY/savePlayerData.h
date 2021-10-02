@@ -7,11 +7,12 @@
 #pragma once
 
 #include "common.h"
+namespace PlugY {
+    extern bool active_AutoBackup;
+    extern int maxBackupPerCharacter;
 
-extern bool active_AutoBackup;
-extern int maxBackupPerCharacter;
+    void backupSaveFiles(char *name, int isHardCoreGame);
 
-void backupSaveFiles(char* name, int isHardCoreGame);
-void Install_SavePlayerData();
+    void Install_SavePlayerData();
 
-/*================================= END OF FILE =================================*/
+}

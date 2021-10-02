@@ -7,9 +7,9 @@
 #pragma once
 
 #include "common.h"
+namespace PlugY {
+    void updateServer(WORD p);
 
-void updateServer(WORD p);
+    void Install_UpdateServer();
 
-void Install_UpdateServer();
-
-/*================================= END OF FILE =================================*/
+}

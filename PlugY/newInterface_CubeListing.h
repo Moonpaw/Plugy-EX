@@ -7,7 +7,8 @@
 #pragma once
 
 #include "common.h"
+namespace PlugY {
+    void listAllCubeFormula();
 
-void listAllCubeFormula();
 
-/*================================= END OF FILE =================================*/
+}

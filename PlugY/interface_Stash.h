@@ -7,7 +7,7 @@
 #pragma once
 
 #include "common.h"
+namespace PlugY {
+    void Install_InterfaceStash();
 
-void Install_InterfaceStash();
-
-/*================================= END OF FILE =================================*/
+}

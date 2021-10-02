@@ -7,7 +7,7 @@
 #pragma once
 
 #include "common.h"
+namespace PlugY {
+    void Install_LoadPlayerData();
 
-void Install_LoadPlayerData();
-
-/*================================= END OF FILE =================================*/
+}

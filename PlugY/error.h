@@ -11,13 +11,17 @@
 #pragma once
 
 #include <windows.h>
+namespace PlugY {
+    extern int active_logFile;
 
-extern int active_logFile;
+    void log_initfile();
 
-void log_initfile();
-void log_close();
-void log_box( const char* pFormat, ... );
-void log_msg( const char* pFormat, ... );
-void d2_assert( bool pCondition, const char* pLocation, const char* pMessage, int pLineNbr );
+    void log_close();
 
-/*================================= END OF FILE =================================*/
+    void log_box(const char *pFormat, ...);
+
+    void log_msg(const char *pFormat, ...);
+
+    void d2_assert(bool pCondition, const char *pLocation, const char *pMessage, int pLineNbr);
+
+}

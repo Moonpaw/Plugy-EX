@@ -7,14 +7,16 @@
 #pragma once
 
 #include "common.h"
+namespace PlugY {
+    extern bool active_VersionTextChange;
+    extern char *versionText;
+    extern BYTE modVersionColor;
+    extern bool active_PrintPlugYVersion;
+    extern BYTE colorOfPlugYVersion;
 
-extern bool active_VersionTextChange;
-extern char* versionText;
-extern BYTE modVersionColor;
-extern bool active_PrintPlugYVersion;
-extern BYTE colorOfPlugYVersion;
+    void Install_PrintPlugYVersion();
 
-void Install_PrintPlugYVersion();
-void Install_VersionChange();
+    void Install_VersionChange();
 
-/*================================= END OF FILE =================================*/
+
+}

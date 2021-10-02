@@ -8,8 +8,11 @@
 
 #include "common.h"
 
-void STDCALL printNewStatsPageTwo(int currentPage);
-DWORD STDCALL mouseNewStatsPageTwoLeftDown(sWinMessage* msg);
-DWORD STDCALL mouseNewStatsPageTwoLeftUp(sWinMessage* msg);
+namespace PlugY {
+    void STDCALL printNewStatsPageTwo(int currentPage);
 
-/*================================= END OF FILE =================================*/
+    DWORD STDCALL mouseNewStatsPageTwoLeftDown(sWinMessage *msg);
+
+    DWORD STDCALL mouseNewStatsPageTwoLeftUp(sWinMessage *msg);
+
+}

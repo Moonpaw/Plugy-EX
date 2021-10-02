@@ -7,7 +7,7 @@
 =================================================================*/
 #pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
 
-#include "../Commons/VersionInfo.h"
+#include "includes/VersionInfo.h"
 #include <stdio.h>
 
 DWORD loadCallerAddr;

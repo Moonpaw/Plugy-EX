@@ -7,9 +7,11 @@
 #pragma once
 
 #include "common.h"
+#include "d2functions.h"
+namespace PlugY {
+    void STDCALL printNewStatsPage();
 
-void STDCALL printNewStatsPage();
-DWORD STDCALL mouseNewStatsPageLeftDown(sWinMessage* msg);
-DWORD STDCALL mouseNewStatsPageLeftUp(sWinMessage* msg);
+    DWORD STDCALL mouseNewStatsPageLeftDown(sWinMessage *msg);
 
-/*================================= END OF FILE =================================*/
+    DWORD STDCALL mouseNewStatsPageLeftUp(sWinMessage *msg);
+}
