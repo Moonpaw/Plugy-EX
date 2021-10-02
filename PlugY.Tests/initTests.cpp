@@ -1,10 +1,9 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
 #include <doctest/doctest.h>
-#include <d2wrapper.h>
+#include <VersionInfo.h>
+#include "d2wrapper.h"
 #include <d2functions.h>
-#include <includes/VersionInfo.h>
-
 namespace PlugY_Tests {
 
     unsigned int Factorial(unsigned int number) {
