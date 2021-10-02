@@ -1,15 +1,12 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(PlugY_fork)
+project(PlugY.Tests)
 
 # Prepare doctest for other targets to use
 find_package(doctest REQUIRED)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 17)
-
-include_directories(Commons)
-include_directories(PlugY)
 #
 #add_library(Commons STATIC
 #        Commons/d2BinFile.h
@@ -20,9 +17,14 @@ include_directories(PlugY)
 #        Commons/updatingConst.h
 #        Commons/VersionInfo.cpp
 #        Commons/VersionInfo.h)
-add_subdirectory(Commons)
-add_subdirectory(PlugY)
-add_subdirectory(PlugY.Tests)
+
+
+add_executable(PlugY.Tests initTests.cpp)
+target_compile_features(PlugY.Tests PRIVATE cxx_std_17)
+target_link_libraries(PlugY.Tests
+        PRIVATE doctest::doctest
+        PRIVATE PlugY)
+#target_link_libraries(PlugY.Tests PRIVATE Commons)
 
 #add_custom_command(TARGET PlugY
 #        POST_BUILD
