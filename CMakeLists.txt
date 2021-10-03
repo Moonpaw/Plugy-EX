@@ -20,6 +20,10 @@ cmake_print_properties(
         POSITION_INDEPENDENT_CODE INTERFACE_INCLUDE_DIRECTORIES
 )
 
+add_custom_command(TARGET ${PROJECT_NAME}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> "C:/Games/Diablo II - D2SE/MODS/Zy El by Moonpaw")
+
 ###############################################################################
 project(PlugY VERSION 0.0.1)
 include(CMakePrintHelpers)
@@ -27,7 +31,8 @@ include(CMakePrintHelpers)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 17)
 cmake_print_variables(PROJECT_NAME)
-add_library(${PROJECT_NAME} SHARED
+
+set(PlugYSources
         PlugY/src/BigStash.cpp
         PlugY/src/Commands.cpp
         PlugY/src/Common.cpp
@@ -68,10 +73,14 @@ add_library(${PROJECT_NAME} SHARED
         PlugY/src/UpdateClient.cpp
         PlugY/src/UpdateServer.cpp
         PlugY/src/Windowed.cpp
-        PlugY/src/WorldEvent.cpp
-        )
+        PlugY/src/WorldEvent.cpp)
+add_library(${PROJECT_NAME} SHARED ${PlugYSources})
 
 add_library(PlugY::PlugY ALIAS ${PROJECT_NAME})
+
+add_library(${PROJECT_NAME}Static STATIC ${PlugYSources})
+
+add_library(PlugY::PlugYStatic ALIAS ${PROJECT_NAME}Static)
 
 target_include_directories( ${PROJECT_NAME}
     PUBLIC
@@ -79,6 +88,13 @@ target_include_directories( ${PROJECT_NAME}
     PRIVATE
         ${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/src
         )
+target_include_directories( ${PROJECT_NAME}Static
+        PUBLIC
+        ${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/include
+        PRIVATE
+        ${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/src
+        )
+
 cmake_print_properties(
         TARGETS PlugY
         PROPERTIES POSITION_INDEPENDENT_CODE
@@ -86,6 +102,12 @@ cmake_print_properties(
 
 target_link_libraries(${PROJECT_NAME}
         Commons)
+target_link_libraries(${PROJECT_NAME}Static
+        Commons)
+
+add_custom_command(TARGET ${PROJECT_NAME}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> "C:/Games/Diablo II - D2SE/MODS/Zy El by Moonpaw")
 
 ###############################################################################
 project(PlugY_Tests)
@@ -99,8 +121,5 @@ target_compile_features(PlugY_Tests PRIVATE cxx_std_17)
 target_link_libraries(PlugY_Tests
         PRIVATE
             doctest::doctest
-            PlugY::PlugY)
+            PlugY::PlugYStatic)
 
-#add_custom_command(TARGET PlugY
-#        POST_BUILD
-#        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:PlugY> "C:/Games/Diablo II - D2SE/MODS/Zy El by Moonpaw")

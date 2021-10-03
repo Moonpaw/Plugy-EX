@@ -6,19 +6,21 @@
 ******************************************************************************/
 #pragma once
 #include <Windows.h>
+#include <VersionInfo.h>
+
 namespace PlugY {
-    extern int version_Game;
-    extern int version_D2Client;
-    extern int version_D2CMP;
-    extern int version_D2Common;
-    extern int version_D2Game;
-    extern int version_D2gfx;
-    extern int version_D2Lang;
-    extern int version_D2Launch;
-    extern int version_D2Net;
-    extern int version_D2Win;
-    extern int version_Fog;
-    extern int version_Storm;
+    extern Commons::eGameVersion version_Game;
+    extern Commons::eGameVersion version_D2Client;
+    extern Commons::eGameVersion version_D2CMP;
+    extern Commons::eGameVersion version_D2Common;
+    extern Commons::eGameVersion version_D2Game;
+    extern Commons::eGameVersion version_D2gfx;
+    extern Commons::eGameVersion version_D2Lang;
+    extern Commons::eGameVersion version_D2Launch;
+    extern Commons::eGameVersion version_D2Net;
+    extern Commons::eGameVersion version_D2Win;
+    extern Commons::eGameVersion version_Fog;
+    extern Commons::eGameVersion version_Storm;
     extern DWORD offset_Game;
     extern DWORD offset_D2Client;
     extern DWORD offset_D2CMP;

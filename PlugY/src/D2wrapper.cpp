@@ -36,18 +36,19 @@
 #include "d2wrapper.h"
 
 namespace PlugY {
-    int version_Game = UNKNOWN;
-    int version_D2Client = UNKNOWN;
-    int version_D2CMP = UNKNOWN;
-    int version_D2Common = UNKNOWN;
-    int version_D2Game = UNKNOWN;
-    int version_D2gfx = UNKNOWN;
-    int version_D2Lang = UNKNOWN;
-    int version_D2Launch = UNKNOWN;
-    int version_D2Net = UNKNOWN;
-    int version_D2Win = UNKNOWN;
-    int version_Fog = UNKNOWN;
-    int version_Storm = UNKNOWN;
+    using namespace Commons;
+    eGameVersion version_Game = UNKNOWN;
+    eGameVersion version_D2Client = UNKNOWN;
+    eGameVersion version_D2CMP = UNKNOWN;
+    eGameVersion version_D2Common = UNKNOWN;
+    eGameVersion version_D2Game = UNKNOWN;
+    eGameVersion version_D2gfx = UNKNOWN;
+    eGameVersion version_D2Lang = UNKNOWN;
+    eGameVersion version_D2Launch = UNKNOWN;
+    eGameVersion version_D2Net = UNKNOWN;
+    eGameVersion version_D2Win = UNKNOWN;
+    eGameVersion version_Fog = UNKNOWN;
+    eGameVersion version_Storm = UNKNOWN;
     DWORD offset_Game = NULL;
     DWORD offset_D2Client = NULL;
     DWORD offset_D2CMP = NULL;

@@ -72,22 +72,22 @@ namespace PlugY {
         SmackW32,
         Storm
     };
-    extern std::map<int, int> dllVersions;
-    extern std::map<int, int> dllOffsets;
+    extern std::map<D2DllName, Commons::eGameVersion> dllVersions;
+    extern std::map<D2DllName, DWORD> dllOffsets;
 
-    extern inline int findVersionOrDefault(int d2DllName, int defaultValue) {
+    extern inline Commons::eGameVersion findVersionOrDefault(D2DllName d2DllName) {
         auto result = dllVersions.find(d2DllName);
-        return result != dllVersions.end() ? result->second : defaultValue;
+        return result != dllVersions.end() ? result->second : Commons::UNKNOWN;
     }
 
-    extern inline int findOffsetOrDefault(int d2DllName, int defaultValue) {
+    extern inline DWORD findOffsetOrDefault(D2DllName d2DllName, DWORD defaultValue) {
         auto result = dllOffsets.find(d2DllName);
         return result != dllOffsets.end() ? result->second : defaultValue;
     }
 
-    extern int r8(DWORD d2DllName, DWORD defaultValue, int B, int C, int D, int E, int F, int G, int H, int I);
+    extern DWORD r8(D2DllName d2DllName, DWORD defaultValue, DWORD B, DWORD C, DWORD D, DWORD E, DWORD F, DWORD G, DWORD H, DWORD I);
 
-    extern int v8(int version, int defaultValue, int B, int C, int D, int E, int F, int G, int H, int I);
+    extern DWORD v8(Commons::eGameVersion version, DWORD defaultValue, DWORD B, DWORD C, DWORD D, DWORD E, DWORD F, DWORD G, DWORD H, DWORD I);
 
     extern DWORD RX(DWORD v);
     extern DWORD RY(DWORD y);
@@ -112,6 +112,6 @@ namespace PlugY {
     }
 
 //#define GameTypeMode (*ptGameTypeMode)
-
+    void init_dll_maps();
     void initD2functions();
 }

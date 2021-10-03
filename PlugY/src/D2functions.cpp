@@ -833,8 +833,6 @@ namespace PlugY {
         }
     }
 
-#define SETFCTADDR(F, I, N) setFctAddr((DWORD*)&N, (HMODULE)offset_##F, (LPCSTR)I)
-
     void setFctAddr(DWORD *addr, HMODULE module, LPCSTR index) {
         if (index) {
             *addr = (DWORD) GetProcAddress(module, index);
@@ -961,9 +959,9 @@ namespace PlugY {
         if (version_D2Game <= V109d)
             D2SetSkillBaseLevelOnClient = (TD2SetSkillBaseLevelOnClient) D2SetSkillBaseLevelOnClient_9;
     }
-    int r8(DWORD d2DllName, DWORD defaultValue, int B, int C, int D, int E, int F, int G, int H, int I) {
+    DWORD r8(D2DllName d2DllName, DWORD defaultValue, DWORD B, DWORD C, DWORD D, DWORD E, DWORD F, DWORD G, DWORD H, DWORD I) {
         using namespace Commons;
-        std::map<int, int> versions = {
+        std::map<eGameVersion, DWORD> versions = {
                 {V114d, I},
                 {V113d, H},
                 {V113c, G},
@@ -973,13 +971,15 @@ namespace PlugY {
                 {V110,  C},
                 {V109d, B},
         };
-        auto ver = findVersionOrDefault(d2DllName, defaultValue);
+//        auto ver = findVersionOrDefault(d2DllName);
+        auto result = dllVersions.find(d2DllName);
+        auto ver = result != dllVersions.end() ? result->second : Commons::UNKNOWN;
         auto offset = findOffsetOrDefault(d2DllName, defaultValue);
         return offset + ver;
     }
-    int v8(int version, int defaultValue, int B, int C, int D, int E, int F, int G, int H, int I) {
+    DWORD v8(eGameVersion version, DWORD defaultValue, DWORD B, DWORD C, DWORD D, DWORD E, DWORD F, DWORD G, DWORD H, DWORD I) {
         using namespace Commons;
-        std::map<int, int> versions = {
+        std::map<eGameVersion, DWORD> versions = {
                 {V114d, I},
                 {V113d, H},
                 {V113c, G},
@@ -991,9 +991,10 @@ namespace PlugY {
         };
         auto result = versions.find(version);
         return result != versions.end() ? result->second : defaultValue;
+        return result != versions.end() ? result->second : defaultValue;
     }
     void init_shifting() {
-        const int player_data = v8(version_D2Common, 0x5D, 0x5D, 0x5D, 0x49, 0x49, 0x49, 0x49, 0x49, 0x48);
+        const DWORD player_data = v8(version_D2Common, 0x5D, 0x5D, 0x5D, 0x49, 0x49, 0x49, 0x49, 0x49, 0x48);
         shifting.ptPYPlayerData = *(DWORD *) ((DWORD) D2InitPlayerData + player_data);
         shifting.ptSpecificData = v8(version_D2Common, 0x70, 0x70, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14);
         shifting.ptGame = v8(version_D2Common, 0xA4, 0xA4, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80);
@@ -1010,8 +1011,8 @@ namespace PlugY {
     DWORD RY(DWORD y) {
         return (*ptResolutionY) + (*ptNegWindowStartY) - (y);
     }
-    std::map<int, int> dllVersions;
-    std::map<int, int> dllOffsets;
+    std::map<D2DllName, eGameVersion> dllVersions;
+    std::map<D2DllName, DWORD> dllOffsets;
     void init_dll_maps() {
         dllVersions = {
                 {game,     version_Game},
