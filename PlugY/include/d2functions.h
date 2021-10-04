@@ -87,7 +87,7 @@ namespace PlugY {
 (version_##Z == V109d? 0x##B : 0x##A)))))))))
 
 
-    extern DWORD r8(D2DllName d2DllName, DWORD defaultValue, DWORD B, DWORD C, DWORD D, DWORD E, DWORD F, DWORD G, DWORD H, DWORD I);
+    extern DWORD r8(D2DllName d2DllName, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d);
 
     extern DWORD v8(Commons::eGameVersion version, DWORD defaultValue, DWORD B, DWORD C, DWORD D, DWORD E, DWORD F, DWORD G, DWORD H, DWORD I);
 

@@ -960,17 +960,17 @@ namespace PlugY {
             D2SetSkillBaseLevelOnClient = (TD2SetSkillBaseLevelOnClient) D2SetSkillBaseLevelOnClient_9;
     }
 
-    DWORD r8(D2DllName d2DllName, DWORD defaultValue, DWORD B, DWORD C, DWORD D, DWORD E, DWORD F, DWORD G, DWORD H, DWORD I) {
+    DWORD r8(D2DllName d2DllName, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d) {
         using namespace Commons;
         std::map<eGameVersion, DWORD> knownVersions = {
-                {V114d, I},
-                {V113d, H},
-                {V113c, G},
-                {V112,  F},
-                {V111b, E},
-                {V111,  D},
-                {V110,  C},
-                {V109d, B},
+                {V114d, v114d},
+                {V113d, v113d},
+                {V113c, v113c},
+                {V112,  v112},
+                {V111b, v111b},
+                {V111,  v111},
+                {V110,  v110},
+                {V109d, v109d},
         };
         auto result = dllVersions.find(d2DllName);
         auto ver = result != dllVersions.end() ? result->second : Commons::UNKNOWN;
@@ -994,7 +994,6 @@ namespace PlugY {
                 {V109d, B},
         };
         auto result = versions.find(version);
-        return result != versions.end() ? result->second : defaultValue;
         return result != versions.end() ? result->second : defaultValue;
     }
 
@@ -1064,7 +1063,6 @@ else setFctAddr((DWORD*)&N, (HMODULE)offset_##Z,     \
     (version_##Z == V109d? B :                       \
     A))))))));
 #define A8Init(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) N = (T##N)R8(Z,A,B,C,D,E,F,G,H,I);
-#define C8Init(Z, A, B, C, D, E, F, G, H, I, T, N)       pt##N = (T*)R8(Z,A,B,C,D,E,F,G,H,I);
 
         F8Init(STD, D2Common,
                00000, 00000, 00000, 10188, 11084, 11109, 10346, 10907, 21AED0, DWORD, D2Common11084, (
@@ -1828,25 +1826,21 @@ else setFctAddr((DWORD*)&N, (HMODULE)offset_##Z,     \
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// C8 section
-        C8Init(D2Client, D50E8, D40E0, D40F0, F5C60, F4FC8, DC6E4, DBC4C, F7038,
-               311470, DWORD, ResolutionY);
-        C8Init(D2Client, D50EC, D40E4, D40F4, F5C5C, F4FC4, DC6E0, DBC48, F7034,
-               31146C, DWORD, ResolutionX);
-        C8Init(D2Client,
-               125AD8, 124958, 11A74C, 11BD28, 11BEFC, 11BD2C, 11B9A4, 11D358, 3A285C, DWORD, NegWindowStartY);
-        ptWindowStartX = (DWORD *) (offset_D2Client + (version_D2Client == V114d ? 0x3A2858 : (version_D2Client == V113d ? 0x11D354 : (version_D2Client == V113c ? 0x11B9A0 : (version_D2Client == V112 ? 0x11BD28 : (version_D2Client == V111b ? 0x11BEF8 : (version_D2Client == V111 ? 0x11BD24 : (version_D2Client == V110 ? 0x11A748 : (version_D2Client == V109d ? 0x124954 : 0x125AD4)))))))));;
-        ptClientTable = (NetClient **) (offset_D2Game + (version_D2Game == V114d ? 0x4842A8 : (version_D2Game == V113d ? 0x1105E0 : (version_D2Game == V113c ? 0x1107B8 : (version_D2Game == V112 ? 0x1105E0 : (version_D2Game == V111b ? 0x1115E0 : (version_D2Game == V111 ? 0x111718 : (version_D2Game == V110 ? 0x113FB8 : (version_D2Game == V109d ? 0xF2918 : 0xF2A80)))))))));;
-        ptIsLodGame = (DWORD *) (offset_D2Client + (version_D2Client == V114d ? 0x3A04F4 : (version_D2Client == V113d ? 0x1087B4 : (version_D2Client == V113c ? 0x119854 : (version_D2Client == V112 ? 0x10330C : (version_D2Client == V111b ? 0x11A2F4 : (version_D2Client == V111 ? 0xFB3F4 : (version_D2Client == V110 ? 0x000000 : (version_D2Client == V109d ? 0x000000 : 0x000000)))))))));;
-        ptDifficultyLevel = (BYTE *) (offset_D2Client + (version_D2Client == V114d ? 0x000000 : (version_D2Client == V113d ? 0x000000 : (version_D2Client == V113c ? 0x000000 : (version_D2Client == V112 ? 0x11BFF4 : (version_D2Client == V111b ? 0x11C2A8 : (version_D2Client == V111 ? 0x11BFB8 : (version_D2Client == V110 ? 0x10795C : (version_D2Client == V109d ? 0x000000 : 0x000000)))))))));;
-        ptMouseY = (DWORD *) (offset_D2Client + (version_D2Client == V114d ? 0x3A6AAC : (version_D2Client == V113d ? 0x11C94C : (version_D2Client == V113c ? 0x11B824 : (version_D2Client == V112 ? 0x101634 : (version_D2Client == V111b ? 0x11B414 : (version_D2Client == V111 ? 0x10A40C : (version_D2Client == V110 ? 0x000000 : (version_D2Client == V109d ? 0x000000 : 0x000000)))))))));;
-        ptMouseX = (DWORD *) (offset_D2Client + (version_D2Client == V114d ? 0x3A6AB0 : (version_D2Client == V113d ? 0x11C950 : (version_D2Client == V113c ? 0x11B828 : (version_D2Client == V112 ? 0x101638 : (version_D2Client == V111b ? 0x11B418 : (version_D2Client == V111 ? 0x10A410 : (version_D2Client == V110 ? 0x000000 : (version_D2Client == V109d ? 0x000000 : 0x000000)))))))));;
-        ptptClientChar = (Unit **) (offset_D2Client + (version_D2Client == V114d ? 0x3A6A70 : (version_D2Client == V113d ? 0x11D050 : (version_D2Client == V113c ? 0x11BBFC : (version_D2Client == V112 ? 0x11C3D0 : (version_D2Client == V111b ? 0x11C1E0 : (version_D2Client == V111 ? 0x11C4F0 : (version_D2Client == V110 ? 0x000000 : (version_D2Client == V109d ? 0x000000 : 0x000000)))))))));;
-        ptInputCommandLen = (DWORD *) (offset_D2Client + (version_D2Client == V114d ? 0x3BB5E8 : (version_D2Client == V113d ? 0x11CAA4 : (version_D2Client == V113c ? 0x11C028 : (version_D2Client == V112 ? 0x11BF48 : (version_D2Client == V111b ? 0x11BB30 : (version_D2Client == V111 ? 0x11B9A8 : (version_D2Client == V110 ? 0x112D04 : (version_D2Client == V109d ? 0x11CF54 : 0x11E0F4)))))))));;
-        ptInputCommand = (WCHAR *) (offset_D2Client + (version_D2Client == V114d ? 0x3BB638 : (version_D2Client == V113d ? 0x11D650 : (version_D2Client == V113c ? 0x11EC80 : (version_D2Client == V112 ? 0x11FC40 : (version_D2Client == V111b ? 0x11D590 : (version_D2Client == V111 ? 0x11C590 : (version_D2Client == V110 ? 0x111A58 : (version_D2Client == V109d ? 0x11BCB0 : 0x11CE50)))))))));;
-        C8Init(D2Client, DB918, DA828,
-               000000, 000000, 000000, 000000, 000000, 000000, 000000, DWORD, NbStatDesc);
-        C8Init(D2Client, DAF98, D9EA8,
-               000000, 000000, 000000, 000000, 000000, 000000, 000000, DWORD, StatDescTable);
+        ptClientTable = (NetClient **)  (offset_D2Game   + (version_D2Game == V114d ? 0x4842A8 : (version_D2Game == V113d ? 0x1105E0 : (version_D2Game == V113c ? 0x1107B8 : (version_D2Game == V112 ? 0x1105E0 : (version_D2Game == V111b ? 0x1115E0 : (version_D2Game == V111 ? 0x111718 : (version_D2Game == V110 ? 0x113FB8 : (version_D2Game == V109d ? 0xF2918 : 0xF2A80)))))))));
+
+        ptResolutionY = (DWORD *)       (offset_D2Client + (version_D2Client == V114d ? 0x311470 : (version_D2Client == V113d ? 0xF7038 : (version_D2Client == V113c ? 0xDBC4C : (version_D2Client == V112 ? 0xDC6E4 : (version_D2Client == V111b ? 0xF4FC8 : (version_D2Client == V111 ? 0xF5C60 : (version_D2Client == V110 ? 0xD40F0 : (version_D2Client == V109d ? 0xD40E0 : 0xD50E8)))))))));
+        ptResolutionX = (DWORD *)       (offset_D2Client + (version_D2Client == V114d ? 0x31146C : (version_D2Client == V113d ? 0xF7034 : (version_D2Client == V113c ? 0xDBC48 : (version_D2Client == V112 ? 0xDC6E0 : (version_D2Client == V111b ? 0xF4FC4 : (version_D2Client == V111 ? 0xF5C5C : (version_D2Client == V110 ? 0xD40F4 : (version_D2Client == V109d ? 0xD40E4 : 0xD50EC)))))))));
+        ptNegWindowStartY = (DWORD *)   (offset_D2Client + (version_D2Client == V114d ? 0x3A285C : (version_D2Client == V113d ? 0x11D358 : (version_D2Client == V113c ? 0x11B9A4 : (version_D2Client == V112 ? 0x11BD2C : (version_D2Client == V111b ? 0x11BEFC : (version_D2Client == V111 ? 0x11BD28 : (version_D2Client == V110 ? 0x11A74C : (version_D2Client == V109d ? 0x124958 : 0x125AD8)))))))));
+        ptWindowStartX = (DWORD *)      (offset_D2Client + (version_D2Client == V114d ? 0x3A2858 : (version_D2Client == V113d ? 0x11D354 : (version_D2Client == V113c ? 0x11B9A0 : (version_D2Client == V112 ? 0x11BD28 : (version_D2Client == V111b ? 0x11BEF8 : (version_D2Client == V111 ? 0x11BD24 : (version_D2Client == V110 ? 0x11A748 : (version_D2Client == V109d ? 0x124954 : 0x125AD4)))))))));
+        ptIsLodGame = (DWORD *)         (offset_D2Client + (version_D2Client == V114d ? 0x3A04F4 : (version_D2Client == V113d ? 0x1087B4 : (version_D2Client == V113c ? 0x119854 : (version_D2Client == V112 ? 0x10330C : (version_D2Client == V111b ? 0x11A2F4 : (version_D2Client == V111 ? 0xFB3F4 : (version_D2Client == V110 ? 0x000000 : (version_D2Client == V109d ? 0x000000 : 0x000000)))))))));
+        ptDifficultyLevel = (BYTE *)    (offset_D2Client + (version_D2Client == V114d ? 0x000000 : (version_D2Client == V113d ? 0x000000 : (version_D2Client == V113c ? 0x000000 : (version_D2Client == V112 ? 0x11BFF4 : (version_D2Client == V111b ? 0x11C2A8 : (version_D2Client == V111 ? 0x11BFB8 : (version_D2Client == V110 ? 0x10795C : (version_D2Client == V109d ? 0x000000 : 0x000000)))))))));
+        ptMouseY = (DWORD *)            (offset_D2Client + (version_D2Client == V114d ? 0x3A6AAC : (version_D2Client == V113d ? 0x11C94C : (version_D2Client == V113c ? 0x11B824 : (version_D2Client == V112 ? 0x101634 : (version_D2Client == V111b ? 0x11B414 : (version_D2Client == V111 ? 0x10A40C : (version_D2Client == V110 ? 0x000000 : (version_D2Client == V109d ? 0x000000 : 0x000000)))))))));
+        ptMouseX = (DWORD *)            (offset_D2Client + (version_D2Client == V114d ? 0x3A6AB0 : (version_D2Client == V113d ? 0x11C950 : (version_D2Client == V113c ? 0x11B828 : (version_D2Client == V112 ? 0x101638 : (version_D2Client == V111b ? 0x11B418 : (version_D2Client == V111 ? 0x10A410 : (version_D2Client == V110 ? 0x000000 : (version_D2Client == V109d ? 0x000000 : 0x000000)))))))));
+        ptptClientChar = (Unit **)      (offset_D2Client + (version_D2Client == V114d ? 0x3A6A70 : (version_D2Client == V113d ? 0x11D050 : (version_D2Client == V113c ? 0x11BBFC : (version_D2Client == V112 ? 0x11C3D0 : (version_D2Client == V111b ? 0x11C1E0 : (version_D2Client == V111 ? 0x11C4F0 : (version_D2Client == V110 ? 0x000000 : (version_D2Client == V109d ? 0x000000 : 0x000000)))))))));
+        ptInputCommandLen = (DWORD *)   (offset_D2Client + (version_D2Client == V114d ? 0x3BB5E8 : (version_D2Client == V113d ? 0x11CAA4 : (version_D2Client == V113c ? 0x11C028 : (version_D2Client == V112 ? 0x11BF48 : (version_D2Client == V111b ? 0x11BB30 : (version_D2Client == V111 ? 0x11B9A8 : (version_D2Client == V110 ? 0x112D04 : (version_D2Client == V109d ? 0x11CF54 : 0x11E0F4)))))))));
+        ptInputCommand = (WCHAR *)      (offset_D2Client + (version_D2Client == V114d ? 0x3BB638 : (version_D2Client == V113d ? 0x11D650 : (version_D2Client == V113c ? 0x11EC80 : (version_D2Client == V112 ? 0x11FC40 : (version_D2Client == V111b ? 0x11D590 : (version_D2Client == V111 ? 0x11C590 : (version_D2Client == V110 ? 0x111A58 : (version_D2Client == V109d ? 0x11BCB0 : 0x11CE50)))))))));
+        ptNbStatDesc = (DWORD *)        (offset_D2Client + (version_D2Client == V114d ? 0x000000 : (version_D2Client == V113d ? 0x000000 : (version_D2Client == V113c ? 0x000000 : (version_D2Client == V112 ? 0x000000 : (version_D2Client == V111b ? 0x000000 : (version_D2Client == V111 ? 0x000000 : (version_D2Client == V110 ? 0x000000 : (version_D2Client == V109d ? 0xDA828 : 0xDB918)))))))));
+        ptStatDescTable = (DWORD *)     (offset_D2Client + (version_D2Client == V114d ? 0x000000 : (version_D2Client == V113d ? 0x000000 : (version_D2Client == V113c ? 0x000000 : (version_D2Client == V112 ? 0x000000 : (version_D2Client == V111b ? 0x000000 : (version_D2Client == V111 ? 0x000000 : (version_D2Client == V110 ? 0x000000 : (version_D2Client == V109d ? 0xD9EA8 : 0xDAF98)))))))));
 //    SgptDataTables = *(DataTables **) r8(D2Common, 0x0000, 0x0000, 0x96A20, 0x9B74C, 0x9EE8C, 0x9B500, 0x99E1C, 0xA33F0, 0x344304);
 //    SgptDataTables = *(DataTables **) (offset_D2Common + (version_D2Common == V114d? 0x344304 : (version_D2Common == V113d? 0xA33F0 : (version_D2Common == V113c? 0x99E1C : (version_D2Common == V112? 0x9B500 : (version_D2Common == V111b? 0x9EE8C : (version_D2Common == V111? 0x9B74C : (version_D2Common == V110? 0x96A20 : (version_D2Common == V109d? 0x0000 : 0x0000)))))))));
         SgptDataTables = *(DataTables **) R8(D2Common, 0000, 0000, 96A20, 9B74C, 9EE8C, 9B500, 99E1C, A33F0, 344304);
