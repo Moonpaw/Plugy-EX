@@ -38,16 +38,6 @@ namespace PlugY {
 //#define PCSkills (*(Skills**)((DWORD)(ptChar)+shifting.ptSkills)) //->ptSkills
     extern inline Commons::Skills *PCSkills(Commons::Unit *ptChar) { return (*(Commons::Skills **) ((DWORD) (ptChar) + shifting.ptSkills)); }
 
-#define R8(Z, A, B, C, D, E, F, G, H, I) \
-(offset_##Z +                            \
-(version_##Z == V114d? 0x##I :           \
-(version_##Z == V113d? 0x##H :           \
-(version_##Z == V113c? 0x##G :           \
-(version_##Z == V112? 0x##F :            \
-(version_##Z == V111b? 0x##E :           \
-(version_##Z == V111? 0x##D :            \
-(version_##Z == V110? 0x##C :            \
-(version_##Z == V109d? 0x##B : 0x##A)))))))))
     enum D2DllName {
         game,
         binkw32,
@@ -84,6 +74,18 @@ namespace PlugY {
         auto result = dllOffsets.find(d2DllName);
         return result != dllOffsets.end() ? result->second : defaultValue;
     }
+
+#define R8(Z, A, B, C, D, E, F, G, H, I) \
+(offset_##Z +                            \
+(version_##Z == V114d? 0x##I :           \
+(version_##Z == V113d? 0x##H :           \
+(version_##Z == V113c? 0x##G :           \
+(version_##Z == V112? 0x##F :            \
+(version_##Z == V111b? 0x##E :           \
+(version_##Z == V111? 0x##D :            \
+(version_##Z == V110? 0x##C :            \
+(version_##Z == V109d? 0x##B : 0x##A)))))))))
+
 
     extern DWORD r8(D2DllName d2DllName, DWORD defaultValue, DWORD B, DWORD C, DWORD D, DWORD E, DWORD F, DWORD G, DWORD H, DWORD I);
 

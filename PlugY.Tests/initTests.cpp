@@ -40,7 +40,16 @@ namespace PlugY_Tests {
             version_D2Common = V110;
             offset_D2Common = 0x1234;
             auto byDef = R8(D2Common, 0000, 0000, 96A20, 9B74C, 9EE8C, 9B500, 99E1C, A33F0, 344304);
-            auto byFun = r8(D2Common, 0x0000, 0x0000, 0x96A20, 0x9B74C, 0x9EE8C, 0x9B500, 0x99E1C, 0xA33F0, 0x344304);
+            int defaultValue = 0x0000;
+            int b = 0x0000;
+            int c = 0x96A20;
+            int d = 0x9B74C;
+            int e = 0x9EE8C;
+            int f = 0x9B500;
+            int g = 0x99E1C;
+            int h = 0xA33F0;
+            int i = 0x344304;
+            auto byFun = r8(D2Common, defaultValue, b, c, d, e, f, g, h, i);
             REQUIRE(byDef == byFun);
         }
     }

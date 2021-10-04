@@ -959,9 +959,10 @@ namespace PlugY {
         if (version_D2Game <= V109d)
             D2SetSkillBaseLevelOnClient = (TD2SetSkillBaseLevelOnClient) D2SetSkillBaseLevelOnClient_9;
     }
+
     DWORD r8(D2DllName d2DllName, DWORD defaultValue, DWORD B, DWORD C, DWORD D, DWORD E, DWORD F, DWORD G, DWORD H, DWORD I) {
         using namespace Commons;
-        std::map<eGameVersion, DWORD> versions = {
+        std::map<eGameVersion, DWORD> knownVersions = {
                 {V114d, I},
                 {V113d, H},
                 {V113c, G},
@@ -971,12 +972,15 @@ namespace PlugY {
                 {V110,  C},
                 {V109d, B},
         };
-//        auto ver = findVersionOrDefault(d2DllName);
         auto result = dllVersions.find(d2DllName);
         auto ver = result != dllVersions.end() ? result->second : Commons::UNKNOWN;
+        auto knownVersionResult = knownVersions.find(ver);
+        if (knownVersionResult == knownVersions.end()) return defaultValue;
+        auto knownVersion = knownVersionResult->second;
         auto offset = findOffsetOrDefault(d2DllName, defaultValue);
-        return offset + ver;
+        return offset + knownVersion;
     }
+
     DWORD v8(eGameVersion version, DWORD defaultValue, DWORD B, DWORD C, DWORD D, DWORD E, DWORD F, DWORD G, DWORD H, DWORD I) {
         using namespace Commons;
         std::map<eGameVersion, DWORD> versions = {
@@ -993,6 +997,7 @@ namespace PlugY {
         return result != versions.end() ? result->second : defaultValue;
         return result != versions.end() ? result->second : defaultValue;
     }
+
     void init_shifting() {
         const DWORD player_data = v8(version_D2Common, 0x5D, 0x5D, 0x5D, 0x49, 0x49, 0x49, 0x49, 0x49, 0x48);
         shifting.ptPYPlayerData = *(DWORD *) ((DWORD) D2InitPlayerData + player_data);
@@ -1006,13 +1011,16 @@ namespace PlugY {
     }
 
     DWORD RX(DWORD v) {
-        return (*ptWindowStartX)+v;
+        return (*ptWindowStartX) + v;
     }
+
     DWORD RY(DWORD y) {
         return (*ptResolutionY) + (*ptNegWindowStartY) - (y);
     }
+
     std::map<D2DllName, eGameVersion> dllVersions;
     std::map<D2DllName, DWORD> dllOffsets;
+
     void init_dll_maps() {
         dllVersions = {
                 {game,     version_Game},
