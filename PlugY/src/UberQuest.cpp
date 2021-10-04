@@ -401,8 +401,8 @@ namespace PlugY {
         DWORD oldProtection;
 
         // open Red Portal
-        VirtualProtect((LPVOID) R8(D2Game, 0, 0, 0, FA480, FA7B8, FA228, FA5F0, FA2C4, 2E11D0), 8, PAGE_EXECUTE_READWRITE, &oldProtection);
-        mem_seek R8(D2Game, 0000, 0000, 0000, FA480, FA7B8, FA228, FA5F0, FA2C4, 2E11D0);
+        VirtualProtect((LPVOID) (offset_D2Game + (version_D2Game == V114d ? 0x2E11D0 : (version_D2Game == V113d ? 0xFA2C4 : (version_D2Game == V113c ? 0xFA5F0 : (version_D2Game == V112 ? 0xFA228 : (version_D2Game == V111b ? 0xFA7B8 : (version_D2Game == V111 ? 0xFA480 : (version_D2Game == V110 ? 0x0 : (version_D2Game == V109d ? 0x0 : 0x0))))))))), 8, PAGE_EXECUTE_READWRITE, &oldProtection);
+        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x2E11D0 : (version_D2Game == V113d ? 0xFA2C4 : (version_D2Game == V113c ? 0xFA5F0 : (version_D2Game == V112 ? 0xFA228 : (version_D2Game == V111b ? 0xFA7B8 : (version_D2Game == V111 ? 0xFA480 : (version_D2Game == V110 ? 0x0000 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
         MEMT_DWORD(D2OpenPandPortal, openPandPortal);
         MEMT_DWORD(D2OpenPandFinalPortal, openPandFinalPortal);
         //0201E357  |. FFD0           |CALL EAX
@@ -411,18 +411,18 @@ namespace PlugY {
         //6FC92437  |. FFD0           |CALL EAX
         //6FCB7127  |. FFD0           |CALL EAX
         //00565D45   . FFD0           CALL EAX
-        VirtualProtect((LPVOID) R8(D2Game, 0, 0, 0, FA480, FA7B8, FA228, FA5F0, FA2C4, 2E11D0), 8, oldProtection, &oldProtection);
+        VirtualProtect((LPVOID) (offset_D2Game + (version_D2Game == V114d ? 0x2E11D0 : (version_D2Game == V113d ? 0xFA2C4 : (version_D2Game == V113c ? 0xFA5F0 : (version_D2Game == V112 ? 0xFA228 : (version_D2Game == V111b ? 0xFA7B8 : (version_D2Game == V111 ? 0xFA480 : (version_D2Game == V110 ? 0x0 : (version_D2Game == V109d ? 0x0 : 0x0))))))))), 8, oldProtection, &oldProtection);
 
 
         // manage uberIA (fct table at 0209E7E8)
-        VirtualProtect((LPVOID) (R8(D2Game, 0, 0, 0, 10E7E8, 10ECD0, 10EF58, 10E788, 10ED00, 33CA18) + 145 * 0x10), 0x30, PAGE_EXECUTE_READWRITE, &oldProtection);
-        mem_seek R8(D2Game, 0000, 0000, 0000, 10F100, 10F5E8, 10F870, 10F0A0, 10F618, 33D330);
+        VirtualProtect((LPVOID) ((offset_D2Game + (version_D2Game == V114d ? 0x33CA18 : (version_D2Game == V113d ? 0x10ED00 : (version_D2Game == V113c ? 0x10E788 : (version_D2Game == V112 ? 0x10EF58 : (version_D2Game == V111b ? 0x10ECD0 : (version_D2Game == V111 ? 0x10E7E8 : (version_D2Game == V110 ? 0x0 : (version_D2Game == V109d ? 0x0 : 0x0))))))))) + 145 * 0x10), 0x30, PAGE_EXECUTE_READWRITE, &oldProtection);
+        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x33D330 : (version_D2Game == V113d ? 0x10F618 : (version_D2Game == V113c ? 0x10F0A0 : (version_D2Game == V112 ? 0x10F870 : (version_D2Game == V111b ? 0x10F5E8 : (version_D2Game == V111 ? 0x10F100 : (version_D2Game == V110 ? 0x0000 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
         MEMT_DWORD(D2UberBaalAI, uberBaalAI);
-        mem_seek R8(D2Game, 0000, 0000, 0000, 10F110, 10F5F8, 10F880, 10F0B0, 10F628, 33D340);
+        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x33D340 : (version_D2Game == V113d ? 0x10F628 : (version_D2Game == V113c ? 0x10F0B0 : (version_D2Game == V112 ? 0x10F880 : (version_D2Game == V111b ? 0x10F5F8 : (version_D2Game == V111 ? 0x10F110 : (version_D2Game == V110 ? 0x0000 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
         MEMT_DWORD(D2UberMephAI, uberMephAI);
-        mem_seek R8(D2Game, 0000, 0000, 0000, 10F120, 10F608, 10F890, 10F0C0, 10F638, 33D350);
+        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x33D350 : (version_D2Game == V113d ? 0x10F638 : (version_D2Game == V113c ? 0x10F0C0 : (version_D2Game == V112 ? 0x10F890 : (version_D2Game == V111b ? 0x10F608 : (version_D2Game == V111 ? 0x10F120 : (version_D2Game == V110 ? 0x0000 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
         MEMT_DWORD(D2UberDiabloAI, uberDiabloAI);
-        VirtualProtect((LPVOID) (R8(D2Game, 0, 0, 0, 10E7E8, 10ECD0, 10EF58, 10E788, 10ED00, 33CA18) + 145 * 0x10), 0x30, oldProtection, &oldProtection);
+        VirtualProtect((LPVOID) ((offset_D2Game + (version_D2Game == V114d ? 0x33CA18 : (version_D2Game == V113d ? 0x10ED00 : (version_D2Game == V113c ? 0x10E788 : (version_D2Game == V112 ? 0x10EF58 : (version_D2Game == V111b ? 0x10ECD0 : (version_D2Game == V111 ? 0x10E7E8 : (version_D2Game == V110 ? 0x0 : (version_D2Game == V109d ? 0x0 : 0x0))))))))) + 145 * 0x10), 0x30, oldProtection, &oldProtection);
         //0202ADA7  |> B8 E8E70902    MOV EAX,D2Game.0209E7E8
         //01FD2BE7  |> B8 D0EC0702    MOV EAX,D2Game.0207ECD0
         //6FC3B597  |> B8 58EFD26F    MOV EAX,D2Game.6FD2EF58
@@ -435,7 +435,7 @@ namespace PlugY {
 //	MEMJ_REF4( D2WarpPlayer , spawnUber);
         //02028DAC  |. E8 491CF7FF    CALL <JMP.&D2Common.#10872>
 
-        mem_seek R8(D2Game, 0000, 0000, 0000, E26E2, E6B52, A850B, 2CCAB, BE9AB, 12D1DC);
+        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x12D1DC : (version_D2Game == V113d ? 0xBE9AB : (version_D2Game == V113c ? 0x2CCAB : (version_D2Game == V112 ? 0xA850B : (version_D2Game == V111b ? 0xE6B52 : (version_D2Game == V111 ? 0xE26E2 : (version_D2Game == V110 ? 0x0000 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
         MEMC_REF4(V2Game235C0, version_D2Game >= V114d ? (DWORD) caller_spawnUber : (DWORD) spawnUber);
         //020726E1  |. E8 2A46FFFF    ||CALL D2Game.02066D10
         //02056B51  |. E8 6ACAF3FF    ||CALL D2Game.01F935C0

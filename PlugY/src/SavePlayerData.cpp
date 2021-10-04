@@ -648,7 +648,7 @@ FCT_ASM ( caller_SendSaveFilesToSave )
 
         //Save single player custom data.
         if (version_D2Game >= V111) {
-            mem_seek R8(D2Game, 0000, 0000, 0000, B9801, 25911, 44601, 543D1, 39CD1, 1324EC);
+            mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x1324EC : (version_D2Game == V113d ? 0x39CD1 : (version_D2Game == V113c ? 0x543D1 : (version_D2Game == V112 ? 0x44601 : (version_D2Game == V111b ? 0x25911 : (version_D2Game == V111 ? 0xB9801 : (version_D2Game == V110 ? 0x0000 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
             MEMC_REF4(D2SaveSPChar, version_D2Game >= V114a ? caller_SaveSPPlayerCustomData_114 : version_D2Game >= V111 ? caller_SaveSPPlayerCustomData_111 : version_D2Game != V109b ? caller_SaveSPPlayerCustomData : caller_SaveSPPlayerCustomData_9);
             //6FCD9800  |. E8 3BFBFFFF    CALL D2Game.6FCD9340
             //6FC45910  |. E8 3BFBFFFF    CALL D2Game.6FC45450
@@ -657,7 +657,7 @@ FCT_ASM ( caller_SendSaveFilesToSave )
             //6FC59CD0  |. E8 3BFBFFFF    CALL D2Game.6FC59810
             //005324EB  |. E8 50FDFFFF    CALL Game.00532240                       ; \Game.00532240
         } else {
-            mem_seek R8(D2Game, 4DF04, 4E304, 5A624, B9365, 25475, 44165, 53F35, 39835, 132276);
+            mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x132276 : (version_D2Game == V113d ? 0x39835 : (version_D2Game == V113c ? 0x53F35 : (version_D2Game == V112 ? 0x44165 : (version_D2Game == V111b ? 0x25475 : (version_D2Game == V111 ? 0xB9365 : (version_D2Game == V110 ? 0x5A624 : (version_D2Game == V109d ? 0x4E304 : 0x4DF04)))))))));
             MEMJ_REF4(D2FogGetSavePath, /*version_D2Game >= V114a ? caller_SaveSPPlayerCustomData : version_D2Game >= V111 ? caller_SaveSPPlayerCustomData_111 :*/ version_D2Game != V109b ? caller_SaveSPPlayerCustomData : caller_SaveSPPlayerCustomData_9);
             //6FC8A623   E8 3E210900      CALL <JMP.&Fog.#10115>
             //02039364  |. E8 3B0FF5FF    CALL <JMP.&Fog.#10115>
@@ -669,7 +669,7 @@ FCT_ASM ( caller_SendSaveFilesToSave )
         }
         if (active_PlayerCustomData) {
             //Send SaveFiles
-            mem_seek R8(D2Game, 4DFFA, 4E3FA, 5A720, B92DB, 253EB, 440DB, 53EAB, 397AB, 132398);
+            mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x132398 : (version_D2Game == V113d ? 0x397AB : (version_D2Game == V113c ? 0x53EAB : (version_D2Game == V112 ? 0x440DB : (version_D2Game == V111b ? 0x253EB : (version_D2Game == V111 ? 0xB92DB : (version_D2Game == V110 ? 0x5A720 : (version_D2Game == V109d ? 0x4E3FA : 0x4DFFA)))))))));
             memt_byte(0x8B, 0x90); // NOP
             memt_byte(version_D2Game >= V114d ? 0xBD : version_D2Game >= V111 ? 0x44 : version_D2Game != V109b ? 0x7C : 0x74, 0xE8); // CALL
             MEMT_REF4(version_D2Game >= V114d ? 0xFFFFDFF8 : version_D2Game >= V111 ? 0xC0850424 : version_D2Game != V109b ? 0xFF851024 : 0xF6851024, version_D2Game >= V114d ? caller_SendSaveFilesToSave_114 : version_D2Game >= V111 ? caller_SendSaveFilesToSave_111 : version_D2Game != V109b ? caller_SendSaveFilesToSave : caller_SendSaveFilesToSave_9);
@@ -687,7 +687,7 @@ FCT_ASM ( caller_SendSaveFilesToSave )
             //6FC597AF  |. 85C0           TEST EAX,EAX
             //00532398  |. 8BBD F8DFFFFF  MOV EDI,DWORD PTR SS:[EBP-2008]
 
-            mem_seek R8(D2Game, 7993, 7A13, 7BBB, E2943, E6D83, A89D3, 2D173, BEDD3, 12E13E);
+            mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x12E13E : (version_D2Game == V113d ? 0xBEDD3 : (version_D2Game == V113c ? 0x2D173 : (version_D2Game == V112 ? 0xA89D3 : (version_D2Game == V111b ? 0xE6D83 : (version_D2Game == V111 ? 0xE2943 : (version_D2Game == V110 ? 0x7BBB : (version_D2Game == V109d ? 0x7A13 : 0x7993)))))))));
             memt_byte(0x8B, 0x90); // NOP
             memt_byte(version_D2Game >= V110 ? 0x8E : 0x86, 0xE8); // CALL
             MEMT_REF4(version_D2Game >= V110 ? 0x0000017C : version_D2Game == V109d ? 0x0000174 : 0x00000150, version_D2Game >= V110 ? caller_ManageNextPacketToSend : version_D2Game == V109d ? caller_ManageNextPacketToSend_9d : caller_ManageNextPacketToSend_9);
@@ -707,7 +707,7 @@ FCT_ASM ( caller_SendSaveFilesToSave )
             //6FC37DD3  |. 50             |PUSH EAX
 
             //Received SaveFiles
-            mem_seek R8(D2Client, 116F0, 116E0, 11CB0, 89246, 32076, 7BCD6, 43946, 448E6, 4C70D);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x4C70D : (version_D2Client == V113d ? 0x448E6 : (version_D2Client == V113c ? 0x43946 : (version_D2Client == V112 ? 0x7BCD6 : (version_D2Client == V111b ? 0x32076 : (version_D2Client == V111 ? 0x89246 : (version_D2Client == V110 ? 0x11CB0 : (version_D2Client == V109d ? 0x116E0 : 0x116F0)))))))));
             if (version_D2Game >= V114a) {
                 MEMC_REF4(D2ReceivePacket, caller_ReceivedSaveFilesToSave_114);
                 //0044C70C  |. E8 3F010100    |CALL Game.0045C850
@@ -729,7 +729,7 @@ FCT_ASM ( caller_SendSaveFilesToSave )
         }
         if (version_D2Game >= V111) {
             // Save multiplayer player custom data.
-            mem_seek R8(D2Client, 117FC, 117EC, 11DBC, 99AE2, BD7F2, 64A22, AC572, 829C2, 5C565);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x5C565 : (version_D2Client == V113d ? 0x829C2 : (version_D2Client == V113c ? 0xAC572 : (version_D2Client == V112 ? 0x64A22 : (version_D2Client == V111b ? 0xBD7F2 : (version_D2Client == V111 ? 0x99AE2 : (version_D2Client == V110 ? 0x11DBC : (version_D2Client == V109d ? 0x117EC : 0x117FC)))))))));
             memt_byte(0x81, 0xE8); // CALL
             MEMT_REF4(0x55AA55F9, caller_SaveMPPlayerCustomData_111);
             memt_byte(0xAA, 0x90); // CALL
@@ -741,7 +741,7 @@ FCT_ASM ( caller_SendSaveFilesToSave )
             //0045C565  |. 81F9 55AA55AA  CMP ECX,AA55AA55
         } else {
             // Save multiplayer player custom data.
-            mem_seek R8(D2Client, 117FC, 117EC, 11DBC, 99AE2, BD7F2, 64A22, 0000, 0000, 0000);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x0000 : (version_D2Client == V113d ? 0x0000 : (version_D2Client == V113c ? 0x0000 : (version_D2Client == V112 ? 0x64A22 : (version_D2Client == V111b ? 0xBD7F2 : (version_D2Client == V111 ? 0x99AE2 : (version_D2Client == V110 ? 0x11DBC : (version_D2Client == V109d ? 0x117EC : 0x117FC)))))))));
             memt_byte(0x8B, 0xE8); // CALL
             MEMT_REF4(0x04518B01, caller_SaveMPPlayerCustomData);
             //6FAB1DBC  |. 8B01           MOV EAX,DWORD PTR DS:[ECX]

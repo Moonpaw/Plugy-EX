@@ -934,10 +934,10 @@ namespace PlugY {
             D2CleanStatMouseUp = D2CleanStatMouseUp_111;
             D2MonsterUseSkill = (TD2MonsterUseSkill) D2MonsterUseSkill_111;
             D2ReadFile = (TD2ReadFile) D2ReadFile_111;
-            StatMouse1 = (DWORD *) R8(D2Client, 0000, 0000, 0000, 11C004, 11C2F4, 11C040, 11C3DC, 11D224, 3A0650);
-            StatMouse2 = (DWORD *) R8(D2Client, 0000, 0000, 0000, 11C008, 11C2F8, 11C044, 11C3E0, 11D228, 3A0654);
-            StatMouse3 = (DWORD *) R8(D2Client, 0000, 0000, 0000, 11C020, 11C310, 11C05C, 11C3F8, 11D240, 3A0658);
-            StatMouse4 = (DWORD *) R8(D2Client, 0000, 0000, 0000, 11C024, 11C314, 11C060, 11C3FC, 11D244, 3A065C);
+            StatMouse1 = (DWORD *) (offset_D2Client + (version_D2Client == V114d ? 0x3A0650 : (version_D2Client == V113d ? 0x11D224 : (version_D2Client == V113c ? 0x11C3DC : (version_D2Client == V112 ? 0x11C040 : (version_D2Client == V111b ? 0x11C2F4 : (version_D2Client == V111 ? 0x11C004 : (version_D2Client == V110 ? 0x0000 : (version_D2Client == V109d ? 0x0000 : 0x0000)))))))));
+            StatMouse2 = (DWORD *) (offset_D2Client + (version_D2Client == V114d ? 0x3A0654 : (version_D2Client == V113d ? 0x11D228 : (version_D2Client == V113c ? 0x11C3E0 : (version_D2Client == V112 ? 0x11C044 : (version_D2Client == V111b ? 0x11C2F8 : (version_D2Client == V111 ? 0x11C008 : (version_D2Client == V110 ? 0x0000 : (version_D2Client == V109d ? 0x0000 : 0x0000)))))))));
+            StatMouse3 = (DWORD *) (offset_D2Client + (version_D2Client == V114d ? 0x3A0658 : (version_D2Client == V113d ? 0x11D240 : (version_D2Client == V113c ? 0x11C3F8 : (version_D2Client == V112 ? 0x11C05C : (version_D2Client == V111b ? 0x11C310 : (version_D2Client == V111 ? 0x11C020 : (version_D2Client == V110 ? 0x0000 : (version_D2Client == V109d ? 0x0000 : 0x0000)))))))));
+            StatMouse4 = (DWORD *) (offset_D2Client + (version_D2Client == V114d ? 0x3A065C : (version_D2Client == V113d ? 0x11D244 : (version_D2Client == V113c ? 0x11C3FC : (version_D2Client == V112 ? 0x11C060 : (version_D2Client == V111b ? 0x11C314 : (version_D2Client == V111 ? 0x11C024 : (version_D2Client == V110 ? 0x0000 : (version_D2Client == V109d ? 0x0000 : 0x0000)))))))));
         } else {
             D2SendToServer = (TD2SendToServer) D2SendToServer_1XX;
             D2GetGameByClientID = (TD2GetGameByClientID) D2GetGameByClientID_1XX;
@@ -1017,24 +1017,24 @@ namespace PlugY {
         return (*ptResolutionY) + (*ptNegWindowStartY) - (y);
     }
 
-    std::map<D2DllName, eGameVersion> dllVersions;
-    std::map<D2DllName, DWORD> dllOffsets;
+    std::map<D2DllName, eGameVersion> init_dll_versions() {
+            return {
+                    {game,     version_Game},
+                    {D2Client, version_D2Client},
+                    {D2Common, version_D2Common},
+                    {D2Game,   version_D2Game},
+                    {D2gfx,    version_D2gfx},
+                    {D2Lang,   version_D2Lang},
+                    {D2Launch, version_D2Launch},
+                    {D2Net,    version_D2Net},
+                    {D2Win,    version_D2Win},
+                    {Fog,      version_Fog},
+                    {Storm,    version_Storm}
+            };
+    }
 
-    void init_dll_maps() {
-        dllVersions = {
-                {game,     version_Game},
-                {D2Client, version_D2Client},
-                {D2Common, version_D2Common},
-                {D2Game,   version_D2Game},
-                {D2gfx,    version_D2gfx},
-                {D2Lang,   version_D2Lang},
-                {D2Launch, version_D2Launch},
-                {D2Net,    version_D2Net},
-                {D2Win,    version_D2Win},
-                {Fog,      version_Fog},
-                {Storm,    version_Storm}
-        };
-        dllOffsets = {
+    std::map<D2DllName, DWORD> init_dll_offsets() {
+        return {
                 {game,     offset_Game},
                 {D2Client, offset_D2Client},
                 {D2Common, offset_D2Common},
@@ -1049,10 +1049,26 @@ namespace PlugY {
         };
     }
 
-    void initD2functions() {
+    void init_dll_maps() {
+        dllVersions = init_dll_versions();
+        dllOffsets = init_dll_offsets();
+    }
+
+    std::map<D2DllName, eGameVersion> dllVersions;
+    std::map<D2DllName, DWORD> dllOffsets;
+
+
 
 #define F8Init(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) \
-if (version_##Z > V113d) { N = (T##N)R8(Z,A,B,C,D,E,F,G,H,I); } \
+if (version_##Z > V113d) { N = (T##N)(offset_##Z +                            \
+(version_##Z == V114d? 0x##I :           \
+(version_##Z == V113d? 0x##H :           \
+(version_##Z == V113c? 0x##G :           \
+(version_##Z == V112? 0x##F :            \
+(version_##Z == V111b? 0x##E :           \
+(version_##Z == V111? 0x##D :            \
+(version_##Z == V110? 0x##C :            \
+(version_##Z == V109d? 0x##B : 0x##A))))))))); } \
 else setFctAddr((DWORD*)&N, (HMODULE)offset_##Z,     \
     (LPCSTR)(version_##Z == V113d? H :               \
     (version_##Z == V113c? G :                       \
@@ -1062,12 +1078,31 @@ else setFctAddr((DWORD*)&N, (HMODULE)offset_##Z,     \
     (version_##Z == V110? C :                        \
     (version_##Z == V109d? B :                       \
     A))))))));
-#define A8Init(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) N = (T##N)R8(Z,A,B,C,D,E,F,G,H,I);
 
-        F8Init(STD, D2Common,
-               00000, 00000, 00000, 10188, 11084, 11109, 10346, 10907, 21AED0, DWORD, D2Common11084, (
-                       Room * ptRoom, DWORD
-                       zero));
+
+#define A8Init(X, Z, A, B, C, D, E, F, G, H, I, R, N, P) N = (T##N)(offset_##Z +                            \
+(version_##Z == V114d? 0x##I :           \
+(version_##Z == V113d? 0x##H :           \
+(version_##Z == V113c? 0x##G :           \
+(version_##Z == V112? 0x##F :            \
+(version_##Z == V111b? 0x##E :           \
+(version_##Z == V111? 0x##D :            \
+(version_##Z == V110? 0x##C :            \
+(version_##Z == V109d? 0x##B : 0x##A)))))))));
+
+    void initD2functions() {
+        if (version_D2Common > V113d) { D2Common11084 = (TD2Common11084) (offset_D2Common + (version_D2Common == V114d ? 0x21AED0 : (version_D2Common == V113d ? 0x10907 : (version_D2Common == V113c ? 0x10346 : (version_D2Common == V112 ? 0x11109 : (version_D2Common == V111b ? 0x11084 : (version_D2Common == V111 ? 0x10188 : (version_D2Common == V110 ? 0x00000 : (version_D2Common == V109d ? 0x00000 : 0x00000))))))))); } else setFctAddr((DWORD *) &D2Common11084, (HMODULE) offset_D2Common,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                      (LPCSTR) (version_D2Common == V113d ? 10907 : (
+                                                                                                                                                                                                                                                                                                                                                                                                                                                              version_D2Common == V113c ? 10346 : (
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                      version_D2Common == V112 ? 11109 : (
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                              version_D2Common == V111b ? 11084 : (
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      version_D2Common == V111
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ? 10188 : (version_D2Common ==
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 V110 ? 00000 : (
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         version_D2Common ==
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         V109d
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ? 00000
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         : 00000))))))));;
         F8Init(STD, D2Common,
                10057, 10057, 10057, 10332, 11021, 10511, 10826, 10691, 21A1B0, DWORD, D2GetLevelID, (
                        Room * ptRoom
@@ -1843,7 +1878,7 @@ else setFctAddr((DWORD*)&N, (HMODULE)offset_##Z,     \
         ptStatDescTable = (DWORD *)     (offset_D2Client + (version_D2Client == V114d ? 0x000000 : (version_D2Client == V113d ? 0x000000 : (version_D2Client == V113c ? 0x000000 : (version_D2Client == V112 ? 0x000000 : (version_D2Client == V111b ? 0x000000 : (version_D2Client == V111 ? 0x000000 : (version_D2Client == V110 ? 0x000000 : (version_D2Client == V109d ? 0xD9EA8 : 0xDAF98)))))))));
 //    SgptDataTables = *(DataTables **) r8(D2Common, 0x0000, 0x0000, 0x96A20, 0x9B74C, 0x9EE8C, 0x9B500, 0x99E1C, 0xA33F0, 0x344304);
 //    SgptDataTables = *(DataTables **) (offset_D2Common + (version_D2Common == V114d? 0x344304 : (version_D2Common == V113d? 0xA33F0 : (version_D2Common == V113c? 0x99E1C : (version_D2Common == V112? 0x9B500 : (version_D2Common == V111b? 0x9EE8C : (version_D2Common == V111? 0x9B74C : (version_D2Common == V110? 0x96A20 : (version_D2Common == V109d? 0x0000 : 0x0000)))))))));
-        SgptDataTables = *(DataTables **) R8(D2Common, 0000, 0000, 96A20, 9B74C, 9EE8C, 9B500, 99E1C, A33F0, 344304);
+        SgptDataTables = *(DataTables **) (offset_D2Common + (version_D2Common == V114d ? 0x344304 : (version_D2Common == V113d ? 0xA33F0 : (version_D2Common == V113c ? 0x99E1C : (version_D2Common == V112 ? 0x9B500 : (version_D2Common == V111b ? 0x9EE8C : (version_D2Common == V111 ? 0x9B74C : (version_D2Common == V110 ? 0x96A20 : (version_D2Common == V109d ? 0x0000 : 0x0000)))))))));
         if (version_D2Common < V110) {
             setFctAddr((DWORD *) &D2Common10581, (HMODULE) offset_D2Common, (LPCSTR) 10581);;//ONLY in 1.09
             setFctAddr((DWORD *) &D2Common10598, (HMODULE) offset_D2Common, (LPCSTR) 10598);;//ONLY in 1.09

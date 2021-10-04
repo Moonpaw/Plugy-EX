@@ -48,7 +48,7 @@ namespace PlugY {
         static int isInstalled = false;
         if (isInstalled) return;
         log_msg("Patch D2Game for change Skill points win per level up. (SkillPerLevelUp)\n");
-        mem_seek R8(D2Game, 42261, 42651, 4ED60, D7AE5, 79695, AA455, EB1E5, EDCA5, 1709D1);
+        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x1709D1 : (version_D2Game == V113d ? 0xEDCA5 : (version_D2Game == V113c ? 0xEB1E5 : (version_D2Game == V112 ? 0xAA455 : (version_D2Game == V111b ? 0x79695 : (version_D2Game == V111 ? 0xD7AE5 : (version_D2Game == V110 ? 0x4ED60 : (version_D2Game == V109d ? 0x42651 : 0x42261)))))))));
         MEMJ_REF4(V2AddPlayerStat, version_D2Game >= V114d ? caller_changeSkillPerLevelUp_114 : version_D2Game >= V111 ? caller_changeSkillPerLevelUp_111 : caller_changeSkillPerLevelUp);
         //6FC7ED5F  |. E8 56CB0900    CALL <JMP.&D2Common.#10518>
         //02057AE4  |. E8 9F28F3FF    CALL <JMP.&D2Common.#10109>

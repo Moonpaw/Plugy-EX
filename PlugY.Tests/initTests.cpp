@@ -39,7 +39,7 @@ namespace PlugY_Tests {
             init_dll_maps();
             version_D2Common = V110;
             offset_D2Common = 0x1234;
-            auto byDef = R8(D2Common, 0000, 0000, 96A20, 9B74C, 9EE8C, 9B500, 99E1C, A33F0, 344304);
+            auto byDef = (offset_D2Common + (version_D2Common == V114d ? 0x344304 : (version_D2Common == V113d ? 0xA33F0 : (version_D2Common == V113c ? 0x99E1C : (version_D2Common == V112 ? 0x9B500 : (version_D2Common == V111b ? 0x9EE8C : (version_D2Common == V111 ? 0x9B74C : (version_D2Common == V110 ? 0x96A20 : (version_D2Common == V109d ? 0x0000 : 0x0000)))))))));
             DWORD defaultValue = 0x0000;
             DWORD b = 0x0000;
             DWORD c = 0x96A20;

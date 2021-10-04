@@ -152,7 +152,7 @@ FCT_ASM ( caller_MultiPlayerBtnPress )
         log_msg("Patch D2Launch for set not on realm variable. (VariableonRealm)\n");
 
         // click on Battle.net button
-        mem_seek R8(D2Launch, 8195, 81A5, 9915, 129E5, 18AA5, 17D15, 19295, 11C65, 3533B);
+        mem_seek(offset_D2Launch + (version_D2Launch == V114d ? 0x3533B : (version_D2Launch == V113d ? 0x11C65 : (version_D2Launch == V113c ? 0x19295 : (version_D2Launch == V112 ? 0x17D15 : (version_D2Launch == V111b ? 0x18AA5 : (version_D2Launch == V111 ? 0x129E5 : (version_D2Launch == V110 ? 0x9915 : (version_D2Launch == V109d ? 0x81A5 : 0x8195)))))))));
         memt_byte(0x81, 0xE8);    // CALL
         MEMT_REF4(0x000400EC, version_D2Launch == V114d ? caller_BnetBtnPress114 : caller_BnetBtnPress);
         memt_byte(0x00, 0x90);    // NOP
@@ -166,7 +166,7 @@ FCT_ASM ( caller_MultiPlayerBtnPress )
         //6FA1EFFC   . B8 01000000    MOV EAX,1
 
         // click on TCP/IP button
-        mem_seek R8(D2Launch, 87B9, 87C9, 9F99, 11329, 17409, 16659, 17B8E, 1053E, 2FFEC);
+        mem_seek(offset_D2Launch + (version_D2Launch == V114d ? 0x2FFEC : (version_D2Launch == V113d ? 0x1053E : (version_D2Launch == V113c ? 0x17B8E : (version_D2Launch == V112 ? 0x16659 : (version_D2Launch == V111b ? 0x17409 : (version_D2Launch == V111 ? 0x11329 : (version_D2Launch == V110 ? 0x9F99 : (version_D2Launch == V109d ? 0x87C9 : 0x87B9)))))))));
         if (version_D2Launch <= V110) {
             memt_byte(0xBD, 0xE8);    // CALL
             MEMT_REF4(0x00000001, caller_TCPIPBtnPress);
@@ -180,7 +180,7 @@ FCT_ASM ( caller_MultiPlayerBtnPress )
         }
 
         // click on SinglePlayer button
-        mem_seek R8(D2Launch, D1F6, D1E6, EC16, B726, 117E6, 10A56, 11F36, A906, 30BC9);
+        mem_seek(offset_D2Launch + (version_D2Launch == V114d ? 0x30BC9 : (version_D2Launch == V113d ? 0xA906 : (version_D2Launch == V113c ? 0x11F36 : (version_D2Launch == V112 ? 0x10A56 : (version_D2Launch == V111b ? 0x117E6 : (version_D2Launch == V111 ? 0xB726 : (version_D2Launch == V110 ? 0xEC16 : (version_D2Launch == V109d ? 0xD1E6 : 0xD1F6)))))))));
         memt_byte(0xBA, 0xE8);    // CALL
         MEMT_REF4(0x00000400, caller_SinglePlayerBtnPress);
         //6FA4B726   . BA 00040000    MOV EDX,400
@@ -189,7 +189,7 @@ FCT_ASM ( caller_MultiPlayerBtnPress )
         if (version_D2Game == V110) {
             log_msg("\nPatch D2Game for fixing ptClient removing bug. (VariableonRealm)\n");
             //Bug crash ptClient search fix (for Megalixir Mod).
-            mem_seek R8(D2Game, 0000, 0000, 2B97, 0000, 0000, 0000, 0000, 0000, 0000);
+            mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x0000 : (version_D2Game == V113d ? 0x0000 : (version_D2Game == V113c ? 0x0000 : (version_D2Game == V112 ? 0x0000 : (version_D2Game == V111b ? 0x0000 : (version_D2Game == V111 ? 0x0000 : (version_D2Game == V110 ? 0x2B97 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
             memt_byte(0x39, 0xE8);
             MEMT_REF4(0x8B0C7429, caller_fixClientRemovingBug);
             memt_byte(0xC1, 0x90);

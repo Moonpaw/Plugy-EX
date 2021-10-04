@@ -71,7 +71,7 @@ namespace PlugY {
         log_msg("Patch D2Launch to print PlugY version. (PrintPlugYVersion)\n");
 
         // Print PlugY version.
-        mem_seek R8(D2Launch, 7F5D, 7F7D, 9639, 117C7, 178A7, 16AF7, 18061, 10A11, 33798);
+        mem_seek(offset_D2Launch + (version_D2Launch == V114d ? 0x33798 : (version_D2Launch == V113d ? 0x10A11 : (version_D2Launch == V113c ? 0x18061 : (version_D2Launch == V112 ? 0x16AF7 : (version_D2Launch == V111b ? 0x178A7 : (version_D2Launch == V111 ? 0x117C7 : (version_D2Launch == V110 ? 0x9639 : (version_D2Launch == V109d ? 0x7F7D : 0x7F5D)))))))));
         if (version_D2Launch == V114d) {
             memt_byte(0xB9, 0xE8);
             MEMT_REF4(0x00000115, caller_printPlugYVersion114);
@@ -131,13 +131,13 @@ namespace PlugY {
 
         // Print LoD/Mod version.
         if (version_D2Launch >= V114d) {
-            mem_seek R8(D2Launch, 00000, 00000, 9723, 1189B, 1797B, 16BCB, 18134, 10AE4, 337EA);//6FA19721-6FA10000
+            mem_seek(offset_D2Launch + (version_D2Launch == V114d ? 0x337EA : (version_D2Launch == V113d ? 0x10AE4 : (version_D2Launch == V113c ? 0x18134 : (version_D2Launch == V112 ? 0x16BCB : (version_D2Launch == V111b ? 0x1797B : (version_D2Launch == V111 ? 0x1189B : (version_D2Launch == V110 ? 0x9723 : (version_D2Launch == V109d ? 0x00000 : 0x00000)))))))));//6FA19721-6FA10000
             memt_byte(0x8D, 0xE8);    // CALL
             MEMT_REF4(0xCE8BC055, caller_VersionChange_114);
             //004337EA  |. 8D55 C0        LEA EDX,DWORD PTR SS:[EBP-40]            ; |
             //004337ED  |. 8BCE           MOV ECX,ESI                              ; |
         } else if (version_D2Launch >= V110) {
-            mem_seek R8(D2Launch, 00000, 00000, 9723, 1189B, 1797B, 16BCB, 18134, 10AE4, 337EA);//6FA19721-6FA10000
+            mem_seek(offset_D2Launch + (version_D2Launch == V114d ? 0x337EA : (version_D2Launch == V113d ? 0x10AE4 : (version_D2Launch == V113c ? 0x18134 : (version_D2Launch == V112 ? 0x16BCB : (version_D2Launch == V111b ? 0x1797B : (version_D2Launch == V111 ? 0x1189B : (version_D2Launch == V110 ? 0x9723 : (version_D2Launch == V109d ? 0x00000 : 0x00000)))))))));//6FA19721-6FA10000
             memt_byte(0x8D, 0xE8);    // CALL
             MEMT_REF4(0x8B102454, caller_VersionChange_10);
             memt_byte(0xCF, 0x90);    // NOP
@@ -154,7 +154,7 @@ namespace PlugY {
             //6FA50AE4  |. 8D5424 10      LEA EDX,DWORD PTR SS:[ESP+10]
             //6FA50AE8  |. 8BCF           MOV ECX,EDI
         } else {
-            mem_seek R8(D2Launch, 801B, 803B, 972A, 118A2, 17982, 16BD2, 1813B, 10AEB, 00000);
+            mem_seek(offset_D2Launch + (version_D2Launch == V114d ? 0x00000 : (version_D2Launch == V113d ? 0x10AEB : (version_D2Launch == V113c ? 0x1813B : (version_D2Launch == V112 ? 0x16BD2 : (version_D2Launch == V111b ? 0x17982 : (version_D2Launch == V111 ? 0x118A2 : (version_D2Launch == V110 ? 0x972A : (version_D2Launch == V109d ? 0x803B : 0x801B)))))))));
             MEMJ_REF4(D2PrintLineOnTextBox, versionChange);
             //6FA19729  |. E8 88EB0000    CALL <JMP.&D2Win.#10046>
             //6FA518A1  |. E8 267FFFFF    CALL <JMP.&D2Win.#10061>

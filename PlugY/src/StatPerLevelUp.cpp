@@ -48,7 +48,7 @@ namespace PlugY {
         static int isInstalled = false;
         if (isInstalled) return;
         log_msg("Patch D2Game for change Stat points win per level up. (StatPerLevelUp)\n");
-        mem_seek R8(D2Game, 42258, 42648, 4ED55, D7ADA, 7968A, AA44A, EB1DA, EDC9A, 1709C6);
+        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x1709C6 : (version_D2Game == V113d ? 0xEDC9A : (version_D2Game == V113c ? 0xEB1DA : (version_D2Game == V112 ? 0xAA44A : (version_D2Game == V111b ? 0x7968A : (version_D2Game == V111 ? 0xD7ADA : (version_D2Game == V110 ? 0x4ED55 : (version_D2Game == V109d ? 0x42648 : 0x42258)))))))));
         MEMJ_REF4(V2AddPlayerStat, version_D2Game >= V114d ? caller_changeStatPerLevelUp_114 : version_D2Game >= V111 ? caller_changeStatPerLevelUp_111 : caller_changeStatPerLevelUp);
         //6FC7ED54  |. E8 61CB0900    CALL <JMP.&D2Common.#10518>
         //02057AD9  |. E8 AA28F3FF    CALL <JMP.&D2Common.#10109>

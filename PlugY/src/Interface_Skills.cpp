@@ -171,7 +171,7 @@ namespace PlugY {
         log_msg("Patch D2Client for skills interface. (InterfaceSkills)\n");
 
         // Print new buttons images
-        mem_seek R8(D2Client, 7AC20, 7AC20, 77073, 16190, 8A9C0, 7F320, 77F20, 2F380, AB7A5);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xAB7A5 : (version_D2Client == V113d ? 0x2F380 : (version_D2Client == V113c ? 0x77F20 : (version_D2Client == V112 ? 0x7F320 : (version_D2Client == V111b ? 0x8A9C0 : (version_D2Client == V111 ? 0x16190 : (version_D2Client == V110 ? 0x77073 : (version_D2Client == V109d ? 0x7AC20 : 0x7AC20)))))))));
         memt_byte(0x5F, 0xE9);    // JMP caller_printBtns
         if (version_D2Client >= V111) {
             MEMT_REF4(0xCCC35B5E, caller_printSkillsPageBtns_111);
@@ -219,7 +219,7 @@ namespace PlugY {
         }
         if (posXUnassignSkillBtn == -1 && posYUnassignSkillBtn == -1) {
             // Don't print "Skill Points Remaining"
-            mem_seek R8(D2Client, 7AC30, 7AC30, 77080, 16294, 8AC74, 7ECF4, 78334, 2F7E4, AACE0);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xAACE0 : (version_D2Client == V113d ? 0x2F7E4 : (version_D2Client == V113c ? 0x78334 : (version_D2Client == V112 ? 0x7ECF4 : (version_D2Client == V111b ? 0x8AC74 : (version_D2Client == V111 ? 0x16294 : (version_D2Client == V110 ? 0x77080 : (version_D2Client == V109d ? 0x7AC30 : 0x7AC30)))))))));
             memt_byte(0xB9, 0xE8);
             MEMT_REF4(0x00001083, version_D2Client >= V114d ? caller_DontPrintSkillPointsRemaining_114 : version_D2Client >= V111 ? caller_DontPrintSkillPointsRemaining_111 : caller_DontPrintSkillPointsRemaining);
             //6FB17080  /$ B9 83100000    MOV ECX,1083
@@ -232,7 +232,7 @@ namespace PlugY {
         }
 
         // Manage mouse down (Play sound)
-        mem_seek R8(D2Client, 7BBD1, 7BBD1, 780E4, 17BC2, 8C6E2, 808B2, 79C62, 31112, ABC1A);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xABC1A : (version_D2Client == V113d ? 0x31112 : (version_D2Client == V113c ? 0x79C62 : (version_D2Client == V112 ? 0x808B2 : (version_D2Client == V111b ? 0x8C6E2 : (version_D2Client == V111 ? 0x17BC2 : (version_D2Client == V110 ? 0x780E4 : (version_D2Client == V109d ? 0x7BBD1 : 0x7BBD1)))))))));
         memt_byte(0xC7, 0xE8);    // CALL caller_skillsPageMouseDown
         MEMT_REF4(version_D2Client >= V114d ? 0x00001846 : version_D2Client >= V111 ? 0x00001845 : 0x00001843, version_D2Client == V114d ? caller_skillsPageMouseDown_114 : version_D2Client >= V111 ? caller_skillsPageMouseDown_111 : caller_skillsPageMouseDown);
         memt_byte(0x00, 0x90);    // NOP
@@ -246,7 +246,7 @@ namespace PlugY {
         //004ABC1A  |> C746 18 00000000     MOV DWORD PTR DS:[ESI+18],0
 
         // Manage mouse up
-        mem_seek R8(D2Client, 7BC40, 7BC40, 78466, 17558, 8C078, 80248, 795F8, 30AA8, ABC96);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xABC96 : (version_D2Client == V113d ? 0x30AA8 : (version_D2Client == V113c ? 0x795F8 : (version_D2Client == V112 ? 0x80248 : (version_D2Client == V111b ? 0x8C078 : (version_D2Client == V111 ? 0x17558 : (version_D2Client == V110 ? 0x78466 : (version_D2Client == V109d ? 0x7BC40 : 0x7BC40)))))))));
         MEMJ_REF4(D2FreeWinMessage, caller_skillsPageMouseUp);//0xFFF93B0A
         //6FB18465   . E8 C07D0400    CALL <JMP.&Storm.#511>
         //6FAC7557   .^E9 4248FFFF    JMP <JMP.&Storm.#511>

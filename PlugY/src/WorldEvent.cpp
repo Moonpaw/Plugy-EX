@@ -246,7 +246,7 @@ namespace PlugY {
         log_msg("Patch D2Game for active World Event. (WorldEvent)\n");
 
         // spawn DClone
-        mem_seek R8(D2Game, 0000, 0000, 3F720, 4BCB1, ECF10, 41570, 25280, CFBD0, 1A4A4F);
+        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x1A4A4F : (version_D2Game == V113d ? 0xCFBD0 : (version_D2Game == V113c ? 0x25280 : (version_D2Game == V112 ? 0x41570 : (version_D2Game == V111b ? 0xECF10 : (version_D2Game == V111 ? 0x4BCB1 : (version_D2Game == V110 ? 0x3F720 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
         MEMC_REF4(V2SpawnSuperUnique, version_D2Game >= V114a ? (DWORD) caller_spawnDClone_114 : version_D2Game >= V111b ? (DWORD) caller_spawnDClone_111b : version_D2Game == V111 ? (DWORD) caller_spawnDClone_111 : (DWORD) spawnDClone);
         //6FC6F71F  |. E8 FCFAFFFF    CALL D2Game.6FC6F220
         //01FCBCB0  |. E8 2BEFFFFF    CALL D2Game.01FCABE0                     ; \D2Game.01FCABE0
@@ -257,7 +257,7 @@ namespace PlugY {
         //005A4A4E  |. E8 8DBFFFFF    CALL Game.005A09E0                       ; \Game.005A09E0
 
         // verify if the item sold is a trigger of WE
-        mem_seek R8(D2Game, 0000, 0000, 977D0, 8E799, 92859, 84499, BFB29, 72BE9, 179667);
+        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x179667 : (version_D2Game == V113d ? 0x72BE9 : (version_D2Game == V113c ? 0xBFB29 : (version_D2Game == V112 ? 0x84499 : (version_D2Game == V111b ? 0x92859 : (version_D2Game == V111 ? 0x8E799 : (version_D2Game == V110 ? 0x977D0 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
         MEMJ_REF4(D2TestFlags, verifIfWEItem);
         //6FCC77CF  |. E8 32400500    CALL <JMP.&D2Common.#10707>
         //0200E798  |. E8 E9BDF7FF    CALL <JMP.&D2Common.#10911>
@@ -268,7 +268,7 @@ namespace PlugY {
         //00579666  |. E8 35EA0A00    CALL Game.006280A0                       ; \Game.006280A0
 
         // management of the WorldEvent
-        mem_seek R8(D2Game, 0000, 0000, 3CE0, 51F01, C5681, EBF41, 4A791, E5F51, 12FEED);
+        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x12FEED : (version_D2Game == V113d ? 0xE5F51 : (version_D2Game == V113c ? 0x4A791 : (version_D2Game == V112 ? 0xEBF41 : (version_D2Game == V111b ? 0xC5681 : (version_D2Game == V111 ? 0x51F01 : (version_D2Game == V110 ? 0x3CE0 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
         MEMC_REF4(V2GetGameByClientID, version_D2Game >= V114a ? (DWORD) caller_WEManagement_114 : version_D2Game >= V111 ? (DWORD) WEManagement : (DWORD) caller_WEManagement_1XX);
         //6FC33CDF   . E8 FC570000    CALL D2Game.6FC394E0
         //01FD1F00  |. E8 1BE60800    CALL D2Game.02060520
@@ -280,7 +280,7 @@ namespace PlugY {
         //to check : 005389B0  |. E8 2B75FFFF    CALL Game.0052FEE0
 
         // add client for the WorldEvent
-        mem_seek R8(D2Game, 0000, 0000, 1AEF, 3786A, 7055A, 6265F, CB0BF, D556F, 13F2D2);
+        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x13F2D2 : (version_D2Game == V113d ? 0xD556F : (version_D2Game == V113c ? 0xCB0BF : (version_D2Game == V112 ? 0x6265F : (version_D2Game == V111b ? 0x7055A : (version_D2Game == V111 ? 0x3786A : (version_D2Game == V110 ? 0x1AEF : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
         MEMC_REF4(D2AddClient, version_D2Game >= V111 && version_D2Game <= V113d ? caller_addClientForWE_111 : caller_addClientForWE);
         //6FC31AEE  |. E8 6D510000    CALL D2Game.6FC36C60
         //01FB7869  |. E8 32C50A00    CALL D2Game.02063DA0

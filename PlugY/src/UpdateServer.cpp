@@ -237,7 +237,7 @@ namespace PlugY {
         log_msg("Patch D2Game for received button click message. (UpdateServer)\n");
 
         // manage button click message from Client.
-        mem_seek R8(D2Game, 4A702, 4AAC2, 56EA2, 54AE3, 2C773, 975C3, CC983, 676C3, 14BD38);
+        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x14BD38 : (version_D2Game == V113d ? 0x676C3 : (version_D2Game == V113c ? 0xCC983 : (version_D2Game == V112 ? 0x975C3 : (version_D2Game == V111b ? 0x2C773 : (version_D2Game == V111 ? 0x54AE3 : (version_D2Game == V110 ? 0x56EA2 : (version_D2Game == V109d ? 0x4AAC2 : 0x4A702)))))))));
         if (version_D2Game >= V111) {
             memt_byte(0xC1, 0x57);    // PUSH EDI
             memt_byte(0xEE, 0xE8);    // CALL caller_handleServerUpdate

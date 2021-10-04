@@ -432,7 +432,7 @@ namespace PlugY {
             extraHiddenPage = 1;
         if (selectMainPageOnOpenning) {
             if (version_D2Client >= V114a) {
-                mem_seek R8(D2Client, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000, 55F24);
+                mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x55F24 : (version_D2Client == V113d ? 0x0000 : (version_D2Client == V113c ? 0x0000 : (version_D2Client == V112 ? 0x0000 : (version_D2Client == V111b ? 0x0000 : (version_D2Client == V111 ? 0x0000 : (version_D2Client == V110 ? 0x0000 : (version_D2Client == V109d ? 0x0000 : 0x0000)))))))));
                 memt_byte(0x53, 0xE8);    // CALL caller_resetSelectedPage
                 MEMT_REF4(0xF98B5756, caller_resetSelected_114);
                 //00455F24  |. 53             PUSH EBX
@@ -441,7 +441,7 @@ namespace PlugY {
                 //00455F27  |. 8BF9           MOV EDI,ECX
             } else if (version_D2Client >= V111) {
                 //Reset selectedPage variable on opening stats page
-                mem_seek R8(D2Client, 0000, 0000, 0000, 4B79E, 8F73E, 55E0E, 65F5E, C41FE, 7EC5C);
+                mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x7EC5C : (version_D2Client == V113d ? 0xC41FE : (version_D2Client == V113c ? 0x65F5E : (version_D2Client == V112 ? 0x55E0E : (version_D2Client == V111b ? 0x8F73E : (version_D2Client == V111 ? 0x4B79E : (version_D2Client == V110 ? 0x0000 : (version_D2Client == V109d ? 0x0000 : 0x0000)))))))));
                 memt_byte(version_D2Client == V114d ? 0xB9 : 0x83, 0xE8);    // CALL caller_resetSelectedPage
                 MEMT_REF4(version_D2Client == V114d ? 0x00000002 : 0x1F7426F8, caller_resetSelectedPageByToolBar);
                 //6FAFB79E   > 83F8 26        CMP EAX,26
@@ -458,7 +458,7 @@ namespace PlugY {
                 //6FB74201   . 74 1F          JE SHORT D2Client.6FB74222
                 //0047EC5C   > B9 02000000    MOV ECX,2
 
-                mem_seek R8(D2Client, 0000, 0000, 0000, 1E55A, 6A8FA, A31DA, 3C5EA, 3E39A, 0000);
+                mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x0000 : (version_D2Client == V113d ? 0x3E39A : (version_D2Client == V113c ? 0x3C5EA : (version_D2Client == V112 ? 0xA31DA : (version_D2Client == V111b ? 0x6A8FA : (version_D2Client == V111 ? 0x1E55A : (version_D2Client == V110 ? 0x0000 : (version_D2Client == V109d ? 0x0000 : 0x0000)))))))));
                 memt_byte(0x55, 0xE8);    // CALL caller_resetSelectedPage
                 MEMT_REF4(0xD53BED33, caller_resetSelectedPageByKey);
                 //6FACE55A   . 55             PUSH EBP
@@ -493,7 +493,7 @@ namespace PlugY {
                 //6FB3EF92  |. 3928           CMP DWORD PTR DS:[EAX],EBP
             } else {
                 //Reset selectedPage variable on opening stats page
-                mem_seek R8(D2Client, 88B58, 87ED8, 83478, A1FBE, 6571E, 8EF8E, 0000, 0000, 0000);//((DWORD)D2TogglePage+0x218);
+                mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x0000 : (version_D2Client == V113d ? 0x0000 : (version_D2Client == V113c ? 0x0000 : (version_D2Client == V112 ? 0x8EF8E : (version_D2Client == V111b ? 0x6571E : (version_D2Client == V111 ? 0xA1FBE : (version_D2Client == V110 ? 0x83478 : (version_D2Client == V109d ? 0x87ED8 : 0x88B58)))))))));//((DWORD)D2TogglePage+0x218);
                 memt_byte(0x85, 0xE8);    // CALL caller_resetSelectedPage
                 MEMT_REF4(0xC2940FC0, caller_resetSelectedPage);
                 //6FB23478  |. 85C0           TEST EAX,EAX
@@ -503,7 +503,7 @@ namespace PlugY {
         }
 
         // Print custom page
-        mem_seek R8(D2Client, 87697, 86A17, 81FAB, A3759, 66B59, 902B9, C3B49, 1D549, 57052);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x57052 : (version_D2Client == V113d ? 0x1D549 : (version_D2Client == V113c ? 0xC3B49 : (version_D2Client == V112 ? 0x902B9 : (version_D2Client == V111b ? 0x66B59 : (version_D2Client == V111 ? 0xA3759 : (version_D2Client == V110 ? 0x81FAB : (version_D2Client == V109d ? 0x86A17 : 0x87697)))))))));
         MEMC_REF4(D2PrintStatsPage, printCustomPage);
         //6FB21FAA   . E8 B1DDFAFF    CALL D2Client.6FACFD60
         //6FB53758   . E8 43F1FDFF    CALL D2Client.6FB328A0
@@ -514,7 +514,7 @@ namespace PlugY {
         //00457051  |. E8 AA0C0500    CALL Game.004A7D00
 
         // Don't print Border
-        mem_seek R8(D2Client, 58EF6, 58EF6, 5F4C6, 2D366, B5A46, 82166, 271C6, 6D2B6, 98636);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x98636 : (version_D2Client == V113d ? 0x6D2B6 : (version_D2Client == V113c ? 0x271C6 : (version_D2Client == V112 ? 0x82166 : (version_D2Client == V111b ? 0xB5A46 : (version_D2Client == V111 ? 0x2D366 : (version_D2Client == V110 ? 0x5F4C6 : (version_D2Client == V109d ? 0x58EF6 : 0x58EF6)))))))));
         memt_byte(version_D2Client >= V114d ? 0x6A : 0xB9, 0xE8);    // CALL caller_DontPrintBorder
         MEMT_REF4(version_D2Client >= V114d ? 0xB8458D48 : 0x00000012, version_D2Client >= V114d ? caller_DontPrintBorder_114 : version_D2Client >= V111 ? caller_DontPrintBorder_111 : caller_DontPrintBorder);
         //6FAFF4C6   > B9 12000000    MOV ECX,12
@@ -527,7 +527,7 @@ namespace PlugY {
         //00498638  |. 8D45 B8        LEA EAX,DWORD PTR SS:[EBP-48]
 
         // Manage mouse down (Play sound)
-        mem_seek R8(D2Client, 2A9DC, 2A9CC, 312A5, 82736, 891B6, 6B116, BCD36, BF4D6, A7731);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA7731 : (version_D2Client == V113d ? 0xBF4D6 : (version_D2Client == V113c ? 0xBCD36 : (version_D2Client == V112 ? 0x6B116 : (version_D2Client == V111b ? 0x891B6 : (version_D2Client == V111 ? 0x82736 : (version_D2Client == V110 ? 0x312A5 : (version_D2Client == V109d ? 0x2A9CC : 0x2A9DC)))))))));
         memt_byte(0x8D, 0xE8);    // CALL
         MEMT_REF4(0x00008088, version_D2Client == V114d ? caller_mouseCustomPageLeftDown_114 : version_D2Client >= V111 ? caller_mouseCustomPageLeftDown_111 : version_D2Client == V110 ? caller_mouseCustomPageLeftDown : caller_mouseCustomPageLeftDown_9);
         memt_byte(0x00, 0x90);    // NOP
@@ -540,7 +540,7 @@ namespace PlugY {
         //004A7731   . 8D88 80000000  LEA ECX,DWORD PTR DS:[EAX+80]
 
         // Manage mouse up
-        mem_seek R8(D2Client, 2ABBB, 2ABAB, 3148D, 836D9, 8A159, 6C0B9, BDCB9, C0459, A78DA);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA78DA : (version_D2Client == V113d ? 0xC0459 : (version_D2Client == V113c ? 0xBDCB9 : (version_D2Client == V112 ? 0x6C0B9 : (version_D2Client == V111b ? 0x8A159 : (version_D2Client == V111 ? 0x836D9 : (version_D2Client == V110 ? 0x3148D : (version_D2Client == V109d ? 0x2ABAB : 0x2ABBB)))))))));
         memt_byte(0xA1, 0xE8);    // CALL caller_mouseCustomPageLeftUp
         MEMT_REF4(ptWindowStartX, version_D2Client >= V114d ? caller_mouseCustomPageLeftUp_114 : version_D2Client >= V111 ? caller_mouseCustomPageLeftUp_111 : version_D2Client == V110 ? caller_mouseCustomPageLeftUp : caller_mouseCustomPageLeftUp_9);
         //6FAD148D   . A1 48A7BB6F       MOV EAX,DWORD PTR DS:[6FBBA748]

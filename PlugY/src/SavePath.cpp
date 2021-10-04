@@ -172,7 +172,7 @@ namespace PlugY {
         log_msg("Patch Fog for change the save path. (changingSavePath)\n");
         if (version_Fog >= V111) {
             // Call funtion to manage subfolder
-            mem_seek R8(Fog, 000, 000, 000, 185F6, 1C106, 1F086, 17F86, 1E146, 71A6);
+            mem_seek(offset_Fog + (version_Fog == V114d ? 0x71A6 : (version_Fog == V113d ? 0x1E146 : (version_Fog == V113c ? 0x17F86 : (version_Fog == V112 ? 0x1F086 : (version_Fog == V111b ? 0x1C106 : (version_Fog == V111 ? 0x185F6 : (version_Fog == V110 ? 0x000 : (version_Fog == V109d ? 0x000 : 0x000)))))))));
             memt_byte(0x83, 0xE8);                // CALL changeSavePath
             MEMT_REF4(0x0575FFF8, version_Fog == V114d ? changeSavePath_114 : changeSavePath_111);
             //6FF685F6   . 83F8 FF        CMP EAX,-1
@@ -190,7 +190,7 @@ namespace PlugY {
 
             // Create the right save path
             if (version_Fog < V114a) {
-                mem_seek R8(Fog, 000, 000, 000, 18616, 1C126, 1F0A6, 17FA6, 1E166, 71CA);
+                mem_seek(offset_Fog + (version_Fog == V114d ? 0x71CA : (version_Fog == V113d ? 0x1E166 : (version_Fog == V113c ? 0x17FA6 : (version_Fog == V112 ? 0x1F0A6 : (version_Fog == V111b ? 0x1C126 : (version_Fog == V111 ? 0x18616 : (version_Fog == V110 ? 0x000 : (version_Fog == V109d ? 0x000 : 0x000)))))))));
                 MEMJ_REF4(D2Storm503, forCreateSavePath);
                 //6FF68615   . E8 A246FFFF    CALL <JMP.&Storm.#503>
                 //6FF6C125   . E8 C20BFFFF    CALL <JMP.&Storm.#503>
@@ -201,7 +201,7 @@ namespace PlugY {
             }
 
             // Remove registry update
-            mem_seek R8(Fog, 000, 000, 000, 1861A, 1C12A, 1F0AA, 17FAA, 1E16A, 71E9);
+            mem_seek(offset_Fog + (version_Fog == V114d ? 0x71E9 : (version_Fog == V113d ? 0x1E16A : (version_Fog == V113c ? 0x17FAA : (version_Fog == V112 ? 0x1F0AA : (version_Fog == V111b ? 0x1C12A : (version_Fog == V111 ? 0x1861A : (version_Fog == V110 ? 0x000 : (version_Fog == V109d ? 0x000 : 0x000)))))))));
             memt_byte(version_Fog == V114d ? 0x53 : 0x56, 0xEB);            // JMP SHORT fog.6FF6862C
             memt_byte(0x6A, 0x10);                //
             memt_byte(version_Fog == V114d ? 0x01 : 0x00, 0x90);                // NOP

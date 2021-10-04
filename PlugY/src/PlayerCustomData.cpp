@@ -325,7 +325,7 @@ namespace PlugY {
 
         if (version_D2Game >= V111 && version_D2Game <= V113d) {
             // update item
-            mem_seek R8(D2Game, 10933, 10C03, 1100D, 8BC71, C3C51, 5F2A1, 9BB91, 75C81, 0000);
+            mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x0000 : (version_D2Game == V113d ? 0x75C81 : (version_D2Game == V113c ? 0x9BB91 : (version_D2Game == V112 ? 0x5F2A1 : (version_D2Game == V111b ? 0xC3C51 : (version_D2Game == V111 ? 0x8BC71 : (version_D2Game == V110 ? 0x1100D : (version_D2Game == V109d ? 0x10C03 : 0x10933)))))))));
             memt_byte(0x8B, 0xE8); // CALL
             MEMT_REF4(0x52182454, caller_updateItem_111);
             //0200BC71  |> 8B5424 18      |MOV EDX,DWORD PTR SS:[ESP+18]
@@ -339,7 +339,7 @@ namespace PlugY {
             //6FC95C81  |> 8B5424 18      |MOV EDX,DWORD PTR SS:[ESP+18]
             //6FC95C85  |. 52             |PUSH EDX
 
-            mem_seek R8(D2Game, 1097B, 10C4B, 11058, 8BCD1, C3CB1, 5F301, 9BBF1, 75CE1, 0000);
+            mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x0000 : (version_D2Game == V113d ? 0x75CE1 : (version_D2Game == V113c ? 0x9BBF1 : (version_D2Game == V112 ? 0x5F301 : (version_D2Game == V111b ? 0xC3CB1 : (version_D2Game == V111 ? 0x8BCD1 : (version_D2Game == V110 ? 0x11058 : (version_D2Game == V109d ? 0x10C4B : 0x1097B)))))))));
             memt_byte(0x8B, 0xE8); // CALL
             MEMT_REF4(0x52182454, caller_updateItemB_111);
             //0200BCD1  |> 8B5424 18      ||MOV EDX,DWORD PTR SS:[ESP+18]
@@ -355,18 +355,18 @@ namespace PlugY {
 
         } else {
             // update item
-            mem_seek R8(D2Game, 10933, 10C03, 1100D, 8BC71, C3C51, 5F2A1, 0000, 0000, 1978F3);
+            mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x1978F3 : (version_D2Game == V113d ? 0x0000 : (version_D2Game == V113c ? 0x0000 : (version_D2Game == V112 ? 0x5F2A1 : (version_D2Game == V111b ? 0xC3C51 : (version_D2Game == V111 ? 0x8BC71 : (version_D2Game == V110 ? 0x1100D : (version_D2Game == V109d ? 0x10C03 : 0x10933)))))))));
             MEMC_REF4(D2GameGetObject, version_D2Game >= V114a ? caller_updateItem_114 : version_D2Game >= V110 ? caller_updateItem : caller_updateItem_9);
             //6FC4100C  |. E8 EFAA0700    |CALL D2Game.6FCBBB00
             //005978F2  |. E8 69B6FBFF    |CALL Game.00552F60                      ; \Game.00552F60
-            mem_seek R8(D2Game, 1097B, 10C4B, 11058, 8BCD1, C3CB1, 5F301, 0000, 0000, 197943);
+            mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x197943 : (version_D2Game == V113d ? 0x0000 : (version_D2Game == V113c ? 0x0000 : (version_D2Game == V112 ? 0x5F301 : (version_D2Game == V111b ? 0xC3CB1 : (version_D2Game == V111 ? 0x8BCD1 : (version_D2Game == V110 ? 0x11058 : (version_D2Game == V109d ? 0x10C4B : 0x1097B)))))))));
             MEMC_REF4(D2GameGetObject, version_D2Game >= V114a ? caller_updateItem_114 : version_D2Game >= V110 ? caller_updateItem : caller_updateItem_9);
             //6FC41057  |. E8 A4AA0700    ||CALL D2Game.6FCBBB00
             //00597942  |. E8 19B6FBFF    |CALL Game.00552F60                      ; \Game.00552F60		//005978F2  |. E8 69B6FBFF    |CALL Game.00552F60                      ; \Game.00552F60
         }
 
         // Update client on loading
-        mem_seek R8(D2Game, 23EB, 2426, 25D4, 53482, C6A32, ED502, 4BF12, E7548, 139A20);//6FC325D4-6FC30000
+        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x139A20 : (version_D2Game == V113d ? 0xE7548 : (version_D2Game == V113c ? 0x4BF12 : (version_D2Game == V112 ? 0xED502 : (version_D2Game == V111b ? 0xC6A32 : (version_D2Game == V111 ? 0x53482 : (version_D2Game == V110 ? 0x25D4 : (version_D2Game == V109d ? 0x2426 : 0x23EB)))))))));//6FC325D4-6FC30000
         memt_byte(0x5F, 0xE8); // CALL
         MEMT_REF4(version_D2Game >= V114d ? 0x5BC0335E : 0xC0335D5E, version_D2Game >= V114d ? caller_updateClientPlayerOnLoading_114 : caller_updateClientPlayerOnLoading);
         //6FC325D4  |> 5F             POP EDI
@@ -399,7 +399,7 @@ namespace PlugY {
         //00539A24  |. 5B             POP EBX
 
         // Free custom data.
-        mem_seek R8(D2Common, 7055C, 7065C, 80483, 4F82D, 5C9CD, 5856D, 3093D, 1705D, 2220DD);
+        mem_seek(offset_D2Common + (version_D2Common == V114d ? 0x2220DD : (version_D2Common == V113d ? 0x1705D : (version_D2Common == V113c ? 0x3093D : (version_D2Common == V112 ? 0x5856D : (version_D2Common == V111b ? 0x5C9CD : (version_D2Common == V111 ? 0x4F82D : (version_D2Common == V110 ? 0x80483 : (version_D2Common == V109d ? 0x7065C : 0x7055C)))))))));
         MEMJ_REF4(D2FreeMem, free_PlayerCustomData);
         //01BD0482  |. E8 C53E0000    CALL <JMP.&Fog.#10046>
         //6FD9F82C  |. E8 E399FBFF    CALL <JMP.&Fog.#10046>
@@ -410,7 +410,7 @@ namespace PlugY {
         //006220DC  |. E8 9F93DEFF    CALL Game.0040B480                       ; \Game.0040B480
 
         // Free item in Stash (Server-side)
-        mem_seek R8(D2Game, 7D12B, 7D62B, 8D5A4, 99112, BFDB2, 94242, E1162, 6F7C2, 155B34);
+        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x155B34 : (version_D2Game == V113d ? 0x6F7C2 : (version_D2Game == V113c ? 0xE1162 : (version_D2Game == V112 ? 0x94242 : (version_D2Game == V111b ? 0xBFDB2 : (version_D2Game == V111 ? 0x99112 : (version_D2Game == V110 ? 0x8D5A4 : (version_D2Game == V109d ? 0x7D62B : 0x7D12B)))))))));
         MEMJ_REF4(D2UnitGetNextItem, version_D2Game >= V114a ? callerServer_getNextItemToFree_114 : version_D2Game >= V111 ? callerServer_getNextItemToFree_111 : version_D2Game == V110 ? callerServer_getNextItemToFree : callerServer_getNextItemToFree_9);//0x0005E204
         //6FCBD5A3   . E8 04E20500    CALL <JMP.&D2Common.#10304>
         //02019111  |. E8 5016F7FF    |CALL <JMP.&D2Common.#10934>
@@ -421,7 +421,7 @@ namespace PlugY {
         //00555B33  |. E8 68840E00    |CALL Game.0063DFA0                      ; \Game.0063DFA0
 
         // Free item in Stash (Client-side)
-        mem_seek R8(D2Client, 8EF8F, 8E30F, 89B32, 26404, 4C264, 1F2D4, A5C94, 621E4, 66D02);//6FB29B31-6FAA0000
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x66D02 : (version_D2Client == V113d ? 0x621E4 : (version_D2Client == V113c ? 0xA5C94 : (version_D2Client == V112 ? 0x1F2D4 : (version_D2Client == V111b ? 0x4C264 : (version_D2Client == V111 ? 0x26404 : (version_D2Client == V110 ? 0x89B32 : (version_D2Client == V109d ? 0x8E30F : 0x8EF8F)))))))));//6FB29B31-6FAA0000
         MEMJ_REF4(D2UnitGetNextItem, version_D2Game >= V114d ? callerClient_getNextItemToFree_114 : version_D2Game >= V111 ? callerClient_getNextItemToFree_111 : version_D2Game == V110 ? callerClient_getNextItemToFree : callerClient_getNextItemToFree_9);//0x00040F34
         //6FB29B31   E8 340F0400      CALL <JMP.&D2Common.#10304>
         //6FAD6403  |. E8 925DFEFF    |CALL <JMP.&D2Common.#10934>
@@ -433,7 +433,7 @@ namespace PlugY {
 
         if (version_D2Common >= V110) {
             // Test if it's already removed from inventory
-            mem_seek R8(D2Common, 0000, 0000, 4E689, 26E33, 42133, 6AE93, 21B23, 3B393, 23ADB5);
+            mem_seek(offset_D2Common + (version_D2Common == V114d ? 0x23ADB5 : (version_D2Common == V113d ? 0x3B393 : (version_D2Common == V113c ? 0x21B23 : (version_D2Common == V112 ? 0x6AE93 : (version_D2Common == V111b ? 0x42133 : (version_D2Common == V111 ? 0x26E33 : (version_D2Common == V110 ? 0x4E689 : (version_D2Common == V109d ? 0x0000 : 0x0000)))))))));
             memt_byte(version_D2Common == V114d ? 0x0E : 0x0D, 0x07);
             //01D2E688   75 0D            JNZ SHORT D2Common.01D2E697
             //6FD76E32  |. 74 0D          JE SHORT D2Common.6FD76E41
@@ -443,18 +443,18 @@ namespace PlugY {
             //6FD8B392  |. 74 0D          JE SHORT D2Common.6FD8B3A1
             //0063ADB4  |. 74 0E          JE SHORT Game.0063ADC4
         } else {
-            mem_seek R8(D2Game, 7D176, 7D676, 0000, 0000, 0000, 0000, 0000, 0000, 0000);
+            mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x0000 : (version_D2Game == V113d ? 0x0000 : (version_D2Game == V113c ? 0x0000 : (version_D2Game == V112 ? 0x0000 : (version_D2Game == V111b ? 0x0000 : (version_D2Game == V111 ? 0x0000 : (version_D2Game == V110 ? 0x0000 : (version_D2Game == V109d ? 0x7D676 : 0x7D176)))))))));
             memt_byte(0x74, 0x90);//MOV EAX,EDI
             memt_byte(0x35, 0x90);//NOP
             //6FCAD176  |. 74 35          |JE SHORT D2Game.6FCAD1AD
 
-            mem_seek R8(D2Client, 8F0CA, 8E44A, 0000, 0000, 0000, 0000, 0000, 0000, 0000);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x0000 : (version_D2Client == V113d ? 0x0000 : (version_D2Client == V113c ? 0x0000 : (version_D2Client == V112 ? 0x0000 : (version_D2Client == V111b ? 0x0000 : (version_D2Client == V111 ? 0x0000 : (version_D2Client == V110 ? 0x0000 : (version_D2Client == V109d ? 0x8E44A : 0x8F0CA)))))))));
             memt_byte(0x0F, 0x90);//MOV EAX,EDI
             memt_byte(0x84, 0x90);//NOP
             memt_dword(0x000000BF, 0x90909090);//NOP
             //6FB2F0CA  |. 0F84 BF000000  |JE D2Client.6FB2F18F
 
-            mem_seek R8(D2Client, 8F13C, 8E4BC, 0000, 0000, 0000, 0000, 0000, 0000, 0000);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x0000 : (version_D2Client == V113d ? 0x0000 : (version_D2Client == V113c ? 0x0000 : (version_D2Client == V112 ? 0x0000 : (version_D2Client == V111b ? 0x0000 : (version_D2Client == V111 ? 0x0000 : (version_D2Client == V110 ? 0x0000 : (version_D2Client == V109d ? 0x8E4BC : 0x8F13C)))))))));
             memt_byte(0x74, 0x90);//MOV EAX,EDI
             memt_byte(0x6F, 0x90);//NOP
             //6FB2F13C  |. 74 6F          |JE SHORT D2Client.6FB2F1AD

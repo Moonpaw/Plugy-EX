@@ -138,7 +138,7 @@ ISNOTMODDATA:
         log_msg("Patch Storm to found custom file. (PlugYFiles)\n");
 
         // Try in Diablo II\PlugY\ if file not found
-        mem_seek R8(Storm, 192C6, 19296, 18677, 2CC69, 14259, 121E9, 28D89, 2DA79, 19369);//( (DWORD)D2Storm268 + V7(Storm, 01A8, 01A8, 01AB, 0429, 0429, 0429, 0000) );
+        mem_seek(offset_Storm + (version_Storm == V114d ? 0x19369 : (version_Storm == V113d ? 0x2DA79 : (version_Storm == V113c ? 0x28D89 : (version_Storm == V112 ? 0x121E9 : (version_Storm == V111b ? 0x14259 : (version_Storm == V111 ? 0x2CC69 : (version_Storm == V110 ? 0x18677 : (version_Storm == V109d ? 0x19296 : 0x192C6)))))))));//( (DWORD)D2Storm268 + V7(Storm, 01A8, 01A8, 01AB, 0429, 0429, 0429, 0000) );
         if (version_Storm >= V114a) {
             memt_byte(0x8D, 0x90); // NOP
             memt_byte(0x85, 0xE8); // CALL
@@ -238,7 +238,7 @@ ISNOTMODDATA:
         log_msg("Patch D2Client to load/free custom images. (PlugYImagesFiles)\n");
 
         // Load custom images
-        mem_seek R8(D2Client, 57E21, 57E21, 5E4B1, 2E101, B67E1, 82761, 27EAE, 6E0BE, 9692F);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x9692F : (version_D2Client == V113d ? 0x6E0BE : (version_D2Client == V113c ? 0x27EAE : (version_D2Client == V112 ? 0x82761 : (version_D2Client == V111b ? 0xB67E1 : (version_D2Client == V111 ? 0x2E101 : (version_D2Client == V110 ? 0x5E4B1 : (version_D2Client == V109d ? 0x57E21 : 0x57E21)))))))));
         if (version_D2Client == V114d) {
             MEMC_REF4(D2LoadResImage, caller_loadCustomImages_114);
             //0049692E  |. E8 8DB7FBFF    CALL Game.004520C0
@@ -254,7 +254,7 @@ ISNOTMODDATA:
         }
 
         // Free custom images
-        mem_seek R8(D2Client, 57FA9, 57FA9, 5E639, 2D12D, B580D, 8158D, 26F8D, 6D07D, 56DED);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x56DED : (version_D2Client == V113d ? 0x6D07D : (version_D2Client == V113c ? 0x26F8D : (version_D2Client == V112 ? 0x8158D : (version_D2Client == V111b ? 0xB580D : (version_D2Client == V111 ? 0x2D12D : (version_D2Client == V110 ? 0x5E639 : (version_D2Client == V109d ? 0x57FA9 : 0x57FA9)))))))));
         if (version_D2Client == V114d) {
             MEMC_REF4(D2FreeResImages, caller_freeCustomImages_114);
             //00456DEC   . E8 9FFB0300    CALL Game.00496990
@@ -344,7 +344,7 @@ ISNOTMODDATA:
 //	lookupItemStatCost =  (void*)R7(D2Common, A1D70, A1D70, AA1D8, 0000, 0000, 0000, 0000);
 
         // Load custom txt files
-        mem_seek R8(D2Common, 7F4B, 7F4B, 2F7D7, 76854, 37444, 81C44, 5D6E4, 855E4, 25A560);
+        mem_seek(offset_D2Common + (version_D2Common == V114d ? 0x25A560 : (version_D2Common == V113d ? 0x855E4 : (version_D2Common == V113c ? 0x5D6E4 : (version_D2Common == V112 ? 0x81C44 : (version_D2Common == V111b ? 0x37444 : (version_D2Common == V111 ? 0x76854 : (version_D2Common == V110 ? 0x2F7D7 : (version_D2Common == V109d ? 0x7F4B : 0x7F4B)))))))));
         MEMC_REF4(D2LoadSuperuniques, version_D2Common >= V111 && version_D2Common < V114a ? caller_loadTxtFiles_111 : caller_loadTxtFiles);
         //6FD47F4A  |. E8 B1750100    CALL D2Common.6FD5F500
         //6FD47F4A  |. E8 C1750100    CALL D2Common.6FD5F510
@@ -357,7 +357,7 @@ ISNOTMODDATA:
         //0065A55F  |. E8 7CADFFFF    CALL Game.006552E0
 
         // Free custom txt files
-        mem_seek R8(D2Common, 79EC, 79EC, 10186, 332B3, 15AB3, 44E13, 5E8B3, FAA3, 25A1C8);
+        mem_seek(offset_D2Common + (version_D2Common == V114d ? 0x25A1C8 : (version_D2Common == V113d ? 0xFAA3 : (version_D2Common == V113c ? 0x5E8B3 : (version_D2Common == V112 ? 0x44E13 : (version_D2Common == V111b ? 0x15AB3 : (version_D2Common == V111 ? 0x332B3 : (version_D2Common == V110 ? 0x10186 : (version_D2Common == V109d ? 0x79EC : 0x79EC)))))))));
         MEMJ_REF4(D2Fog10212, caller_freeTxtFiles);
         //6FD479EB   . E8 C8C00600    CALL <JMP.&Fog.#10212>
         //6FD479EB   . E8 C8C00600    CALL <JMP.&Fog.#10212>

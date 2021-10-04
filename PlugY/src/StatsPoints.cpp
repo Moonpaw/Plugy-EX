@@ -351,7 +351,7 @@ namespace PlugY {
         log_msg("Patch D2Client for unassign stat points when specified key is press. (StatsPoints)\n");
 
         // Always print stat button images.
-        mem_seek R8(D2Client, 29B12, 29B02, 30073, 82BBA, 8963A, 6B59A, BD1B5, BF955, A7FFB);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA7FFB : (version_D2Client == V113d ? 0xBF955 : (version_D2Client == V113c ? 0xBD1B5 : (version_D2Client == V112 ? 0x6B59A : (version_D2Client == V111b ? 0x8963A : (version_D2Client == V111 ? 0x82BBA : (version_D2Client == V110 ? 0x30073 : (version_D2Client == V109d ? 0x29B02 : 0x29B12)))))))));
         memt_byte(0x8B, 0xEB);    // JMP SHORT D2Client.6FAD0088
         memt_byte(version_D2Client == V114d ? 0x4D : 0x4C, v8(version_D2Client, 0x12, 0x12, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x12));
         memt_byte(version_D2Client == V114d ? 0xF8 : 0x24, 0x90);    // NOP
@@ -366,7 +366,7 @@ namespace PlugY {
         //004A7FFE   . 53             PUSH EBX                                 ; /Arg3
 
         //print our buttons
-        mem_seek R8(D2Client, 29B9D, 29B8D, 300FD, 82C54, 896D4, 6B637, BD23E, BF9DE, A808C);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA808C : (version_D2Client == V113d ? 0xBF9DE : (version_D2Client == V113c ? 0xBD23E : (version_D2Client == V112 ? 0x6B637 : (version_D2Client == V111b ? 0x896D4 : (version_D2Client == V111 ? 0x82C54 : (version_D2Client == V110 ? 0x300FD : (version_D2Client == V109d ? 0x29B8D : 0x29B9D)))))))));
         MEMJ_REF4(D2PrintImage, caller_printUnassignStatsBtn);
         //6FB32C53   . E8 82A3F8FF    CALL <JMP.&D2gfx.#10047>
         //6FB396D3   . E8 D238F8FF    CALL <JMP.&D2gfx.#10044>
@@ -376,7 +376,7 @@ namespace PlugY {
         //004A808B   . E8 F0E30400    CALL Game.004F6480                       ; \Game.004F6480
 
         // Always manage push down.
-        mem_seek R8(D2Client, 2AA7B, 2AA6B, 3134D, 827D9, 89259, 6B1B9, BCDD9, BF579, A77E4);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA77E4 : (version_D2Client == V113d ? 0xBF579 : (version_D2Client == V113c ? 0xBCDD9 : (version_D2Client == V112 ? 0x6B1B9 : (version_D2Client == V111b ? 0x89259 : (version_D2Client == V111 ? 0x827D9 : (version_D2Client == V110 ? 0x3134D : (version_D2Client == V109d ? 0x2AA6B : 0x2AA7B)))))))));
         memt_byte(0x74, 0x90);    // NOP
         memt_byte(version_D2Client == V114d ? 0x62 : 0x4E, 0x90);    // NOP
         //6FAD134D     74 4E          JE SHORT D2Client.6FAD139D
@@ -389,7 +389,7 @@ namespace PlugY {
 
         if (version_D2Client >= V114d) {
             // On Push down.
-            mem_seek R8(D2Client, 2AAE6, 2AAD6, 313B8, 82844, 892C4, 6B224, BCE44, BF5E4, A7863);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA7863 : (version_D2Client == V113d ? 0xBF5E4 : (version_D2Client == V113c ? 0xBCE44 : (version_D2Client == V112 ? 0x6B224 : (version_D2Client == V111b ? 0x892C4 : (version_D2Client == V111 ? 0x82844 : (version_D2Client == V110 ? 0x313B8 : (version_D2Client == V109d ? 0x2AAD6 : 0x2AAE6)))))))));
             memt_byte(0x8B, 0xE8);
             MEMT_REF4(0x0C8D0845, caller_pushDown_114);
             memt_byte(0xC5, 0x90);
@@ -398,7 +398,7 @@ namespace PlugY {
             //004A7866   . 8D0CC5 0000000>LEA ECX,DWORD PTR DS:[EAX*8]
         } else if (version_D2Client >= V111) {
             // On Push down.
-            mem_seek R8(D2Client, 2AAE6, 2AAD6, 313B8, 82844, 892C4, 6B224, BCE44, BF5E4, A7863);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA7863 : (version_D2Client == V113d ? 0xBF5E4 : (version_D2Client == V113c ? 0xBCE44 : (version_D2Client == V112 ? 0x6B224 : (version_D2Client == V111b ? 0x892C4 : (version_D2Client == V111 ? 0x82844 : (version_D2Client == V110 ? 0x313B8 : (version_D2Client == V109d ? 0x2AAD6 : 0x2AAE6)))))))));
             memt_byte(0x6B, 0xE8);
             MEMT_REF4(0x01BF0ED2, caller_pushDown_111);
             memt_byte(0x00, 0x6B);    // IMUL EDX,EDX,0E
@@ -417,7 +417,7 @@ namespace PlugY {
 
         } else {
             // On Push down.
-            mem_seek R8(D2Client, 2AAE6, 2AAD6, 313B8, 82844, 892C4, 0000, 0000, 0000, 0000);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x0000 : (version_D2Client == V113d ? 0x0000 : (version_D2Client == V113c ? 0x0000 : (version_D2Client == V112 ? 0x0000 : (version_D2Client == V111b ? 0x892C4 : (version_D2Client == V111 ? 0x82844 : (version_D2Client == V110 ? 0x313B8 : (version_D2Client == V109d ? 0x2AAD6 : 0x2AAE6)))))))));
             memt_byte(0x8D, 0xE8);    // CALL
             MEMT_REF4(0x0000D504, caller_pushDown);
             memt_byte(0x00, 0x90);    // NOP
@@ -426,7 +426,7 @@ namespace PlugY {
         }
         if (version_D2Client >= V110) {
             // Always manage push up.
-            mem_seek R8(D2Client, 0000, 0000, 3152E, 83869, 8A2E9, 6C249, BDE49, C05E9, A7976);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA7976 : (version_D2Client == V113d ? 0xC05E9 : (version_D2Client == V113c ? 0xBDE49 : (version_D2Client == V112 ? 0x6C249 : (version_D2Client == V111b ? 0x8A2E9 : (version_D2Client == V111 ? 0x83869 : (version_D2Client == V110 ? 0x3152E : (version_D2Client == V109d ? 0x0000 : 0x0000)))))))));
             memt_byte(version_D2Client == V114d ? 0x0F : 0x74, 0x90);    // NOP
             memt_byte(version_D2Client == V114d ? 0x84 : version_D2Client >= V111 ? 0x65 : 0x68, 0x90);    // NOP
             if (version_D2Client == V114d) memt_dword(0x000000BB, 0x90909090);
@@ -439,7 +439,7 @@ namespace PlugY {
             //004A7976  |. 0F84 BB000000  JE Game.004A7A37
 
             // Unassign stats point when ctrl is push.
-            mem_seek R8(D2Client, 0000, 0000, 315D3, 8391B, 8A39B, 6C2FB, BDEFB, C069B, A79F2);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA79F2 : (version_D2Client == V113d ? 0xC069B : (version_D2Client == V113c ? 0xBDEFB : (version_D2Client == V112 ? 0x6C2FB : (version_D2Client == V111b ? 0x8A39B : (version_D2Client == V111 ? 0x8391B : (version_D2Client == V110 ? 0x315D3 : (version_D2Client == V109d ? 0x0000 : 0x0000)))))))));
             memt_byte(0x66, 0xE8);    // CALL
             MEMT_REF4(0x077CC085, caller_UnassignStats);
             //6FAD15D3   . 66:85C0        TEST AX,AX
@@ -458,21 +458,21 @@ namespace PlugY {
             //004A79F5  |. 7C 07          JL SHORT Game.004A79FE
         } else {
             // Always manage push up.
-            mem_seek R8(D2Client, 2AC55, 2AC45, 0000, 0000, 0000, 0000, 0000, 0000, 0000);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x0000 : (version_D2Client == V113d ? 0x0000 : (version_D2Client == V113c ? 0x0000 : (version_D2Client == V112 ? 0x0000 : (version_D2Client == V111b ? 0x0000 : (version_D2Client == V111 ? 0x0000 : (version_D2Client == V110 ? 0x0000 : (version_D2Client == V109d ? 0x2AC45 : 0x2AC55)))))))));
             memt_byte(0x0F, 0x90);    // NOP
             memt_byte(0x84, 0x90);    // NOP
             memt_dword(0x000000AE, 0x90909090);    // NOP NOP NOP NOP
             //6FACAC45   . 0F84 AE000000  JE D2Client.6FACACF9
 
             // Unassign stats point when ctrl is push.
-            mem_seek R8(D2Client, 2ACD9, 2ACC9, 0000, 0000, 0000, 0000, 0000, 0000, 0000);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x0000 : (version_D2Client == V113d ? 0x0000 : (version_D2Client == V113c ? 0x0000 : (version_D2Client == V112 ? 0x0000 : (version_D2Client == V111b ? 0x0000 : (version_D2Client == V111 ? 0x0000 : (version_D2Client == V110 ? 0x0000 : (version_D2Client == V109d ? 0x2ACC9 : 0x2ACD9)))))))));
             memt_byte(0xB8, 0xE8);    // CALL
             MEMT_REF4(0x00000001, caller_UnassignStats_9);
             //6FACACC9   . B8 01000000    MOV EAX,1
         }
 
         // Set the id for the calling function.
-        mem_seek R8(D2Client, 2AD02, 2ACF2, 31611, 8395E, 8A3DE, 6C33E, BDF3E, C06DE, A7A29);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA7A29 : (version_D2Client == V113d ? 0xC06DE : (version_D2Client == V113c ? 0xBDF3E : (version_D2Client == V112 ? 0x6C33E : (version_D2Client == V111b ? 0x8A3DE : (version_D2Client == V111 ? 0x8395E : (version_D2Client == V110 ? 0x31611 : (version_D2Client == V109d ? 0x2ACF2 : 0x2AD02)))))))));
         if (version_D2Client >= V111) {
             memt_byte(version_D2Client == V114d ? 0xB1 : 0x66, 0xE8);    // CALL
             MEMT_REF4(version_D2Client == V114d ? 0x160B663A : 0x15244C89, version_D2Client == V114d ? caller_setValue_114 : caller_setValue_111);
@@ -520,7 +520,7 @@ namespace PlugY {
         log_msg("Patch D2Client for limit the assigment of stat points when shift is used. (LimitShift)\n");
 
         // Limit the assigment of stat points.
-        mem_seek R8(D2Client, 2ACD0, 2ACC0, 315CD, 83915, 8A395, 6C2F5, BDEF5, C0695, A79EC);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA79EC : (version_D2Client == V113d ? 0xC0695 : (version_D2Client == V113c ? 0xBDEF5 : (version_D2Client == V112 ? 0x6C2F5 : (version_D2Client == V111b ? 0x8A395 : (version_D2Client == V111 ? 0x83915 : (version_D2Client == V110 ? 0x315CD : (version_D2Client == V109d ? 0x2ACC0 : 0x2ACD0)))))))));
         memt_byte(0xFF, 0x90);    // NOP
         memt_byte(0x15, 0xE8);    // CALL
         MEMD_REF4(GetKeyState, version_D2Client >= V111 ? caller_LimitShift_111 : caller_LimitShift);

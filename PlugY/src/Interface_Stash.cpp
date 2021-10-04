@@ -661,7 +661,7 @@ namespace PlugY {
         log_msg("Patch D2Client for stash interface. (InterfaceStash)\n");
 
         // Print button images
-        mem_seek R8(D2Client, 39060, 39060, 3F399, B1006, 7DF86, B3656, 99A56, 9DE26, 8F308);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x8F308 : (version_D2Client == V113d ? 0x9DE26 : (version_D2Client == V113c ? 0x99A56 : (version_D2Client == V112 ? 0xB3656 : (version_D2Client == V111b ? 0x7DF86 : (version_D2Client == V111 ? 0xB1006 : (version_D2Client == V110 ? 0x3F399 : (version_D2Client == V109d ? 0x39060 : 0x39060)))))))));
         MEMC_REF4(D2LoadBuySelBtn, printBtns);
         //6FADF398  |. E8 734D0400    CALL D2Client.6FB24110
         //6FB61005  |. E8 A6D3FEFF    CALL D2Client.6FB4E3B0
@@ -672,7 +672,7 @@ namespace PlugY {
         //0048F307  |. E8 F452FCFF    CALL Game.00454600
 
         // print page number
-        mem_seek R8(D2Client, 3903C, 3903C, 3F375, B0FE3, 7DF63, B3633, 99A33, 9DE03, 8F2E5);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x8F2E5 : (version_D2Client == V113d ? 0x9DE03 : (version_D2Client == V113c ? 0x99A33 : (version_D2Client == V112 ? 0xB3633 : (version_D2Client == V111b ? 0x7DF63 : (version_D2Client == V111 ? 0xB0FE3 : (version_D2Client == V110 ? 0x3F375 : (version_D2Client == V109d ? 0x3903C : 0x3903C)))))))));
         MEMJ_REF4(D2PrintString, printPageNumber);
         //6FADF374  |. E8 3FCC0800    CALL <JMP.&D2Win.#10117>
         //6FB60FE2  |. E8 99C2F5FF    CALL <JMP.&D2Win.#10020>
@@ -683,7 +683,7 @@ namespace PlugY {
         //0048F2E4  |. E8 37300700    CALL Game.00502320                       ; \Game.00502320
 
         // Manage mouse down (Play sound)
-        mem_seek R8(D2Client, 45091, 45091, 4BBA1, B4666, 7FDD6, B54A6, 9B8A6, 9FC76, 925B8);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x925B8 : (version_D2Client == V113d ? 0x9FC76 : (version_D2Client == V113c ? 0x9B8A6 : (version_D2Client == V112 ? 0xB54A6 : (version_D2Client == V111b ? 0x7FDD6 : (version_D2Client == V111 ? 0xB4666 : (version_D2Client == V110 ? 0x4BBA1 : (version_D2Client == V109d ? 0x45091 : 0x45091)))))))));
         MEMC_REF4(version_D2Client >= V111 ? (DWORD) D2ClickOnStashButton : (DWORD) D2isLODGame,
                   version_D2Client >= V114a ? caller_manageBtnDown_114 : version_D2Client >= V111 ? caller_manageBtnDown_111
                                                                                                   : caller_manageBtnDown);
@@ -696,7 +696,7 @@ namespace PlugY {
         //004925B7  |. E8 C473FFFF    CALL Game.00489980
 
         // Manage mouse up
-        mem_seek R8(D2Client, 455F9, 455F9, 4C0F9, B57B9, 7FC09, B52D9, 9B6D9, 9FAA9, 89B63);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x89B63 : (version_D2Client == V113d ? 0x9FAA9 : (version_D2Client == V113c ? 0x9B6D9 : (version_D2Client == V112 ? 0xB52D9 : (version_D2Client == V111b ? 0x7FC09 : (version_D2Client == V111 ? 0xB57B9 : (version_D2Client == V110 ? 0x4C0F9 : (version_D2Client == V109d ? 0x455F9 : 0x455F9)))))))));
         MEMC_REF4(version_D2Client >= V111 ? (DWORD) D2ClickOnStashButton : (DWORD) D2isLODGame,
                   version_D2Client >= V114a ? caller_manageBtnUp_114 : version_D2Client >= V111 ? caller_manageBtnUp_111
                                                                                                 : caller_manageBtnUp);
@@ -709,7 +709,7 @@ namespace PlugY {
         //00489B62  |> E8 19FEFFFF    CALL Game.00489980
 
         // init state of button on open stash page
-        mem_seek R8(D2Client, 45B3A, 45B3A, 4C63A, A645A, 749DA, A9D9A, 8CC3A, 9441A, 89ED5);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x89ED5 : (version_D2Client == V113d ? 0x9441A : (version_D2Client == V113c ? 0x8CC3A : (version_D2Client == V112 ? 0xA9D9A : (version_D2Client == V111b ? 0x749DA : (version_D2Client == V111 ? 0xA645A : (version_D2Client == V110 ? 0x4C63A : (version_D2Client == V109d ? 0x45B3A : 0x45B3A)))))))));
         if (version_D2Client >= V114d) {
             memt_byte(0x8B, 0xE9);    // CALL initBtnsStates
             MEMT_REF4(0xCCC35DE5, initBtnsStates_114);
@@ -732,7 +732,7 @@ namespace PlugY {
         //00489ED9     CC             INT3
 
         // init the search of print in green the item set name we have in stash
-        mem_seek R8(D2Client, 3F098, 3F098, 45997, A71F4, 71F64, A7314, 8D434, 91A24, 86774);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x86774 : (version_D2Client == V113d ? 0x91A24 : (version_D2Client == V113c ? 0x8D434 : (version_D2Client == V112 ? 0xA7314 : (version_D2Client == V111b ? 0x71F64 : (version_D2Client == V111 ? 0xA71F4 : (version_D2Client == V110 ? 0x45997 : (version_D2Client == V109d ? 0x3F098 : 0x3F098)))))))));
         MEMJ_REF4(D2InventoryGetFirstItem, initGetNextItemForSet);
         //6FAE5996  |. E8 D5500800    CALL <JMP.&D2Common.#10277>
         //6FB571F3  |. E8 D64EF6FF    CALL <JMP.&D2Common.#10402>
@@ -743,7 +743,7 @@ namespace PlugY {
         //00486773  |. E8 484B1B00    CALL Game.0063B2C0                       ; \Game.0063B2C0
 
         // Get next item for print in green the item set name we have in stash
-        mem_seek R8(D2Client, 3F0FA, 3F0FA, 45A1C, A728B, 71FFB, A73AB, 8D4CB, 91ABB, 86807);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x86807 : (version_D2Client == V113d ? 0x91ABB : (version_D2Client == V113c ? 0x8D4CB : (version_D2Client == V112 ? 0xA73AB : (version_D2Client == V111b ? 0x71FFB : (version_D2Client == V111 ? 0xA728B : (version_D2Client == V110 ? 0x45A1C : (version_D2Client == V109d ? 0x3F0FA : 0x3F0FA)))))))));
         MEMJ_REF4(D2UnitGetNextItem, getNextItemForSet);
         //6FAE5A1B   E8 4A500800      CALL <JMP.&D2Common.#10304>
         //6FB5728A  |. E8 0B4FF6FF    |CALL <JMP.&D2Common.#10934>

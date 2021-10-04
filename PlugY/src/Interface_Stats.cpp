@@ -278,7 +278,7 @@ namespace PlugY {
         log_msg("Patch D2Client for stats interface. (InterfaceStats)\n");
 
         // Print new buttons images
-        mem_seek R8(D2Client, 2A7BE, 2A7AE, 30F86, 83636, 8A0B6, 6C016, BDC16, C03B6, A8949);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA8949 : (version_D2Client == V113d ? 0xC03B6 : (version_D2Client == V113c ? 0xBDC16 : (version_D2Client == V112 ? 0x6C016 : (version_D2Client == V111b ? 0x8A0B6 : (version_D2Client == V111 ? 0x83636 : (version_D2Client == V110 ? 0x30F86 : (version_D2Client == V109d ? 0x2A7AE : 0x2A7BE)))))))));
         memt_byte(0x5F, 0xE9);    // JMP
         MEMT_REF4(version_D2Client >= V114d ? 0xE58B5B5E : 0x815B5D5E, version_D2Client >= V114d ? caller_printStatsPageBtns_114 : version_D2Client >= V111 ? caller_printStatsPageBtns_111 : version_D2Client == V110 ? caller_printStatsPageBtns : caller_printStatsPageBtns_9);
         //6FAD0F86   . 5F                   POP EDI
@@ -324,17 +324,17 @@ namespace PlugY {
 
         if (version_D2Client >= V114d) {
             // Manage mouse down (Play sound)
-            mem_seek R8(D2Client, 2AA6D, 2AA5D, 3133D, 827C8, 89248, 6B1A8, BCDC8, BF568, A77D4);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA77D4 : (version_D2Client == V113d ? 0xBF568 : (version_D2Client == V113c ? 0xBCDC8 : (version_D2Client == V112 ? 0x6B1A8 : (version_D2Client == V111b ? 0x89248 : (version_D2Client == V111 ? 0x827C8 : (version_D2Client == V110 ? 0x3133D : (version_D2Client == V109d ? 0x2AA5D : 0x2AA6D)))))))));
             MEMC_REF4(D2GetClientPlayer, caller_statsPageMouseDown_114);
             //004A77D3   . E8 F8C5FBFF    CALL Game.00463DD0
 
             // Manage mouse up
-            mem_seek R8(D2Client, 2AC43, 2AC33, 3151A, 83853, 8A2D3, 6C233, BDE33, C05D3, A7963);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA7963 : (version_D2Client == V113d ? 0xC05D3 : (version_D2Client == V113c ? 0xBDE33 : (version_D2Client == V112 ? 0x6C233 : (version_D2Client == V111b ? 0x8A2D3 : (version_D2Client == V111 ? 0x83853 : (version_D2Client == V110 ? 0x3151A : (version_D2Client == V109d ? 0x2AC33 : 0x2AC43)))))))));
             MEMC_REF4(D2GetClientPlayer, caller_statsPageMouseUp_114);
             //004A7962  |. E8 69C4FBFF    CALL Game.00463DD0
         } else if (version_D2Client >= V111) {
             // Manage mouse down (Play sound)
-            mem_seek R8(D2Client, 2AA6D, 2AA5D, 3133D, 827C8, 89248, 6B1A8, BCDC8, BF568, A77D4);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA77D4 : (version_D2Client == V113d ? 0xBF568 : (version_D2Client == V113c ? 0xBCDC8 : (version_D2Client == V112 ? 0x6B1A8 : (version_D2Client == V111b ? 0x89248 : (version_D2Client == V111 ? 0x827C8 : (version_D2Client == V110 ? 0x3133D : (version_D2Client == V109d ? 0x2AA5D : 0x2AA6D)))))))));
             memt_byte(0xA1, 0xE8);
             MEMT_REF4(ptptClientChar, caller_statsPageMouseDown);
             //6FB327C8   . A1 F0C4BC6F    MOV EAX,DWORD PTR DS:[6FBCC4F0]
@@ -344,7 +344,7 @@ namespace PlugY {
             //6FB6F568   . A1 50D0BC6F    MOV EAX,DWORD PTR DS:[6FBCD050]
 
             // Manage mouse up
-            mem_seek R8(D2Client, 2AC43, 2AC33, 3151A, 83853, 8A2D3, 6C233, BDE33, C05D3, A7963);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA7963 : (version_D2Client == V113d ? 0xC05D3 : (version_D2Client == V113c ? 0xBDE33 : (version_D2Client == V112 ? 0x6C233 : (version_D2Client == V111b ? 0x8A2D3 : (version_D2Client == V111 ? 0x83853 : (version_D2Client == V110 ? 0x3151A : (version_D2Client == V109d ? 0x2AC33 : 0x2AC43)))))))));
             memt_byte(0xA1, 0xE8);
             MEMT_REF4(ptptClientChar, caller_statsPageMouseUp);
             //6FB33853   . A1 F0C4BC6F    MOV EAX,DWORD PTR DS:[6FBCC4F0]
@@ -354,12 +354,12 @@ namespace PlugY {
             //6FB705D3   . A1 50D0BC6F    MOV EAX,DWORD PTR DS:[6FBCD050]
         } else {
             // Manage mouse down (Play sound)
-            mem_seek R8(D2Client, 2AA6D, 2AA5D, 3133D, 827C8, 89248, 6B1A8, BCDC8, BF568, A77D4);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA77D4 : (version_D2Client == V113d ? 0xBF568 : (version_D2Client == V113c ? 0xBCDC8 : (version_D2Client == V112 ? 0x6B1A8 : (version_D2Client == V111b ? 0x89248 : (version_D2Client == V111 ? 0x827C8 : (version_D2Client == V110 ? 0x3133D : (version_D2Client == V109d ? 0x2AA5D : 0x2AA6D)))))))));
             MEMC_REF4(D2GetClientPlayer, caller_statsPageMouseDown);
             //6FAD133C   . E8 8F700500    CALL D2Client.6FB283D0
 
             // Manage mouse up
-            mem_seek R8(D2Client, 2AC43, 2AC33, 3151A, 83853, 8A2D3, 6C233, BDE33, C05D3, A7963);
+            mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA7963 : (version_D2Client == V113d ? 0xC05D3 : (version_D2Client == V113c ? 0xBDE33 : (version_D2Client == V112 ? 0x6C233 : (version_D2Client == V111b ? 0x8A2D3 : (version_D2Client == V111 ? 0x83853 : (version_D2Client == V110 ? 0x3151A : (version_D2Client == V109d ? 0x2AC33 : 0x2AC43)))))))));
             MEMC_REF4(D2GetClientPlayer, version_D2Client == V110 ? caller_statsPageMouseUp : caller_statsPageMouseUp_9);//0x00056EB2
             //6FAD1519   . E8 B26E0500    CALL D2Client.6FB283D0
         }

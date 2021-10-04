@@ -75,18 +75,6 @@ namespace PlugY {
         return result != dllOffsets.end() ? result->second : defaultValue;
     }
 
-#define R8(Z, A, B, C, D, E, F, G, H, I) \
-(offset_##Z +                            \
-(version_##Z == V114d? 0x##I :           \
-(version_##Z == V113d? 0x##H :           \
-(version_##Z == V113c? 0x##G :           \
-(version_##Z == V112? 0x##F :            \
-(version_##Z == V111b? 0x##E :           \
-(version_##Z == V111? 0x##D :            \
-(version_##Z == V110? 0x##C :            \
-(version_##Z == V109d? 0x##B : 0x##A)))))))))
-
-
     extern DWORD r8(D2DllName d2DllName, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d);
 
     extern DWORD v8(Commons::eGameVersion version, DWORD defaultValue, DWORD B, DWORD C, DWORD D, DWORD E, DWORD F, DWORD G, DWORD H, DWORD I);

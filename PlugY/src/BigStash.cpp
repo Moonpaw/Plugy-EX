@@ -92,7 +92,7 @@ namespace PlugY {
         log_msg("Patch D2Common & D2Client for make 10x10 squares in the stash. (BigStash)\n");
 
         // modification of stash grid
-        mem_seek R8(D2Common, C9F3, CA03, 14ED3, 5FCB5, 2A505, 1BDB5, 82CA5, 6CC25, 25C0F8);
+        mem_seek(offset_D2Common + (version_D2Common == V114d ? 0x25C0F8 : (version_D2Common == V113d ? 0x6CC25 : (version_D2Common == V113c ? 0x82CA5 : (version_D2Common == V112 ? 0x1BDB5 : (version_D2Common == V111b ? 0x2A505 : (version_D2Common == V111 ? 0x5FCB5 : (version_D2Common == V110 ? 0x14ED3 : (version_D2Common == V109d ? 0xCA03 : 0xC9F3)))))))));
         MEMC_REF4(D2CompileTxtFile, caller_modifStashGrid);
         //01B64ED2  |. E8 99AEFFFF    CALL D2Common.#10578
         //6FDAFCB4  |. E8 A7C3FCFF    CALL D2Common.#10653
@@ -103,7 +103,7 @@ namespace PlugY {
         //0065C0F7  |. E8 F461FBFF    CALL Game.006122F0                       ; \Game.006122F0
 
         // modification of stash background
-        mem_seek R8(D2Client, 45B1C, 45B1C, 4C61C, A643C, 749BC, A9D7C, 8CC1C, 943FC, 89EB5);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x89EB5 : (version_D2Client == V113d ? 0x943FC : (version_D2Client == V113c ? 0x8CC1C : (version_D2Client == V112 ? 0xA9D7C : (version_D2Client == V111b ? 0x749BC : (version_D2Client == V111 ? 0xA643C : (version_D2Client == V110 ? 0x4C61C : (version_D2Client == V109d ? 0x45B1C : 0x45B1C)))))))));
         memt_byte(0x68, 0xE8);    // CALL caller_changeTradeStash
         MEMT_REF4(0x00000104, caller_changeTradeStash);
         //6FAEC61C  |. 68 04010000    PUSH 104

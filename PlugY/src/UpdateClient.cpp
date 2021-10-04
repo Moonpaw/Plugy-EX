@@ -114,7 +114,7 @@ namespace PlugY {
         log_msg("Patch D2Client for received Item packet. (UpdateClient)\n");
 
         // execute if it's our packet else continue
-        mem_seek R8(D2Client, 14236, 14226, 145B6, 9C6B6, BFE86, 66E06, AE896, 84D96, 5EC99);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x5EC99 : (version_D2Client == V113d ? 0x84D96 : (version_D2Client == V113c ? 0xAE896 : (version_D2Client == V112 ? 0x66E06 : (version_D2Client == V111b ? 0xBFE86 : (version_D2Client == V111 ? 0x9C6B6 : (version_D2Client == V110 ? 0x145B6 : (version_D2Client == V109d ? 0x14226 : 0x14236)))))))));
         MEMT_REF4(version_D2Client >= V114d ? 0x000000CE : version_D2Client >= V111 ? 0x000000CF : 0x000000D6, version_D2Client >= V114d ? caller_handleClientUpdate_114 : version_D2Client >= V111 ? caller_handleClientUpdate_111 : caller_handleClientUpdate);
         //6FAB45B4  |. 0F87 D6000000  JA D2Client.6FAB4690
         //6FB4C6B4  |. 0F87 CF000000  JA D2Client.6FB4C789

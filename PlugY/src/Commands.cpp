@@ -484,7 +484,7 @@ namespace PlugY {
         active_savegame = version_D2Common >= V111;
 
         // Run custom commmand
-        mem_seek R8(D2Client, 2C120, 2C110, 32BDD, C1EE6, 91C16, 86926, 70AE6, B1FD6, 7C548);
+        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x7C548 : (version_D2Client == V113d ? 0xB1FD6 : (version_D2Client == V113c ? 0x70AE6 : (version_D2Client == V112 ? 0x86926 : (version_D2Client == V111b ? 0x91C16 : (version_D2Client == V111 ? 0xC1EE6 : (version_D2Client == V110 ? 0x32BDD : (version_D2Client == V109d ? 0x2C110 : 0x2C120)))))))));
         memt_byte(0x83, 0xE8);    // CALL
         MEMT_REF4(0xC08508C4, version_D2Client >= V113d ? caller_Commands_113d : version_D2Client >= V111 ? caller_Commands_111 : caller_Commands);
         //6FB71EE6   . 83C4 08        ADD ESP,8
