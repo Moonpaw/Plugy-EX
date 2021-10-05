@@ -76,5 +76,15 @@ namespace PlugY_Tests {
             CAPTURE(expected);
             REQUIRE(byFun==expected);
         }
+
+        void setFctAddr(DWORD *addr, HMODULE module, LPCSTR index) {
+            //dummy replacement
+        }
+        DWORD matchVersion(DWORD version, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d);
+
+        TEST_CASE("set version specific address should be simple"){
+            if (version_D2Common > V113d) { D2Common11084 = (TD2Common11084) (offset_D2Common + (version_D2Common == V114d ? 0x21AED0 : (version_D2Common == V113d ? 0x10907 : (version_D2Common == V113c ? 0x10346 : (version_D2Common == V112 ? 0x11109 : (version_D2Common == V111b ? 0x11084 : (version_D2Common == V111 ? 0x10188 : (version_D2Common == V110 ? 0x00000 : (version_D2Common == V109d ? 0x00000 : 0x00000))))))))); }
+            else setFctAddr((DWORD *) &D2Common11084, (HMODULE) offset_D2Common, (LPCSTR) (version_D2Common == V113d ? 10907 : (version_D2Common == V113c ? 10346 : (version_D2Common == V112 ? 11109 : (version_D2Common == V111b ? 11084 : (version_D2Common == V111 ? 10188 : (version_D2Common == V110 ? 00000 : (version_D2Common == V109d ? 00000 : 00000))))))));
+        }
     }
 }
