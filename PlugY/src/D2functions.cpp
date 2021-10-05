@@ -959,10 +959,9 @@ namespace PlugY {
         if (version_D2Game <= V109d)
             D2SetSkillBaseLevelOnClient = (TD2SetSkillBaseLevelOnClient) D2SetSkillBaseLevelOnClient_9;
     }
-
-    DWORD r8(D2DllName d2DllName, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d) {
+    DWORD v8(eGameVersion version, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d) {
         using namespace Commons;
-        std::map<eGameVersion, DWORD> knownVersions = {
+        std::map<eGameVersion, DWORD> versions = {
                 {V114d, v114d},
                 {V113d, v113d},
                 {V113c, v113c},
@@ -971,27 +970,6 @@ namespace PlugY {
                 {V111,  v111},
                 {V110,  v110},
                 {V109d, v109d},
-        };
-        auto result = dllVersions.find(d2DllName);
-        auto ver = result != dllVersions.end() ? result->second : Commons::UNKNOWN;
-        auto knownVersionResult = knownVersions.find(ver);
-        if (knownVersionResult == knownVersions.end()) return defaultValue;
-        auto knownVersion = knownVersionResult->second;
-        auto offset = findOffsetOrDefault(d2DllName, defaultValue);
-        return offset + knownVersion;
-    }
-
-    DWORD v8(eGameVersion version, DWORD defaultValue, DWORD B, DWORD C, DWORD D, DWORD E, DWORD F, DWORD G, DWORD H, DWORD I) {
-        using namespace Commons;
-        std::map<eGameVersion, DWORD> versions = {
-                {V114d, I},
-                {V113d, H},
-                {V113c, G},
-                {V112,  F},
-                {V111b, E},
-                {V111,  D},
-                {V110,  C},
-                {V109d, B},
         };
         auto result = versions.find(version);
         return result != versions.end() ? result->second : defaultValue;
@@ -1059,9 +1037,10 @@ namespace PlugY {
 
 
     void initD2functions() {
-        if (version_D2Common > V113d) { D2Common11084 = (TD2Common11084) (offset_D2Common + (version_D2Common == V114d ? 0x21AED0 : (version_D2Common == V113d ? 0x10907 : (version_D2Common == V113c ? 0x10346 : (version_D2Common == V112 ? 0x11109 : (version_D2Common == V111b ? 0x11084 : (version_D2Common == V111 ? 0x10188 : (version_D2Common == V110 ? 0x00000 : (version_D2Common == V109d ? 0x00000 : 0x00000))))))))); }
-        else
-            setFctAddr((DWORD *) &D2Common11084, (HMODULE) offset_D2Common, (LPCSTR) (version_D2Common == V113d ? 10907 : (version_D2Common == V113c ? 10346 : (version_D2Common == V112 ? 11109 : (version_D2Common == V111b ? 11084 : (version_D2Common == V111 ? 10188 : (version_D2Common == V110 ? 00000 : (version_D2Common == V109d ? 00000 : 00000))))))));
+
+
+
+        if (version_D2Common > V113d) { D2Common11084 = (TD2Common11084) (offset_D2Common + (version_D2Common == V114d ? 0x21AED0 : (version_D2Common == V113d ? 0x10907 : (version_D2Common == V113c ? 0x10346 : (version_D2Common == V112 ? 0x11109 : (version_D2Common == V111b ? 0x11084 : (version_D2Common == V111 ? 0x10188 : (version_D2Common == V110 ? 0x00000 : (version_D2Common == V109d ? 0x00000 : 0x00000))))))))); } else setFctAddr((DWORD *) &D2Common11084, (HMODULE) offset_D2Common, (LPCSTR) (version_D2Common == V113d ? 10907 : (version_D2Common == V113c ? 10346 : (version_D2Common == V112 ? 11109 : (version_D2Common == V111b ? 11084 : (version_D2Common == V111 ? 10188 : (version_D2Common == V110 ? 00000 : (version_D2Common == V109d ? 00000 : 00000))))))));
         if (version_D2Common > V113d) { D2GetLevelID = (TD2GetLevelID) (offset_D2Common + (version_D2Common == V114d ? 0x21A1B0 : (version_D2Common == V113d ? 0x10691 : (version_D2Common == V113c ? 0x10826 : (version_D2Common == V112 ? 0x10511 : (version_D2Common == V111b ? 0x11021 : (version_D2Common == V111 ? 0x10332 : (version_D2Common == V110 ? 0x10057 : (version_D2Common == V109d ? 0x10057 : 0x10057))))))))); } else setFctAddr((DWORD *) &D2GetLevelID, (HMODULE) offset_D2Common, (LPCSTR) (version_D2Common == V113d ? 10691 : (version_D2Common == V113c ? 10826 : (version_D2Common == V112 ? 10511 : (version_D2Common == V111b ? 11021 : (version_D2Common == V111 ? 10332 : (version_D2Common == V110 ? 10057 : (version_D2Common == V109d ? 10057 : 10057))))))));
         if (version_D2Common > V113d) { D2GetDropRoom = (TD2GetDropRoom) (offset_D2Common + (version_D2Common == V114d ? 0x24E810 : (version_D2Common == V113d ? 0x10716 : (version_D2Common == V113c ? 0x10654 : (version_D2Common == V112 ? 0x11043 : (version_D2Common == V111b ? 0x10491 : (version_D2Common == V111 ? 0x10623 : (version_D2Common == V110 ? 0x10138 : (version_D2Common == V109d ? 0x10138 : 0x10138))))))))); } else setFctAddr((DWORD *) &D2GetDropRoom, (HMODULE) offset_D2Common, (LPCSTR) (version_D2Common == V113d ? 10716 : (version_D2Common == V113c ? 10654 : (version_D2Common == V112 ? 11043 : (version_D2Common == V111b ? 10491 : (version_D2Common == V111 ? 10623 : (version_D2Common == V110 ? 10138 : (version_D2Common == V109d ? 10138 : 10138))))))));
         if (version_D2Common > V113d) { D2Common10242 = (TD2Common10242) (offset_D2Common + (version_D2Common == V114d ? 0x00000 : (version_D2Common == V113d ? 0x00000 : (version_D2Common == V113c ? 0x00000 : (version_D2Common == V112 ? 0x00000 : (version_D2Common == V111b ? 0x00000 : (version_D2Common == V111 ? 0x00000 : (version_D2Common == V110 ? 0x10242 : (version_D2Common == V109d ? 0x10242 : 0x10242))))))))); } else setFctAddr((DWORD *) &D2Common10242, (HMODULE) offset_D2Common, (LPCSTR) (version_D2Common == V113d ? 00000 : (version_D2Common == V113c ? 00000 : (version_D2Common == V112 ? 00000 : (version_D2Common == V111b ? 00000 : (version_D2Common == V111 ? 00000 : (version_D2Common == V110 ? 10242 : (version_D2Common == V109d ? 10242 : 10242))))))));
@@ -1107,9 +1086,7 @@ namespace PlugY {
         if (version_D2Common > V113d) { D2GetNbCubeMainBIN = (TD2GetNbCubeMainBIN) (offset_D2Common + (version_D2Common == V114d ? 0x26A200 : (version_D2Common == V113d ? 0x10235 : (version_D2Common == V113c ? 0x10675 : (version_D2Common == V112 ? 0x10390 : (version_D2Common == V111b ? 0x11135 : (version_D2Common == V111 ? 0x10639 : (version_D2Common == V110 ? 0x11233 : (version_D2Common == V109d ? 0x11233 : 0x11233))))))))); } else setFctAddr((DWORD *) &D2GetNbCubeMainBIN, (HMODULE) offset_D2Common, (LPCSTR) (version_D2Common == V113d ? 10235 : (version_D2Common == V113c ? 10675 : (version_D2Common == V112 ? 10390 : (version_D2Common == V111b ? 11135 : (version_D2Common == V111 ? 10639 : (version_D2Common == V110 ? 11233 : (version_D2Common == V109d ? 11233 : 11233))))))));
         if (version_D2Common > V113d) { D2GetNextLevelXP = (TD2GetNextLevelXP) (offset_D2Common + (version_D2Common == V114d ? 0x00000 : (version_D2Common == V113d ? 0x00000 : (version_D2Common == V113c ? 0x00000 : (version_D2Common == V112 ? 0x00000 : (version_D2Common == V111b ? 0x00000 : (version_D2Common == V111 ? 0x00000 : (version_D2Common == V110 ? 0x10628 : (version_D2Common == V109d ? 0x10628 : 0x10628))))))))); } else setFctAddr((DWORD *) &D2GetNextLevelXP, (HMODULE) offset_D2Common, (LPCSTR) (version_D2Common == V113d ? 00000 : (version_D2Common == V113c ? 00000 : (version_D2Common == V112 ? 00000 : (version_D2Common == V111b ? 00000 : (version_D2Common == V111 ? 00000 : (version_D2Common == V110 ? 10628 : (version_D2Common == V109d ? 10628 : 10628))))))));
         if (version_D2Common > V113d) { D2GetMaxLevel = (TD2GetMaxLevel) (offset_D2Common + (version_D2Common == V114d ? 0x00000 : (version_D2Common == V113d ? 0x00000 : (version_D2Common == V113c ? 0x00000 : (version_D2Common == V112 ? 0x00000 : (version_D2Common == V111b ? 0x00000 : (version_D2Common == V111 ? 0x00000 : (version_D2Common == V110 ? 0x10629 : (version_D2Common == V109d ? 0x10629 : 0x10629))))))))); } else setFctAddr((DWORD *) &D2GetMaxLevel, (HMODULE) offset_D2Common, (LPCSTR) (version_D2Common == V113d ? 00000 : (version_D2Common == V113c ? 00000 : (version_D2Common == V112 ? 00000 : (version_D2Common == V111b ? 00000 : (version_D2Common == V111 ? 00000 : (version_D2Common == V110 ? 10629 : (version_D2Common == V109d ? 10629 : 10629))))))));
-        if (version_D2Common > V113d) { D2GetDifficultyLevelsBIN = (TD2GetDifficultyLevelsBIN) (offset_D2Common + (version_D2Common == V114d ? 0x111D30 : (version_D2Common == V113d ? 0x10694 : (version_D2Common == V113c ? 0x10218 : (version_D2Common == V112 ? 0x10297 : (version_D2Common == V111b ? 0x10309 : (version_D2Common == V111 ? 0x10655 : (version_D2Common == V110 ? 0x10655 : (version_D2Common == V109d ? 0x10655 : 0x10655))))))))); }
-        else
-            setFctAddr((DWORD *) &D2GetDifficultyLevelsBIN, (HMODULE) offset_D2Common, (LPCSTR) (version_D2Common == V113d ? 10694 : (version_D2Common == V113c ? 10218 : (version_D2Common == V112 ? 10297 : (version_D2Common == V111b ? 10309 : (version_D2Common == V111 ? 10655 : (version_D2Common == V110 ? 10655 : (version_D2Common == V109d ? 10655 : 10655))))))));
+        if (version_D2Common > V113d) { D2GetDifficultyLevelsBIN = (TD2GetDifficultyLevelsBIN) (offset_D2Common + (version_D2Common == V114d ? 0x111D30 : (version_D2Common == V113d ? 0x10694 : (version_D2Common == V113c ? 0x10218 : (version_D2Common == V112 ? 0x10297 : (version_D2Common == V111b ? 0x10309 : (version_D2Common == V111 ? 0x10655 : (version_D2Common == V110 ? 0x10655 : (version_D2Common == V109d ? 0x10655 : 0x10655))))))))); } else setFctAddr((DWORD *) &D2GetDifficultyLevelsBIN, (HMODULE) offset_D2Common, (LPCSTR) (version_D2Common == V113d ? 10694 : (version_D2Common == V113c ? 10218 : (version_D2Common == V112 ? 10297 : (version_D2Common == V111b ? 10309 : (version_D2Common == V111 ? 10655 : (version_D2Common == V110 ? 10655 : (version_D2Common == V109d ? 10655 : 10655))))))));
         if (version_D2Common > V113d) { D2GetItemQuality = (TD2GetItemQuality) (offset_D2Common + (version_D2Common == V114d ? 0x227E70 : (version_D2Common == V113d ? 0x10911 : (version_D2Common == V113c ? 0x10106 : (version_D2Common == V112 ? 0x10276 : (version_D2Common == V111b ? 0x10899 : (version_D2Common == V111 ? 0x10927 : (version_D2Common == V110 ? 0x10695 : (version_D2Common == V109d ? 0x10695 : 0x10695))))))))); } else setFctAddr((DWORD *) &D2GetItemQuality, (HMODULE) offset_D2Common, (LPCSTR) (version_D2Common == V113d ? 10911 : (version_D2Common == V113c ? 10106 : (version_D2Common == V112 ? 10276 : (version_D2Common == V111b ? 10899 : (version_D2Common == V111 ? 10927 : (version_D2Common == V110 ? 10695 : (version_D2Common == V109d ? 10695 : 10695))))))));
         if (version_D2Common > V113d) { D2TestFlags = (TD2TestFlags) (offset_D2Common + (version_D2Common == V114d ? 0x2280A0 : (version_D2Common == V113d ? 0x10458 : (version_D2Common == V113c ? 0x10202 : (version_D2Common == V112 ? 0x10989 : (version_D2Common == V111b ? 0x10303 : (version_D2Common == V111 ? 0x10911 : (version_D2Common == V110 ? 0x10707 : (version_D2Common == V109d ? 0x10707 : 0x10707))))))))); } else setFctAddr((DWORD *) &D2TestFlags, (HMODULE) offset_D2Common, (LPCSTR) (version_D2Common == V113d ? 10458 : (version_D2Common == V113c ? 10202 : (version_D2Common == V112 ? 10989 : (version_D2Common == V111b ? 10303 : (version_D2Common == V111 ? 10911 : (version_D2Common == V110 ? 10707 : (version_D2Common == V109d ? 10707 : 10707))))))));
         if (version_D2Common > V113d) { D2GetItemLevel = (TD2GetItemLevel) (offset_D2Common + (version_D2Common == V114d ? 0x2281E0 : (version_D2Common == V113d ? 0x10008 : (version_D2Common == V113c ? 0x10086 : (version_D2Common == V112 ? 0x10410 : (version_D2Common == V111b ? 0x10100 : (version_D2Common == V111 ? 0x10898 : (version_D2Common == V110 ? 0x10717 : (version_D2Common == V109d ? 0x10717 : 0x10717))))))))); } else setFctAddr((DWORD *) &D2GetItemLevel, (HMODULE) offset_D2Common, (LPCSTR) (version_D2Common == V113d ? 10008 : (version_D2Common == V113c ? 10086 : (version_D2Common == V112 ? 10410 : (version_D2Common == V111b ? 10100 : (version_D2Common == V111 ? 10898 : (version_D2Common == V110 ? 10717 : (version_D2Common == V109d ? 10717 : 10717))))))));
@@ -1223,10 +1200,7 @@ namespace PlugY {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////// VARIABLES ////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// C8 section
         ptClientTable = (NetClient **) (offset_D2Game + (version_D2Game == V114d ? 0x4842A8 : (version_D2Game == V113d ? 0x1105E0 : (version_D2Game == V113c ? 0x1107B8 : (version_D2Game == V112 ? 0x1105E0 : (version_D2Game == V111b ? 0x1115E0 : (version_D2Game == V111 ? 0x111718 : (version_D2Game == V110 ? 0x113FB8 : (version_D2Game == V109d ? 0xF2918 : 0xF2A80)))))))));
-
         ptResolutionY = (DWORD *) (offset_D2Client + (version_D2Client == V114d ? 0x311470 : (version_D2Client == V113d ? 0xF7038 : (version_D2Client == V113c ? 0xDBC4C : (version_D2Client == V112 ? 0xDC6E4 : (version_D2Client == V111b ? 0xF4FC8 : (version_D2Client == V111 ? 0xF5C60 : (version_D2Client == V110 ? 0xD40F0 : (version_D2Client == V109d ? 0xD40E0 : 0xD50E8)))))))));
         ptResolutionX = (DWORD *) (offset_D2Client + (version_D2Client == V114d ? 0x31146C : (version_D2Client == V113d ? 0xF7034 : (version_D2Client == V113c ? 0xDBC48 : (version_D2Client == V112 ? 0xDC6E0 : (version_D2Client == V111b ? 0xF4FC4 : (version_D2Client == V111 ? 0xF5C5C : (version_D2Client == V110 ? 0xD40F4 : (version_D2Client == V109d ? 0xD40E4 : 0xD50EC)))))))));
         ptNegWindowStartY = (DWORD *) (offset_D2Client + (version_D2Client == V114d ? 0x3A285C : (version_D2Client == V113d ? 0x11D358 : (version_D2Client == V113c ? 0x11B9A4 : (version_D2Client == V112 ? 0x11BD2C : (version_D2Client == V111b ? 0x11BEFC : (version_D2Client == V111 ? 0x11BD28 : (version_D2Client == V110 ? 0x11A74C : (version_D2Client == V109d ? 0x124958 : 0x125AD8)))))))));
@@ -1240,22 +1214,12 @@ namespace PlugY {
         ptInputCommand = (WCHAR *) (offset_D2Client + (version_D2Client == V114d ? 0x3BB638 : (version_D2Client == V113d ? 0x11D650 : (version_D2Client == V113c ? 0x11EC80 : (version_D2Client == V112 ? 0x11FC40 : (version_D2Client == V111b ? 0x11D590 : (version_D2Client == V111 ? 0x11C590 : (version_D2Client == V110 ? 0x111A58 : (version_D2Client == V109d ? 0x11BCB0 : 0x11CE50)))))))));
         ptNbStatDesc = (DWORD *) (offset_D2Client + (version_D2Client == V114d ? 0x000000 : (version_D2Client == V113d ? 0x000000 : (version_D2Client == V113c ? 0x000000 : (version_D2Client == V112 ? 0x000000 : (version_D2Client == V111b ? 0x000000 : (version_D2Client == V111 ? 0x000000 : (version_D2Client == V110 ? 0x000000 : (version_D2Client == V109d ? 0xDA828 : 0xDB918)))))))));
         ptStatDescTable = (DWORD *) (offset_D2Client + (version_D2Client == V114d ? 0x000000 : (version_D2Client == V113d ? 0x000000 : (version_D2Client == V113c ? 0x000000 : (version_D2Client == V112 ? 0x000000 : (version_D2Client == V111b ? 0x000000 : (version_D2Client == V111 ? 0x000000 : (version_D2Client == V110 ? 0x000000 : (version_D2Client == V109d ? 0xD9EA8 : 0xDAF98)))))))));
-//    SgptDataTables = *(DataTables **) r8(D2Common, 0x0000, 0x0000, 0x96A20, 0x9B74C, 0x9EE8C, 0x9B500, 0x99E1C, 0xA33F0, 0x344304);
-//    SgptDataTables = *(DataTables **) (offset_D2Common + (version_D2Common == V114d? 0x344304 : (version_D2Common == V113d? 0xA33F0 : (version_D2Common == V113c? 0x99E1C : (version_D2Common == V112? 0x9B500 : (version_D2Common == V111b? 0x9EE8C : (version_D2Common == V111? 0x9B74C : (version_D2Common == V110? 0x96A20 : (version_D2Common == V109d? 0x0000 : 0x0000)))))))));
         SgptDataTables = *(DataTables **) (offset_D2Common + (version_D2Common == V114d ? 0x344304 : (version_D2Common == V113d ? 0xA33F0 : (version_D2Common == V113c ? 0x99E1C : (version_D2Common == V112 ? 0x9B500 : (version_D2Common == V111b ? 0x9EE8C : (version_D2Common == V111 ? 0x9B74C : (version_D2Common == V110 ? 0x96A20 : (version_D2Common == V109d ? 0x0000 : 0x0000)))))))));
         if (version_D2Common < V110) {
             setFctAddr((DWORD *) &D2Common10581, (HMODULE) offset_D2Common, (LPCSTR) 10581);//ONLY in 1.09
             setFctAddr((DWORD *) &D2Common10598, (HMODULE) offset_D2Common, (LPCSTR) 10598);//ONLY in 1.09
             setFctAddr((DWORD *) &D2Common10673, (HMODULE) offset_D2Common, (LPCSTR) 10673);//ONLY in 1.09
         }
-#undef F8Init
-#undef A8Init
-#undef C8Init
-#undef D2S
-#undef D2F
-#undef E2S
-#undef E2F
-#undef E2C
         misc_fct();
         redirect_to_custom_functions();
         init_shifting();
