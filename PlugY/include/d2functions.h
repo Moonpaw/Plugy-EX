@@ -77,7 +77,7 @@ namespace PlugY {
 
 //    extern DWORD r8(D2DllName d2DllName, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d);
 
-    extern DWORD v8(Commons::eGameVersion version, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d);
+    extern DWORD getAddressOfVersion(Commons::eGameVersion version, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d = 0);
 
     extern DWORD RX(DWORD v);
     extern DWORD RY(DWORD y);

@@ -35,56 +35,36 @@ namespace PlugY_Tests {
             REQUIRE(result == 0x1234);
         }
 
-        TEST_CASE("E8 should produce the same as e8") {
-            init_dll_maps();
-            version_D2Common = V110;
-            offset_D2Common = 0x1234;
-            auto byDef = (offset_D2Common + (version_D2Common == V114d ? 0x344304 : (version_D2Common == V113d ? 0xA33F0 : (version_D2Common == V113c ? 0x99E1C : (version_D2Common == V112 ? 0x9B500 : (version_D2Common == V111b ? 0x9EE8C : (version_D2Common == V111 ? 0x9B74C : (version_D2Common == V110 ? 0x96A20 : (version_D2Common == V109d ? 0x0000 : 0x0000)))))))));
-            DWORD defaultValue = 0x0000;
-            DWORD b = 0x0000;
-            DWORD c = 0x96A20;
-            DWORD d = 0x9B74C;
-            DWORD e = 0x9EE8C;
-            DWORD f = 0x9B500;
-            DWORD g = 0x99E1C;
-            DWORD h = 0xA33F0;
-            DWORD i = 0x344304;
-            auto byFun = r8(D2Common, defaultValue, b, c, d, e, f, g, h, i);
-            CAPTURE(byDef);
-            CAPTURE(byFun);
-            auto expected = offset_D2Common + c;
-            CAPTURE(expected);
-            REQUIRE(byDef == byFun);
-        }
-
-        TEST_CASE("R8 should produce the same as r8") {
-            init_dll_maps();
-            version_D2Common = V110;
-            offset_D2Common = 0x1234;
-            DWORD defaultValue = 0x0000;
-            DWORD b = 0x0000;
-            DWORD c = 0x96A20;
-            DWORD d = 0x9B74C;
-            DWORD e = 0x9EE8C;
-            DWORD f = 0x9B500;
-            DWORD g = 0x99E1C;
-            DWORD h = 0xA33F0;
-            DWORD i = 0x344304;
-            auto byFun = r8(D2Common, defaultValue, b, c, d, e, f, g, h, i);
-            CAPTURE(byFun);
-            auto expected = offset_D2Common + c;
-            CAPTURE(expected);
-            REQUIRE(byFun==expected);
-        }
-
         void setFctAddr(DWORD *addr, HMODULE module, LPCSTR index) {
             //dummy replacement
         }
-        DWORD matchVersion(DWORD version, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d);
 
-        TEST_CASE("set version specific address should be simple"){
-            if (version_D2Common > V113d) { D2Common11084 = (TD2Common11084) (offset_D2Common + (version_D2Common == V114d ? 0x21AED0 : (version_D2Common == V113d ? 0x10907 : (version_D2Common == V113c ? 0x10346 : (version_D2Common == V112 ? 0x11109 : (version_D2Common == V111b ? 0x11084 : (version_D2Common == V111 ? 0x10188 : (version_D2Common == V110 ? 0x00000 : (version_D2Common == V109d ? 0x00000 : 0x00000))))))))); }
-            else setFctAddr((DWORD *) &D2Common11084, (HMODULE) offset_D2Common, (LPCSTR) (version_D2Common == V113d ? 10907 : (version_D2Common == V113c ? 10346 : (version_D2Common == V112 ? 11109 : (version_D2Common == V111b ? 11084 : (version_D2Common == V111 ? 10188 : (version_D2Common == V110 ? 00000 : (version_D2Common == V109d ? 00000 : 00000))))))));
+        TEST_CASE("set version specific address should be simple") {
+            //getAddressOfVersion(version_D2Common == V114d ? 0x21AED0 : (version_D2Common == V113d ? 0x10907 : (version_D2Common == V113c ? 0x10346 : (version_D2Common == V112 ? 0x11109 : (version_D2Common == V111b ? 0x11084 : (version_D2Common == V111 ? 0x10188 : (version_D2Common == V110 ? 0x00000 : (version_D2Common == V109d ? 0x00000 : 0x00000
+            if (version_D2Common > V113d) {
+                int v109d = 0x00000;
+                int v110 = 0x00000;
+                int v111 = 0x10188;
+                int v111b = 0x11084;
+                int v112 = 0x11109;
+                int v113c = 0x10346;
+                int v113d = 0x10907;
+                int v114d = 0x21AED0;
+                int defaultValue = 0x00000;
+//                int addressVersion = version_D2Common == V114d ? v114d : (version_D2Common == V113d ? v113d : (version_D2Common == V113c ? v113c : (version_D2Common == V112 ? v112 : (version_D2Common == V111b ? v111b : (version_D2Common == V111 ? v111 : (version_D2Common == V110 ? v110 : (version_D2Common == V109d ? v109d : defaultValue)))))));
+                D2Common11084 = (TD2Common11084) (offset_D2Common + getAddressOfVersion(version_D2Common, defaultValue, v109d, v110, v111, v111b, v112, v113c, v113d, v114d));
+            } else {
+                int v109d = 00000;
+                int v110 = 00000;
+                int v111 = 10188;
+                int v111b = 11084;
+                int v112 = 11109;
+                int v113c = 10346;
+                int v113d = 10907;
+                int defaultValue = 00000;
+//                int addressVersion = version_D2Common == V113d ? v113d : (version_D2Common == V113c ? v113c : (version_D2Common == V112 ? v112 : (version_D2Common == V111b ? v111b : (version_D2Common == V111 ? v111 : (version_D2Common == V110 ? v110 : (version_D2Common == V109d ? v109d : defaultValue))))));
+                setFctAddr((DWORD *) &D2Common11084, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, defaultValue, v109d, v110, v111, v111b, v112, v113c, v113d));
+            }
         }
     }
 }

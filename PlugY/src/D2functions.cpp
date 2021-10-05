@@ -959,7 +959,7 @@ namespace PlugY {
         if (version_D2Game <= V109d)
             D2SetSkillBaseLevelOnClient = (TD2SetSkillBaseLevelOnClient) D2SetSkillBaseLevelOnClient_9;
     }
-    DWORD v8(eGameVersion version, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d) {
+    DWORD getAddressOfVersion(eGameVersion version, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d) {
         using namespace Commons;
         std::map<eGameVersion, DWORD> versions = {
                 {V114d, v114d},
@@ -976,15 +976,15 @@ namespace PlugY {
     }
 
     void init_shifting() {
-        const DWORD player_data = v8(version_D2Common, 0x5D, 0x5D, 0x5D, 0x49, 0x49, 0x49, 0x49, 0x49, 0x48);
+        const DWORD player_data = getAddressOfVersion(version_D2Common, 0x5D, 0x5D, 0x5D, 0x49, 0x49, 0x49, 0x49, 0x49, 0x48);
         shifting.ptPYPlayerData = *(DWORD *) ((DWORD) D2InitPlayerData + player_data);
-        shifting.ptSpecificData = v8(version_D2Common, 0x70, 0x70, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14);
-        shifting.ptGame = v8(version_D2Common, 0xA4, 0xA4, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80);
-        shifting.ptClientGame = v8(version_D2Common, 0x170, 0x194, 0x1A8, 0x1A8, 0x1A8, 0x1A8, 0x1A8, 0x1A8, 0x1A8);
-        shifting.ptInventory = v8(version_D2Common, 84, 84, 60, 60, 60, 60, 60, 60, 60);
-        shifting.ptSkills = v8(version_D2Common, 0xCC, 0xCC, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8);
-        shifting.ptImage = v8(version_D2Common, 0x04, 0x04, 0x04, 0x08, 0x08, 0x3C, 0x34, 0x34, 0x34);
-        shifting.ptFrame = v8(version_D2Common, 0x08, 0x08, 0x08, 0x44, 0x44, 0x40, 0x00, 0x00, 0x00);
+        shifting.ptSpecificData = getAddressOfVersion(version_D2Common, 0x70, 0x70, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14);
+        shifting.ptGame = getAddressOfVersion(version_D2Common, 0xA4, 0xA4, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80);
+        shifting.ptClientGame = getAddressOfVersion(version_D2Common, 0x170, 0x194, 0x1A8, 0x1A8, 0x1A8, 0x1A8, 0x1A8, 0x1A8, 0x1A8);
+        shifting.ptInventory = getAddressOfVersion(version_D2Common, 84, 84, 60, 60, 60, 60, 60, 60, 60);
+        shifting.ptSkills = getAddressOfVersion(version_D2Common, 0xCC, 0xCC, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8, 0xA8);
+        shifting.ptImage = getAddressOfVersion(version_D2Common, 0x04, 0x04, 0x04, 0x08, 0x08, 0x3C, 0x34, 0x34, 0x34);
+        shifting.ptFrame = getAddressOfVersion(version_D2Common, 0x08, 0x08, 0x08, 0x44, 0x44, 0x40, 0x00, 0x00, 0x00);
     }
 
     DWORD RX(DWORD v) {

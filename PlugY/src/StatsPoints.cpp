@@ -353,9 +353,9 @@ namespace PlugY {
         // Always print stat button images.
         mem_seek(offset_D2Client + (version_D2Client == V114d ? 0xA7FFB : (version_D2Client == V113d ? 0xBF955 : (version_D2Client == V113c ? 0xBD1B5 : (version_D2Client == V112 ? 0x6B59A : (version_D2Client == V111b ? 0x8963A : (version_D2Client == V111 ? 0x82BBA : (version_D2Client == V110 ? 0x30073 : (version_D2Client == V109d ? 0x29B02 : 0x29B12)))))))));
         memt_byte(0x8B, 0xEB);    // JMP SHORT D2Client.6FAD0088
-        memt_byte(version_D2Client == V114d ? 0x4D : 0x4C, v8(version_D2Client, 0x12, 0x12, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x12));
+        memt_byte(version_D2Client == V114d ? 0x4D : 0x4C, getAddressOfVersion(version_D2Client, 0x12, 0x12, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x12));
         memt_byte(version_D2Client == V114d ? 0xF8 : 0x24, 0x90);    // NOP
-        if (version_D2Client < V114a) memt_byte(v8(version_D2Client, 0x20, 0x20, 0x14, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x53), 0x90);            // NOP (V109d:0x20 , V110:0x14
+        if (version_D2Client < V114a) memt_byte(getAddressOfVersion(version_D2Client, 0x20, 0x20, 0x14, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x53), 0x90);            // NOP (V109d:0x20 , V110:0x14
         //6FAD0073     8B4C24 14      MOV ECX,DWORD PTR SS:[ESP+14]
         //6FB32BBA   > 8B4C24 1C      MOV ECX,DWORD PTR SS:[ESP+1C]
         //6FB3963A   > 8B4C24 1C      MOV ECX,DWORD PTR SS:[ESP+1C]
