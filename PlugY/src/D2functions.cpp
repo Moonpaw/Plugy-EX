@@ -833,12 +833,10 @@ namespace PlugY {
         }
     }
 
-    void setFctAddr(DWORD *addr, HMODULE module, LPCSTR index) {
+    void setAddressOfFunction(DWORD *addr, HMODULE module, LPCSTR index) {
         if (index) {
             *addr = (DWORD) GetProcAddress(module, index);
-            if (!*addr) {
-                log_msg("Bad index fct %d for %08X\n", index, module);
-            }
+            if (!*addr) log_msg("Bad index fct %d for %08X\n", index, module);
         } else
             *addr = NULL;
     }
@@ -1035,108 +1033,263 @@ namespace PlugY {
     std::map<D2DllName, eGameVersion> dllVersions;
     std::map<D2DllName, DWORD> dllOffsets;
 
+    void initD2CommonFunctions() {
+        if (version_D2Common > V113d) {
+            D2Common11084 = (TD2Common11084) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x00000, 0x00000, 0x00000, 0x10188, 0x11084, 0x11109, 0x10346, 0x10907, 0x21AED0));
+            D2GetLevelID = (TD2GetLevelID) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10057, 0x10057, 0x10057, 0x10332, 0x11021, 0x10511, 0x10826, 0x10691, 0x21A1B0));
+            D2GetDropRoom = (TD2GetDropRoom) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10138, 0x10138, 0x10138, 0x10623, 0x10491, 0x11043, 0x10654, 0x10716, 0x24E810));
+            D2Common10242 = (TD2Common10242) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10242, 0x10242, 0x10242, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2CanPutItemInInv = (TD2CanPutItemInInv) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10246, 0x10246, 0x10246, 0x10855, 0x10813, 0x10289, 0x10133, 0x10402, 0x23B950));
+            D2InvRemoveItem = (TD2InvRemoveItem) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10243, 0x10243, 0x10243, 0x10461, 0x10827, 0x10936, 0x10646, 0x10490, 0x23AD90));
+            D2InvAddItem = (TD2InvAddItem) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10249, 0x10249, 0x10249, 0x10880, 0x11068, 0x10436, 0x11107, 0x10963, 0x23BCC0));
+            D2Common10250 = (TD2Common10250) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10250, 0x10250, 0x10250, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2Common10273 = (TD2Common10273) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10273, 0x10273, 0x10273, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2InventoryGetFirstItem = (TD2InventoryGetFirstItem) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10277, 0x10277, 0x10277, 0x10402, 0x10535, 0x11151, 0x10460, 0x11040, 0x23B2C0));
+            D2UnitGetNextItem = (TD2UnitGetNextItem) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10304, 0x10304, 0x10304, 0x10934, 0x11140, 0x10770, 0x10464, 0x10879, 0x23DFA0));
+            D2GetRealItem = (TD2GetRealItem) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10305, 0x10305, 0x10305, 0x11095, 0x10748, 0x10852, 0x11147, 0x10897, 0x23DFD0));
+            D2GetPosX = (TD2GetPosX) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10326, 0x10326, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2GetPosY = (TD2GetPosY) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10329, 0x10329, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2GetPosition = (TD2GetPosition) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10332, 0x10332, 0x10332, 0x11080, 0x10056, 0x10543, 0x10141, 0x11166, 0x220870));
+            D2GetMaxGoldBank = (TD2GetMaxGoldBank) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10339, 0x10339, 0x10339, 0x10455, 0x10864, 0x10941, 0x11060, 0x11025, 0x223460));
+            D2GetRoom = (TD2GetRoom) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10342, 0x10342, 0x10342, 0x10172, 0x10933, 0x10366, 0x10331, 0x10846, 0x220BB0));
+            D2InitPlayerData = (TD2InitPlayerData) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10420, 0x10420, 0x10420, 0x10218, 0x10079, 0x11097, 0x10356, 0x10404, 0x221F90));
+            D2GetPlayerData = (TD2GetPlayerData) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10424, 0x10424, 0x10424, 0x10562, 0x10800, 0x10860, 0x10920, 0x11103, 0x2221A0));
+            D2GetDefence = (TD2GetDefence) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10431, 0x10431, 0x10431, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2GetChanceToBlock = (TD2GetChanceToBlock) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10433, 0x10433, 0x10433, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2GetMaxGold = (TD2GetMaxGold) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10439, 0x10439, 0x10439, 0x10343, 0x11131, 0x10729, 0x10049, 0x11159, 0x222E70));
+            D2Common10572 = (TD2Common10572) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x00000, 0x00000, 0x00000, 0x10440, 0x10572, 0x10481, 0x11090, 0x10193, 0x224690));
+            D2GetObjectFlags = (TD2GetObjectFlags) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x00000, 0x00000, 0x00000, 0x10471, 0x11160, 0x10866, 0x10258, 0x10040, 0x2222C0));
+            D2SetObjectFlags = (TD2SetObjectFlags) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x00000, 0x00000, 0x00000, 0x10572, 0x11048, 0x10150, 0x10111, 0x10033, 0x222300));
+            D2isInState = (TD2isInState) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10487, 0x10487, 0x10487, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2AddPlayerStat = (TD2AddPlayerStat) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10518, 0x10518, 0x10518, 0x10109, 0x10627, 0x10762, 0x10551, 0x10645, 0x2272B0));
+            D2GetPlayerStat = (TD2GetPlayerStat) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10519, 0x10519, 0x10519, 0x11092, 0x10061, 0x10658, 0x10973, 0x10550, 0x225480));
+            D2GetPlayerBaseStat = (TD2GetPlayerBaseStat) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10521, 0x10521, 0x10521, 0x10733, 0x10550, 0x10494, 0x10587, 0x10216, 0x2253B0));
+            D2haveDefenceBonus = (TD2haveDefenceBonus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10539, 0x10539, 0x10539, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2haveFireResBonus = (TD2haveFireResBonus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10540, 0x10540, 0x10540, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2haveColdResBonus = (TD2haveColdResBonus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10541, 0x10541, 0x10541, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2haveLightResBonus = (TD2haveLightResBonus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10542, 0x10542, 0x10542, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2havePoisonResBonus = (TD2havePoisonResBonus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10543, 0x10543, 0x10543, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2haveDefenceMalus = (TD2haveDefenceMalus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10546, 0x10546, 0x10546, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2haveFireResMalus = (TD2haveFireResMalus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10547, 0x10547, 0x10547, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2haveColdResMalus = (TD2haveColdResMalus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10548, 0x10548, 0x10548, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2haveLightResMalus = (TD2haveLightResMalus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10549, 0x10549, 0x10549, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2havePoisonResMalus = (TD2havePoisonResMalus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10550, 0x10550, 0x10550, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2CompileTxtFile = (TD2CompileTxtFile) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10578, 0x10578, 0x10578, 0x10653, 0x10496, 0x10244, 0x10849, 0x10037, 0x2122F0));
+            D2GetItemsBIN = (TD2GetItemsBIN) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10600, 0x10600, 0x10600, 0x10573, 0x10262, 0x10887, 0x10695, 0x10994, 0x2335F0));
+            D2GetGemsBIN = (TD2GetGemsBIN) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10616, 0x10616, 0x10616, 0x10500, 0x10523, 0x10774, 0x10806, 0x10619, 0x2372C0));
+            D2GetCubeMainBIN = (TD2GetCubeMainBIN) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x11232, 0x11232, 0x11232, 0x10746, 0x10258, 0x10913, 0x10783, 0x10393, 0x26A1B0));
+            D2GetNbCubeMainBIN = (TD2GetNbCubeMainBIN) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x11233, 0x11233, 0x11233, 0x10639, 0x11135, 0x10390, 0x10675, 0x10235, 0x26A200));
+            D2GetNextLevelXP = (TD2GetNextLevelXP) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10628, 0x10628, 0x10628, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2GetMaxLevel = (TD2GetMaxLevel) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10629, 0x10629, 0x10629, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2GetDifficultyLevelsBIN = (TD2GetDifficultyLevelsBIN) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10655, 0x10655, 0x10655, 0x10655, 0x10309, 0x10297, 0x10218, 0x10694, 0x111D30));
+            D2GetItemQuality = (TD2GetItemQuality) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10695, 0x10695, 0x10695, 0x10927, 0x10899, 0x10276, 0x10106, 0x10911, 0x227E70));
+            D2TestFlags = (TD2TestFlags) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10707, 0x10707, 0x10707, 0x10911, 0x10303, 0x10989, 0x10202, 0x10458, 0x2280A0));
+            D2GetItemLevel = (TD2GetItemLevel) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10717, 0x10717, 0x10717, 0x10898, 0x10100, 0x10410, 0x10086, 0x10008, 0x2281E0));
+            D2ItemGetPage = (TD2ItemGetPage) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10719, 0x10719, 0x10719, 0x10820, 0x10505, 0x10370, 0x10020, 0x10810, 0x228250));
+            D2ItemSetPage = (TD2ItemSetPage) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10720, 0x10720, 0x10720, 0x10485, 0x10608, 0x10223, 0x10012, 0x11026, 0x228280));
+            D2CheckItemType = (TD2CheckItemType) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10731, 0x10731, 0x10731, 0x11017, 0x10890, 0x10231, 0x10744, 0x10601, 0x229BB0));
+            D2GetUniqueID = (TD2GetUniqueID) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10732, 0x10732, 0x10732, 0x10692, 0x10685, 0x10280, 0x10620, 0x10075, 0x229DA0));
+            D2SetAnim = (TD2SetAnim) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10734, 0x10734, 0x10734, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2GetNbRunesBIN = (TD2GetNbRunesBIN) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10619, 0x10619, 0x10619, 0x10687, 0x10877, 0x10321, 0x11032, 0x10981, 0x239CB0));
+            D2GetRunesBIN = (TD2GetRunesBIN) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10620, 0x10620, 0x10620, 0x10775, 0x10296, 0x10622, 0x10006, 0x10405, 0x239D60));
+            D2SaveItem = (TD2SaveItem) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10881, 0x10881, 0x10881, 0x10956, 0x11156, 0x10218, 0x10987, 0x10665, 0x2313E0));
+            D2SetSkillBaseLevel = (TD2SetSkillBaseLevel) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10953, 0x10953, 0x10953, 0x10099, 0x10255, 0x10210, 0x10302, 0x10335, 0x247280));
+            D2GetSkillLevel = (TD2GetSkillLevel) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10968, 0x10968, 0x10968, 0x10700, 0x10109, 0x10904, 0x10306, 0x10007, 0x2442A0));
+            D2GetSkillCost = (TD2GetSkillCost) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x11276, 0x11276, 0x11276, 0x10254, 0x10074, 0x10111, 0x10435, 0x11081, 0x246CA0));
+        } else {
+            setAddressOfFunction((DWORD *) &D2Common11084, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 00000, 00000, 00000, 10188, 11084, 11109, 10346, 10907));
+            setAddressOfFunction((DWORD *) &D2GetLevelID, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10057, 10057, 10057, 10332, 11021, 10511, 10826, 10691));
+            setAddressOfFunction((DWORD *) &D2GetDropRoom, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10138, 10138, 10138, 10623, 10491, 11043, 10654, 10716));
+            setAddressOfFunction((DWORD *) &D2Common10242, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10242, 10242, 10242, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2CanPutItemInInv, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10246, 10246, 10246, 10855, 10813, 10289, 10133, 10402));
+            setAddressOfFunction((DWORD *) &D2InvRemoveItem, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10243, 10243, 10243, 10461, 10827, 10936, 10646, 10490));
+            setAddressOfFunction((DWORD *) &D2InvAddItem, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10249, 10249, 10249, 10880, 11068, 10436, 11107, 10963));
+            setAddressOfFunction((DWORD *) &D2Common10250, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10250, 10250, 10250, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2Common10273, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10273, 10273, 10273, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2InventoryGetFirstItem, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10277, 10277, 10277, 10402, 10535, 11151, 10460, 11040));
+            setAddressOfFunction((DWORD *) &D2UnitGetNextItem, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10304, 10304, 10304, 10934, 11140, 10770, 10464, 10879));
+            setAddressOfFunction((DWORD *) &D2GetRealItem, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10305, 10305, 10305, 11095, 10748, 10852, 11147, 10897));
+            setAddressOfFunction((DWORD *) &D2GetPosX, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10326, 10326, 00000, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2GetPosY, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10329, 10329, 00000, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2GetPosition, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10332, 10332, 10332, 11080, 10056, 10543, 10141, 11166));
+            setAddressOfFunction((DWORD *) &D2GetMaxGoldBank, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10339, 10339, 10339, 10455, 10864, 10941, 11060, 11025));
+            setAddressOfFunction((DWORD *) &D2GetRoom, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10342, 10342, 10342, 10172, 10933, 10366, 10331, 10846));
+            setAddressOfFunction((DWORD *) &D2InitPlayerData, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10420, 10420, 10420, 10218, 10079, 11097, 10356, 10404));
+            setAddressOfFunction((DWORD *) &D2GetPlayerData, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10424, 10424, 10424, 10562, 10800, 10860, 10920, 11103));
+            setAddressOfFunction((DWORD *) &D2GetDefence, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10431, 10431, 10431, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2GetChanceToBlock, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10433, 10433, 10433, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2GetMaxGold, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10439, 10439, 10439, 10343, 11131, 10729, 10049, 11159));
+            setAddressOfFunction((DWORD *) &D2Common10572, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 00000, 00000, 00000, 10440, 10572, 10481, 11090, 10193));
+            setAddressOfFunction((DWORD *) &D2GetObjectFlags, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 00000, 00000, 00000, 10471, 11160, 10866, 10258, 10040));
+            setAddressOfFunction((DWORD *) &D2SetObjectFlags, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 00000, 00000, 00000, 10572, 11048, 10150, 10111, 10033));
+            setAddressOfFunction((DWORD *) &D2isInState, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10487, 10487, 10487, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2AddPlayerStat, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10518, 10518, 10518, 10109, 10627, 10762, 10551, 10645));
+            setAddressOfFunction((DWORD *) &D2GetPlayerStat, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10519, 10519, 10519, 11092, 10061, 10658, 10973, 10550));
+            setAddressOfFunction((DWORD *) &D2GetPlayerBaseStat, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10521, 10521, 10521, 10733, 10550, 10494, 10587, 10216));
+            setAddressOfFunction((DWORD *) &D2haveDefenceBonus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10539, 10539, 10539, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2haveFireResBonus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10540, 10540, 10540, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2haveColdResBonus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10541, 10541, 10541, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2haveLightResBonus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10542, 10542, 10542, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2havePoisonResBonus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10543, 10543, 10543, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2haveDefenceMalus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10546, 10546, 10546, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2haveFireResMalus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10547, 10547, 10547, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2haveColdResMalus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10548, 10548, 10548, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2haveLightResMalus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10549, 10549, 10549, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2havePoisonResMalus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10550, 10550, 10550, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2CompileTxtFile, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10578, 10578, 10578, 10653, 10496, 10244, 10849, 10037));
+            setAddressOfFunction((DWORD *) &D2GetItemsBIN, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10600, 10600, 10600, 10573, 10262, 10887, 10695, 10994));
+            setAddressOfFunction((DWORD *) &D2GetGemsBIN, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10616, 10616, 10616, 10500, 10523, 10774, 10806, 10619));
+            setAddressOfFunction((DWORD *) &D2GetCubeMainBIN, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 11232, 11232, 11232, 10746, 10258, 10913, 10783, 10393));
+            setAddressOfFunction((DWORD *) &D2GetNbCubeMainBIN, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 11233, 11233, 11233, 10639, 11135, 10390, 10675, 10235));
+            setAddressOfFunction((DWORD *) &D2GetNextLevelXP, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10628, 10628, 10628, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2GetMaxLevel, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10629, 10629, 10629, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2GetDifficultyLevelsBIN, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10655, 10655, 10655, 10655, 10309, 10297, 10218, 10694));
+            setAddressOfFunction((DWORD *) &D2GetItemQuality, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10695, 10695, 10695, 10927, 10899, 10276, 10106, 10911));
+            setAddressOfFunction((DWORD *) &D2TestFlags, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10707, 10707, 10707, 10911, 10303, 10989, 10202, 10458));
+            setAddressOfFunction((DWORD *) &D2GetItemLevel, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10717, 10717, 10717, 10898, 10100, 10410, 10086, 10008));
+            setAddressOfFunction((DWORD *) &D2ItemGetPage, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10719, 10719, 10719, 10820, 10505, 10370, 10020, 10810));
+            setAddressOfFunction((DWORD *) &D2ItemSetPage, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10720, 10720, 10720, 10485, 10608, 10223, 10012, 11026));
+            setAddressOfFunction((DWORD *) &D2CheckItemType, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10731, 10731, 10731, 11017, 10890, 10231, 10744, 10601));
+            setAddressOfFunction((DWORD *) &D2GetUniqueID, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10732, 10732, 10732, 10692, 10685, 10280, 10620, 10075));
+            setAddressOfFunction((DWORD *) &D2SetAnim, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10734, 10734, 10734, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2GetNbRunesBIN, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10619, 10619, 10619, 10687, 10877, 10321, 11032, 10981));
+            setAddressOfFunction((DWORD *) &D2GetRunesBIN, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10620, 10620, 10620, 10775, 10296, 10622, 10006, 10405));
+            setAddressOfFunction((DWORD *) &D2SaveItem, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10881, 10881, 10881, 10956, 11156, 10218, 10987, 10665));
+            setAddressOfFunction((DWORD *) &D2SetSkillBaseLevel, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10953, 10953, 10953, 10099, 10255, 10210, 10302, 10335));
+            setAddressOfFunction((DWORD *) &D2GetSkillLevel, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10968, 10968, 10968, 10700, 10109, 10904, 10306, 10007));
+            setAddressOfFunction((DWORD *) &D2GetSkillCost, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 11276, 11276, 11276, 10254, 10074, 10111, 10435, 11081));
+        }
+    }
+
+    void initD2GameFunctions() {
+        if (version_D2Game > V113d)
+            D2SetNbPlayers = (TD2SetNbPlayers) (offset_D2Game + getAddressOfVersion(version_D2Game, 0x10059, 0x10059, 0x10059, 0x10039, 0x10007, 0x10037, 0x10049, 0x10002, 0x135780));
+        else
+            setAddressOfFunction((DWORD *) &D2SetNbPlayers, (HMODULE) offset_D2Game, (LPCSTR) getAddressOfVersion(version_D2Game, 10059, 10059, 10059, 10039, 10007, 10037, 10049, 10002));
+    }
+
+    void initD2NetFunctions() {
+        if (version_D2Net > V113d) {
+            D2SendToServer = (TD2SendToServer) (offset_D2Net + getAddressOfVersion(version_D2Net, 0x10005, 0x10005, 0x10005, 0x10035, 0x10020, 0x10036, 0x10024, 0x10015, 0x12AE50));
+            D2SendToClient = (TD2SendToClient) (offset_D2Net + getAddressOfVersion(version_D2Net, 0x10006, 0x10006, 0x10006, 0x10018, 0x10018, 0x10015, 0x10002, 0x10012, 0x12B330));
+        } else {
+            setAddressOfFunction((DWORD *) &D2SendToServer, (HMODULE) offset_D2Net, (LPCSTR) getAddressOfVersion(version_D2Net, 10005, 10005, 10005, 10035, 10020, 10036, 10024, 10015));
+            setAddressOfFunction((DWORD *) &D2SendToClient, (HMODULE) offset_D2Net, (LPCSTR) getAddressOfVersion(version_D2Net, 10006, 10006, 10006, 10018, 10018, 10015, 10002, 10012));
+        }
+    }
+
+    void initFogFunctions() {
+        if (version_Fog > V113d) {
+            D2FogAssertOld = (TD2FogAssertOld) (offset_Fog + getAddressOfVersion(version_Fog, 0x10023, 0x10023, 0x10023, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2FogAssert = (TD2FogAssert) (offset_Fog + getAddressOfVersion(version_Fog, 0x00000, 0x00000, 0x00000, 0x10024, 0x10024, 0x10024, 0x10024, 0x10024, 0x8A60));
+            D2FogMemAlloc = (TD2FogMemAlloc) (offset_Fog + getAddressOfVersion(version_Fog, 0x10042, 0x10042, 0x10042, 0x10042, 0x10042, 0x10042, 0x10042, 0x10042, 0xB380));
+            D2FogMemDeAlloc = (TD2FogMemDeAlloc) (offset_Fog + getAddressOfVersion(version_Fog, 0x10043, 0x10043, 0x10043, 0x10043, 0x10043, 0x10043, 0x10043, 0x10043, 0xB3C0));
+            D2AllocMem = (TD2AllocMem) (offset_Fog + getAddressOfVersion(version_Fog, 0x10045, 0x10045, 0x10045, 0x10045, 0x10045, 0x10045, 0x10045, 0x10045, 0xB430));
+            D2FreeMem = (TD2FreeMem) (offset_Fog + getAddressOfVersion(version_Fog, 0x10046, 0x10046, 0x10046, 0x10046, 0x10046, 0x10046, 0x10046, 0x10046, 0xB480));
+            D2MPQOpenFile = (TD2MPQOpenFile) (offset_Fog + getAddressOfVersion(version_Fog, 0x10102, 0x10102, 0x10102, 0x10102, 0x10102, 0x10102, 0x10102, 0x10102, 0x68E0));
+            D2MPQCloseFile = (TD2MPQCloseFile) (offset_Fog + getAddressOfVersion(version_Fog, 0x10103, 0x10103, 0x10103, 0x10103, 0x10103, 0x10103, 0x10103, 0x10103, 0x68F0));
+            D2MPQReadFile = (TD2MPQReadFile) (offset_Fog + getAddressOfVersion(version_Fog, 0x10104, 0x10104, 0x10104, 0x10104, 0x10104, 0x10104, 0x10104, 0x10104, 0x6900));
+            D2MPQGetSizeFile = (TD2MPQGetSizeFile) (offset_Fog + getAddressOfVersion(version_Fog, 0x10105, 0x10105, 0x10105, 0x10105, 0x10105, 0x10105, 0x10105, 0x10105, 0x6930));
+            D2FogGetSavePath = (TD2FogGetSavePath) (offset_Fog + getAddressOfVersion(version_Fog, 0x10115, 0x10115, 0x10115, 0x10115, 0x10115, 0x10115, 0x10115, 0x10115, 0x7050));
+            D2FogGetInstallPath = (TD2FogGetInstallPath) (offset_Fog + getAddressOfVersion(version_Fog, 0x10116, 0x10116, 0x10116, 0x10116, 0x10116, 0x10116, 0x10116, 0x10116, 0x6BA0));
+            D2Fog10212 = (TD2Fog10212) (offset_Fog + getAddressOfVersion(version_Fog, 0x10212, 0x10212, 0x10212, 0x10212, 0x10212, 0x10212, 0x10212, 0x10212, 0x2BD0B0));
+            D2GetInstructionPointer = (TD2GetInstructionPointer) (offset_Fog + getAddressOfVersion(version_Fog, 0x00000, 0x00000, 0x00000, 0x10265, 0x10265, 0x10265, 0x10265, 0x10265, 0x8090));
+        } else {
+            setAddressOfFunction((DWORD *) &D2FogAssertOld, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10023, 10023, 10023, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2FogAssert, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 00000, 00000, 00000, 10024, 10024, 10024, 10024, 10024));
+            setAddressOfFunction((DWORD *) &D2FogMemAlloc, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10042, 10042, 10042, 10042, 10042, 10042, 10042, 10042));
+            setAddressOfFunction((DWORD *) &D2FogMemDeAlloc, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10043, 10043, 10043, 10043, 10043, 10043, 10043, 10043));
+            setAddressOfFunction((DWORD *) &D2AllocMem, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10045, 10045, 10045, 10045, 10045, 10045, 10045, 10045));
+            setAddressOfFunction((DWORD *) &D2FreeMem, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10046, 10046, 10046, 10046, 10046, 10046, 10046, 10046));
+            setAddressOfFunction((DWORD *) &D2MPQOpenFile, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10102, 10102, 10102, 10102, 10102, 10102, 10102, 10102));
+            setAddressOfFunction((DWORD *) &D2MPQCloseFile, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10103, 10103, 10103, 10103, 10103, 10103, 10103, 10103));
+            setAddressOfFunction((DWORD *) &D2MPQReadFile, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10104, 10104, 10104, 10104, 10104, 10104, 10104, 10104));
+            setAddressOfFunction((DWORD *) &D2MPQGetSizeFile, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10105, 10105, 10105, 10105, 10105, 10105, 10105, 10105));
+            setAddressOfFunction((DWORD *) &D2FogGetSavePath, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10115, 10115, 10115, 10115, 10115, 10115, 10115, 10115));
+            setAddressOfFunction((DWORD *) &D2FogGetInstallPath, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10116, 10116, 10116, 10116, 10116, 10116, 10116, 10116));
+            setAddressOfFunction((DWORD *) &D2Fog10212, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10212, 10212, 10212, 10212, 10212, 10212, 10212, 10212));
+            setAddressOfFunction((DWORD *) &D2GetInstructionPointer, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 00000, 00000, 00000, 10265, 10265, 10265, 10265, 10265));
+        }
+    }
+
+    void initD2LangFunctions() {
+        if (version_D2Lang > V113d) {
+            D2GetStringFromString = (TD2GetStringFromString) (offset_D2Lang + getAddressOfVersion(version_D2Lang, 0x10003, 0x10003, 0x10003, 0x10002, 0x10004, 0x10010, 0x10011, 0x10011, 0x124E20));
+            D2GetStringFromIndex = (TD2GetStringFromIndex) (offset_D2Lang + getAddressOfVersion(version_D2Lang, 0x10004, 0x10004, 0x10004, 0x10005, 0x10000, 0x10005, 0x10003, 0x10004, 0x124A30));
+            D2GetLang = (TD2GetLang) (offset_D2Lang + getAddressOfVersion(version_D2Lang, 0x10007, 0x10007, 0x10007, 0x10009, 0x10013, 0x10002, 0x10009, 0x10001, 0x125150));
+            D2PrintBigNumber = (TD2PrintBigNumber) (offset_D2Lang + getAddressOfVersion(version_D2Lang, 0x10010, 0x10010, 0x10010, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+        } else {
+            setAddressOfFunction((DWORD *) &D2GetStringFromString, (HMODULE) offset_D2Lang, (LPCSTR) getAddressOfVersion(version_D2Lang, 10003, 10003, 10003, 10002, 10004, 10010, 10011, 10011));
+            setAddressOfFunction((DWORD *) &D2GetStringFromIndex, (HMODULE) offset_D2Lang, (LPCSTR) getAddressOfVersion(version_D2Lang, 10004, 10004, 10004, 10005, 10000, 10005, 10003, 10004));
+            setAddressOfFunction((DWORD *) &D2GetLang, (HMODULE) offset_D2Lang, (LPCSTR) getAddressOfVersion(version_D2Lang, 10007, 10007, 10007, 10009, 10013, 10002, 10009, 10001));
+            setAddressOfFunction((DWORD *) &D2PrintBigNumber, (HMODULE) offset_D2Lang, (LPCSTR) getAddressOfVersion(version_D2Lang, 10010, 10010, 10010, 00000, 00000, 00000, 00000, 00000));
+        }
+    }
+
+    void initStormFunctions() {
+        if (version_Storm > V113d) {
+            D2StormMPQOpenFile = (TD2StormMPQOpenFile) (offset_Storm + getAddressOfVersion(version_Storm, 0x268, 0x268, 0x268, 0x268, 0x268, 0x268, 0x268, 0x268, 0x192F0));
+            D2Storm503 = (TD2Storm503) (offset_Storm + getAddressOfVersion(version_Storm, 0x503, 0x503, 0x503, 0x503, 0x503, 0x503, 0x503, 0x503, 0x13750));
+            D2FreeWinMessage = (TD2FreeWinMessage) (offset_Storm + getAddressOfVersion(version_Storm, 0x511, 0x511, 0x511, 0x511, 0x511, 0x511, 0x511, 0x511, 0x20290));
+        } else {
+            setAddressOfFunction((DWORD *) &D2StormMPQOpenFile, (HMODULE) offset_Storm, (LPCSTR) getAddressOfVersion(version_Storm, 268, 268, 268, 268, 268, 268, 268, 268));
+            setAddressOfFunction((DWORD *) &D2Storm503, (HMODULE) offset_Storm, (LPCSTR) getAddressOfVersion(version_Storm, 503, 503, 503, 503, 503, 503, 503, 503));
+            setAddressOfFunction((DWORD *) &D2FreeWinMessage, (HMODULE) offset_Storm, (LPCSTR) getAddressOfVersion(version_Storm, 511, 511, 511, 511, 511, 511, 511, 511));
+        }
+    }
+
+    void initD2gfxFunctions() {
+        if (version_D2gfx > V113d) {
+            D2GetResolution = (TD2GetResolution) (offset_D2gfx + getAddressOfVersion(version_D2gfx, 0x10005, 0x10005, 0x10005, 0x10000, 0x10063, 0x10043, 0x10031, 0x10012, 0xF5160));
+            D2FillArea = (TD2FillArea) (offset_D2gfx + getAddressOfVersion(version_D2gfx, 0x10055, 0x10055, 0x10055, 0x10028, 0x10000, 0x10062, 0x10014, 0x10028, 0xF6300));
+            D2PrintImage = (TD2PrintImage) (offset_D2gfx + getAddressOfVersion(version_D2gfx, 0x10072, 0x10072, 0x10072, 0x10047, 0x10044, 0x10024, 0x10041, 0x10042, 0xF6480));
+        } else {
+            setAddressOfFunction((DWORD *) &D2GetResolution, (HMODULE) offset_D2gfx, (LPCSTR) getAddressOfVersion(version_D2gfx, 10005, 10005, 10005, 10000, 10063, 10043, 10031, 10012));
+            setAddressOfFunction((DWORD *) &D2FillArea, (HMODULE) offset_D2gfx, (LPCSTR) getAddressOfVersion(version_D2gfx, 10055, 10055, 10055, 10028, 10000, 10062, 10014, 10028));
+            setAddressOfFunction((DWORD *) &D2PrintImage, (HMODULE) offset_D2gfx, (LPCSTR) getAddressOfVersion(version_D2gfx, 10072, 10072, 10072, 10047, 10044, 10024, 10041, 10042));
+        }
+    }
+
+    void initD2WinFunctions() {
+        if (version_D2Win > V113d) {
+            D2PrintLineOnTextBox = (TD2PrintLineOnTextBox) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10046, 0x10046, 0x10046, 0x10061, 0x10075, 0x10015, 0x10022, 0x10051, 0xFCFF0));
+            D2PrintString = (TD2PrintString) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10117, 0x10117, 0x10117, 0x10020, 0x10064, 0x10001, 0x10150, 0x10076, 0x102320));
+            D2GetPixelLen = (TD2GetPixelLen) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10121, 0x10121, 0x10121, 0x10034, 0x10128, 0x10132, 0x10028, 0x10150, 0x101820));
+            D2SetFont = (TD2SetFont) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10127, 0x10127, 0x10127, 0x10141, 0x10170, 0x10010, 0x10184, 0x10047, 0x102EF0));
+            D2PrintPopup = (TD2PrintPopup) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10129, 0x10129, 0x10129, 0x10118, 0x10039, 0x10031, 0x10085, 0x10137, 0x102280));
+            D2GetPixelRect = (TD2GetPixelRect) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10131, 0x10131, 0x10131, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2PrintTextPopup = (TD2PrintTextPopup) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10132, 0x10132, 0x10132, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000));
+            D2CreateTextBox = (TD2CreateTextBox) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10017, 0x10017, 0x10017, 0x10147, 0x10113, 0x10098, 0x10098, 0x10164, 0xF93C0));
+        } else {
+            setAddressOfFunction((DWORD *) &D2PrintLineOnTextBox, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10046, 10046, 10046, 10061, 10075, 10015, 10022, 10051));
+            setAddressOfFunction((DWORD *) &D2PrintString, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10117, 10117, 10117, 10020, 10064, 10001, 10150, 10076));
+            setAddressOfFunction((DWORD *) &D2GetPixelLen, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10121, 10121, 10121, 10034, 10128, 10132, 10028, 10150));
+            setAddressOfFunction((DWORD *) &D2SetFont, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10127, 10127, 10127, 10141, 10170, 10010, 10184, 10047));
+            setAddressOfFunction((DWORD *) &D2PrintPopup, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10129, 10129, 10129, 10118, 10039, 10031, 10085, 10137));
+            setAddressOfFunction((DWORD *) &D2GetPixelRect, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10131, 10131, 10131, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2PrintTextPopup, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10132, 10132, 10132, 00000, 00000, 00000, 00000, 00000));
+            setAddressOfFunction((DWORD *) &D2CreateTextBox, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10017, 10017, 10017, 10147, 10113, 10098, 10098, 10164));
+        }
+    }
+
+    void initD2CMPFunctions() {
+        if (version_D2CMP > V113d)
+            D2CMP10014 = (TD2CMP10014) (offset_D2CMP + getAddressOfVersion(version_D2CMP, 0x10032, 0x10032, 0x10032, 0x10021, 0x10014, 0x10106, 0x10065, 0x10020, 0x201A50));
+        else
+            setAddressOfFunction((DWORD *) &D2CMP10014, (HMODULE) offset_D2CMP, (LPCSTR) getAddressOfVersion(version_D2CMP, 10032, 10032, 10032, 10021, 10014, 10106, 10065, 10020));
+    }
 
     void initD2functions() {
 
-
-
-        if (version_D2Common > V113d) { D2Common11084 = (TD2Common11084) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x00000, 0x00000, 0x00000, 0x10188, 0x11084, 0x11109, 0x10346, 0x10907, 0x21AED0)); } else setFctAddr((DWORD *) &D2Common11084, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 00000, 00000, 00000, 10188, 11084, 11109, 10346, 10907));
-        if (version_D2Common > V113d) { D2GetLevelID = (TD2GetLevelID) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10057, 0x10057, 0x10057, 0x10332, 0x11021, 0x10511, 0x10826, 0x10691, 0x21A1B0)); } else setFctAddr((DWORD *) &D2GetLevelID, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10057, 10057, 10057, 10332, 11021, 10511, 10826, 10691));
-        if (version_D2Common > V113d) { D2GetDropRoom = (TD2GetDropRoom) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10138, 0x10138, 0x10138, 0x10623, 0x10491, 0x11043, 0x10654, 0x10716, 0x24E810)); } else setFctAddr((DWORD *) &D2GetDropRoom, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10138, 10138, 10138, 10623, 10491, 11043, 10654, 10716));
-        if (version_D2Common > V113d) { D2Common10242 = (TD2Common10242) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10242, 0x10242, 0x10242, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2Common10242, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10242, 10242, 10242, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2CanPutItemInInv = (TD2CanPutItemInInv) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10246, 0x10246, 0x10246, 0x10855, 0x10813, 0x10289, 0x10133, 0x10402, 0x23B950)); } else setFctAddr((DWORD *) &D2CanPutItemInInv, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10246, 10246, 10246, 10855, 10813, 10289, 10133, 10402));
-        if (version_D2Common > V113d) { D2InvRemoveItem = (TD2InvRemoveItem) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10243, 0x10243, 0x10243, 0x10461, 0x10827, 0x10936, 0x10646, 0x10490, 0x23AD90)); } else setFctAddr((DWORD *) &D2InvRemoveItem, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10243, 10243, 10243, 10461, 10827, 10936, 10646, 10490));
-        if (version_D2Common > V113d) { D2InvAddItem = (TD2InvAddItem) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10249, 0x10249, 0x10249, 0x10880, 0x11068, 0x10436, 0x11107, 0x10963, 0x23BCC0)); } else setFctAddr((DWORD *) &D2InvAddItem, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10249, 10249, 10249, 10880, 11068, 10436, 11107, 10963));
-        if (version_D2Common > V113d) { D2Common10250 = (TD2Common10250) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10250, 0x10250, 0x10250, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2Common10250, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10250, 10250, 10250, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2Common10273 = (TD2Common10273) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10273, 0x10273, 0x10273, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2Common10273, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10273, 10273, 10273, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2InventoryGetFirstItem = (TD2InventoryGetFirstItem) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10277, 0x10277, 0x10277, 0x10402, 0x10535, 0x11151, 0x10460, 0x11040, 0x23B2C0)); } else setFctAddr((DWORD *) &D2InventoryGetFirstItem, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10277, 10277, 10277, 10402, 10535, 11151, 10460, 11040));
-        if (version_D2Common > V113d) { D2UnitGetNextItem = (TD2UnitGetNextItem) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10304, 0x10304, 0x10304, 0x10934, 0x11140, 0x10770, 0x10464, 0x10879, 0x23DFA0)); } else setFctAddr((DWORD *) &D2UnitGetNextItem, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10304, 10304, 10304, 10934, 11140, 10770, 10464, 10879));
-        if (version_D2Common > V113d) { D2GetRealItem = (TD2GetRealItem) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10305, 0x10305, 0x10305, 0x11095, 0x10748, 0x10852, 0x11147, 0x10897, 0x23DFD0)); } else setFctAddr((DWORD *) &D2GetRealItem, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10305, 10305, 10305, 11095, 10748, 10852, 11147, 10897));
-        if (version_D2Common > V113d) { D2GetPosX = (TD2GetPosX) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10326, 0x10326, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2GetPosX, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10326, 10326, 00000, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2GetPosY = (TD2GetPosY) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10329, 0x10329, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2GetPosY, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10329, 10329, 00000, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2GetPosition = (TD2GetPosition) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10332, 0x10332, 0x10332, 0x11080, 0x10056, 0x10543, 0x10141, 0x11166, 0x220870)); } else setFctAddr((DWORD *) &D2GetPosition, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10332, 10332, 10332, 11080, 10056, 10543, 10141, 11166));
-        if (version_D2Common > V113d) { D2GetMaxGoldBank = (TD2GetMaxGoldBank) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10339, 0x10339, 0x10339, 0x10455, 0x10864, 0x10941, 0x11060, 0x11025, 0x223460)); } else setFctAddr((DWORD *) &D2GetMaxGoldBank, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10339, 10339, 10339, 10455, 10864, 10941, 11060, 11025));
-        if (version_D2Common > V113d) { D2GetRoom = (TD2GetRoom) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10342, 0x10342, 0x10342, 0x10172, 0x10933, 0x10366, 0x10331, 0x10846, 0x220BB0)); } else setFctAddr((DWORD *) &D2GetRoom, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10342, 10342, 10342, 10172, 10933, 10366, 10331, 10846));
-        if (version_D2Common > V113d) { D2InitPlayerData = (TD2InitPlayerData) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10420, 0x10420, 0x10420, 0x10218, 0x10079, 0x11097, 0x10356, 0x10404, 0x221F90)); } else setFctAddr((DWORD *) &D2InitPlayerData, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10420, 10420, 10420, 10218, 10079, 11097, 10356, 10404));
-        if (version_D2Common > V113d) { D2GetPlayerData = (TD2GetPlayerData) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10424, 0x10424, 0x10424, 0x10562, 0x10800, 0x10860, 0x10920, 0x11103, 0x2221A0)); } else setFctAddr((DWORD *) &D2GetPlayerData, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10424, 10424, 10424, 10562, 10800, 10860, 10920, 11103));
-        if (version_D2Common > V113d) { D2GetDefence = (TD2GetDefence) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10431, 0x10431, 0x10431, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2GetDefence, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10431, 10431, 10431, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2GetChanceToBlock = (TD2GetChanceToBlock) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10433, 0x10433, 0x10433, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2GetChanceToBlock, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10433, 10433, 10433, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2GetMaxGold = (TD2GetMaxGold) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10439, 0x10439, 0x10439, 0x10343, 0x11131, 0x10729, 0x10049, 0x11159, 0x222E70)); } else setFctAddr((DWORD *) &D2GetMaxGold, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10439, 10439, 10439, 10343, 11131, 10729, 10049, 11159));
-        if (version_D2Common > V113d) { D2Common10572 = (TD2Common10572) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x00000, 0x00000, 0x00000, 0x10440, 0x10572, 0x10481, 0x11090, 0x10193, 0x224690)); } else setFctAddr((DWORD *) &D2Common10572, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 00000, 00000, 00000, 10440, 10572, 10481, 11090, 10193));
-        if (version_D2Common > V113d) { D2GetObjectFlags = (TD2GetObjectFlags) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x00000, 0x00000, 0x00000, 0x10471, 0x11160, 0x10866, 0x10258, 0x10040, 0x2222C0)); } else setFctAddr((DWORD *) &D2GetObjectFlags, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 00000, 00000, 00000, 10471, 11160, 10866, 10258, 10040));
-        if (version_D2Common > V113d) { D2SetObjectFlags = (TD2SetObjectFlags) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x00000, 0x00000, 0x00000, 0x10572, 0x11048, 0x10150, 0x10111, 0x10033, 0x222300)); } else setFctAddr((DWORD *) &D2SetObjectFlags, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 00000, 00000, 00000, 10572, 11048, 10150, 10111, 10033));
-        if (version_D2Common > V113d) { D2isInState = (TD2isInState) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10487, 0x10487, 0x10487, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2isInState, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10487, 10487, 10487, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2AddPlayerStat = (TD2AddPlayerStat) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10518, 0x10518, 0x10518, 0x10109, 0x10627, 0x10762, 0x10551, 0x10645, 0x2272B0)); } else setFctAddr((DWORD *) &D2AddPlayerStat, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10518, 10518, 10518, 10109, 10627, 10762, 10551, 10645));
-        if (version_D2Common > V113d) { D2GetPlayerStat = (TD2GetPlayerStat) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10519, 0x10519, 0x10519, 0x11092, 0x10061, 0x10658, 0x10973, 0x10550, 0x225480)); } else setFctAddr((DWORD *) &D2GetPlayerStat, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10519, 10519, 10519, 11092, 10061, 10658, 10973, 10550));
-        if (version_D2Common > V113d) { D2GetPlayerBaseStat = (TD2GetPlayerBaseStat) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10521, 0x10521, 0x10521, 0x10733, 0x10550, 0x10494, 0x10587, 0x10216, 0x2253B0)); } else setFctAddr((DWORD *) &D2GetPlayerBaseStat, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10521, 10521, 10521, 10733, 10550, 10494, 10587, 10216));
-        if (version_D2Common > V113d) { D2haveDefenceBonus = (TD2haveDefenceBonus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10539, 0x10539, 0x10539, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2haveDefenceBonus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10539, 10539, 10539, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2haveFireResBonus = (TD2haveFireResBonus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10540, 0x10540, 0x10540, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2haveFireResBonus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10540, 10540, 10540, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2haveColdResBonus = (TD2haveColdResBonus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10541, 0x10541, 0x10541, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2haveColdResBonus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10541, 10541, 10541, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2haveLightResBonus = (TD2haveLightResBonus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10542, 0x10542, 0x10542, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2haveLightResBonus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10542, 10542, 10542, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2havePoisonResBonus = (TD2havePoisonResBonus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10543, 0x10543, 0x10543, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2havePoisonResBonus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10543, 10543, 10543, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2haveDefenceMalus = (TD2haveDefenceMalus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10546, 0x10546, 0x10546, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2haveDefenceMalus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10546, 10546, 10546, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2haveFireResMalus = (TD2haveFireResMalus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10547, 0x10547, 0x10547, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2haveFireResMalus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10547, 10547, 10547, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2haveColdResMalus = (TD2haveColdResMalus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10548, 0x10548, 0x10548, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2haveColdResMalus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10548, 10548, 10548, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2haveLightResMalus = (TD2haveLightResMalus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10549, 0x10549, 0x10549, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2haveLightResMalus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10549, 10549, 10549, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2havePoisonResMalus = (TD2havePoisonResMalus) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10550, 0x10550, 0x10550, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2havePoisonResMalus, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10550, 10550, 10550, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2CompileTxtFile = (TD2CompileTxtFile) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10578, 0x10578, 0x10578, 0x10653, 0x10496, 0x10244, 0x10849, 0x10037, 0x2122F0)); } else setFctAddr((DWORD *) &D2CompileTxtFile, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10578, 10578, 10578, 10653, 10496, 10244, 10849, 10037));
-        if (version_D2Common > V113d) { D2GetItemsBIN = (TD2GetItemsBIN) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10600, 0x10600, 0x10600, 0x10573, 0x10262, 0x10887, 0x10695, 0x10994, 0x2335F0)); } else setFctAddr((DWORD *) &D2GetItemsBIN, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10600, 10600, 10600, 10573, 10262, 10887, 10695, 10994));
-        if (version_D2Common > V113d) { D2GetGemsBIN = (TD2GetGemsBIN) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10616, 0x10616, 0x10616, 0x10500, 0x10523, 0x10774, 0x10806, 0x10619, 0x2372C0)); } else setFctAddr((DWORD *) &D2GetGemsBIN, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10616, 10616, 10616, 10500, 10523, 10774, 10806, 10619));
-        if (version_D2Common > V113d) { D2GetCubeMainBIN = (TD2GetCubeMainBIN) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x11232, 0x11232, 0x11232, 0x10746, 0x10258, 0x10913, 0x10783, 0x10393, 0x26A1B0)); } else setFctAddr((DWORD *) &D2GetCubeMainBIN, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 11232, 11232, 11232, 10746, 10258, 10913, 10783, 10393));
-        if (version_D2Common > V113d) { D2GetNbCubeMainBIN = (TD2GetNbCubeMainBIN) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x11233, 0x11233, 0x11233, 0x10639, 0x11135, 0x10390, 0x10675, 0x10235, 0x26A200)); } else setFctAddr((DWORD *) &D2GetNbCubeMainBIN, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 11233, 11233, 11233, 10639, 11135, 10390, 10675, 10235));
-        if (version_D2Common > V113d) { D2GetNextLevelXP = (TD2GetNextLevelXP) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10628, 0x10628, 0x10628, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2GetNextLevelXP, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10628, 10628, 10628, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2GetMaxLevel = (TD2GetMaxLevel) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10629, 0x10629, 0x10629, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2GetMaxLevel, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10629, 10629, 10629, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2GetDifficultyLevelsBIN = (TD2GetDifficultyLevelsBIN) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10655, 0x10655, 0x10655, 0x10655, 0x10309, 0x10297, 0x10218, 0x10694, 0x111D30)); } else setFctAddr((DWORD *) &D2GetDifficultyLevelsBIN, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10655, 10655, 10655, 10655, 10309, 10297, 10218, 10694));
-        if (version_D2Common > V113d) { D2GetItemQuality = (TD2GetItemQuality) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10695, 0x10695, 0x10695, 0x10927, 0x10899, 0x10276, 0x10106, 0x10911, 0x227E70)); } else setFctAddr((DWORD *) &D2GetItemQuality, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10695, 10695, 10695, 10927, 10899, 10276, 10106, 10911));
-        if (version_D2Common > V113d) { D2TestFlags = (TD2TestFlags) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10707, 0x10707, 0x10707, 0x10911, 0x10303, 0x10989, 0x10202, 0x10458, 0x2280A0)); } else setFctAddr((DWORD *) &D2TestFlags, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10707, 10707, 10707, 10911, 10303, 10989, 10202, 10458));
-        if (version_D2Common > V113d) { D2GetItemLevel = (TD2GetItemLevel) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10717, 0x10717, 0x10717, 0x10898, 0x10100, 0x10410, 0x10086, 0x10008, 0x2281E0)); } else setFctAddr((DWORD *) &D2GetItemLevel, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10717, 10717, 10717, 10898, 10100, 10410, 10086, 10008));
-        if (version_D2Common > V113d) { D2ItemGetPage = (TD2ItemGetPage) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10719, 0x10719, 0x10719, 0x10820, 0x10505, 0x10370, 0x10020, 0x10810, 0x228250)); } else setFctAddr((DWORD *) &D2ItemGetPage, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10719, 10719, 10719, 10820, 10505, 10370, 10020, 10810));
-        if (version_D2Common > V113d) { D2ItemSetPage = (TD2ItemSetPage) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10720, 0x10720, 0x10720, 0x10485, 0x10608, 0x10223, 0x10012, 0x11026, 0x228280)); } else setFctAddr((DWORD *) &D2ItemSetPage, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10720, 10720, 10720, 10485, 10608, 10223, 10012, 11026));
-        if (version_D2Common > V113d) { D2CheckItemType = (TD2CheckItemType) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10731, 0x10731, 0x10731, 0x11017, 0x10890, 0x10231, 0x10744, 0x10601, 0x229BB0)); } else setFctAddr((DWORD *) &D2CheckItemType, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10731, 10731, 10731, 11017, 10890, 10231, 10744, 10601));
-        if (version_D2Common > V113d) { D2GetUniqueID = (TD2GetUniqueID) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10732, 0x10732, 0x10732, 0x10692, 0x10685, 0x10280, 0x10620, 0x10075, 0x229DA0)); } else setFctAddr((DWORD *) &D2GetUniqueID, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10732, 10732, 10732, 10692, 10685, 10280, 10620, 10075));
-        if (version_D2Common > V113d) { D2SetAnim = (TD2SetAnim) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10734, 0x10734, 0x10734, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2SetAnim, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10734, 10734, 10734, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Common > V113d) { D2GetNbRunesBIN = (TD2GetNbRunesBIN) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10619, 0x10619, 0x10619, 0x10687, 0x10877, 0x10321, 0x11032, 0x10981, 0x239CB0)); } else setFctAddr((DWORD *) &D2GetNbRunesBIN, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10619, 10619, 10619, 10687, 10877, 10321, 11032, 10981));
-        if (version_D2Common > V113d) { D2GetRunesBIN = (TD2GetRunesBIN) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10620, 0x10620, 0x10620, 0x10775, 0x10296, 0x10622, 0x10006, 0x10405, 0x239D60)); } else setFctAddr((DWORD *) &D2GetRunesBIN, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10620, 10620, 10620, 10775, 10296, 10622, 10006, 10405));
-        if (version_D2Common > V113d) { D2SaveItem = (TD2SaveItem) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10881, 0x10881, 0x10881, 0x10956, 0x11156, 0x10218, 0x10987, 0x10665, 0x2313E0)); } else setFctAddr((DWORD *) &D2SaveItem, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10881, 10881, 10881, 10956, 11156, 10218, 10987, 10665));
-        if (version_D2Common > V113d) { D2SetSkillBaseLevel = (TD2SetSkillBaseLevel) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10953, 0x10953, 0x10953, 0x10099, 0x10255, 0x10210, 0x10302, 0x10335, 0x247280)); } else setFctAddr((DWORD *) &D2SetSkillBaseLevel, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10953, 10953, 10953, 10099, 10255, 10210, 10302, 10335));
-        if (version_D2Common > V113d) { D2GetSkillLevel = (TD2GetSkillLevel) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x10968, 0x10968, 0x10968, 0x10700, 0x10109, 0x10904, 0x10306, 0x10007, 0x2442A0)); } else setFctAddr((DWORD *) &D2GetSkillLevel, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 10968, 10968, 10968, 10700, 10109, 10904, 10306, 10007));
-        if (version_D2Common > V113d) { D2GetSkillCost = (TD2GetSkillCost) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x11276, 0x11276, 0x11276, 0x10254, 0x10074, 0x10111, 0x10435, 0x11081, 0x246CA0)); } else setFctAddr((DWORD *) &D2GetSkillCost, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, 11276, 11276, 11276, 10254, 10074, 10111, 10435, 11081));
-        if (version_D2Game > V113d) { D2SetNbPlayers = (TD2SetNbPlayers) (offset_D2Game + getAddressOfVersion(version_D2Game, 0x10059, 0x10059, 0x10059, 0x10039, 0x10007, 0x10037, 0x10049, 0x10002, 0x135780)); } else setFctAddr((DWORD *) &D2SetNbPlayers, (HMODULE) offset_D2Game, (LPCSTR) getAddressOfVersion(version_D2Game, 10059, 10059, 10059, 10039, 10007, 10037, 10049, 10002));
-        if (version_D2Net > V113d) { D2SendToServer = (TD2SendToServer) (offset_D2Net + getAddressOfVersion(version_D2Net, 0x10005, 0x10005, 0x10005, 0x10035, 0x10020, 0x10036, 0x10024, 0x10015, 0x12AE50)); } else setFctAddr((DWORD *) &D2SendToServer, (HMODULE) offset_D2Net, (LPCSTR) getAddressOfVersion(version_D2Net, 10005, 10005, 10005, 10035, 10020, 10036, 10024, 10015));
-        if (version_D2Net > V113d) { D2SendToClient = (TD2SendToClient) (offset_D2Net + getAddressOfVersion(version_D2Net, 0x10006, 0x10006, 0x10006, 0x10018, 0x10018, 0x10015, 0x10002, 0x10012, 0x12B330)); } else setFctAddr((DWORD *) &D2SendToClient, (HMODULE) offset_D2Net, (LPCSTR) getAddressOfVersion(version_D2Net, 10006, 10006, 10006, 10018, 10018, 10015, 10002, 10012));
-        if (version_Fog > V113d) { D2FogAssertOld = (TD2FogAssertOld) (offset_Fog + getAddressOfVersion(version_Fog, 0x10023, 0x10023, 0x10023, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2FogAssertOld, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10023, 10023, 10023, 00000, 00000, 00000, 00000, 00000));
-        if (version_Fog > V113d) { D2FogAssert = (TD2FogAssert) (offset_Fog + getAddressOfVersion(version_Fog, 0x00000, 0x00000, 0x00000, 0x10024, 0x10024, 0x10024, 0x10024, 0x10024, 0x8A60)); } else setFctAddr((DWORD *) &D2FogAssert, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 00000, 00000, 00000, 10024, 10024, 10024, 10024, 10024));
-        if (version_Fog > V113d) { D2FogMemAlloc = (TD2FogMemAlloc) (offset_Fog + getAddressOfVersion(version_Fog, 0x10042, 0x10042, 0x10042, 0x10042, 0x10042, 0x10042, 0x10042, 0x10042, 0xB380)); } else setFctAddr((DWORD *) &D2FogMemAlloc, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10042, 10042, 10042, 10042, 10042, 10042, 10042, 10042));
-        if (version_Fog > V113d) { D2FogMemDeAlloc = (TD2FogMemDeAlloc) (offset_Fog + getAddressOfVersion(version_Fog, 0x10043, 0x10043, 0x10043, 0x10043, 0x10043, 0x10043, 0x10043, 0x10043, 0xB3C0)); } else setFctAddr((DWORD *) &D2FogMemDeAlloc, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10043, 10043, 10043, 10043, 10043, 10043, 10043, 10043));
-        if (version_Fog > V113d) { D2AllocMem = (TD2AllocMem) (offset_Fog + getAddressOfVersion(version_Fog, 0x10045, 0x10045, 0x10045, 0x10045, 0x10045, 0x10045, 0x10045, 0x10045, 0xB430)); } else setFctAddr((DWORD *) &D2AllocMem, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10045, 10045, 10045, 10045, 10045, 10045, 10045, 10045));
-        if (version_Fog > V113d) { D2FreeMem = (TD2FreeMem) (offset_Fog + getAddressOfVersion(version_Fog, 0x10046, 0x10046, 0x10046, 0x10046, 0x10046, 0x10046, 0x10046, 0x10046, 0xB480)); } else setFctAddr((DWORD *) &D2FreeMem, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10046, 10046, 10046, 10046, 10046, 10046, 10046, 10046));
-        if (version_Fog > V113d) { D2MPQOpenFile = (TD2MPQOpenFile) (offset_Fog + getAddressOfVersion(version_Fog, 0x10102, 0x10102, 0x10102, 0x10102, 0x10102, 0x10102, 0x10102, 0x10102, 0x68E0)); } else setFctAddr((DWORD *) &D2MPQOpenFile, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10102, 10102, 10102, 10102, 10102, 10102, 10102, 10102));
-        if (version_Fog > V113d) { D2MPQCloseFile = (TD2MPQCloseFile) (offset_Fog + getAddressOfVersion(version_Fog, 0x10103, 0x10103, 0x10103, 0x10103, 0x10103, 0x10103, 0x10103, 0x10103, 0x68F0)); } else setFctAddr((DWORD *) &D2MPQCloseFile, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10103, 10103, 10103, 10103, 10103, 10103, 10103, 10103));
-        if (version_Fog > V113d) { D2MPQReadFile = (TD2MPQReadFile) (offset_Fog + getAddressOfVersion(version_Fog, 0x10104, 0x10104, 0x10104, 0x10104, 0x10104, 0x10104, 0x10104, 0x10104, 0x6900)); } else setFctAddr((DWORD *) &D2MPQReadFile, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10104, 10104, 10104, 10104, 10104, 10104, 10104, 10104));
-        if (version_Fog > V113d) { D2MPQGetSizeFile = (TD2MPQGetSizeFile) (offset_Fog + getAddressOfVersion(version_Fog, 0x10105, 0x10105, 0x10105, 0x10105, 0x10105, 0x10105, 0x10105, 0x10105, 0x6930)); } else setFctAddr((DWORD *) &D2MPQGetSizeFile, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10105, 10105, 10105, 10105, 10105, 10105, 10105, 10105));
-        if (version_Fog > V113d) { D2FogGetSavePath = (TD2FogGetSavePath) (offset_Fog + getAddressOfVersion(version_Fog, 0x10115, 0x10115, 0x10115, 0x10115, 0x10115, 0x10115, 0x10115, 0x10115, 0x7050)); } else setFctAddr((DWORD *) &D2FogGetSavePath, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10115, 10115, 10115, 10115, 10115, 10115, 10115, 10115));
-        if (version_Fog > V113d) { D2FogGetInstallPath = (TD2FogGetInstallPath) (offset_Fog + getAddressOfVersion(version_Fog, 0x10116, 0x10116, 0x10116, 0x10116, 0x10116, 0x10116, 0x10116, 0x10116, 0x6BA0)); } else setFctAddr((DWORD *) &D2FogGetInstallPath, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10116, 10116, 10116, 10116, 10116, 10116, 10116, 10116));
-        if (version_Fog > V113d) { D2Fog10212 = (TD2Fog10212) (offset_Fog + getAddressOfVersion(version_Fog, 0x10212, 0x10212, 0x10212, 0x10212, 0x10212, 0x10212, 0x10212, 0x10212, 0x2BD0B0)); } else setFctAddr((DWORD *) &D2Fog10212, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 10212, 10212, 10212, 10212, 10212, 10212, 10212, 10212));
-        if (version_Fog > V113d) { D2GetInstructionPointer = (TD2GetInstructionPointer) (offset_Fog + getAddressOfVersion(version_Fog, 0x00000, 0x00000, 0x00000, 0x10265, 0x10265, 0x10265, 0x10265, 0x10265, 0x8090)); } else setFctAddr((DWORD *) &D2GetInstructionPointer, (HMODULE) offset_Fog, (LPCSTR) getAddressOfVersion(version_Fog, 00000, 00000, 00000, 10265, 10265, 10265, 10265, 10265));
-        if (version_D2Lang > V113d) { D2GetStringFromString = (TD2GetStringFromString) (offset_D2Lang + getAddressOfVersion(version_D2Lang, 0x10003, 0x10003, 0x10003, 0x10002, 0x10004, 0x10010, 0x10011, 0x10011, 0x124E20)); } else setFctAddr((DWORD *) &D2GetStringFromString, (HMODULE) offset_D2Lang, (LPCSTR) getAddressOfVersion(version_D2Lang, 10003, 10003, 10003, 10002, 10004, 10010, 10011, 10011));
-        if (version_D2Lang > V113d) { D2GetStringFromIndex = (TD2GetStringFromIndex) (offset_D2Lang + getAddressOfVersion(version_D2Lang, 0x10004, 0x10004, 0x10004, 0x10005, 0x10000, 0x10005, 0x10003, 0x10004, 0x124A30)); } else setFctAddr((DWORD *) &D2GetStringFromIndex, (HMODULE) offset_D2Lang, (LPCSTR) getAddressOfVersion(version_D2Lang, 10004, 10004, 10004, 10005, 10000, 10005, 10003, 10004));
-        if (version_D2Lang > V113d) { D2GetLang = (TD2GetLang) (offset_D2Lang + getAddressOfVersion(version_D2Lang, 0x10007, 0x10007, 0x10007, 0x10009, 0x10013, 0x10002, 0x10009, 0x10001, 0x125150)); } else setFctAddr((DWORD *) &D2GetLang, (HMODULE) offset_D2Lang, (LPCSTR) getAddressOfVersion(version_D2Lang, 10007, 10007, 10007, 10009, 10013, 10002, 10009, 10001));
-        if (version_D2Lang > V113d) { D2PrintBigNumber = (TD2PrintBigNumber) (offset_D2Lang + getAddressOfVersion(version_D2Lang, 0x10010, 0x10010, 0x10010, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2PrintBigNumber, (HMODULE) offset_D2Lang, (LPCSTR) getAddressOfVersion(version_D2Lang, 10010, 10010, 10010, 00000, 00000, 00000, 00000, 00000));
-        if (version_Storm > V113d) { D2StormMPQOpenFile = (TD2StormMPQOpenFile) (offset_Storm + getAddressOfVersion(version_Storm, 0x268, 0x268, 0x268, 0x268, 0x268, 0x268, 0x268, 0x268, 0x192F0)); } else setFctAddr((DWORD *) &D2StormMPQOpenFile, (HMODULE) offset_Storm, (LPCSTR) getAddressOfVersion(version_Storm, 268, 268, 268, 268, 268, 268, 268, 268));
-        if (version_Storm > V113d) { D2Storm503 = (TD2Storm503) (offset_Storm + getAddressOfVersion(version_Storm, 0x503, 0x503, 0x503, 0x503, 0x503, 0x503, 0x503, 0x503, 0x13750)); } else setFctAddr((DWORD *) &D2Storm503, (HMODULE) offset_Storm, (LPCSTR) getAddressOfVersion(version_Storm, 503, 503, 503, 503, 503, 503, 503, 503));
-        if (version_Storm > V113d) { D2FreeWinMessage = (TD2FreeWinMessage) (offset_Storm + getAddressOfVersion(version_Storm, 0x511, 0x511, 0x511, 0x511, 0x511, 0x511, 0x511, 0x511, 0x20290)); } else setFctAddr((DWORD *) &D2FreeWinMessage, (HMODULE) offset_Storm, (LPCSTR) getAddressOfVersion(version_Storm, 511, 511, 511, 511, 511, 511, 511, 511));
-        if (version_D2gfx > V113d) { D2GetResolution = (TD2GetResolution) (offset_D2gfx + getAddressOfVersion(version_D2gfx, 0x10005, 0x10005, 0x10005, 0x10000, 0x10063, 0x10043, 0x10031, 0x10012, 0xF5160)); } else setFctAddr((DWORD *) &D2GetResolution, (HMODULE) offset_D2gfx, (LPCSTR) getAddressOfVersion(version_D2gfx, 10005, 10005, 10005, 10000, 10063, 10043, 10031, 10012));
-        if (version_D2gfx > V113d) { D2FillArea = (TD2FillArea) (offset_D2gfx + getAddressOfVersion(version_D2gfx, 0x10055, 0x10055, 0x10055, 0x10028, 0x10000, 0x10062, 0x10014, 0x10028, 0xF6300)); } else setFctAddr((DWORD *) &D2FillArea, (HMODULE) offset_D2gfx, (LPCSTR) getAddressOfVersion(version_D2gfx, 10055, 10055, 10055, 10028, 10000, 10062, 10014, 10028));
-        if (version_D2gfx > V113d) { D2PrintImage = (TD2PrintImage) (offset_D2gfx + getAddressOfVersion(version_D2gfx, 0x10072, 0x10072, 0x10072, 0x10047, 0x10044, 0x10024, 0x10041, 0x10042, 0xF6480)); } else setFctAddr((DWORD *) &D2PrintImage, (HMODULE) offset_D2gfx, (LPCSTR) getAddressOfVersion(version_D2gfx, 10072, 10072, 10072, 10047, 10044, 10024, 10041, 10042));
-        if (version_D2Win > V113d) { D2PrintLineOnTextBox = (TD2PrintLineOnTextBox) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10046, 0x10046, 0x10046, 0x10061, 0x10075, 0x10015, 0x10022, 0x10051, 0xFCFF0)); } else setFctAddr((DWORD *) &D2PrintLineOnTextBox, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10046, 10046, 10046, 10061, 10075, 10015, 10022, 10051));
-        if (version_D2Win > V113d) { D2PrintString = (TD2PrintString) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10117, 0x10117, 0x10117, 0x10020, 0x10064, 0x10001, 0x10150, 0x10076, 0x102320)); } else setFctAddr((DWORD *) &D2PrintString, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10117, 10117, 10117, 10020, 10064, 10001, 10150, 10076));
-        if (version_D2Win > V113d) { D2GetPixelLen = (TD2GetPixelLen) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10121, 0x10121, 0x10121, 0x10034, 0x10128, 0x10132, 0x10028, 0x10150, 0x101820)); } else setFctAddr((DWORD *) &D2GetPixelLen, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10121, 10121, 10121, 10034, 10128, 10132, 10028, 10150));
-        if (version_D2Win > V113d) { D2SetFont = (TD2SetFont) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10127, 0x10127, 0x10127, 0x10141, 0x10170, 0x10010, 0x10184, 0x10047, 0x102EF0)); } else setFctAddr((DWORD *) &D2SetFont, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10127, 10127, 10127, 10141, 10170, 10010, 10184, 10047));
-        if (version_D2Win > V113d) { D2PrintPopup = (TD2PrintPopup) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10129, 0x10129, 0x10129, 0x10118, 0x10039, 0x10031, 0x10085, 0x10137, 0x102280)); } else setFctAddr((DWORD *) &D2PrintPopup, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10129, 10129, 10129, 10118, 10039, 10031, 10085, 10137));
-        if (version_D2Win > V113d) { D2GetPixelRect = (TD2GetPixelRect) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10131, 0x10131, 0x10131, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2GetPixelRect, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10131, 10131, 10131, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Win > V113d) { D2PrintTextPopup = (TD2PrintTextPopup) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10132, 0x10132, 0x10132, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000, 0x00000)); } else setFctAddr((DWORD *) &D2PrintTextPopup, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10132, 10132, 10132, 00000, 00000, 00000, 00000, 00000));
-        if (version_D2Win > V113d) { D2CreateTextBox = (TD2CreateTextBox) (offset_D2Win + getAddressOfVersion(version_D2Win, 0x10017, 0x10017, 0x10017, 0x10147, 0x10113, 0x10098, 0x10098, 0x10164, 0xF93C0)); } else setFctAddr((DWORD *) &D2CreateTextBox, (HMODULE) offset_D2Win, (LPCSTR) getAddressOfVersion(version_D2Win, 10017, 10017, 10017, 10147, 10113, 10098, 10098, 10164));
-        if (version_D2CMP > V113d) { D2CMP10014 = (TD2CMP10014) (offset_D2CMP + getAddressOfVersion(version_D2CMP, 0x10032, 0x10032, 0x10032, 0x10021, 0x10014, 0x10106, 0x10065, 0x10020, 0x201A50)); } else setFctAddr((DWORD *) &D2CMP10014, (HMODULE) offset_D2CMP, (LPCSTR) getAddressOfVersion(version_D2CMP, 10032, 10032, 10032, 10021, 10014, 10106, 10065, 10020));
+        initD2CommonFunctions();
+        initD2GameFunctions();
+        initD2NetFunctions();
+        initFogFunctions();
+        initD2LangFunctions();
+        initStormFunctions();
+        initD2gfxFunctions();
+        initD2WinFunctions();
+        initD2CMPFunctions();
 ///A8 section
         D2GetCharStatsBIN = (TD2GetCharStatsBIN) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x00000, 0x00000, 0x82C80, 0x15D0, 0x1800, 0x1220, 0x12D0, 0x17B0, 0x833E0));
         D2CompileCubeInput = (TD2CompileCubeInput) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x00000, 0x00000, 0x12410, 0x5D7D0, 0x1A100, 0x116C0, 0x1C020, 0x5B0E0, 0x268600));
@@ -1216,9 +1369,9 @@ namespace PlugY {
         ptStatDescTable = (DWORD *) (offset_D2Client + getAddressOfVersion(version_D2Client, 0xDAF98, 0xD9EA8, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000, 0x000000));
         SgptDataTables = *(DataTables **) (offset_D2Common + getAddressOfVersion(version_D2Common, 0x0000, 0x0000, 0x96A20, 0x9B74C, 0x9EE8C, 0x9B500, 0x99E1C, 0xA33F0, 0x344304));
         if (version_D2Common < V110) {
-            setFctAddr((DWORD *) &D2Common10581, (HMODULE) offset_D2Common, (LPCSTR) 10581);//ONLY in 1.09
-            setFctAddr((DWORD *) &D2Common10598, (HMODULE) offset_D2Common, (LPCSTR) 10598);//ONLY in 1.09
-            setFctAddr((DWORD *) &D2Common10673, (HMODULE) offset_D2Common, (LPCSTR) 10673);//ONLY in 1.09
+            setAddressOfFunction((DWORD *) &D2Common10581, (HMODULE) offset_D2Common, (LPCSTR) 10581);//ONLY in 1.09
+            setAddressOfFunction((DWORD *) &D2Common10598, (HMODULE) offset_D2Common, (LPCSTR) 10598);//ONLY in 1.09
+            setAddressOfFunction((DWORD *) &D2Common10673, (HMODULE) offset_D2Common, (LPCSTR) 10673);//ONLY in 1.09
         }
         misc_fct();
         redirect_to_custom_functions();
