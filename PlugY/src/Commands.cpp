@@ -224,7 +224,7 @@ namespace PlugY {
 
 /****************************************************************************************************/
 
-    int STDCALL commands(char *ptText) {
+    int __stdcall commands(char *ptText) {
         log_msg("Command : %s\n", ptText);
         Unit *ptChar = D2GetClientPlayer();
         char command[MAX_CMD_SIZE];

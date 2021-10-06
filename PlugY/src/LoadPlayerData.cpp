@@ -19,7 +19,7 @@
 namespace PlugY {
 /************************************ LOADING ***********************************/
 
-    DWORD STDCALL LoadSPCustomData(Commons::Unit *ptChar) {
+    DWORD __stdcall LoadSPCustomData(Commons::Unit *ptChar) {
         DWORD size = 0;
         BYTE *data;
         log_msg("--- Start LoadSPCustomData ---\n");
@@ -189,7 +189,7 @@ return value :
         log_msg("\n");
     }
 
-    void FASTCALL SendSaveFiles(char *ptPath, DWORD maxsize, char *name) {
+    void __fastcall SendSaveFiles(char *ptPath, DWORD maxsize, char *name) {
         D2FogGetSavePath(ptPath, maxsize);
         log_msg("\n--- Start SendSaveFiles ---\n");
         active_sharedStash = active_SharedStashInMultiPlayer == 2;
@@ -216,7 +216,7 @@ return value :
         log_msg("End SendSaveFiles.\n\n");
     }
 
-    DWORD STDCALL ReceiveSaveFiles(DWORD clientID, t_rcvMsg *msg) {
+    DWORD __stdcall ReceiveSaveFiles(DWORD clientID, t_rcvMsg *msg) {
         if ((msg->packID != customPackID) || !msg->isCustom) return msg->packID;
         log_msg("Loading Receive Packet: clientID=%d\t type=%X\t finalSize=%X\t packSize=%02X\t data=%08X\n", clientID, msg->type, msg->finalSize, msg->packSize, msg->data);
         active_sharedStash = active_SharedStashInMultiPlayer == 2;
@@ -292,7 +292,7 @@ int STDCALL ReceiveSaveFiles_9(DWORD clientID, SOCKET s, char *buf, int len, int
 	return 7;
 }*/
 
-    DWORD STDCALL LoadMPCustomData(Commons::Unit *ptChar) {
+    DWORD __stdcall LoadMPCustomData(Commons::Unit *ptChar) {
         log_msg("Start LoadMPCustomData\n");
         active_sharedStash = active_SharedStashInMultiPlayer == 2;
         log_msg("active_sharedStash = %d : %d\n\n", active_sharedStash);

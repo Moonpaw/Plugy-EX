@@ -138,8 +138,7 @@ namespace PlugY {
         }
     }
 
-    DWORD
-    FASTCALL D2PrintStat_9(Commons::Unit *ptItem, Stats *ptStats, DWORD statID, DWORD statIndex, DWORD statValue, LPWSTR lpText) {
+    DWORD __fastcall D2PrintStat_9(Commons::Unit *ptItem, Stats *ptStats, DWORD statID, DWORD statIndex, DWORD statValue, LPWSTR lpText) {
         DWORD curDesc = getStatDescIDFrom(statID);
         if (curDesc < *ptNbStatDesc)
             return V2PrintStat(ptItem, (Stats *) curDesc, statValue, 0, 0, lpText);
@@ -162,88 +161,82 @@ namespace PlugY {
     const char *S_compileTxtFile = "compileTxtFile";
     const char *S_errorReadTxtFile = "pbData";
 
-    __declspec(naked) void *
-    STDCALL compileTxtFile_9(DWORD unused, const char *filename, BINField *ptFields, DWORD *ptRecordCount,
-                             DWORD recordLength) {
+    __declspec(naked) void *__stdcall compileTxtFile_9(DWORD unused, const char *filename, BINField *ptFields, DWORD *ptRecordCount, DWORD recordLength) {
         _asm{
-                SUB ESP, 0x210
+            SUB ESP, 0x210
 //	MOV EAX,DWORD PTR DS:[1BEA28C]
-                PUSH EBX
-                PUSH EBP
-                PUSH ESI
-                PUSH EDI
-                MOV ESI, DWORD PTR SS:[ESP+0x228]
-                MOV DWORD PTR SS:[ESP+0x10], 0
+            PUSH EBX
+            PUSH EBP
+            PUSH ESI
+            PUSH EDI
+            MOV ESI, DWORD PTR SS:[ESP+0x228]
+            MOV DWORD PTR SS:[ESP+0x10], 0
 
-                MOV EDI, wsprintf
-                PUSH ESI
-                LEA EAX, DWORD PTR SS:[ESP+0x20]
-                PUSH EAX
-                CALL EDI
-                ADD ESP, 8
+            MOV EDI, wsprintf
+            PUSH ESI
+            LEA EAX, DWORD PTR SS:[ESP+0x20]
+            PUSH EAX
+            CALL EDI
+            ADD ESP, 8
 
-                LEA EDX, DWORD PTR SS:[ESP+0x10]
-                PUSH 0
-                PUSH S_compileTxtFile
-                PUSH EDX
-                MOV ECX, DWORD PTR SS:[ESP+0x230]
-                LEA EDX, DWORD PTR SS:[ESP+0x28]
-                CALL V2ReadFile
-                TEST EAX, EAX
-                JNZ continue_compileTxtFile
-                PUSH 0
-                PUSH S_compileTxtFile
-                PUSH S_errorReadTxtFile
-                CALL D2FogAssertOld
-                PUSH -1
-                CALL exit
-                continue_compileTxtFile:
-                MOV ECX, D2CompileTxtFile
-                ADD ECX, 0x305
-                JMP ECX
-        }
+            LEA EDX, DWORD PTR SS:[ESP+0x10]
+            PUSH 0
+            PUSH S_compileTxtFile
+            PUSH EDX
+            MOV ECX, DWORD PTR SS:[ESP+0x230]
+            LEA EDX, DWORD PTR SS:[ESP+0x28]
+            CALL V2ReadFile
+            TEST EAX, EAX
+            JNZ continue_compileTxtFile
+            PUSH 0
+            PUSH S_compileTxtFile
+            PUSH S_errorReadTxtFile
+            CALL D2FogAssertOld
+            PUSH -1
+            CALL exit
+            continue_compileTxtFile:
+            MOV ECX, D2CompileTxtFile
+            ADD ECX, 0x305
+            JMP ECX}
     }
 
-    __declspec(naked) void *
-    STDCALL compileTxtFile_10(DWORD unused, const char *filename, BINField *ptFields, DWORD *ptRecordCount,
-                              DWORD recordLength) {
+    __declspec(naked) void *__stdcall compileTxtFile_10(DWORD unused, const char *filename, BINField *ptFields, DWORD *ptRecordCount, DWORD recordLength) {
         _asm{
-                SUB ESP, 0x210
+            SUB ESP, 0x210
 //	MOV EAX,DWORD PTR DS:[1BEA28C]
-                PUSH EBX
-                PUSH EBP
-                MOV EBP, DWORD PTR SS:[ESP+0x220]
-                PUSH ESI
-                PUSH EDI
-                MOV DWORD PTR SS:[ESP+0x10], 0
+            PUSH EBX
+            PUSH EBP
+            MOV EBP, DWORD PTR SS:[ESP+0x220]
+            PUSH ESI
+            PUSH EDI
+            MOV DWORD PTR SS:[ESP+0x10], 0
 
-                MOV EBX, wsprintf
-                PUSH EBP
-                LEA EAX, DWORD PTR SS:[ESP+0x20]
-                PUSH EAX
-                CALL EBX
-                ADD ESP, 8
+            MOV EBX, wsprintf
+            PUSH EBP
+            LEA EAX, DWORD PTR SS:[ESP+0x20]
+            PUSH EAX
+            CALL EBX
+            ADD ESP, 8
 
-                LEA EDX, DWORD PTR SS:[ESP+0x10]
-                PUSH 0
-                PUSH S_compileTxtFile
-                PUSH EDX
-                MOV ECX, DWORD PTR SS:[ESP+0x230]
-                LEA EDX, DWORD PTR SS:[ESP+0x28]
-                CALL V2ReadFile
-                TEST EAX, EAX
-                JNZ continue_compileTxtFile
-                PUSH 0
-                PUSH S_compileTxtFile
-                PUSH S_errorReadTxtFile
-                CALL D2FogAssertOld
-                PUSH -1
-                CALL exit
-                continue_compileTxtFile:
-                MOV ECX, D2CompileTxtFile
-                ADD ECX, 0x2ED
-                JMP ECX
-        }
+            LEA EDX, DWORD PTR SS:[ESP+0x10]
+            PUSH 0
+            PUSH S_compileTxtFile
+            PUSH EDX
+            MOV ECX, DWORD PTR SS:[ESP+0x230]
+            LEA EDX, DWORD PTR SS:[ESP+0x28]
+            CALL V2ReadFile
+            TEST EAX, EAX
+            JNZ continue_compileTxtFile
+            PUSH 0
+            PUSH S_compileTxtFile
+            PUSH S_errorReadTxtFile
+            CALL D2FogAssertOld
+            PUSH -1
+            CALL exit
+            continue_compileTxtFile:
+            MOV ECX, D2CompileTxtFile
+            ADD ECX, 0x2ED
+            JMP ECX}
     }
 
     DWORD compileTxtFile114_1;
@@ -253,161 +246,155 @@ namespace PlugY {
     DWORD compileTxtFile114_6;
     DWORD compileTxtFile114_7;
 
-    __declspec(naked) void *
-    STDCALL compileTxtFile_114(DWORD unused, const char *filename, BINField *ptFields, DWORD *ptRecordCount,
-                               DWORD recordLength) {
+    __declspec(naked) void *__stdcall compileTxtFile_114(DWORD unused, const char *filename, BINField *ptFields, DWORD *ptRecordCount, DWORD recordLength) {
         _asm{
-                PUSH EBP
-                MOV EBP, ESP
-                SUB ESP, 0x11C
-                PUSH EBX
-                PUSH ESI
-                PUSH EDI
+            PUSH EBP
+            MOV EBP, ESP
+            SUB ESP, 0x11C
+            PUSH EBX
+            PUSH ESI
+            PUSH EDI
 
-                MOV EAX, DWORD PTR SS:[EBP+0x10]
-                MOV ECX, DWORD PTR SS:[EBP+0x14]
-                PUSH EBX
-                PUSH ESI
-                MOV ESI, DWORD PTR SS:[EBP+0x8]
-                PUSH EDI
-                MOV EDI, DWORD PTR SS:[EBP+0xC]
-                MOV DWORD PTR SS:[EBP-0x11C], ESI
-                MOV DWORD PTR SS:[EBP-0x10C], EDI
-                MOV DWORD PTR SS:[EBP-0x110], EAX
-                MOV DWORD PTR SS:[EBP-0x118], ECX
-                MOV DWORD PTR SS:[EBP-0x108], 0
+            MOV EAX, DWORD PTR SS:[EBP+0x10]
+            MOV ECX, DWORD PTR SS:[EBP+0x14]
+            PUSH EBX
+            PUSH ESI
+            MOV ESI, DWORD PTR SS:[EBP+0x8]
+            PUSH EDI
+            MOV EDI, DWORD PTR SS:[EBP+0xC]
+            MOV DWORD PTR SS:[EBP-0x11C], ESI
+            MOV DWORD PTR SS:[EBP-0x10C], EDI
+            MOV DWORD PTR SS:[EBP-0x110], EAX
+            MOV DWORD PTR SS:[EBP-0x118], ECX
+            MOV DWORD PTR SS:[EBP-0x108], 0
 
-                PUSH __LINE__
-                PUSH S_compileTxtFile
-                LEA EAX, DWORD PTR SS:[EBP-0x108]
-                PUSH EAX
-                MOV ECX, unused
-                MOV EDX, filename
-                CALL V2ReadFile
-                TEST EAX, EAX
-                JNZ continue_compileTxtFile
-                PUSH __LINE__
-                CALL D2GetInstructionPointer
-                PUSH EAX
-                PUSH S_errorReadTxtFile
-                CALL D2FogAssert
-                ADD ESP, 0xC
-                PUSH -1
-                CALL exit
-                continue_compileTxtFile:
-                // EAX : file
-                // ECX : -
-                // EDX : -
-                // EBX : -
-                // MOV ESI,DWORD PTR SS:[EBP+8]
-                // MOV EDI,DWORD PTR SS:[EBP+C]
-                MOV ESI, DWORD PTR SS:[EBP+0xC]
+            PUSH __LINE__
+            PUSH S_compileTxtFile
+            LEA EAX, DWORD PTR SS:[EBP-0x108]
+            PUSH EAX
+            MOV ECX, unused
+            MOV EDX, filename
+            CALL V2ReadFile
+            TEST EAX, EAX
+            JNZ continue_compileTxtFile
+            PUSH __LINE__
+            CALL D2GetInstructionPointer
+            PUSH EAX
+            PUSH S_errorReadTxtFile
+            CALL D2FogAssert
+            ADD ESP, 0xC
+            PUSH -1
+            CALL exit
+            continue_compileTxtFile:
+            // EAX : file
+            // ECX : -
+            // EDX : -
+            // EBX : -
+            // MOV ESI,DWORD PTR SS:[EBP+8]
+            // MOV EDI,DWORD PTR SS:[EBP+C]
+            MOV ESI, DWORD PTR SS:[EBP+0xC]
 
-                MOV ECX, DWORD PTR SS:[EBP-0x108]
-                PUSH ECX; /Arg2
-                PUSH EAX; |Arg1
-                CALL compileTxtFile114_1; \Game.006BD640
-                MOV EDI, EAX
-                PUSH EDI; /Arg1
-                CALL compileTxtFile114_2; \Game.006BCDE0
-                MOV EBX, EAX
-                MOV ESI, EBX
-                IMUL ESI, DWORD PTR SS:[EBP+0x18]
-                PUSH 0; /Arg3 = 00000000
-                PUSH 0x904; |Arg2 = 00000904
-                PUSH compileTxtFile114_3; |Arg1 = 006E6370 ASCII ".\DATATBLS\DataTbls.cpp"
-                MOV EDX, ESI; |
-                XOR ECX, ECX; |
-                CALL D2AllocMem; \Game.0040B430
-                PUSH ESI
-                PUSH 0
-                PUSH EAX
-                MOV DWORD PTR SS:[EBP-0x10C], EAX
-                CALL compileTxtFile114_5
-                MOV EDX, DWORD PTR SS:[EBP+0x18]
-                MOV EAX, DWORD PTR SS:[EBP-0x10C]
-                MOV ECX, DWORD PTR SS:[EBP-0x110]
-                ADD ESP, 0xC
-                PUSH EDX
-                PUSH EBX
-                PUSH EAX
-                PUSH ECX
-                PUSH EDI
-                CALL compileTxtFile114_6
-                PUSH EDI; /Arg1
-                CALL compileTxtFile114_7; \Game.006BCDA0
+            MOV ECX, DWORD PTR SS:[EBP-0x108]
+            PUSH ECX; /Arg2
+            PUSH EAX; |Arg1
+            CALL compileTxtFile114_1; \Game.006BD640
+            MOV EDI, EAX
+            PUSH EDI; /Arg1
+            CALL compileTxtFile114_2; \Game.006BCDE0
+            MOV EBX, EAX
+            MOV ESI, EBX
+            IMUL ESI, DWORD PTR SS:[EBP+0x18]
+            PUSH 0; /Arg3 = 00000000
+            PUSH 0x904; |Arg2 = 00000904
+            PUSH compileTxtFile114_3; |Arg1 = 006E6370 ASCII ".\DATATBLS\DataTbls.cpp"
+            MOV EDX, ESI; |
+            XOR ECX, ECX; |
+            CALL D2AllocMem; \Game.0040B430
+            PUSH ESI
+            PUSH 0
+            PUSH EAX
+            MOV DWORD PTR SS:[EBP-0x10C], EAX
+            CALL compileTxtFile114_5
+            MOV EDX, DWORD PTR SS:[EBP+0x18]
+            MOV EAX, DWORD PTR SS:[EBP-0x10C]
+            MOV ECX, DWORD PTR SS:[EBP-0x110]
+            ADD ESP, 0xC
+            PUSH EDX
+            PUSH EBX
+            PUSH EAX
+            PUSH ECX
+            PUSH EDI
+            CALL compileTxtFile114_6
+            PUSH EDI; /Arg1
+            CALL compileTxtFile114_7; \Game.006BCDA0
 
-                MOV EAX, DWORD PTR SS:[EBP-0x10C]
-                MOV ECX, DWORD PTR SS:[EBP-0x118]
-                TEST ECX, ECX
-                JE fin
-                MOV DWORD PTR DS:[ECX], EBX
-                fin:
-                POP EDI
-                POP ESI
-                POP EBX
-                MOV ESP, EBP
-                POP EBP
-                RETN 0x14
-        }
+            MOV EAX, DWORD PTR SS:[EBP-0x10C]
+            MOV ECX, DWORD PTR SS:[EBP-0x118]
+            TEST ECX, ECX
+            JE fin
+            MOV DWORD PTR DS:[ECX], EBX
+            fin:
+            POP EDI
+            POP ESI
+            POP EBX
+            MOV ESP, EBP
+            POP EBP
+            RETN 0x14}
     }
 
-    __declspec(naked) void *
-    STDCALL compileTxtFile_111(DWORD unused, const char *filename, BINField *ptFields, DWORD *ptRecordCount,
-                               DWORD recordLength) {
+    __declspec(naked) void *__stdcall compileTxtFile_111(DWORD unused, const char *filename, BINField *ptFields, DWORD *ptRecordCount, DWORD recordLength) {
         _asm{
-                SUB ESP, 0x20C
+            SUB ESP, 0x20C
 //	MOV EAX,DWORD PTR DS:[6FDF1464]
-                PUSH EBX
-                PUSH EBP
-                PUSH ESI
-                PUSH EDI
-                MOV DWORD PTR SS:[ESP+0x10], 0
-                MOV EBX, DWORD PTR SS:[ESP+0x224]
+            PUSH EBX
+            PUSH EBP
+            PUSH ESI
+            PUSH EDI
+            MOV DWORD PTR SS:[ESP+0x10], 0
+            MOV EBX, DWORD PTR SS:[ESP+0x224]
 
-                PUSH EBX
-                LEA EAX, DWORD PTR SS:[ESP+0x1C]
-                PUSH EAX
-                CALL DWORD PTR SS:[wsprintf]
-                MOV EDX, DWORD PTR SS:[ESP+0x228]
-                ADD ESP, 8
-                LEA EDX, DWORD PTR SS:[ESP+0x10]
-                PUSH EDX
-                PUSH EAX
-                LEA EAX, DWORD PTR SS:[ESP+0x20]
-                CALL V2ReadFile
-                TEST EAX, EAX
-                JNZ continue_compileTxtFile
-                PUSH __LINE__
-                CALL D2GetInstructionPointer
-                PUSH EAX
-                PUSH S_errorReadTxtFile
-                CALL D2FogAssert
-                ADD ESP, 0xC
-                PUSH -1
-                CALL exit
-                continue_compileTxtFile:
-                MOV ECX, D2CompileTxtFile
-                ADD ECX, 0x1EC
-                JMP ECX
-        }
+            PUSH EBX
+            LEA EAX, DWORD PTR SS:[ESP+0x1C]
+            PUSH EAX
+            CALL DWORD PTR SS:[wsprintf]
+            MOV EDX, DWORD PTR SS:[ESP+0x228]
+            ADD ESP, 8
+            LEA EDX, DWORD PTR SS:[ESP+0x10]
+            PUSH EDX
+            PUSH EAX
+            LEA EAX, DWORD PTR SS:[ESP+0x20]
+            CALL V2ReadFile
+            TEST EAX, EAX
+            JNZ continue_compileTxtFile
+            PUSH __LINE__
+            CALL D2GetInstructionPointer
+            PUSH EAX
+            PUSH S_errorReadTxtFile
+            CALL D2FogAssert
+            ADD ESP, 0xC
+            PUSH -1
+            CALL exit
+            continue_compileTxtFile:
+            MOV ECX, D2CompileTxtFile
+            ADD ECX, 0x1EC
+            JMP ECX}
     }
 
-    DWORD FASTCALL    D2isLODGame_111() { return (*ptIsLodGame); }
+    DWORD __fastcall    D2isLODGame_111() { return (*ptIsLodGame); }
 
-    BYTE FASTCALL    D2GetDifficultyLevel_111() { return (*ptDifficultyLevel); }
+    BYTE __fastcall    D2GetDifficultyLevel_111() { return (*ptDifficultyLevel); }
 
-    DWORD STDCALL    D2GetMouseX_111() { return (*ptMouseX); }
+    DWORD __stdcall    D2GetMouseX_111() { return (*ptMouseX); }
 
-    DWORD STDCALL    D2GetMouseY_111() { return (*ptMouseY); }
+    DWORD __stdcall    D2GetMouseY_111() { return (*ptMouseY); }
 
-    Unit *STDCALL    D2GetClientPlayer_111() { return (*ptptClientChar); }
+    Unit *__stdcall    D2GetClientPlayer_111() { return (*ptptClientChar); }
 
     DWORD *StatMouse1, *StatMouse2, *StatMouse3, *StatMouse4;
 
-    void FASTCALL D2CleanStatMouseUp_111() { *StatMouse1 = *StatMouse2 = *StatMouse3 = *StatMouse4 = 0; }
+    void __fastcall D2CleanStatMouseUp_111() { *StatMouse1 = *StatMouse2 = *StatMouse3 = *StatMouse4 = 0; }
 
-    Unit *STDCALL    D2GetRealItem_111(Commons::Unit *ptItem) { return ptItem; }
+    Unit *__stdcall    D2GetRealItem_111(Commons::Unit *ptItem) { return ptItem; }
 
     __declspec(naked)void D2SendMsgToAll_111() {
         __asm{
@@ -849,9 +836,7 @@ namespace PlugY {
         compileTxtFile114_5 = offset_D2Client + 0x00281EF0;
         compileTxtFile114_6 = offset_D2Client + 0x002BD780;
         compileTxtFile114_7 = offset_D2Client + 0x002BCDA0;
-        compileTxtFile = version_D2Common >= V114a ? compileTxtFile_114 : version_D2Common >= V111 ? compileTxtFile_111 :
-                                                                          version_D2Common == V110 ? compileTxtFile_10
-                                                                                                   : compileTxtFile_9;
+        compileTxtFile = version_D2Common >= V114a ? compileTxtFile_114 : version_D2Common >= V111 ? compileTxtFile_111 : version_D2Common == V110 ? compileTxtFile_10 : compileTxtFile_9;
         V2AddPlayerStat = D2AddPlayerStat;
         V2GetPlayerStat = D2GetPlayerStat;
         V2GetPlayerBaseStat = D2GetPlayerBaseStat;
@@ -916,8 +901,7 @@ namespace PlugY {
             D2CompileCubeInput = (TD2CompileCubeInput) D2CompileCubeInput_111;
             //D2CompileCubeOutput = (TD2CompileCubeOutput) D2CompileCubeOutput_111;
             D2BroadcastFunction = (TD2BroadcastFunction) D2BroadcastFunction_111;
-            D2SpawnSuperUnique = version_D2Game >= V111b ? (TD2SpawnSuperUnique) D2SpawnSuperUnique_111b
-                                                         : (TD2SpawnSuperUnique) D2SpawnSuperUnique_111;
+            D2SpawnSuperUnique = version_D2Game >= V111b ? (TD2SpawnSuperUnique) D2SpawnSuperUnique_111b : (TD2SpawnSuperUnique) D2SpawnSuperUnique_111;
             D2VerifIfNotCarry1 = (TD2VerifIfNotCarry1) D2VerifIfNotCarry1_111;
             D2GameGetObject = (TD2GameGetObject) D2GameGetObject_111;
             D2GetItemTypesBIN = (TD2GetItemTypesBIN) D2GetItemTypesBIN_111;
@@ -957,18 +941,17 @@ namespace PlugY {
         if (version_D2Game <= V109d)
             D2SetSkillBaseLevelOnClient = (TD2SetSkillBaseLevelOnClient) D2SetSkillBaseLevelOnClient_9;
     }
+
     DWORD getAddressOfVersion(eGameVersion version, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d) {
         using namespace Commons;
-        std::map<eGameVersion, DWORD> versions = {
-                {V114d, v114d},
-                {V113d, v113d},
-                {V113c, v113c},
-                {V112,  v112},
-                {V111b, v111b},
-                {V111,  v111},
-                {V110,  v110},
-                {V109d, v109d},
-        };
+        std::map<eGameVersion, DWORD> versions = {{V114d, v114d},
+                                                  {V113d, v113d},
+                                                  {V113c, v113c},
+                                                  {V112,  v112},
+                                                  {V111b, v111b},
+                                                  {V111,  v111},
+                                                  {V110,  v110},
+                                                  {V109d, v109d},};
         auto result = versions.find(version);
         return result != versions.end() ? result->second : defaultValue;
     }
@@ -994,8 +977,7 @@ namespace PlugY {
     }
 
     std::map<D2DllName, eGameVersion> init_dll_versions() {
-        return {
-                {game,     version_Game},
+        return {{game,     version_Game},
                 {D2Client, version_D2Client},
                 {D2Common, version_D2Common},
                 {D2Game,   version_D2Game},
@@ -1005,13 +987,11 @@ namespace PlugY {
                 {D2Net,    version_D2Net},
                 {D2Win,    version_D2Win},
                 {Fog,      version_Fog},
-                {Storm,    version_Storm}
-        };
+                {Storm,    version_Storm}};
     }
 
     std::map<D2DllName, DWORD> init_dll_offsets() {
-        return {
-                {game,     offset_Game},
+        return {{game,     offset_Game},
                 {D2Client, offset_D2Client},
                 {D2Common, offset_D2Common},
                 {D2Game,   offset_D2Game},
@@ -1021,8 +1001,7 @@ namespace PlugY {
                 {D2Net,    offset_D2Net},
                 {D2Win,    offset_D2Win},
                 {Fog,      offset_Fog},
-                {Storm,    offset_Storm}
-        };
+                {Storm,    offset_Storm}};
     }
 
     void init_dll_maps() {

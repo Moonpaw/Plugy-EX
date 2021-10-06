@@ -394,7 +394,7 @@ namespace PlugY {
         }
     }
 
-    void STDCALL printRuneWordsPage() {
+    void __stdcall printRuneWordsPage() {
         EnsureGlobalRunesAreCached();
         if (IsUnexpectedGameType()) return D2PrintStatsPage();
         LPWSTR lpText;
@@ -412,7 +412,7 @@ namespace PlugY {
         PrintPopupRuneWords(lpText);
     }
 
-    DWORD STDCALL mouseRuneWordsPageLeftDown(sWinMessage *msg) {
+    DWORD __stdcall mouseRuneWordsPageLeftDown(sWinMessage *msg) {
         if (IsUnexpectedGameType()) return -1;
         if (!isOnStatsPage(msg->x, msg->y)) return 1;
         if (isOnCloseBtn(msg->x, msg->y)) {
@@ -476,7 +476,7 @@ namespace PlugY {
         }
     }
 
-    DWORD STDCALL mouseRuneWordsPageLeftUp(sWinMessage *msg) {
+    DWORD __stdcall mouseRuneWordsPageLeftUp(sWinMessage *msg) {
         if (IsUnexpectedGameType()) return -1;
         if (!isOnStatsPage(msg->x, msg->y)) return 1;
         if (isOnCloseBtn(msg->x, msg->y)) {

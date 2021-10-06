@@ -702,7 +702,7 @@ namespace PlugY {
     Stash *curStash2;
     DWORD currentSawStash2;
 
-    Commons::Unit *STDCALL getNextItem(Commons::Unit *ptChar, Unit *ptItem) {
+    Commons::Unit *__stdcall getNextItem(Commons::Unit *ptChar, Unit *ptItem) {
         Commons::Unit *item = D2UnitGetNextItem(ptItem);
         if (item) return item;
         if (!curStash2) {
@@ -728,7 +728,7 @@ namespace PlugY {
         return getNextItem(ptChar, item);
     }
 
-    Unit *STDCALL initGetNextItem(Commons::Unit *ptChar, Unit *ptItem) {
+    Unit *__stdcall initGetNextItem(Commons::Unit *ptChar, Unit *ptItem) {
         if (ptChar->nUnitType != UNIT_PLAYER) return NULL;
         if (!PCPY) return NULL;
         curStash2 = NULL;
@@ -757,7 +757,7 @@ namespace PlugY {
         }
     }
 
-    DWORD STDCALL carry1Limit(Commons::Unit *ptChar, Unit *ptItemParam, DWORD itemNum, BYTE page) {
+    DWORD __stdcall carry1Limit(Commons::Unit *ptChar, Unit *ptItemParam, DWORD itemNum, BYTE page) {
         if (!ptChar) return 0;
         Unit *ptItem = ptItemParam ? ptItemParam : D2GameGetObject(PCGame, UNIT_ITEM, itemNum);
         if ((page != 4) && (D2GetItemQuality(ptItem) == ITEMQUALITY_UNIQUE) && ptChar) {

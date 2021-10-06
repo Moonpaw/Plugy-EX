@@ -28,7 +28,7 @@ namespace PlugY {
     BYTE colorOfPlugYVersion = 4;
     DWORD newTextBoxData[] = {4, 0x237, 0x243, 0xC8, 0x14, 0, 0, 0, 0, 0, 0, 2};//type,x,y,l,h,?,?,?,?,?,?,?(0,257,C8,28)
 
-    void STDCALL printPlugYVersion(void **childrens, DWORD *sgnNumChildren) {
+    void __stdcall printPlugYVersion(void **childrens, DWORD *sgnNumChildren) {
         if (active_Windowed)
             SetWindowedOptions();
         if (active_PrintPlugYVersion) {
@@ -94,7 +94,7 @@ namespace PlugY {
 
 /*************************************************************************************/
 
-    void FASTCALL versionChange(void *screen, char *text, DWORD color) {
+    void __fastcall versionChange(void *screen, char *text, DWORD color) {
         D2PrintLineOnTextBox(screen, versionText, modVersionColor);
     }
 

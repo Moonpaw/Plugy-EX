@@ -27,7 +27,7 @@ namespace PlugY {
 
     int getCharClass_11X(SkillData *ptSkill) { return ptSkill->ptSkillBin->charclass; }
 
-    int STDCALL getSingleSkillValue_109(Commons::Unit *ptChar, DWORD, DWORD skillID) {
+    int __stdcall getSingleSkillValue_109(Commons::Unit *ptChar, DWORD, DWORD skillID) {
         DWORD stat;
         DWORD ret = 0;
         stat = D2GetPlayerStat(ptChar, STATS_ITEM_SINGLESKILL + 0, skillID);

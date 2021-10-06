@@ -132,7 +132,7 @@ namespace PlugY {
         return 1;
     }
 
-    DWORD FASTCALL openPandPortal(Game *ptGame, Unit *ptChar) {
+    DWORD __fastcall openPandPortal(Game *ptGame, Unit *ptChar) {
         log_msg("openPandPortal\n");
         if (ptGame->difficultyLevel != D2DM_HELL)
             return 0;
@@ -154,14 +154,14 @@ namespace PlugY {
         return ret;
     }
 
-    DWORD FASTCALL openPandFinalPortal(Game *ptGame, Unit *ptChar) {
+    DWORD __fastcall openPandFinalPortal(Game *ptGame, Unit *ptChar) {
         log_msg("openPandFinalPortal\n");
         if (ptGame->difficultyLevel != D2DM_HELL)
             return 0;
         return openPortalOnLevel(ptGame, ptChar, LEVEL_ACT5_PANDEMONIUM_FINAL);
     }
 
-    void STDCALL spawnUber(Game *ptGame, Room *ptRoom) {
+    void __stdcall spawnUber(Game *ptGame, Room *ptRoom) {
         log_msg("Uber Quest State : %d %d %d\n", questState.count1, questState.count2, questState.count3);
         log_msg("Uber Quest questState spawn : %d %d %d %d %d %d\n", questState.uber1Spawned, questState.uber2Spawned, questState.uber3Spawned, questState.uber4Spawned, questState.uber5Spawned, questState.uber6Spawned);
         switch (D2GetLevelID(ptRoom)) {
@@ -299,7 +299,7 @@ namespace PlugY {
         position->y += (DWORD) (r * sin(theta));
     }
 
-    void FASTCALL uberMephAI(Game *ptGame, Unit *ptMonster, AIParam *ptAIArgs) {
+    void __fastcall uberMephAI(Game *ptGame, Unit *ptMonster, AIParam *ptAIArgs) {
         log_msg("UberMephAI called.\n");
 
         // Spawn Minions
@@ -312,7 +312,7 @@ namespace PlugY {
         D2MephAI(ptGame, ptMonster, ptAIArgs);
     }
 
-    void FASTCALL uberDiabloAI(Game *ptGame, Unit *ptMonster, AIParam *ptAIArgs) {
+    void __fastcall uberDiabloAI(Game *ptGame, Unit *ptMonster, AIParam *ptAIArgs) {
         log_msg("UberDiabloAI called.\n");
 
         // Spawn Minions
@@ -342,7 +342,7 @@ namespace PlugY {
         D2DiabloAI(ptGame, ptMonster, ptAIArgs);
     }
 
-    void FASTCALL uberBaalAI(Game *ptGame, Unit *ptMonster, AIParam *ptAIArgs) {
+    void __fastcall uberBaalAI(Game *ptGame, Unit *ptMonster, AIParam *ptAIArgs) {
         log_msg("UberBaalAI called.\n");
         if (active_UberMinions && RANDOM(100) < UberBaalSpawnPercent && ptAIArgs->distanceToTarget < UberBaalSpawnRadius) {
             Position pos;

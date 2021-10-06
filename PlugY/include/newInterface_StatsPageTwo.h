@@ -9,10 +9,10 @@
 #include "common.h"
 
 namespace PlugY {
-    void STDCALL printNewStatsPageTwo(int currentPage);
+    void __stdcall printNewStatsPageTwo(int currentPage);
 
-    DWORD STDCALL mouseNewStatsPageTwoLeftDown(sWinMessage *msg);
+    DWORD __stdcall mouseNewStatsPageTwoLeftDown(sWinMessage *msg);
 
-    DWORD STDCALL mouseNewStatsPageTwoLeftUp(sWinMessage *msg);
+    DWORD __stdcall mouseNewStatsPageTwoLeftUp(sWinMessage *msg);
 
 }

@@ -18,8 +18,6 @@ namespace PlugY {
         DWORD ptFrame;
     };
     extern s_shifting shifting;
-#define FASTCALL __fastcall
-#define STDCALL __stdcall
 
     extern inline int RANDOM(int V) {
         return int(rand() / (RAND_MAX + 1.0) * (V));
@@ -91,7 +89,7 @@ namespace PlugY {
 
     extern WORD (*getDescStrPos)(DWORD statID);
 
-    extern void *(STDCALL *compileTxtFile)(DWORD unused, const char *filename, Commons::BINField *ptFields, DWORD *ptRecordCount, DWORD recordLength);
+    extern void *(__stdcall *compileTxtFile)(DWORD unused, const char *filename, Commons::BINField *ptFields, DWORD *ptRecordCount, DWORD recordLength);
 
     void setImage(Commons::sDrawImageInfo *data, void *image);
 

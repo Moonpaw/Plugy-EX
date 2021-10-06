@@ -29,7 +29,7 @@ namespace PlugY {
     char renameString[21];
     DWORD PageSwap;
 
-    int STDCALL handleServerUpdate(Commons::Unit *ptChar, WORD param) {
+    int __stdcall handleServerUpdate(Commons::Unit *ptChar, WORD param) {
         int type = param & 0xFF;
         DWORD arg = (param & 0xFF00) >> 8;
         log_msg("Received custom message: type=%i, arg=%i\n", type, arg);

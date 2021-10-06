@@ -40,7 +40,7 @@ namespace PlugY {
 #define    getHNextPageBtn()        32
 #define isOnNextPageBtn(x, y)    isOnRect(x, y, getXNextPageBtn(), getYNextPageBtn(), getLNextPageBtn(), getHNextPageBtn())
 
-    void STDCALL printStatsPageBtns() {
+    void __stdcall printStatsPageBtns() {
         if (!active_newInterfaces || !D2isLODGame()) return;
         LPWSTR lpText;
         DWORD mx = D2GetMouseX();
@@ -73,7 +73,7 @@ namespace PlugY {
         }
     }
 
-    Unit *STDCALL statsPageMouseDown(sWinMessage *msg) {
+    Unit *__stdcall statsPageMouseDown(sWinMessage *msg) {
         Unit *ptChar = D2GetClientPlayer();
         if (!active_newInterfaces || !D2isLODGame()) return ptChar;
         if (D2GetResolution() && isOnPreviousPageBtn(msg->x, msg->y)) {
@@ -92,7 +92,7 @@ namespace PlugY {
         return ptChar;
     }
 
-    Unit *STDCALL statsPageMouseUp(sWinMessage *msg) {
+    Unit *__stdcall statsPageMouseUp(sWinMessage *msg) {
         Unit *ptChar = D2GetClientPlayer();
         if (!active_newInterfaces || !D2isLODGame()) return ptChar;
         if (D2GetResolution() && isOnPreviousPageBtn(msg->x, msg->y)) {

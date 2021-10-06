@@ -30,7 +30,7 @@ namespace PlugY {
 //void* lookupItemStatCost = NULL;
 
 
-    DWORD STDCALL isModFile(char *filename) {
+    DWORD __stdcall isModFile(char *filename) {
         if (strstr(filename, modDataDirectory)) {
             log_msg("Load custom file : %s\n", filename);
             if ((GetFileAttributesA(filename) & 0x10) == 0)
@@ -46,7 +46,7 @@ namespace PlugY {
         return false;
     }
 
-    DWORD STDCALL isModFile_114(char *filename) {
+    DWORD __stdcall isModFile_114(char *filename) {
         if (strstr(filename, modDataDirectory)) {
             log_msg("Load custom file : %s\n", filename);
             if ((GetFileAttributesA(filename) & 0x10) == 0)
@@ -178,7 +178,7 @@ ISNOTMODDATA:
         }
     }
 
-    void STDCALL loadCustomImages() {
+    void __stdcall loadCustomImages() {
         if (active_SkillsPoints) loadImagesFile(&unassignSkillsBtnImages, "UnassignSkillsBtns");
         if (active_StatsPoints) loadImagesFile(&unassignStatsBtnImages, "UnassignStatsBtns");
         if (active_multiPageStash || active_newInterfaces) loadImagesFile(&stashBtnsImages, "StashBtns");
@@ -189,7 +189,7 @@ ISNOTMODDATA:
 
 #define FREE_IMAGE_FILE(I) if(I) {D2FreeImage(I);I=NULL;}
 
-    void STDCALL freeCustomImages() {
+    void __stdcall freeCustomImages() {
         FREE_IMAGE_FILE(unassignSkillsBtnImages);
         FREE_IMAGE_FILE(unassignStatsBtnImages);
         FREE_IMAGE_FILE(stashBtnsImages);
@@ -303,11 +303,11 @@ ISNOTMODDATA:
     void loadStatsInterfaceDesc(DWORD mempool);
     void freeStatsInterfaceDesc();
 
-    void FASTCALL loadTxtFiles(DWORD mempool) {
+    void __fastcall loadTxtFiles(DWORD mempool) {
         loadStatsInterfaceDesc(mempool);
     }
 
-    void FASTCALL freeTxtFiles() {
+    void __fastcall freeTxtFiles() {
         freeStatsInterfaceDesc();
     }
 

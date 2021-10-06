@@ -36,7 +36,7 @@ namespace PlugY {
 #define    getHSkillBtn()            32
 #define isOnButtonUnassignSkill(x, y) isOnRect(x, y, getXSkillBtn(), getYSkillBtn(), getLSkillBtn(), getHSkillBtn())
 
-    void STDCALL printSkillsPageBtns() {
+    void __stdcall printSkillsPageBtns() {
         if (active_SkillsPoints && !onRealm && D2isLODGame()) {
             sDrawImageInfo data;
             ZeroMemory(&data, sizeof(data));
@@ -50,7 +50,7 @@ namespace PlugY {
         }
     }
 
-    Unit *STDCALL skillsPageMouseDown(sWinMessage *msg) {
+    Unit *__stdcall skillsPageMouseDown(sWinMessage *msg) {
         Unit *ptChar = D2GetClientPlayer();
         if (active_SkillsPoints && !onRealm && D2isLODGame() && isOnButtonUnassignSkill(D2GetMouseX(), D2GetMouseY())) {
             log_msg("push down left button unassign skill\n");
@@ -62,7 +62,7 @@ namespace PlugY {
         return ptChar;
     }
 
-    void STDCALL skillsPageMouseUp() {
+    void __stdcall skillsPageMouseUp() {
         if (active_SkillsPoints && !onRealm && D2isLODGame() && isOnButtonUnassignSkill(D2GetMouseX(), D2GetMouseY())) {
             log_msg("push up left button unassign skill\n");
             if (btnSkillIsDown)

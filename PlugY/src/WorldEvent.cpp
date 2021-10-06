@@ -50,11 +50,11 @@ namespace PlugY {
         return ((DWORD) (rand() / (RAND_MAX + 1.0) * timeBeforeAutoSellDelta) + timeBeforeAutoSellMin);//average of +100 in 25hours max 41h40
     }
 
-    void FASTCALL sendDataToClient(void *ptclient, DWORD *param) {
+    void __fastcall sendDataToClient(void *ptclient, DWORD *param) {
         D2SendPacket(ptclient, (void *) param[0], (DWORD) param[1]);
     }
 
-    void STDCALL worldEventBroadcast(Game *ptGame, DWORD activeWE, DWORD nbSOJSold) {
+    void __stdcall worldEventBroadcast(Game *ptGame, DWORD activeWE, DWORD nbSOJSold) {
         void *param[2];
         s_WEdata data;
         data.type = 0x5A;
@@ -67,7 +67,7 @@ namespace PlugY {
         D2BroadcastFunction(ptGame, &sendDataToClient, param);
     }
 
-    Game *STDCALL WEManagement(DWORD clientID) {
+    Game *__stdcall WEManagement(DWORD clientID) {
         Game *ptGame = D2GetGameByClientID(clientID);
         if (!ptGame) return ptGame;
         if (active_AutomaticSell) {
@@ -91,7 +91,7 @@ namespace PlugY {
         return ptGame;
     }
 
-    DWORD FASTCALL spawnDClone(Game *ptGame, Room *ptRoom, DWORD p3, DWORD p4, DWORD p5, DWORD p6, DWORD monsterID, DWORD p8) {
+    DWORD __fastcall spawnDClone(Game *ptGame, Room *ptRoom, DWORD p3, DWORD p4, DWORD p5, DWORD p6, DWORD monsterID, DWORD p8) {
         if (WEactive && (ptGame->difficultyLevel == D2DM_HELL) && !DCloneSpawned) {
             DCloneSpawned = 1;
             D2SpawnSuperUnique(ptGame, ptRoom, p3, p4, p5, p6, worldEventmonsterID, p8);
@@ -100,7 +100,7 @@ namespace PlugY {
             return D2SpawnSuperUnique(ptGame, ptRoom, p3, p4, p5, p6, monsterID, p8);
     }
 
-    DWORD STDCALL verifIfWEItem(Commons::Unit *ptItem, DWORD flags, DWORD line, const char *filename) {
+    DWORD __stdcall verifIfWEItem(Commons::Unit *ptItem, DWORD flags, DWORD line, const char *filename) {
         ItemsBIN *ptItemStats = D2GetItemsBIN(ptItem->nTxtFileNo);
         ItemsBIN *ptWantedItemStats = D2GetItemsBIN(itemNeeded.ID);
         if ((itemNeeded.byItemTypeID && D2CheckItemType(ptItem, itemNeeded.ID))

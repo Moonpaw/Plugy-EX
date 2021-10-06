@@ -28,7 +28,7 @@ namespace PlugY {
     const DWORD gridTop_BB = 82;
     const DWORD gridbottom_BB = 371;
 
-    InventoryBIN *STDCALL modifStashGrid(InventoryBIN *ptInventoryBin) {
+    InventoryBIN *__stdcall modifStashGrid(InventoryBIN *ptInventoryBin) {
         active_bigStash_tested = true;
         if (onRealm || !active_bigStash) return ptInventoryBin;
         InventoryBIN *inventory = ptInventoryBin + 12;

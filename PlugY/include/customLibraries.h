@@ -11,11 +11,11 @@
 #include "d2functions.h"
 
 namespace PlugY {
-    typedef int (STDCALL *TsaveSaveFile)(Commons::Unit *ptChar, BYTE **data, DWORD *maxSize, DWORD *curSize);
+    typedef int (__stdcall *TsaveSaveFile)(Commons::Unit *ptChar, BYTE **data, DWORD *maxSize, DWORD *curSize);
 
-    typedef int (STDCALL *TloadSaveFile)(Commons::Unit *ptChar, BYTE *data, DWORD maxSize, DWORD *curSize);
+    typedef int (__stdcall *TloadSaveFile)(Commons::Unit *ptChar, BYTE *data, DWORD maxSize, DWORD *curSize);
 
-    typedef int (STDCALL *TinitSaveFile)(BYTE **data, DWORD *maxSize, DWORD *curSize
+    typedef int (__stdcall *TinitSaveFile)(BYTE **data, DWORD *maxSize, DWORD *curSize
     );
 
     class TCustomDll {

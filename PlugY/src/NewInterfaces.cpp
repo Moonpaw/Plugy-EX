@@ -91,7 +91,7 @@ namespace PlugY {
 //	}
 //}
 
-    void STDCALL printCustomPage() {
+    void __stdcall printCustomPage() {
         if (onRealm) {
             D2PrintStatsPage();
             return;
@@ -106,7 +106,7 @@ namespace PlugY {
             D2PrintStatsPage();
     }
 
-    DWORD STDCALL mouseCustomPageLeftDown(sWinMessage *msg) {
+    DWORD __stdcall mouseCustomPageLeftDown(sWinMessage *msg) {
         if (onRealm) return -1;
         if ((selectedPage > 0) && (selectedPage <= lastPage))
             return mouseNewStatsPageTwoLeftDown(msg);
@@ -118,7 +118,7 @@ namespace PlugY {
             return -1;
     }
 
-    DWORD STDCALL mouseCustomPageLeftUp(sWinMessage *msg) {
+    DWORD __stdcall mouseCustomPageLeftUp(sWinMessage *msg) {
         if (onRealm) return -1;
         if ((selectedPage > 0) && (selectedPage <= lastPage))
             return mouseNewStatsPageTwoLeftUp(msg);

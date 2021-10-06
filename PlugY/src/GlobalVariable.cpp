@@ -27,7 +27,7 @@ namespace PlugY {
     int previouslyOnRealm = -1;
 
 // mode 0:SinglePlayer - 1:TCPIP - 2:Battlenet
-    void STDCALL BtnPress(int mode) {
+    void __stdcall BtnPress(int mode) {
         needToInit = true;
         loadLocalizedStrings(D2GetLang());
 

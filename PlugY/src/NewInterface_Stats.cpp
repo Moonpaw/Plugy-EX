@@ -122,7 +122,7 @@ namespace PlugY {
 
 #define BUFSIZE 0x80
 
-    void STDCALL printNewStatsPage() {
+    void __stdcall printNewStatsPage() {
         if (!D2isLODGame() || !D2GetResolution()) return D2PrintStatsPage();
         WCHAR text[BUFSIZE];
         LPWSTR lpText;
@@ -564,7 +564,7 @@ namespace PlugY {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-    DWORD STDCALL mouseNewStatsPageLeftDown(sWinMessage *msg) {
+    DWORD __stdcall mouseNewStatsPageLeftDown(sWinMessage *msg) {
         if (!D2isLODGame() || !D2GetResolution()) return -1;
         if (!isOnStatsPage(msg->x, msg->y)) return 1;
         Unit *ptChar = D2GetClientPlayer();
@@ -634,7 +634,7 @@ namespace PlugY {
         }
     }
 
-    DWORD STDCALL mouseNewStatsPageLeftUp(sWinMessage *msg) {
+    DWORD __stdcall mouseNewStatsPageLeftUp(sWinMessage *msg) {
         if (!D2isLODGame() || !D2GetResolution()) return -1;
         if (!isOnStatsPage(msg->x, msg->y)) return 1;
         Unit *ptChar = D2GetClientPlayer();

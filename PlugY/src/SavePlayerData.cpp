@@ -117,7 +117,7 @@ namespace PlugY {
         }
     }
 
-    void STDCALL SaveSPPlayerCustomData(Commons::Unit *ptChar) {
+    void __stdcall SaveSPPlayerCustomData(Commons::Unit *ptChar) {
         if (!D2isLODGame()) return;//D2Game but in SP so np
 
         log_msg("\n--- Start SaveSPPlayerCustomData ---\n");
@@ -267,7 +267,7 @@ void sendDataToSave(DWORD clientID, BYTE* data, DWORD size, bool isShared)
 	log_msg("\n");
 }*/
 
-    void STDCALL SendSaveFilesToSave(Commons::Unit *ptChar) {
+    void __stdcall SendSaveFilesToSave(Commons::Unit *ptChar) {
 //	if (!D2isLODGame()) return;
         log_msg("\n--- Start SendSaveFilesToSave ---\n");
         DWORD curSizeExt = 0;
@@ -324,7 +324,7 @@ void sendDataToSave(DWORD clientID, BYTE* data, DWORD size, bool isShared)
         log_msg("SendSaveFilesToSave : End\n\n");
     }
 
-    DWORD STDCALL ManageNextPacketToSend(NetClient *ptClient) {
+    DWORD __stdcall ManageNextPacketToSend(NetClient *ptClient) {
         log_msg("ManageNextPacketToSend\n");
         s_dataToSend *dataToSend = ptDataToSend;
         while (dataToSend && (dataToSend->clientID != ptClient->clientID))
@@ -384,7 +384,7 @@ void sendDataToSave(DWORD clientID, BYTE* data, DWORD size, bool isShared)
         return 1;
     }
 
-    DWORD STDCALL ReceiveSaveFilesToSave(t_rcvMsg *msg) {
+    DWORD __stdcall ReceiveSaveFilesToSave(t_rcvMsg *msg) {
         if ((msg->packID != customPackID) || !msg->isCustom) return 0;
         log_msg("ReceiveSaveFilesToSave : Receive Packet - type=%d\t init=%d\t finalSize=%d\t packSize=%d\t data=%08X\n", msg->type, msg->init, msg->finalSize, msg->packSize, msg->data);
         bool isShared;
@@ -424,7 +424,7 @@ void sendDataToSave(DWORD clientID, BYTE* data, DWORD size, bool isShared)
         return 1;
     }
 
-    void STDCALL SaveMPPlayerCustomData(BYTE *dataD2Savefile) {
+    void __stdcall SaveMPPlayerCustomData(BYTE *dataD2Savefile) {
         log_msg("SaveMPPlayerCustomData - Start.\n");
         auto ptChar = D2GetClientPlayer();
         backupSaveFiles(PCPlayerData->name, (dataD2Savefile[0x24] & 4) == 4);

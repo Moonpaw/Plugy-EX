@@ -177,7 +177,7 @@ namespace PlugY {
         }
     }
 
-    void *STDCALL printBtns() {
+    void *__stdcall printBtns() {
         if (onRealm || !D2isLODGame()) return D2LoadBuySelBtn();
         auto *ptChar = D2GetClientPlayer();
         sDrawImageInfo data;
@@ -249,7 +249,7 @@ namespace PlugY {
         return isOnRect(x, y, getXStashNameField(), getYStashNameField(), posWStashNameField, posHStashNameField);
     }
 
-    DWORD STDCALL manageBtnDown(sWinMessage *msg) {
+    DWORD __stdcall manageBtnDown(sWinMessage *msg) {
         if (onRealm || !D2isLODGame()) return 0;
         if (isOnButtonPreviousStash(msg->x, msg->y))
             isDownBtn.previous = 1;
@@ -273,7 +273,7 @@ namespace PlugY {
         return 1;
     }
 
-    DWORD STDCALL manageBtnUp(sWinMessage *msg) {
+    DWORD __stdcall manageBtnUp(sWinMessage *msg) {
         if (onRealm || !D2isLODGame()) return 0;
         auto *ptChar = D2GetClientPlayer();
         if (isOnButtonPreviousStash(msg->x, msg->y)) {
@@ -428,7 +428,7 @@ namespace PlugY {
         buffer[j] = NULL;
     }
 
-    void FASTCALL printPageNumber(LPWSTR maxGoldText, DWORD x, DWORD y, DWORD color, DWORD bfalse) {
+    void __fastcall printPageNumber(LPWSTR maxGoldText, DWORD x, DWORD y, DWORD color, DWORD bfalse) {
         if (onRealm || !D2isLODGame()) {
             D2PrintString(maxGoldText, x, y, color, bfalse);
             return;
@@ -459,7 +459,7 @@ namespace PlugY {
     static Stash *curStash = NULL;
     static DWORD currentSawStash = 0;
 
-    Unit *STDCALL getNextItemForSet(Commons::Unit *ptItem) {
+    Unit *__stdcall getNextItemForSet(Commons::Unit *ptItem) {
         Unit *item = ptItem ? D2UnitGetNextItem(ptItem) : NULL;
         if (item) return item;
         if (!curStash) {
@@ -486,7 +486,7 @@ namespace PlugY {
         return getNextItemForSet(item);
     }
 
-    Unit *STDCALL initGetNextItemForSet(Inventory *ptInventory) {
+    Unit *__stdcall initGetNextItemForSet(Inventory *ptInventory) {
         Unit *ptChar = D2GetClientPlayer();
         if (ptChar->nUnitType != UNIT_PLAYER) return NULL;
         if (!PCPY) return NULL;

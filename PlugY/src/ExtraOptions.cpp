@@ -36,7 +36,7 @@ namespace PlugY {
 
 /****************************************************************************************************/
 
-    void STDCALL displayItemlevel(LPWSTR popup, Commons::Unit *ptItem) {
+    void __stdcall displayItemlevel(LPWSTR popup, Commons::Unit *ptItem) {
         if (onRealm && (selectModParam == MOD_NO)) return;
         WCHAR text[0x50];
         _snwprintf(text, 50, L"%s: %u\n", getLocalString(STR_ITEM_LEVEL), D2GetItemLevel(ptItem));
@@ -603,7 +603,7 @@ namespace PlugY {
 
 /****************************************************************************************************/
 
-    void STDCALL printDisplayBaseStatsValue(WORD statID, sDrawImageInfo *data, DWORD x, DWORD y, DWORD p4, DWORD p5, DWORD p6) {
+    void __stdcall printDisplayBaseStatsValue(WORD statID, sDrawImageInfo *data, DWORD x, DWORD y, DWORD p4, DWORD p5, DWORD p6) {
         if (onRealm || !D2isLODGame()) {
             D2PrintImage(data, x, y, p4, p5, p6);
             return;
@@ -683,7 +683,7 @@ namespace PlugY {
 
 /****************************************************************************************************/
 
-    RunesBIN *STDCALL compileRunesTxt(DWORD unused, const char *filename, BINField *ptFields, DWORD *ptRecordCount, DWORD recordLength) {
+    RunesBIN *__stdcall compileRunesTxt(DWORD unused, const char *filename, BINField *ptFields, DWORD *ptRecordCount, DWORD recordLength) {
         RunesBIN *ptRunesBin = (RunesBIN *) D2CompileTxtFile(unused, filename, ptFields, ptRecordCount, recordLength);
         for (DWORD i = 0; i < *ptRecordCount; i++)
             ptRunesBin[i].Server = 0;
@@ -809,7 +809,7 @@ FCT_ASM ( caller_usePlugYTownWest_113d )
 
 /****************************************************************************************************/
 
-    void *FASTCALL updateHarrogath(DWORD unused, char *filename, DWORD *size, const char *__CallFile, DWORD __CallLine) {
+    void *__fastcall updateHarrogath(DWORD unused, char *filename, DWORD *size, const char *__CallFile, DWORD __CallLine) {
         if (onRealm)
             return D2ReadFile(unused, filename, size, __CallFile, __CallLine);
         if (strcmp(filename, "DATA\\GLOBAL\\TILES\\Expansion\\Town\\townWest.ds1"))
@@ -911,7 +911,7 @@ FCT_ASM ( caller_usePlugYTownWest_113d )
         isInstalled = true;
     }
 
-    ExperienceBIN *STDCALL modifExperienceBin(ExperienceBIN *ptExperienceBIN) {
+    ExperienceBIN *__stdcall modifExperienceBin(ExperienceBIN *ptExperienceBIN) {
         for (int i = 71; i < 101; i++)
             ptExperienceBIN[i].ExpRatio = 1024;
         return ptExperienceBIN;
