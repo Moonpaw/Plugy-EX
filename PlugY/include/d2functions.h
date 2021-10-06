@@ -28,7 +28,6 @@ namespace PlugY {
         return (double) rand() / (double) RAND_MAX;
     }
 
-//#define PCPlayerData (*(PlayerData**)((DWORD)(ptChar)+shifting.ptSpecificData)) //->ptPlayerData
     extern inline Commons::PlayerData *getPlayerData(const Commons::Unit *ptChar) {
         return (*(Commons::PlayerData **) ((DWORD) (ptChar) + shifting.ptSpecificData));
     }
@@ -36,7 +35,11 @@ namespace PlugY {
     extern inline Commons::Game *getGame(const Commons::Unit *ptChar) {
         return (*(Commons::Game **) ((DWORD) (ptChar) + shifting.ptGame));
     }
-#define PClientGame (*(Game**)((DWORD)(ptClient)+shifting.ptClientGame)) //ptClient->ptGame
+
+    extern inline Commons::Game *getClientGame(const Commons::NetClient *ptClient) {
+        return (*(Commons::Game**)((DWORD)(ptClient)+shifting.ptClientGame));
+    }
+
 #define PCInventory (*(Inventory**)((DWORD)(ptChar)+shifting.ptInventory)) //->ptInventory
 #define PCPY ((PYPlayerData*)((DWORD)getPlayerData(ptChar)+shifting.ptPYPlayerData)) //->ptPYPlayerData
 

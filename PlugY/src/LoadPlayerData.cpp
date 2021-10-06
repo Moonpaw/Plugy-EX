@@ -239,9 +239,9 @@ return value :
         while (curSF && (clientID != curSF->clientID))
             curSF = curSF->next;
         if (curSF && curSF->completed)
-            freeCurrentCF(0 * PClientGame->memoryPool, &curSF);
+            freeCurrentCF(0 * getClientGame(ptClient)->memoryPool, &curSF);
         if (!curSF) {
-            curSF = (s_MPSaveFile *) D2AllocMem(0 * PClientGame->memoryPool, sizeof(s_MPSaveFile), __FILE__, __LINE__, 0);
+            curSF = (s_MPSaveFile *) D2AllocMem(0 * getClientGame(ptClient)->memoryPool, sizeof(s_MPSaveFile), __FILE__, __LINE__, 0);
             ZeroMemory(curSF, sizeof(s_MPSaveFile));
             curSF->clientID = clientID;
             curSF->next = receivedSaveFiles;
@@ -255,7 +255,7 @@ return value :
                 curSF->sizeShared = msg->finalSize;
             d2_assert(curSF->sizeShared != msg->finalSize, "Size of shared file has change", __FILE__, __LINE__);
             if (!curSF->dataShared)
-                curSF->dataShared = (BYTE *) D2AllocMem(0 * PClientGame->memoryPool, curSF->sizeShared, __FILE__, __LINE__, 0);//		d2_assert(!curSF->dataShared, "Can't malloc data", __FILE__, __LINE__);
+                curSF->dataShared = (BYTE *) D2AllocMem(0 * getClientGame(ptClient)->memoryPool, curSF->sizeShared, __FILE__, __LINE__, 0);//		d2_assert(!curSF->dataShared, "Can't malloc data", __FILE__, __LINE__);
 
             CopyMemory(&curSF->dataShared[curSF->curShared], msg->data, size);
             curSF->curShared += size;
@@ -265,7 +265,7 @@ return value :
                 curSF->sizeExtended = msg->finalSize;
             d2_assert(curSF->sizeExtended != msg->finalSize, "Size of extented file has change", __FILE__, __LINE__);
             if (!curSF->dataExtended)
-                curSF->dataExtended = (BYTE *) D2AllocMem(0 * PClientGame->memoryPool, curSF->sizeExtended, __FILE__, __LINE__, 0);//		d2_assert(!curSF->dataExtended, "Can't malloc data", __FILE__, __LINE__);
+                curSF->dataExtended = (BYTE *) D2AllocMem(0 * getClientGame(ptClient)->memoryPool, curSF->sizeExtended, __FILE__, __LINE__, 0);//		d2_assert(!curSF->dataExtended, "Can't malloc data", __FILE__, __LINE__);
 
             CopyMemory(&curSF->dataExtended[curSF->curExtended], msg->data, size);
             curSF->curExtended += size;

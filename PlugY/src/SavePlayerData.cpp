@@ -334,7 +334,7 @@ void sendDataToSave(DWORD clientID, BYTE* data, DWORD size, bool isShared)
                 dataToSend->clientID, dataToSend->init, dataToSend->sizeExtended, dataToSend->curExtended, dataToSend->dataExtended, dataToSend->sizeShared, dataToSend->curShared, dataToSend->dataShared);
         if (dataToSend->sizeExtended && dataToSend->dataExtended && (dataToSend->curExtended < dataToSend->sizeExtended)) {
             DWORD remainingData = dataToSend->sizeExtended - dataToSend->curExtended;
-            t_rcvMsg *msg = (t_rcvMsg *) D2AllocMem(PClientGame->memoryPool, sizeof(t_rcvMsg), __FILE__, __LINE__, 0);
+            t_rcvMsg *msg = (t_rcvMsg *) D2AllocMem(getClientGame(ptClient)->memoryPool, sizeof(t_rcvMsg), __FILE__, __LINE__, 0);
             msg->packID = customPackID;
             msg->init = dataToSend->init;
             msg->finalSize = dataToSend->sizeExtended;
@@ -346,11 +346,11 @@ void sendDataToSave(DWORD clientID, BYTE* data, DWORD size, bool isShared)
             D2SendToClient(0, dataToSend->clientID, msg, msg->packSize + 7);
             dataToSend->init = false;
             dataToSend->curExtended += msg->packSize - 1;
-            D2FreeMem(PClientGame->memoryPool, msg, __FILE__, __LINE__, 0);
+            D2FreeMem(getClientGame(ptClient)->memoryPool, msg, __FILE__, __LINE__, 0);
             if (dataToSend->curExtended == dataToSend->sizeExtended) {
                 dataToSend->sizeExtended = 0;
                 dataToSend->curExtended = 0;
-                D2FreeMem(PClientGame->memoryPool, dataToSend->dataExtended, __FILE__, __LINE__, 0);
+                D2FreeMem(getClientGame(ptClient)->memoryPool, dataToSend->dataExtended, __FILE__, __LINE__, 0);
                 dataToSend->dataExtended = NULL;
             }
             log_msg("ManageNextPacketToSend : End\n");
@@ -358,7 +358,7 @@ void sendDataToSave(DWORD clientID, BYTE* data, DWORD size, bool isShared)
         }
         if (dataToSend->sizeShared && dataToSend->dataShared && (dataToSend->curShared < dataToSend->sizeShared)) {
             DWORD remainingData = dataToSend->sizeShared - dataToSend->curShared;
-            t_rcvMsg *msg = (t_rcvMsg *) D2AllocMem(PClientGame->memoryPool, sizeof(t_rcvMsg), __FILE__, __LINE__, 0);
+            t_rcvMsg *msg = (t_rcvMsg *) D2AllocMem(getClientGame(ptClient)->memoryPool, sizeof(t_rcvMsg), __FILE__, __LINE__, 0);
             msg->packID = customPackID;
             msg->init = dataToSend->init;
             msg->finalSize = dataToSend->sizeShared;
@@ -370,11 +370,11 @@ void sendDataToSave(DWORD clientID, BYTE* data, DWORD size, bool isShared)
             D2SendToClient(0, dataToSend->clientID, msg, msg->packSize + 7);
             dataToSend->init = false;
             dataToSend->curShared += msg->packSize - 1;
-            D2FreeMem(PClientGame->memoryPool, msg, __FILE__, __LINE__, 0);
+            D2FreeMem(getClientGame(ptClient)->memoryPool, msg, __FILE__, __LINE__, 0);
             if (dataToSend->curShared == dataToSend->sizeShared) {
                 dataToSend->sizeShared = 0;
                 dataToSend->curShared = 0;
-                D2FreeMem(PClientGame->memoryPool, dataToSend->dataShared, __FILE__, __LINE__, 0);
+                D2FreeMem(getClientGame(ptClient)->memoryPool, dataToSend->dataShared, __FILE__, __LINE__, 0);
                 dataToSend->dataShared = NULL;
             }
             log_msg("ManageNextPacketToSend : End\n");
