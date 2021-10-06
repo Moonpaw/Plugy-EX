@@ -40,7 +40,10 @@ namespace PlugY {
         return (*(Commons::Game**)((DWORD)(ptClient)+shifting.ptClientGame));
     }
 
-#define PCInventory (*(Inventory**)((DWORD)(ptChar)+shifting.ptInventory)) //->ptInventory
+    extern inline Commons::Inventory *getInventory(const Commons::Unit *ptChar) {
+        return (*(Commons::Inventory **) ((DWORD) (ptChar) + shifting.ptInventory));
+    }
+
 #define PCPY ((PYPlayerData*)((DWORD)getPlayerData(ptChar)+shifting.ptPYPlayerData)) //->ptPYPlayerData
 
 //#define PCSkills (*(Skills**)((DWORD)(ptChar)+shifting.ptSkills)) //->ptSkills

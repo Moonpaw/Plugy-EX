@@ -291,7 +291,7 @@ namespace Commons {
         DWORD quality;                    //+00
         DWORD seedLow;                    //+04
         DWORD seedHi;                        //+08
-        DWORD playerID;                    //+0C #10734 / #10735 (PCInventory->ptPlayer->0C)
+        DWORD playerID;                    //+0C #10734 / #10735 (getInventory(ptChar)->ptPlayer->0C)
         DWORD seedStarting;                //+10
         DWORD flags1;                        //+14
         union {

@@ -30,7 +30,7 @@ namespace PlugY {
         Commons::Unit *curItem;
         while (curStash) {
             if (curStash == PCPY->currentStash)
-                curItem = D2InventoryGetFirstItem(PCInventory);
+                curItem = D2InventoryGetFirstItem(getInventory(ptChar));
             else
                 curItem = curStash->ptListItem;
             while (curItem) {
@@ -42,7 +42,7 @@ namespace PlugY {
         curStash = PCPY->sharedStash;
         while (curStash) {
             if (curStash == PCPY->currentStash)
-                curItem = D2InventoryGetFirstItem(PCInventory);
+                curItem = D2InventoryGetFirstItem(getInventory(ptChar));
             else curItem = curStash->ptListItem;
             while (curItem) {
                 if (D2GetRealItem(curItem) == ptItem) return curStash;

@@ -36,7 +36,7 @@ namespace PlugY {
     typedef int (*TchangeToSelectedStash)(Commons::Unit *ptChar, Stash *newStash, DWORD bOnlyItems, DWORD bIsClient);
 
     Commons::Unit *firstClassicStashItem(Commons::Unit *ptChar) {
-        Commons::Unit *ptItem = D2InventoryGetFirstItem(PCInventory);
+        Commons::Unit *ptItem = D2InventoryGetFirstItem(getInventory(ptChar));
         while (ptItem) {
             if (D2ItemGetPage(D2GetRealItem(ptItem)) == 4)
                 return ptItem;
@@ -127,7 +127,7 @@ namespace PlugY {
         d2_assert(currentStash && currentStash->ptListItem, "ERROR : currentStash isn't empty (ptListItem != NULL)", __FILE__, __LINE__);
 
         // collect items to remove
-        Inventory *ptInventory = PCInventory;
+        Inventory *ptInventory = getInventory(ptChar);
         Commons::Unit *ptNextItem;
         Commons::Unit *ptPrevItem = NULL;
         auto ptItem = D2InventoryGetFirstItem(ptInventory);
@@ -144,8 +144,8 @@ namespace PlugY {
                     ptInventory->Inventory2C = (DWORD) ptPrevItem;
                 ptInventory->Inventory30 = ptInventory->Inventory30 - 1;
                 D2Common10250(__FILE__, __LINE__, ptInventory, D2GetPosX(D2GetRealItem(ptItem)), D2GetPosY(D2GetRealItem(ptItem)), 0xC, bIsClient, 4);
-//			ptItem = D2InvRemoveItem(PCInventory, D2GetRealItem(ptItem));
-//			D2Common10250(__FILE__,__LINE__,PCInventory, D2GetPosX(ptItem), D2GetPosY(ptItem), 0xC, bIsClient, 4);
+//			ptItem = D2InvRemoveItem(getInventory(ptChar), D2GetRealItem(ptItem));
+//			D2Common10250(__FILE__,__LINE__,getInventory(ptChar), D2GetPosX(ptItem), D2GetPosY(ptItem), 0xC, bIsClient, 4);
                 if (currentStash) {
 //				ptItem = setNextItem(ptItem, PCPY->currentStash->ptListItem);
                     ptItem->mode = (DWORD) currentStash->ptListItem;//is ptItem->nextNode = ptListItem
@@ -158,8 +158,8 @@ namespace PlugY {
         // add items of new stash
         ptItem = newStash->ptListItem;
         while (ptItem) {
-            D2InvAddItem(PCInventory, D2GetRealItem(ptItem), D2GetPosX(D2GetRealItem(ptItem)), D2GetPosY(D2GetRealItem(ptItem)), 0xC, bIsClient, 4);
-            D2Common10242(PCInventory, D2GetRealItem(ptItem), 1);
+            D2InvAddItem(getInventory(ptChar), D2GetRealItem(ptItem), D2GetPosX(D2GetRealItem(ptItem)), D2GetPosY(D2GetRealItem(ptItem)), 0xC, bIsClient, 4);
+            D2Common10242(getInventory(ptChar), D2GetRealItem(ptItem), 1);
             ptItem = D2UnitGetNextItem(ptItem);
         }
         if (bOnlyItems)
@@ -179,12 +179,12 @@ namespace PlugY {
 
         // Remove items from current page
         Unit *ptNextItem;
-        Unit *ptItem = D2InventoryGetFirstItem(PCInventory);
+        Unit *ptItem = D2InventoryGetFirstItem(getInventory(ptChar));
         while (ptItem) {
             ptNextItem = D2UnitGetNextItem(ptItem);
             if (D2ItemGetPage(ptItem) == 4) {
                 BYTE tmp = ptItem->ptItemData->ItemData2;
-                ptItem = D2InvRemoveItem(PCInventory, ptItem);
+                ptItem = D2InvRemoveItem(getInventory(ptChar), ptItem);
                 ptItem->ptItemData->ItemData2 = tmp;
                 if (currentStash) {
                     ptItem->ptItemData->ptNextItem = currentStash->ptListItem;
@@ -197,7 +197,7 @@ namespace PlugY {
         // add items of new stash
         ptItem = newStash->ptListItem;
         while (ptItem) {
-            D2InvAddItem(PCInventory, ptItem, ptItem->path->x, ptItem->path->y, 0xC, bIsClient, 4);
+            D2InvAddItem(getInventory(ptChar), ptItem, ptItem->path->x, ptItem->path->y, 0xC, bIsClient, 4);
             ptItem = D2UnitGetNextItem(ptItem);
         }
         if (bOnlyItems)
@@ -333,7 +333,7 @@ namespace PlugY {
         //Get first item
         Unit *ptItem;
         if ((ptStash->id == PCPY->currentStash->id) && (ptStash->isShared == PCPY->currentStash->isShared))
-            ptItem = D2InventoryGetFirstItem(PCInventory);
+            ptItem = D2InventoryGetFirstItem(getInventory(ptChar));
         else
             ptItem = ptStash->ptListItem;
 
@@ -625,7 +625,7 @@ namespace PlugY {
         int setNameIndex = -1;
         int onlyOneMisc = -1;
         int miscNameIndex = -1;
-        Unit *ptItem = D2InventoryGetFirstItem(PCInventory);
+        Unit *ptItem = D2InventoryGetFirstItem(getInventory(ptChar));
         int nb = 0;
         while (ptItem) {
             if (D2ItemGetPage(ptItem) == 4) {
@@ -757,6 +757,8 @@ namespace PlugY {
         }
     }
 
+
+
     DWORD __stdcall carry1Limit(Commons::Unit *ptChar, Unit *ptItemParam, DWORD itemNum, BYTE page) {
         if (!ptChar) return 0;
         Unit *ptItem = ptItemParam ? ptItemParam : D2GameGetObject(getGame(ptChar), UNIT_ITEM, itemNum);
@@ -766,7 +768,7 @@ namespace PlugY {
                 UniqueItemsBIN *uniqueItems = SgptDataTables->uniqueItems + uniqueID;
                 if (uniqueItems && (uniqueItems->carry1 == 1)) {
                     ItemsBIN *ptItemsBin = D2GetItemsBIN(ptItem->nTxtFileNo);
-                    Unit *ptFirstItem = D2InventoryGetFirstItem(PCInventory);
+                    Unit *ptFirstItem = D2InventoryGetFirstItem(getInventory(ptChar));
                     if (ptItemsBin && ptFirstItem)
                         return D2VerifIfNotCarry1(ptItem, ptItemsBin, ptFirstItem);
                 }

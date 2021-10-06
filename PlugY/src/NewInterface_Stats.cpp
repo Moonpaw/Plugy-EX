@@ -371,7 +371,7 @@ namespace PlugY {
             // print defence
             curValue = D2GetDefence(ptChar);
             color = D2haveDefenceBonus(ptChar) ? BLUE : WHITE;
-            if (PCInventory && D2Common10273(PCInventory, 0) && D2isInState(ptChar, 0x65))
+            if (getInventory(ptChar) && D2Common10273(getInventory(ptChar), 0) && D2isInState(ptChar, 0x65))
                 color = BLUE;
             if (D2haveDefenceMalus(ptChar)) color = RED;
             if (D2GetLang() == LNG_JPN) {
