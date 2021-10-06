@@ -233,13 +233,13 @@ namespace PlugY {
 //	if (strlen((char *)&data[curSize]) > 0xF)
 //		*(char *)&data[curSize+0xF] = NULL;
         if (strlen((char *) &data[curSize]))
-            ptStash->name = (char *) malloc(strlen((char *) &data[curSize]) + 1);//D2AllocMem(PCGame->memoryPool, strlen((char *)&data[curSize]),__FILE__,__LINE__,0);
+            ptStash->name = (char *) malloc(strlen((char *) &data[curSize]) + 1);//D2AllocMem(getGame(ptChar)->memoryPool, strlen((char *)&data[curSize]),__FILE__,__LINE__,0);
         if (ptStash->name)
             strcpy(ptStash->name, (char *) &data[curSize]);
         curSize += strlen((char *) &data[curSize]) + 1;
 
         // Read inventory.
-        DWORD ret = D2LoadInventory(PCGame, ptChar, (saveBitField *) &data[curSize], 0x60, maxSize - curSize, 0, &nbBytesRead);
+        DWORD ret = D2LoadInventory(getGame(ptChar), ptChar, (saveBitField *) &data[curSize], 0x60, maxSize - curSize, 0, &nbBytesRead);
         if (ret) log_msg("loadStash -> D2LoadInventory failed\n");
         log_msg("Stash loaded (%d : %s)\n", ptStash->id, ptStash->name);
         *retSize = curSize + nbBytesRead;
@@ -357,10 +357,10 @@ namespace PlugY {
             if (*curSize + 0x2000 > *maxSize) {
                 BYTE *oldData = *data;
                 *maxSize *= 2;
-                *data = (BYTE *) D2AllocMem(PCGame->memoryPool, *maxSize, __FILE__, __LINE__, 0);
+                *data = (BYTE *) D2AllocMem(getGame(ptChar)->memoryPool, *maxSize, __FILE__, __LINE__, 0);
                 d2_assert(!*data, "Error : Memory allocation", __FILE__, __LINE__);
                 CopyMemory(*data, oldData, *curSize);
-                D2FreeMem(PCGame->memoryPool, oldData, __FILE__, __LINE__, 0);
+                D2FreeMem(getGame(ptChar)->memoryPool, oldData, __FILE__, __LINE__, 0);
             }
             saveStash(ptChar, ptStash, data, maxSize, curSize);
             nbStash++;
@@ -759,7 +759,7 @@ namespace PlugY {
 
     DWORD __stdcall carry1Limit(Commons::Unit *ptChar, Unit *ptItemParam, DWORD itemNum, BYTE page) {
         if (!ptChar) return 0;
-        Unit *ptItem = ptItemParam ? ptItemParam : D2GameGetObject(PCGame, UNIT_ITEM, itemNum);
+        Unit *ptItem = ptItemParam ? ptItemParam : D2GameGetObject(getGame(ptChar), UNIT_ITEM, itemNum);
         if ((page != 4) && (D2GetItemQuality(ptItem) == ITEMQUALITY_UNIQUE) && ptChar) {
             int uniqueID = D2GetUniqueID(ptItem);
             if ((uniqueID >= 0) && (uniqueID < (int) SgptDataTables->nbUniqueItems)) {

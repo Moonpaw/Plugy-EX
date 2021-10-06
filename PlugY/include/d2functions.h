@@ -4,6 +4,7 @@
 #include "D2TypeDefMacros.h"
 #include "d2wrapper.h"
 #include <VersionInfo.h>
+#include <D2UnitStruct.h>
 
 namespace PlugY {
 // Convertion to 1.09
@@ -28,7 +29,7 @@ namespace PlugY {
     }
 
 #define PCPlayerData (*(PlayerData**)((DWORD)(ptChar)+shifting.ptSpecificData)) //->ptPlayerData
-#define PCGame (*(Game**)((DWORD)(ptChar)+shifting.ptGame)) //->ptGame
+    extern inline Commons::Game *getGame(const Commons::Unit *ptChar) { return (*(Commons::Game **) ((DWORD) (ptChar) + shifting.ptGame)); }
 #define PClientGame (*(Game**)((DWORD)(ptClient)+shifting.ptClientGame)) //ptClient->ptGame
 #define PCInventory (*(Inventory**)((DWORD)(ptChar)+shifting.ptInventory)) //->ptInventory
 #define PCPY ((PYPlayerData*)((DWORD)PCPlayerData+shifting.ptPYPlayerData)) //->ptPYPlayerData

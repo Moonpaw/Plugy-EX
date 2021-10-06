@@ -37,13 +37,13 @@ namespace PlugY {
             log_msg("LoadSPCustomData : PCPlayerData == NULL\n");
             return 0x1B;
         }//Unknow failure
-        if (!PCGame) {
-            log_msg("LoadSPCustomData : PCGame == NULL\n");
+        if (!getGame(ptChar)) {
+            log_msg("LoadSPCustomData : getGame == NULL\n");
             return 0x1B;
         }//Unknow failure
 
         DWORD ret = 0;
-        if (PCGame->isLODGame) {
+        if (getGame(ptChar)->isLODGame) {
             log_msg("is LOD Game\n");
             data = readExtendedSaveFile(PCPlayerData->name, &size);
             ret = loadExtendedSaveFile(ptChar, data, size);
@@ -323,11 +323,11 @@ int STDCALL ReceiveSaveFiles_9(DWORD clientID, SOCKET s, char *buf, int len, int
             log_msg("Server hasn't receive all data from extra save files of character %s\n", PCPlayerData->name);
             ret = 0xE;//Unable to enter game, generic bad file
         }
-        if (!ret && !PCGame) {
-            log_msg("LoadMPCustomData : PCGame == NULL\n");
+        if (!ret && !getGame(ptChar)) {
+            log_msg("LoadMPCustomData : getGame == NULL\n");
             ret = 0x1B;//Unknow failure
         }
-        if (PCGame->isLODGame) {
+        if (getGame(ptChar)->isLODGame) {
             log_msg("is LOD Game\n");
             if (!ret)
                 ret = loadExtendedSaveFile(ptChar, curSF->dataExtended, curSF->sizeExtended);
@@ -336,7 +336,7 @@ int STDCALL ReceiveSaveFiles_9(DWORD clientID, SOCKET s, char *buf, int len, int
         } else {
             log_msg("is not LOD Game\n");
         }
-        freeCurrentCF(PCGame->memoryPool, &curSF);
+        freeCurrentCF(getGame(ptChar)->memoryPool, &curSF);
         log_msg("--- End LoadMPCustomData. ---\n\n");
         return ret;
     }

@@ -64,7 +64,7 @@ namespace PlugY {
     }
 
     void __fastcall updateItem_111(Commons::Unit *ptItem, Unit *ptChar) {
-        if (PCGame->isLODGame && (D2ItemGetPage(ptItem) == 4)) {
+        if (getGame(ptChar)->isLODGame && (D2ItemGetPage(ptItem) == 4)) {
             Stash *ptStash = getStashFromItem(ptChar, ptItem);
             if (ptStash)
                 selectStash(ptChar, ptStash, ptStash->id == 0);
@@ -73,7 +73,7 @@ namespace PlugY {
 
     void __stdcall updateClientPlayerOnLoading(Commons::Unit *ptChar) {
         log_msg("--- Start updateClientPlayerOnLoading ---\n");
-        if (PCGame->isLODGame) {
+        if (getGame(ptChar)->isLODGame) {
             PCPY->showSharedStash = openSharedStashOnLoading && active_sharedStash;
             selectStash(ptChar, PCPY->showSharedStash ? PCPY->sharedStash : PCPY->selfStash, true);
         }
@@ -148,7 +148,7 @@ namespace PlugY {
 
 //void FASTCALL updateItem_111(Commons::Unit* ptItem, Unit* ptChar)
 //{
-//	if (PCGame->isLODGame && (D2ItemGetPage(ptItem) == 4))
+//	if (getGame(ptChar)->isLODGame && (D2ItemGetPage(ptItem) == 4))
 //	{
 //		Stash* ptStash = getStashFromItem(ptChar, ptItem);
 //		if (ptStash)

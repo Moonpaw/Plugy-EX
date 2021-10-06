@@ -56,9 +56,11 @@ namespace PlugY {
     const char *CMD_DISPLAY_MANA = "/dm";
     const char *CMD_LISTCUBEFORMULA = "/listcube";
 
+
+
     void savePlayers(Commons::Unit *ptChar) {
         if (active_savegame)
-            D2SaveGame(PCGame);
+            D2SaveGame(getGame(ptChar));
     }
 
     void maxGold(Commons::Unit *ptChar) {
