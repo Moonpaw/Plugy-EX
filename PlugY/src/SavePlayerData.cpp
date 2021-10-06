@@ -122,7 +122,7 @@ namespace PlugY {
 
         log_msg("\n--- Start SaveSPPlayerCustomData ---\n");
         NetClient *ptClient = D2GetClient(ptChar, __FILE__, __LINE__);
-        backupSaveFiles(PCPlayerData->name, ptClient->isHardCoreGame);
+        backupSaveFiles(getPlayerData(ptChar)->name, ptClient->isHardCoreGame);
         if (active_PlayerCustomData) {
             if (PCPY->selfStashIsOpened) {
                 DWORD curSizeExt = 0;
@@ -130,7 +130,7 @@ namespace PlugY {
                 BYTE *dataExt = (BYTE *) D2AllocMem(getGame(ptChar)->memoryPool, maxSizeExt, __FILE__, __LINE__, 0);
                 d2_assert(!dataExt, "Error : Memory allocation Extended SaveFile", __FILE__, __LINE__);
                 saveExtendedSaveFile(ptChar, &dataExt, &maxSizeExt, &curSizeExt);
-                writeExtendedSaveFile(PCPlayerData->name, dataExt, curSizeExt);
+                writeExtendedSaveFile(getPlayerData(ptChar)->name, dataExt, curSizeExt);
                 D2FreeMem(getGame(ptChar)->memoryPool, dataExt, __FILE__, __LINE__, 0);
             }
             if (active_sharedStash && PCPY->sharedStashIsOpened) {
@@ -139,7 +139,7 @@ namespace PlugY {
                 BYTE *dataShr = (BYTE *) D2AllocMem(getGame(ptChar)->memoryPool, maxSizeShr, __FILE__, __LINE__, 0);
                 d2_assert(!dataShr, "Error : Memory allocation Shared SaveFile", __FILE__, __LINE__);
                 saveSharedSaveFile(ptChar, &dataShr, &maxSizeShr, &curSizeShr);
-                writeSharedSaveFile(PCPlayerData->name, dataShr, curSizeShr, ptClient->isHardCoreGame);
+                writeSharedSaveFile(getPlayerData(ptChar)->name, dataShr, curSizeShr, ptClient->isHardCoreGame);
                 D2FreeMem(getGame(ptChar)->memoryPool, dataShr, __FILE__, __LINE__, 0);
             }
         }
@@ -427,15 +427,15 @@ void sendDataToSave(DWORD clientID, BYTE* data, DWORD size, bool isShared)
     void __stdcall SaveMPPlayerCustomData(BYTE *dataD2Savefile) {
         log_msg("SaveMPPlayerCustomData - Start.\n");
         auto ptChar = D2GetClientPlayer();
-        backupSaveFiles(PCPlayerData->name, (dataD2Savefile[0x24] & 4) == 4);
+        backupSaveFiles(getPlayerData(ptChar)->name, (dataD2Savefile[0x24] & 4) == 4);
         if (active_PlayerCustomData) {
             if (receivedSaveFiles.sizeExtended && (receivedSaveFiles.sizeExtended == receivedSaveFiles.curExtended) && (!active_sharedStash || receivedSaveFiles.sizeShared && (receivedSaveFiles.sizeShared == receivedSaveFiles.curShared))) {
                 log_msg("SaveMPPlayerCustomData - Saving can start\n");
                 if (ptChar) {
-                    writeExtendedSaveFile(PCPlayerData->name, receivedSaveFiles.dataExtended, receivedSaveFiles.sizeExtended);
+                    writeExtendedSaveFile(getPlayerData(ptChar)->name, receivedSaveFiles.dataExtended, receivedSaveFiles.sizeExtended);
                     D2FogMemDeAlloc(receivedSaveFiles.dataExtended, __FILE__, __LINE__, 0);
                     if (active_sharedStash) {
-                        writeSharedSaveFile(PCPlayerData->name, receivedSaveFiles.dataShared, receivedSaveFiles.sizeShared, (dataD2Savefile[0x24] & 4) == 4);//6FBAB9A4-6FAA0000
+                        writeSharedSaveFile(getPlayerData(ptChar)->name, receivedSaveFiles.dataShared, receivedSaveFiles.sizeShared, (dataD2Savefile[0x24] & 4) == 4);//6FBAB9A4-6FAA0000
                         D2FogMemDeAlloc(receivedSaveFiles.dataShared, __FILE__, __LINE__, 0);
                     }
                     ZeroMemory(&receivedSaveFiles, sizeof(receivedSaveFiles));

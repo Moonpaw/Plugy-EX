@@ -144,9 +144,9 @@ namespace PlugY {
                 if (arg == NULL) {
                     renameString[renameIndex] = NULL;
                     renameIndex = 0;
-                    log_msg("Rename on Server : %s -> %s\n", PCPlayerData->name, renameString);
-                    strcpy(PCPlayerData->name, renameString);
-                    strcpy(PCPlayerData->ptNetClient->name, renameString);
+                    log_msg("Rename on Server : %s -> %s\n", getPlayerData(ptChar)->name, renameString);
+                    strcpy(getPlayerData(ptChar)->name, renameString);
+                    strcpy(getPlayerData(ptChar)->ptNetClient->name, renameString);
                 }
                 return 1;
             case US_PAGENAME:

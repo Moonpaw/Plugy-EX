@@ -120,7 +120,7 @@ namespace PlugY {
         Unit *item = D2UnitGetNextItem(ptItem);
         if (item) return item;
         if (ptChar->nUnitType != UNIT_PLAYER) return NULL;
-        if (!PCPlayerData) return NULL;
+        if (!getPlayerData(ptChar)) return NULL;
         if (!PCPY) return NULL;
         Stash *curStash = PCPY->selfStash;
         while (curStash) {

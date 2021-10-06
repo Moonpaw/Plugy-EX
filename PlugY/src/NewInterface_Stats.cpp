@@ -196,7 +196,7 @@ namespace PlugY {
         D2PrintString(lpText, MILIEU(0xC1, 0x76, nbPixel), 0x19, WHITE, 0);
 
         // print name
-        char *string = PCPlayerData->name;
+        char *string = getPlayerData(ptChar)->name;
         int usize = strlen(string);
         if (usize > 9)
             D2SetFont(usize < 12 ? 0 : 6);

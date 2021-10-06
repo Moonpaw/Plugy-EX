@@ -217,7 +217,7 @@ namespace PlugY {
         *retSize = curSize;
         if (*(WORD *) &data[curSize] != STASH_TAG)//"ST"
         {
-            log_msg("loadStash -> Bad tag of stash of character %s : %04X\n", PCPlayerData->name, *(WORD *) &data[curSize]);
+            log_msg("loadStash -> Bad tag of stash of character %s : %04X\n", getPlayerData(ptChar)->name, *(WORD *) &data[curSize]);
             return 0x7;//Unable to enter game. Bad inventory data
         }
         curSize += 2;

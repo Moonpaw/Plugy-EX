@@ -157,6 +157,8 @@ namespace PlugY {
         return 0;
     }
 
+
+
     bool renameCharacter(Commons::Unit *ptChar, char *newName) {
         int len = strlen(newName);
         if (len < 2 || len > 15)
@@ -166,10 +168,10 @@ namespace PlugY {
             if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_')))
                 return 1;
         }
-        log_msg("Rename Character : %s -> %s\n", PCPlayerData->name, newName);
+        log_msg("Rename Character : %s -> %s\n", getPlayerData(ptChar)->name, newName);
 
         // Move current save file
-        backupSaveFiles(PCPlayerData->name, -1);
+        backupSaveFiles(getPlayerData(ptChar)->name, -1);
         {
             char szCurrentFile[MAX_PATH];
             char szNewFile[MAX_PATH];
@@ -177,7 +179,7 @@ namespace PlugY {
             //Get temporary savefile name.
             D2FogGetSavePath(szCurrentFile, MAX_PATH);
             D2FogGetSavePath(szNewFile, MAX_PATH);
-            strcat(szCurrentFile, PCPlayerData->name);
+            strcat(szCurrentFile, getPlayerData(ptChar)->name);
             strcat(szNewFile, newName);
             strcat(szCurrentFile, ".");
             strcat(szNewFile, ".");
@@ -218,8 +220,8 @@ namespace PlugY {
             updateServer(US_RENAME + (newName[i] << 8));
 
         // Update client
-        log_msg("Rename on Client : %s -> %s\n", PCPlayerData->name, newName);
-        strcpy(PCPlayerData->name, newName);
+        log_msg("Rename on Client : %s -> %s\n", getPlayerData(ptChar)->name, newName);
+        strcpy(getPlayerData(ptChar)->name, newName);
         updateServer(US_SAVE);
         return 0;
     }

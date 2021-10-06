@@ -28,11 +28,17 @@ namespace PlugY {
         return (double) rand() / (double) RAND_MAX;
     }
 
-#define PCPlayerData (*(PlayerData**)((DWORD)(ptChar)+shifting.ptSpecificData)) //->ptPlayerData
-    extern inline Commons::Game *getGame(const Commons::Unit *ptChar) { return (*(Commons::Game **) ((DWORD) (ptChar) + shifting.ptGame)); }
+//#define PCPlayerData (*(PlayerData**)((DWORD)(ptChar)+shifting.ptSpecificData)) //->ptPlayerData
+    extern inline Commons::PlayerData *getPlayerData(const Commons::Unit *ptChar) {
+        return (*(Commons::PlayerData **) ((DWORD) (ptChar) + shifting.ptSpecificData));
+    }
+
+    extern inline Commons::Game *getGame(const Commons::Unit *ptChar) {
+        return (*(Commons::Game **) ((DWORD) (ptChar) + shifting.ptGame));
+    }
 #define PClientGame (*(Game**)((DWORD)(ptClient)+shifting.ptClientGame)) //ptClient->ptGame
 #define PCInventory (*(Inventory**)((DWORD)(ptChar)+shifting.ptInventory)) //->ptInventory
-#define PCPY ((PYPlayerData*)((DWORD)PCPlayerData+shifting.ptPYPlayerData)) //->ptPYPlayerData
+#define PCPY ((PYPlayerData*)((DWORD)getPlayerData(ptChar)+shifting.ptPYPlayerData)) //->ptPYPlayerData
 
 //#define PCSkills (*(Skills**)((DWORD)(ptChar)+shifting.ptSkills)) //->ptSkills
     extern inline Commons::Skills *PCSkills(Commons::Unit *ptChar) { return (*(Commons::Skills **) ((DWORD) (ptChar) + shifting.ptSkills)); }

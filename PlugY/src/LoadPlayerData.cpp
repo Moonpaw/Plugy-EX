@@ -33,7 +33,7 @@ namespace PlugY {
             log_msg("LoadSPCustomData : ptChar->nUnitType != UNIT_PLAYER\n");
             return 0x1B;
         }//Unknow failure
-        if (!PCPlayerData) {
+        if (!getPlayerData(ptChar)) {
             log_msg("LoadSPCustomData : PCPlayerData == NULL\n");
             return 0x1B;
         }//Unknow failure
@@ -45,11 +45,11 @@ namespace PlugY {
         DWORD ret = 0;
         if (getGame(ptChar)->isLODGame) {
             log_msg("is LOD Game\n");
-            data = readExtendedSaveFile(PCPlayerData->name, &size);
+            data = readExtendedSaveFile(getPlayerData(ptChar)->name, &size);
             ret = loadExtendedSaveFile(ptChar, data, size);
             D2FogMemDeAlloc(data, __FILE__, __LINE__, 0);
             if (!ret && active_sharedStash) {
-                data = readSharedSaveFile(PCPlayerData->name, &size);
+                data = readSharedSaveFile(getPlayerData(ptChar)->name, &size);
                 ret = loadSharedSaveFile(ptChar, data, size);
                 D2FogMemDeAlloc(data, __FILE__, __LINE__, 0);
             }
@@ -305,7 +305,7 @@ int STDCALL ReceiveSaveFiles_9(DWORD clientID, SOCKET s, char *buf, int len, int
             log_msg("LoadMPCustomData : ptChar->nUnitType != UNIT_PLAYER\n");
             return 0x1B;
         }//Unknow failure
-        if (!PCPlayerData) {
+        if (!getPlayerData(ptChar)) {
             log_msg("LoadMPCustomData : PCPlayerData == NULL\n");
             return 0x1B;
         }//Unknow failure
@@ -316,11 +316,11 @@ int STDCALL ReceiveSaveFiles_9(DWORD clientID, SOCKET s, char *buf, int len, int
             curSF = curSF->next;
         DWORD ret = 0;
         if (!curSF) {
-            log_msg("Server has received no data from extra save files of character %s\n", PCPlayerData->name);
+            log_msg("Server has received no data from extra save files of character %s\n", getPlayerData(ptChar)->name);
             ret = 0xE;//Unable to enter game, generic bad file
         }
         if (!ret && !curSF->completed) {
-            log_msg("Server hasn't receive all data from extra save files of character %s\n", PCPlayerData->name);
+            log_msg("Server hasn't receive all data from extra save files of character %s\n", getPlayerData(ptChar)->name);
             ret = 0xE;//Unable to enter game, generic bad file
         }
         if (!ret && !getGame(ptChar)) {
