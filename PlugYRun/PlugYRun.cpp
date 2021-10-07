@@ -6,7 +6,7 @@
 
 =================================================================*/
 
-#include "../Commons/VersionInfo.h"
+#include "includes/VersionInfo.h"
 #include "PlugYRun.h"
 #include <stdlib.h>
 #include <stdio.h>
