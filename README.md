@@ -62,6 +62,21 @@ Each features can be turned on/off via PlugY.ini (see "COMMENTS ON THE CONFIGURA
 	* /save : (beta) Save game without exit.
 	* /listcube : (beta) Create a "cube.txt" file in save directory containing all cube's receipts.
 	* /renamechar newname : (beta) Rename your character and save it.
-	
+
+# Build instructions
+Requires C++20 compatible build tools like the ones that come with [VS2019](https://visualstudio.microsoft.com/downloads/) or [CLion](https://www.jetbrains.com/clion/). 
+
+[Ninja](https://github.com/ninja-build/ninja/releases) is highly recommended for speeding up compilation time.
+
+Install a package manager that can be used from CMake like https://vcpkg.io/
+run these commands in whatever folder you installed vcpkg in:
+* vcpkg.exe install doctest
+* vcpkg.exe install nameof
+
+Load the project from CMakeLists.txt in the root of the repository
+When building, the output dlls and libs are currently put into "C:/Games/Diablo II - D2SE/MODS/Zy El by Moonpaw". 
+This can be changed in CMakeLists.txt
+
+
 ## Contribute
 Pull requests are welcome!
