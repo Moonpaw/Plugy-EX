@@ -76,8 +76,8 @@ namespace PlugY {
             D2AddPlayerStat(ptChar, STATS_GOLD, 100000, 0);
         }
         if (active_sharedGold) {
-            PCPY->sharedGold = 0xFFFFFFFF;
-            updateClient(ptChar, UC_SHARED_GOLD, PCPY->sharedGold, 0, 0);
+            getPYPlayerData(ptChar)->sharedGold = 0xFFFFFFFF;
+            updateClient(ptChar, UC_SHARED_GOLD, getPYPlayerData(ptChar)->sharedGold, 0, 0);
         }
     }
 
@@ -85,14 +85,14 @@ namespace PlugY {
         if (!active_sharedGold) return;
         log_msg("putGold : %d\n", amount);
         DWORD playerGold = D2GetPlayerStat(ptChar, STATS_GOLD, 0);
-        DWORD toAdd = 0xFFFFFFFF - PCPY->sharedGold;
+        DWORD toAdd = 0xFFFFFFFF - getPYPlayerData(ptChar)->sharedGold;
         if (playerGold < toAdd)
             toAdd = playerGold;
         if (amount && (toAdd > amount))
             toAdd = amount;
         D2AddPlayerStat(ptChar, STATS_GOLD, 0 - toAdd, 0);
-        PCPY->sharedGold += toAdd;
-        updateClient(ptChar, UC_SHARED_GOLD, PCPY->sharedGold, 0, 0);
+        getPYPlayerData(ptChar)->sharedGold += toAdd;
+        updateClient(ptChar, UC_SHARED_GOLD, getPYPlayerData(ptChar)->sharedGold, 0, 0);
     }
 
     void takeGold(Commons::Unit *ptChar, DWORD amount) {
@@ -100,22 +100,22 @@ namespace PlugY {
         log_msg("takeGold : %d\n", amount);
         DWORD maxGold = D2GetMaxGold(ptChar) - D2GetPlayerStat(ptChar, STATS_GOLD, 0);
 //	DWORD maxGoldBank = D2GetMaxGoldBank(ptChar) - D2GetPlayerStat(ptChar, STATS_GOLDBANK, 0);
-        DWORD toAdd = maxGold < PCPY->sharedGold ? maxGold : PCPY->sharedGold;
+        DWORD toAdd = maxGold < getPYPlayerData(ptChar)->sharedGold ? maxGold : getPYPlayerData(ptChar)->sharedGold;
         if (amount && (toAdd > amount))
             toAdd = amount;
         D2AddPlayerStat(ptChar, STATS_GOLD, toAdd, 0);
-        PCPY->sharedGold -= toAdd;
-        updateClient(ptChar, UC_SHARED_GOLD, PCPY->sharedGold, 0, 0);
+        getPYPlayerData(ptChar)->sharedGold -= toAdd;
+        updateClient(ptChar, UC_SHARED_GOLD, getPYPlayerData(ptChar)->sharedGold, 0, 0);
     }
 
     void updateSharedGold(DWORD goldAmount) {
         Unit *ptChar = D2GetClientPlayer();
         log_msg("SharedGold = %d\n", goldAmount);
-        PCPY->sharedGold = goldAmount;
+        getPYPlayerData(ptChar)->sharedGold = goldAmount;
     }
 
     bool renamePage(Commons::Unit *ptChar, char *newName) {
-        Stash *ptStash = PCPY->currentStash;
+        Stash *ptStash = getPYPlayerData(ptChar)->currentStash;
         if (!ptStash)
             return 0;
         log_msg("Rename current page on Client : '%s' -> '%s'\n", ptStash->name, newName);
@@ -226,6 +226,8 @@ namespace PlugY {
         return 0;
     }
 
+
+
 /****************************************************************************************************/
 
     int __stdcall commands(char *ptText) {
@@ -320,8 +322,8 @@ namespace PlugY {
         if (!strncmp(command, CMD_SWAP_PAGE, strlen(CMD_SWAP_PAGE))) {
             if (!active_multiPageStash) return 1;
             int page = atoi(&command[strlen(CMD_SWAP_PAGE)]) - 1;
-            if (page < 0 && PCPY->currentStash->nextStash)
-                page = PCPY->currentStash->nextStash->id;
+            if (page < 0 && getPYPlayerData(ptChar)->currentStash->nextStash)
+                page = getPYPlayerData(ptChar)->currentStash->nextStash->id;
             if (page < 0)
                 return 1;
             updateServer(US_SWAP3 + ((page & 0xFF000000) >> 16));
@@ -333,8 +335,8 @@ namespace PlugY {
         if (!strncmp(command, CMD_SHORT_SWAP_PAGE, strlen(CMD_SHORT_SWAP_PAGE))) {
             if (!active_multiPageStash) return 1;
             int page = atoi(&command[strlen(CMD_SHORT_SWAP_PAGE)]) - 1;
-            if (page < 0 && PCPY->currentStash->nextStash)
-                page = PCPY->currentStash->nextStash->id;
+            if (page < 0 && getPYPlayerData(ptChar)->currentStash->nextStash)
+                page = getPYPlayerData(ptChar)->currentStash->nextStash->id;
             if (page < 0)
                 return 1;
             updateServer(US_SWAP3 + ((page & 0xFF000000) >> 16));

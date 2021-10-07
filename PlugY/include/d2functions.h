@@ -3,6 +3,7 @@
 #include <map>
 #include "D2TypeDefMacros.h"
 #include "d2wrapper.h"
+#include "playerCustomData.h"
 #include <VersionInfo.h>
 #include <D2UnitStruct.h>
 
@@ -18,6 +19,7 @@ namespace PlugY {
         DWORD ptImage;
         DWORD ptFrame;
     };
+
     extern s_shifting shifting;
 
     extern inline int RANDOM(int V) {
@@ -37,17 +39,20 @@ namespace PlugY {
     }
 
     extern inline Commons::Game *getClientGame(const Commons::NetClient *ptClient) {
-        return (*(Commons::Game**)((DWORD)(ptClient)+shifting.ptClientGame));
+        return (*(Commons::Game **) ((DWORD) (ptClient) + shifting.ptClientGame));
     }
 
     extern inline Commons::Inventory *getInventory(const Commons::Unit *ptChar) {
         return (*(Commons::Inventory **) ((DWORD) (ptChar) + shifting.ptInventory));
     }
 
-#define PCPY ((PYPlayerData*)((DWORD)getPlayerData(ptChar)+shifting.ptPYPlayerData)) //->ptPYPlayerData
+    extern inline PYPlayerData *getPYPlayerData(const Commons::Unit *ptChar) {
+        return ((PYPlayerData *) ((DWORD) getPlayerData(ptChar) + shifting.ptPYPlayerData));
+    }
 
-//#define PCSkills (*(Skills**)((DWORD)(ptChar)+shifting.ptSkills)) //->ptSkills
-    extern inline Commons::Skills *PCSkills(Commons::Unit *ptChar) { return (*(Commons::Skills **) ((DWORD) (ptChar) + shifting.ptSkills)); }
+    extern inline Commons::Skills *PCSkills(Commons::Unit *ptChar) {
+        return (*(Commons::Skills **) ((DWORD) (ptChar) + shifting.ptSkills));
+    }
 
     enum D2DllName {
         game,
@@ -73,6 +78,7 @@ namespace PlugY {
         SmackW32,
         Storm
     };
+
     extern std::map<D2DllName, Commons::eGameVersion> dllVersions;
     extern std::map<D2DllName, DWORD> dllOffsets;
 
@@ -91,7 +97,9 @@ namespace PlugY {
     extern DWORD getAddressOfVersion(Commons::eGameVersion version, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d = 0);
 
     extern DWORD RX(DWORD v);
+
     extern DWORD RY(DWORD y);
+
     extern Commons::DataTables *SgptDataTables;
     extern TD2AddPlayerStat V2AddPlayerStat;
     extern TD2GetGameByClientID V2GetGameByClientID;
@@ -114,5 +122,6 @@ namespace PlugY {
 
 //#define GameTypeMode (*ptGameTypeMode)
     void init_dll_maps();
+
     void initD2functions();
 }

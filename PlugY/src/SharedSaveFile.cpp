@@ -85,10 +85,10 @@ namespace PlugY {
         curSize += 4;
         if (*(WORD *) &data[curSize] == 0x3130) {//"01"
             curSize += 2;
-            PCPY->sharedGold = 0;
+            getPYPlayerData(ptChar)->sharedGold = 0;
         } else if (*(WORD *) &data[curSize] == FILE_VERSION) {
             curSize += 2;
-            PCPY->sharedGold = *(DWORD *) &data[curSize];
+            getPYPlayerData(ptChar)->sharedGold = *(DWORD *) &data[curSize];
             curSize += 4;
         } else {
             log_msg("loadSharedSaveFile -> bad file version : %04X\n", *(WORD *) &data[curSize]);
@@ -100,7 +100,7 @@ namespace PlugY {
             ret = currentDll->loadSharedSaveFile(ptChar, data, maxSize, &curSize);
             currentDll = currentDll->nextDll;
         }
-        PCPY->sharedStashIsOpened = true;
+        getPYPlayerData(ptChar)->sharedStashIsOpened = true;
         return ret;
     }
 
@@ -136,16 +136,16 @@ namespace PlugY {
     void saveSharedSaveFile(Commons::Unit *ptChar, BYTE **data, DWORD *maxSize, DWORD *curSize) {
         *(DWORD *) (*data + *curSize) = FILE_SHAREDSTASH;
         *curSize += 4;
-        if (PCPY->sharedGold) {
+        if (getPYPlayerData(ptChar)->sharedGold) {
             *(WORD *) (*data + *curSize) = FILE_VERSION;
             *curSize += 2;
-            *(DWORD *) (*data + *curSize) = PCPY->sharedGold;
+            *(DWORD *) (*data + *curSize) = getPYPlayerData(ptChar)->sharedGold;
             *curSize += 4;
         } else {
             *(WORD *) (*data + *curSize) = 0x3130;
             *curSize += 2;
         }
-        saveStashList(ptChar, PCPY->sharedStash, data, maxSize, curSize);
+        saveStashList(ptChar, getPYPlayerData(ptChar)->sharedStash, data, maxSize, curSize);
         TCustomDll *currentDll = customDlls;
         while (currentDll) {
             currentDll->saveSharedSaveFile(ptChar, data, maxSize, curSize);

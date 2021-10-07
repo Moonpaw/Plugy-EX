@@ -157,7 +157,7 @@ namespace PlugY {
                 if (arg == NULL) {
                     renameString[renameIndex] = NULL;
                     renameIndex = 0;
-                    log_msg("Rename current page on Server : %s -> %s\n", PCPY->currentStash->name, renameString);
+                    log_msg("Rename current page on Server : %s -> %s\n", getPYPlayerData(ptChar)->currentStash->name, renameString);
                     renameCurrentStash(ptChar, renameString);
                 }
                 return 1;

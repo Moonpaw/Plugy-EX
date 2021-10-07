@@ -26,10 +26,10 @@ namespace PlugY {
 /*********************************** UPDATING ***********************************/
 
     Stash *getStashFromItem(Commons::Unit *ptChar, Commons::Unit *ptItem) {
-        Stash *curStash = PCPY->selfStash;
+        Stash *curStash = getPYPlayerData(ptChar)->selfStash;
         Commons::Unit *curItem;
         while (curStash) {
-            if (curStash == PCPY->currentStash)
+            if (curStash == getPYPlayerData(ptChar)->currentStash)
                 curItem = D2InventoryGetFirstItem(getInventory(ptChar));
             else
                 curItem = curStash->ptListItem;
@@ -39,9 +39,9 @@ namespace PlugY {
             }
             curStash = curStash->nextStash;
         }
-        curStash = PCPY->sharedStash;
+        curStash = getPYPlayerData(ptChar)->sharedStash;
         while (curStash) {
-            if (curStash == PCPY->currentStash)
+            if (curStash == getPYPlayerData(ptChar)->currentStash)
                 curItem = D2InventoryGetFirstItem(getInventory(ptChar));
             else curItem = curStash->ptListItem;
             while (curItem) {
@@ -74,10 +74,10 @@ namespace PlugY {
     void __stdcall updateClientPlayerOnLoading(Commons::Unit *ptChar) {
         log_msg("--- Start updateClientPlayerOnLoading ---\n");
         if (getGame(ptChar)->isLODGame) {
-            PCPY->showSharedStash = openSharedStashOnLoading && active_sharedStash;
-            selectStash(ptChar, PCPY->showSharedStash ? PCPY->sharedStash : PCPY->selfStash, true);
+            getPYPlayerData(ptChar)->showSharedStash = openSharedStashOnLoading && active_sharedStash;
+            selectStash(ptChar, getPYPlayerData(ptChar)->showSharedStash ? getPYPlayerData(ptChar)->sharedStash : getPYPlayerData(ptChar)->selfStash, true);
         }
-        updateClient(ptChar, UC_SHARED_GOLD, PCPY->sharedGold, 0, 0);
+        updateClient(ptChar, UC_SHARED_GOLD, getPYPlayerData(ptChar)->sharedGold, 0, 0);
         log_msg("End update client on loading.\n\n");
     }
 
@@ -121,8 +121,8 @@ namespace PlugY {
         if (item) return item;
         if (ptChar->nUnitType != UNIT_PLAYER) return NULL;
         if (!getPlayerData(ptChar)) return NULL;
-        if (!PCPY) return NULL;
-        Stash *curStash = PCPY->selfStash;
+        if (!getPYPlayerData(ptChar)) return NULL;
+        Stash *curStash = getPYPlayerData(ptChar)->selfStash;
         while (curStash) {
             if (curStash->ptListItem) {
                 item = curStash->ptListItem;
@@ -131,7 +131,7 @@ namespace PlugY {
             }
             curStash = curStash->nextStash;
         }
-        curStash = PCPY->sharedStash;
+        curStash = getPYPlayerData(ptChar)->sharedStash;
         while (curStash) {
             if (curStash->ptListItem) {
                 item = curStash->ptListItem;

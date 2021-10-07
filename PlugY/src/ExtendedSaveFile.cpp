@@ -55,7 +55,7 @@ namespace PlugY {
     }
 
     int loadExtendedSaveFile(Commons::Unit *ptChar, BYTE data[], DWORD maxSize) {
-        if (!ptChar || !PCPY || !data) return 0;
+        if (!ptChar || !getPYPlayerData(ptChar) || !data) return 0;
         log_msg("Load extended file\n");
         DWORD curSize = 0;
         if (*(DWORD *) &data[curSize] != FILE_EXTENDED) {
@@ -77,7 +77,7 @@ namespace PlugY {
             ret = currentDll->loadExtendedSaveFile(ptChar, data, maxSize, &curSize);
             currentDll = currentDll->nextDll;
         }
-        PCPY->selfStashIsOpened = true;
+        getPYPlayerData(ptChar)->selfStashIsOpened = true;
         return ret;
     }
 
@@ -127,7 +127,7 @@ namespace PlugY {
         *curSize += 2;
         *(DWORD *) (*data + *curSize) = (BYTE) (nbPlayersCommand == 0 ? 0 : nbPlayersCommand - 1);
         *curSize += 4;
-        saveStashList(ptChar, PCPY->selfStash, data, maxSize, curSize);
+        saveStashList(ptChar, getPYPlayerData(ptChar)->selfStash, data, maxSize, curSize);
         TCustomDll *currentDll = customDlls;
         while (currentDll) {
             currentDll->saveExtendedSaveFile(ptChar, data, maxSize, curSize);

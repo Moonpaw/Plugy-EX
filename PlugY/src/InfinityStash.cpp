@@ -48,7 +48,7 @@ namespace PlugY {
     DWORD endStashList(Commons::Unit *ptChar, Stash *ptStash) {
         Stash *stash = ptStash;
         while (stash) {
-            if (stash->ptListItem || ((stash == PCPY->currentStash) && firstClassicStashItem(ptChar))) return 0;
+            if (stash->ptListItem || ((stash == getPYPlayerData(ptChar)->currentStash) && firstClassicStashItem(ptChar))) return 0;
             if (stash->name != NULL && stash->name[0]) return 0;
             stash = stash->nextStash;
         }
@@ -85,10 +85,10 @@ namespace PlugY {
     }
 
     Stash *addStash(Commons::Unit *ptChar, bool isShared, bool autoSetIndex, Stash *previous) {
-        previous = getLastStash(previous ? previous : isShared ? PCPY->sharedStash : PCPY->selfStash);
+        previous = getLastStash(previous ? previous : isShared ? getPYPlayerData(ptChar)->sharedStash : getPYPlayerData(ptChar)->selfStash);
         if (previous)
             isShared = previous->isShared;
-        Stash *stash = newStash(isShared ? PCPY->nbSharedPages++ : PCPY->nbSelfPages++);
+        Stash *stash = newStash(isShared ? getPYPlayerData(ptChar)->nbSharedPages++ : getPYPlayerData(ptChar)->nbSelfPages++);
         stash->isShared = isShared;
         stash->previousStash = previous;
         if (previous) {
@@ -98,20 +98,20 @@ namespace PlugY {
                 stash->isMainIndex = ((stash->id + 1) % nbPagesPerIndex2) == 0;
             }
         } else if (isShared) {
-            PCPY->sharedStash = stash;
+            getPYPlayerData(ptChar)->sharedStash = stash;
             stash->isIndex = 1;
             stash->isMainIndex = 1;
         } else {
-            PCPY->selfStash = stash;
+            getPYPlayerData(ptChar)->selfStash = stash;
             stash->isIndex = 1;
             stash->isMainIndex = 1;
         }
-        log_msg("AddStash: stash->id=%d\tstash->isShared=%d\tnbSelf=%d\tnbShared=%d\n", stash->id, stash->isShared, PCPY->nbSelfPages, PCPY->nbSharedPages);
+        log_msg("AddStash: stash->id=%d\tstash->isShared=%d\tnbSelf=%d\tnbShared=%d\n", stash->id, stash->isShared, getPYPlayerData(ptChar)->nbSelfPages, getPYPlayerData(ptChar)->nbSharedPages);
         return stash;
     }
 
     Stash *getStash(Commons::Unit *ptChar, DWORD isShared, DWORD id) {
-        Stash *ptStash = isShared ? PCPY->sharedStash : PCPY->selfStash;
+        Stash *ptStash = isShared ? getPYPlayerData(ptChar)->sharedStash : getPYPlayerData(ptChar)->selfStash;
         while (ptStash) {
             if (ptStash->id == id) return ptStash;
             ptStash = ptStash->nextStash;
@@ -121,7 +121,7 @@ namespace PlugY {
 
     int changeToSelectedStash_9(Commons::Unit *ptChar, Stash *newStash, DWORD bOnlyItems, DWORD bIsClient) {
         if (!newStash) return 0;
-        Stash *currentStash = PCPY->currentStash;
+        Stash *currentStash = getPYPlayerData(ptChar)->currentStash;
         if (currentStash == newStash) return 0;
         log_msg("changeToSelectedStash ID:%d\tshared:%d\tonlyItems:%d\tclient:%d\n", newStash->id, newStash->isShared, bOnlyItems, bIsClient);
         d2_assert(currentStash && currentStash->ptListItem, "ERROR : currentStash isn't empty (ptListItem != NULL)", __FILE__, __LINE__);
@@ -147,7 +147,7 @@ namespace PlugY {
 //			ptItem = D2InvRemoveItem(getInventory(ptChar), D2GetRealItem(ptItem));
 //			D2Common10250(__FILE__,__LINE__,getInventory(ptChar), D2GetPosX(ptItem), D2GetPosY(ptItem), 0xC, bIsClient, 4);
                 if (currentStash) {
-//				ptItem = setNextItem(ptItem, PCPY->currentStash->ptListItem);
+//				ptItem = setNextItem(ptItem, getPYPlayerData(ptChar)->currentStash->ptListItem);
                     ptItem->mode = (DWORD) currentStash->ptListItem;//is ptItem->nextNode = ptListItem
                     currentStash->ptListItem = ptItem;
                 };
@@ -163,16 +163,16 @@ namespace PlugY {
             ptItem = D2UnitGetNextItem(ptItem);
         }
         if (bOnlyItems)
-            newStash->ptListItem = PCPY->currentStash->ptListItem;
+            newStash->ptListItem = getPYPlayerData(ptChar)->currentStash->ptListItem;
         else
-            PCPY->currentStash = newStash;
-        PCPY->currentStash->ptListItem = NULL;
+            getPYPlayerData(ptChar)->currentStash = newStash;
+        getPYPlayerData(ptChar)->currentStash->ptListItem = NULL;
         return 1;
     }
 
     int changeToSelectedStash_10(Commons::Unit *ptChar, Stash *newStash, DWORD bOnlyItems, DWORD bIsClient) {
         if (!newStash) return 0;
-        Stash *currentStash = PCPY->currentStash;
+        Stash *currentStash = getPYPlayerData(ptChar)->currentStash;
         if (currentStash == newStash) return 0;
         log_msg("changeToSelectedStash ID:%d\tshared:%d\tonlyItems:%d\tclient:%d\n", newStash->id, newStash->isShared, bOnlyItems, bIsClient);
         d2_assert(currentStash && currentStash->ptListItem, "ERROR : currentStash isn't empty (ptListItem != NULL)", __FILE__, __LINE__);
@@ -201,10 +201,10 @@ namespace PlugY {
             ptItem = D2UnitGetNextItem(ptItem);
         }
         if (bOnlyItems)
-            newStash->ptListItem = PCPY->currentStash->ptListItem;
+            newStash->ptListItem = getPYPlayerData(ptChar)->currentStash->ptListItem;
         else
-            PCPY->currentStash = newStash;
-        PCPY->currentStash->ptListItem = NULL;
+            getPYPlayerData(ptChar)->currentStash = newStash;
+        getPYPlayerData(ptChar)->currentStash->ptListItem = NULL;
         return 1;
     }
 
@@ -281,23 +281,23 @@ namespace PlugY {
             curStash++;
         }
         if (!isShared) {
-            if (PCPY->selfStash)
-                autoSetIndex(PCPY->selfStash);
+            if (getPYPlayerData(ptChar)->selfStash)
+                autoSetIndex(getPYPlayerData(ptChar)->selfStash);
             else {
                 newStash = addStash(ptChar, isShared, true, newStash);
-                PCPY->currentStash = newStash;
+                getPYPlayerData(ptChar)->currentStash = newStash;
             }
         }
         if (isShared) {
-            if (PCPY->sharedStash)
-                autoSetIndex(PCPY->sharedStash);
+            if (getPYPlayerData(ptChar)->sharedStash)
+                autoSetIndex(getPYPlayerData(ptChar)->sharedStash);
             else {
                 newStash = addStash(ptChar, isShared, true, newStash);
-                if (!PCPY->currentStash)
-                    PCPY->currentStash = newStash;
+                if (!getPYPlayerData(ptChar)->currentStash)
+                    getPYPlayerData(ptChar)->currentStash = newStash;
             }
         }
-        changeToSelectedStash(ptChar, isShared ? PCPY->sharedStash : PCPY->selfStash, 0, false);
+        changeToSelectedStash(ptChar, isShared ? getPYPlayerData(ptChar)->sharedStash : getPYPlayerData(ptChar)->selfStash, 0, false);
         return 0;
     }
 
@@ -332,7 +332,7 @@ namespace PlugY {
 
         //Get first item
         Unit *ptItem;
-        if ((ptStash->id == PCPY->currentStash->id) && (ptStash->isShared == PCPY->currentStash->isShared))
+        if ((ptStash->id == getPYPlayerData(ptChar)->currentStash->id) && (ptStash->isShared == getPYPlayerData(ptChar)->currentStash->isShared))
             ptItem = D2InventoryGetFirstItem(getInventory(ptChar));
         else
             ptItem = ptStash->ptListItem;
@@ -371,10 +371,10 @@ namespace PlugY {
 
 /////// client
     void updateSelectedStashClient(Commons::Unit *ptChar) {
-        Stash *newStash = PCPY->currentStash;
+        Stash *newStash = getPYPlayerData(ptChar)->currentStash;
         if (!newStash)
             return;
-        updateClient(ptChar, UC_SELECT_STASH, newStash->id, newStash->flags, PCPY->flags);
+        updateClient(ptChar, UC_SELECT_STASH, newStash->id, newStash->flags, getPYPlayerData(ptChar)->flags);
         updateClient(ptChar, UC_PAGE_NAME, newStash->name);
     }
 
@@ -388,13 +388,13 @@ namespace PlugY {
             while (newStash->id < stashId);
         newStash->flags = stashFlags;
         changeToSelectedStash(ptChar, newStash, bOnlyItems, 1);
-        PCPY->flags = flags;
+        getPYPlayerData(ptChar)->flags = flags;
     }
 
     void selectStash(Commons::Unit *ptChar, Stash *newStash, bool forceUpdate) {
         if (!newStash)
             return;
-        if (!forceUpdate && newStash == PCPY->currentStash)
+        if (!forceUpdate && newStash == getPYPlayerData(ptChar)->currentStash)
             return;
         log_msg("selectStash ID:%d\tshared:%d\tforceUpdate:%d\n", newStash->id, newStash->isShared, forceUpdate);
         changeToSelectedStash(ptChar, newStash, 0, 0);
@@ -403,17 +403,17 @@ namespace PlugY {
 
 ///// public functions
     void toggleToSelfStash(Commons::Unit *ptChar) {
-        Stash *selStash = PCPY->selfStash;
-        if (selStash && (selStash != PCPY->currentStash)) {
-            PCPY->showSharedStash = false;
+        Stash *selStash = getPYPlayerData(ptChar)->selfStash;
+        if (selStash && (selStash != getPYPlayerData(ptChar)->currentStash)) {
+            getPYPlayerData(ptChar)->showSharedStash = false;
             selectStash(ptChar, selStash);
         }
     }
 
     void toggleToSharedStash(Commons::Unit *ptChar) {
-        Stash *selStash = PCPY->sharedStash;
-        if (selStash && (selStash != PCPY->currentStash)) {
-            PCPY->showSharedStash = true;
+        Stash *selStash = getPYPlayerData(ptChar)->sharedStash;
+        if (selStash && (selStash != getPYPlayerData(ptChar)->currentStash)) {
+            getPYPlayerData(ptChar)->showSharedStash = true;
             selectStash(ptChar, selStash);
         }
     }
@@ -423,20 +423,20 @@ namespace PlugY {
         if (!ptChar || !curStash || !swpStash || curStash == swpStash)
             return;
         changeToSelectedStash(ptChar, swpStash, 1, 0);
-        updateClient(ptChar, UC_SELECT_STASH, swpStash->id, swpStash->flags | 8, PCPY->flags);
+        updateClient(ptChar, UC_SELECT_STASH, swpStash->id, swpStash->flags | 8, getPYPlayerData(ptChar)->flags);
     }
 
     void toggleStash(Commons::Unit *ptChar, DWORD page) {
         log_msg("toggle stash page = %u\n", page);
-        Stash *curStash = PCPY->currentStash;
-        Stash *swpStash = curStash->isShared ? PCPY->selfStash : PCPY->sharedStash;
+        Stash *curStash = getPYPlayerData(ptChar)->currentStash;
+        Stash *swpStash = curStash->isShared ? getPYPlayerData(ptChar)->selfStash : getPYPlayerData(ptChar)->sharedStash;
         swapStash(ptChar, curStash, swpStash);
     }
 
     void swapStash(Commons::Unit *ptChar, DWORD page, bool toggle) {
         log_msg("swap stash page = %u, toggle=%u\n", page, toggle);
-        Stash *curStash = PCPY->currentStash;
-        Stash *swpStash = curStash->isShared == toggle ? PCPY->selfStash : PCPY->sharedStash;
+        Stash *curStash = getPYPlayerData(ptChar)->currentStash;
+        Stash *swpStash = curStash->isShared == toggle ? getPYPlayerData(ptChar)->selfStash : getPYPlayerData(ptChar)->sharedStash;
         if (!swpStash)
             swpStash = addStash(ptChar, !curStash->isShared, true, swpStash);
         for (DWORD i = 0; i < page; i++) {
@@ -449,7 +449,7 @@ namespace PlugY {
     }
 
     void insertStash(Commons::Unit *ptChar) {
-        Stash *curStash = PCPY->currentStash;
+        Stash *curStash = getPYPlayerData(ptChar)->currentStash;
         Stash *stash = addStash(ptChar, curStash->isShared, false, curStash);
         while (stash->previousStash != curStash) {
             stash->flags = stash->previousStash->flags;
@@ -467,7 +467,7 @@ namespace PlugY {
         if (firstClassicStashItem(ptChar) != NULL)
             return false;
         //if (D2InventoryGetFirstItem())
-        Stash *stash = PCPY->currentStash;
+        Stash *stash = getPYPlayerData(ptChar)->currentStash;
         if (stash->nextStash == NULL) {
             stash->isIndex = 0;
             stash->isMainIndex = 0;
@@ -496,7 +496,7 @@ namespace PlugY {
 
     void renameCurrentStash(Commons::Unit *ptChar, char *name) {
         log_msg("renameCurrentStash : '%s'\n", name);
-        Stash *stash = PCPY->currentStash;
+        Stash *stash = getPYPlayerData(ptChar)->currentStash;
         int len = 0;
         if (name != NULL)
             len = strlen(name);
@@ -510,115 +510,115 @@ namespace PlugY {
     }
 
     void setCurrentStashIndex(Commons::Unit *ptChar, int index) {
-        if (!PCPY->currentStash)
+        if (!getPYPlayerData(ptChar)->currentStash)
             return;
-        PCPY->currentStash->isIndex = index >= 1;
-        PCPY->currentStash->isMainIndex = index == 2;
+        getPYPlayerData(ptChar)->currentStash->isIndex = index >= 1;
+        getPYPlayerData(ptChar)->currentStash->isMainIndex = index == 2;
         updateSelectedStashClient(ptChar);
     }
 
     void selectPreviousStash(Commons::Unit *ptChar) {
-        Stash *selStash = PCPY->currentStash->previousStash;
-        if (selStash && (selStash != PCPY->currentStash))
+        Stash *selStash = getPYPlayerData(ptChar)->currentStash->previousStash;
+        if (selStash && (selStash != getPYPlayerData(ptChar)->currentStash))
             selectStash(ptChar, selStash);
     }
 
     void selectPrevious2Stash(Commons::Unit *ptChar)// Select first stash
     {
-        Stash *selStash = PCPY->showSharedStash ? PCPY->sharedStash : PCPY->selfStash;
-        if (selStash && (selStash != PCPY->currentStash))
+        Stash *selStash = getPYPlayerData(ptChar)->showSharedStash ? getPYPlayerData(ptChar)->sharedStash : getPYPlayerData(ptChar)->selfStash;
+        if (selStash && (selStash != getPYPlayerData(ptChar)->currentStash))
             selectStash(ptChar, selStash);
     }
 
     void selectNextStash(Commons::Unit *ptChar) {
-        Stash *selStash = PCPY->currentStash;
+        Stash *selStash = getPYPlayerData(ptChar)->currentStash;
         if (!selStash->isShared && (selStash->id >= maxSelfPages)) return;
         if (selStash->isShared && (selStash->id >= maxSharedPages)) return;
-        selStash = selStash->nextStash ? selStash->nextStash : addStash(ptChar, PCPY->showSharedStash, true, selStash);
-        if (selStash && (selStash != PCPY->currentStash))
+        selStash = selStash->nextStash ? selStash->nextStash : addStash(ptChar, getPYPlayerData(ptChar)->showSharedStash, true, selStash);
+        if (selStash && (selStash != getPYPlayerData(ptChar)->currentStash))
             selectStash(ptChar, selStash);
     }
 
     void selectNext2Stash(Commons::Unit *ptChar)//select last stash
     {
-        Stash *selStash = PCPY->showSharedStash ? PCPY->sharedStash : PCPY->selfStash;//PCPY->currentStash;
+        Stash *selStash = getPYPlayerData(ptChar)->showSharedStash ? getPYPlayerData(ptChar)->sharedStash : getPYPlayerData(ptChar)->selfStash;//getPYPlayerData(ptChar)->currentStash;
         Stash *lastStash = NULL;
         Unit *currentStashItem = firstClassicStashItem(ptChar);
         while (selStash) {
-            if (selStash->ptListItem || (selStash == PCPY->currentStash) && currentStashItem) lastStash = selStash;
+            if (selStash->ptListItem || (selStash == getPYPlayerData(ptChar)->currentStash) && currentStashItem) lastStash = selStash;
             selStash = selStash->nextStash;
         }
         if (!lastStash)
-            lastStash = PCPY->showSharedStash ? PCPY->sharedStash : PCPY->selfStash;
-        if (lastStash != PCPY->currentStash)
+            lastStash = getPYPlayerData(ptChar)->showSharedStash ? getPYPlayerData(ptChar)->sharedStash : getPYPlayerData(ptChar)->selfStash;
+        if (lastStash != getPYPlayerData(ptChar)->currentStash)
             selectStash(ptChar, lastStash);
     }
 
     void selectPreviousIndexStash(Commons::Unit *ptChar) {
         selectPreviousStash(ptChar);
-        Stash *selStash = PCPY->currentStash;
+        Stash *selStash = getPYPlayerData(ptChar)->currentStash;
         while (selStash && !selStash->isIndex)
             selStash = selStash->previousStash;
         if (selStash == NULL) {
-            selStash = PCPY->currentStash;
+            selStash = getPYPlayerData(ptChar)->currentStash;
             while (selStash->previousStash && ((selStash->id + 1) % nbPagesPerIndex != 0))
                 selStash = selStash->previousStash;
         }
-        if (selStash && (selStash != PCPY->currentStash))
+        if (selStash && (selStash != getPYPlayerData(ptChar)->currentStash))
             selectStash(ptChar, selStash);
     }
 
     void selectPreviousIndex2Stash(Commons::Unit *ptChar) {
         selectPreviousStash(ptChar);
-        Stash *selStash = PCPY->currentStash;
+        Stash *selStash = getPYPlayerData(ptChar)->currentStash;
         while (selStash && !selStash->isMainIndex)
             selStash = selStash->previousStash;
         if (selStash == NULL) {
-            selStash = PCPY->currentStash;
+            selStash = getPYPlayerData(ptChar)->currentStash;
             while (selStash->previousStash && ((selStash->id + 1) % nbPagesPerIndex2 != 0))
                 selStash = selStash->previousStash;
         }
-        if (selStash && (selStash != PCPY->currentStash))
+        if (selStash && (selStash != getPYPlayerData(ptChar)->currentStash))
             selectStash(ptChar, selStash);
     }
 
     void selectNextIndexStash(Commons::Unit *ptChar) {
         selectNextStash(ptChar);
-        Stash *selStash = PCPY->currentStash;
+        Stash *selStash = getPYPlayerData(ptChar)->currentStash;
         while (selStash && !selStash->isIndex)
             selStash = selStash->nextStash;
         if (selStash == NULL) {
-            selStash = PCPY->currentStash;
+            selStash = getPYPlayerData(ptChar)->currentStash;
             while ((selStash->id + 1) % nbPagesPerIndex != 0) {
                 if (!selStash->isShared && (selStash->id >= maxSelfPages)) break;
                 if (selStash->isShared && (selStash->id >= maxSharedPages)) break;
-                selStash = selStash->nextStash ? selStash->nextStash : addStash(ptChar, PCPY->showSharedStash, true, selStash);
+                selStash = selStash->nextStash ? selStash->nextStash : addStash(ptChar, getPYPlayerData(ptChar)->showSharedStash, true, selStash);
             }
         }
-        if (selStash && (selStash != PCPY->currentStash))
+        if (selStash && (selStash != getPYPlayerData(ptChar)->currentStash))
             selectStash(ptChar, selStash);
     }
 
     void selectNextIndex2Stash(Commons::Unit *ptChar) {
         selectNextStash(ptChar);
-        Stash *selStash = PCPY->currentStash;
+        Stash *selStash = getPYPlayerData(ptChar)->currentStash;
         while (selStash && !selStash->isMainIndex)
             selStash = selStash->nextStash;
         if (selStash == NULL) {
-            selStash = PCPY->currentStash;
+            selStash = getPYPlayerData(ptChar)->currentStash;
             while ((selStash->id + 1) % nbPagesPerIndex2 != 0) {
                 if (!selStash->isShared && (selStash->id >= maxSelfPages)) break;
                 if (selStash->isShared && (selStash->id >= maxSharedPages)) break;
-                selStash = selStash->nextStash ? selStash->nextStash : addStash(ptChar, PCPY->showSharedStash, true, selStash);
+                selStash = selStash->nextStash ? selStash->nextStash : addStash(ptChar, getPYPlayerData(ptChar)->showSharedStash, true, selStash);
             }
         }
-        if (selStash && (selStash != PCPY->currentStash))
+        if (selStash && (selStash != getPYPlayerData(ptChar)->currentStash))
             selectStash(ptChar, selStash);
     }
 
     WCHAR *getDefaultStashName(Commons::Unit *ptChar) {
         if (!autoRenameStashPage)
-            return getLocalString(PCPY->currentStash->isShared ? STR_SHARED_PAGE_NUMBER : STR_PERSONAL_PAGE_NUMBER);
+            return getLocalString(getPYPlayerData(ptChar)->currentStash->isShared ? STR_SHARED_PAGE_NUMBER : STR_PERSONAL_PAGE_NUMBER);
         int onlyOneUnique = -1;
         int uniqueNameIndex = -1;
         int onlyOneSet = -1;
@@ -686,12 +686,12 @@ namespace PlugY {
             return StripGender(D2GetStringFromIndex(setNameIndex));
         if (onlyOneMisc == 1 && miscNameIndex >= 0)
             return StripGender(D2GetStringFromIndex(miscNameIndex));
-        return getLocalString(PCPY->currentStash->isShared ? STR_SHARED_PAGE_NUMBER : STR_PERSONAL_PAGE_NUMBER);
+        return getLocalString(getPYPlayerData(ptChar)->currentStash->isShared ? STR_SHARED_PAGE_NUMBER : STR_PERSONAL_PAGE_NUMBER);
     }
 
     void getCurrentStashName(WCHAR *buffer, DWORD maxSize, Unit *ptChar) {
-        if (PCPY->currentStash->name && PCPY->currentStash->name[0]) {
-            mbstowcs(buffer, PCPY->currentStash->name, maxSize - 1);
+        if (getPYPlayerData(ptChar)->currentStash->name && getPYPlayerData(ptChar)->currentStash->name[0]) {
+            mbstowcs(buffer, getPYPlayerData(ptChar)->currentStash->name, maxSize - 1);
         } else {
             wcsncpy(buffer, getDefaultStashName(ptChar), maxSize - 1);;
         }
@@ -708,11 +708,11 @@ namespace PlugY {
         if (!curStash2) {
             switch (currentSawStash2) {
                 case 0:
-                    curStash2 = PCPY->selfStash;
+                    curStash2 = getPYPlayerData(ptChar)->selfStash;
                     currentSawStash2 = 1;
                     break;
                 case 1:
-                    curStash2 = PCPY->sharedStash;
+                    curStash2 = getPYPlayerData(ptChar)->sharedStash;
                     currentSawStash2 = 2;
                     break;
                 default:
@@ -730,7 +730,7 @@ namespace PlugY {
 
     Unit *__stdcall initGetNextItem(Commons::Unit *ptChar, Unit *ptItem) {
         if (ptChar->nUnitType != UNIT_PLAYER) return NULL;
-        if (!PCPY) return NULL;
+        if (!getPYPlayerData(ptChar)) return NULL;
         curStash2 = NULL;
         currentSawStash2 = 0;
         if (ptItem) return ptItem;

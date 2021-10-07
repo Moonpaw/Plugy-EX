@@ -124,7 +124,7 @@ namespace PlugY {
         NetClient *ptClient = D2GetClient(ptChar, __FILE__, __LINE__);
         backupSaveFiles(getPlayerData(ptChar)->name, ptClient->isHardCoreGame);
         if (active_PlayerCustomData) {
-            if (PCPY->selfStashIsOpened) {
+            if (getPYPlayerData(ptChar)->selfStashIsOpened) {
                 DWORD curSizeExt = 0;
                 DWORD maxSizeExt = 0x4000;
                 BYTE *dataExt = (BYTE *) D2AllocMem(getGame(ptChar)->memoryPool, maxSizeExt, __FILE__, __LINE__, 0);
@@ -133,7 +133,7 @@ namespace PlugY {
                 writeExtendedSaveFile(getPlayerData(ptChar)->name, dataExt, curSizeExt);
                 D2FreeMem(getGame(ptChar)->memoryPool, dataExt, __FILE__, __LINE__, 0);
             }
-            if (active_sharedStash && PCPY->sharedStashIsOpened) {
+            if (active_sharedStash && getPYPlayerData(ptChar)->sharedStashIsOpened) {
                 DWORD curSizeShr = 0;
                 DWORD maxSizeShr = 0x4000;
                 BYTE *dataShr = (BYTE *) D2AllocMem(getGame(ptChar)->memoryPool, maxSizeShr, __FILE__, __LINE__, 0);
@@ -274,13 +274,13 @@ void sendDataToSave(DWORD clientID, BYTE* data, DWORD size, bool isShared)
         BYTE *dataExt = NULL;
         DWORD curSizeShr = 0;
         BYTE *dataShr = NULL;
-        if (PCPY->selfStashIsOpened) {
+        if (getPYPlayerData(ptChar)->selfStashIsOpened) {
             DWORD maxSizeExt = 0x4000;
             dataExt = (BYTE *) D2AllocMem(getGame(ptChar)->memoryPool, maxSizeExt, __FILE__, __LINE__, 0);
             d2_assert(!dataExt, "Error : Memory allocation Extended SaveFile", __FILE__, __LINE__);
             saveExtendedSaveFile(ptChar, &dataExt, &maxSizeExt, &curSizeExt);
         }
-        if (active_sharedStash && PCPY->sharedStashIsOpened) {
+        if (active_sharedStash && getPYPlayerData(ptChar)->sharedStashIsOpened) {
             DWORD maxSizeShr = 0x4000;
             dataShr = (BYTE *) D2AllocMem(getGame(ptChar)->memoryPool, maxSizeShr, __FILE__, __LINE__, 0);
             d2_assert(!dataShr, "Error : Memory allocation Shared SaveFile", __FILE__, __LINE__);

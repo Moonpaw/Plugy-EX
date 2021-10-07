@@ -188,7 +188,7 @@ namespace PlugY {
         setFrame(&data, 2 + isDownBtn.next);
         D2PrintImage(&data, getXNextBtn(), getYNextBtn(), -1, 5, 0);
         if (active_sharedStash) {
-            setFrame(&data, 4 + isDownBtn.toggleToSharedStash + (PCPY->showSharedStash ? 2 : 0));
+            setFrame(&data, 4 + isDownBtn.toggleToSharedStash + (getPYPlayerData(ptChar)->showSharedStash ? 2 : 0));
             D2PrintImage(&data, getXSharedBtn(), getYSharedBtn(), -1, 5, 0);
         }
         setFrame(&data, 8 + isDownBtn.previousIndex);
@@ -217,7 +217,7 @@ namespace PlugY {
 
         } else if (isOnButtonToggleSharedStash(mx, my)) {
             if (active_sharedStash) {
-                lpText = getLocalString(PCPY->showSharedStash ? STR_TOGGLE_TO_PERSONAL : STR_TOGGLE_TO_SHARED);
+                lpText = getLocalString(getPYPlayerData(ptChar)->showSharedStash ? STR_TOGGLE_TO_PERSONAL : STR_TOGGLE_TO_SHARED);
                 D2PrintPopup(lpText, getXSharedBtn() + posWSharedBtn / 2, getYSharedBtn() - posHSharedBtn, WHITE, 1);
             } else if (active_SharedStashInMultiPlayer == 1) {
                 lpText = getLocalString(STR_TOGGLE_MULTI_DISABLED);
@@ -295,7 +295,7 @@ namespace PlugY {
         } else if (active_sharedStash && isOnButtonToggleSharedStash(msg->x, msg->y)) {
             log_msg("push up left button shared\n");
             if (isDownBtn.toggleToSharedStash)
-                if (PCPY->showSharedStash)
+                if (getPYPlayerData(ptChar)->showSharedStash)
                     updateServer(US_SELECT_SELF);
                 else
                     updateServer(US_SELECT_SHARED);
@@ -328,16 +328,16 @@ namespace PlugY {
 
         } else if (isOnStashNameField(msg->x, msg->y)) {
             log_msg("push up left Stash Name\n");
-            if (isDownBtn.stashName && PCPY->currentStash) {
+            if (isDownBtn.stashName && getPYPlayerData(ptChar)->currentStash) {
                 if (GetKeyState(VK_SHIFT) < 0) {
                     WCHAR text[21];
                     getCurrentStashName(text, 21, ptChar);
                     D2TogglePage(5, 0, 0);// Open command window
                     _snwprintf(ptInputCommand, 25, L"/rp %s", text);
                     (*ptInputCommandLen) = wcslen(ptInputCommand);
-                } else if (PCPY->currentStash->isMainIndex)
+                } else if (getPYPlayerData(ptChar)->currentStash->isMainIndex)
                     updateServer(US_RESET_INDEX);
-                else if (PCPY->currentStash->isIndex)
+                else if (getPYPlayerData(ptChar)->currentStash->isIndex)
                     updateServer(US_SET_MAIN_INDEX);
                 else
                     updateServer(US_SET_INDEX);
@@ -365,7 +365,7 @@ namespace PlugY {
                        L"%s\n%s: %u",
                        maxGoldText,
                        getLocalString(STR_SHARED_GOLD_QUANTITY),
-                       PCPY->sharedGold);
+                       getPYPlayerData(ptChar)->sharedGold);
             DWORD x = D2GetPixelLen(maxGoldText);
             DWORD x2 = D2GetPixelLen(sharedGoldText) - x;
             D2PrintPopup(sharedGoldText, RX(0xA8 - max(x, x2) / 2), y, WHITE, center);
@@ -389,9 +389,9 @@ namespace PlugY {
     }
 
     DWORD getPageColor(const Unit *ptChar) {
-        bool isIndex = PCPY->currentStash->isIndex;
-        bool isMainIndex = PCPY->currentStash->isMainIndex;
-        if (PCPY->currentStash->isShared)
+        bool isIndex = getPYPlayerData(ptChar)->currentStash->isIndex;
+        bool isMainIndex = getPYPlayerData(ptChar)->currentStash->isMainIndex;
+        if (getPYPlayerData(ptChar)->currentStash->isShared)
             return isMainIndex ? SharedMainIndexPageColor : isIndex ? SharedIndexPageColor
                                                                     : SharedNormalPageColor;
         else
@@ -434,11 +434,11 @@ namespace PlugY {
             return;
         }
         auto *ptChar = D2GetClientPlayer();
-        if (!PCPY->currentStash) {
+        if (!getPYPlayerData(ptChar)->currentStash) {
             D2PrintString(getLocalString(STR_NO_SELECTED_PAGE), x, y, WHITE, bfalse);
             return;
         }
-        DWORD currentId = PCPY->currentStash->id + 1;
+        DWORD currentId = getPYPlayerData(ptChar)->currentStash->id + 1;
         WCHAR popupText[0x400];
         getEnrichedStashName(popupText, ptChar, currentId);
 
@@ -466,11 +466,11 @@ namespace PlugY {
             Unit *ptChar = D2GetClientPlayer();
             switch (currentSawStash) {
                 case 0:
-                    curStash = PCPY->selfStash;
+                    curStash = getPYPlayerData(ptChar)->selfStash;
                     currentSawStash = displaySharedSetItemNameInGreen ? 1 : 2;
                     break;
                 case 1:
-                    curStash = PCPY->sharedStash;
+                    curStash = getPYPlayerData(ptChar)->sharedStash;
                     currentSawStash = 2;
                     break;
                 default:
@@ -489,7 +489,7 @@ namespace PlugY {
     Unit *__stdcall initGetNextItemForSet(Inventory *ptInventory) {
         Unit *ptChar = D2GetClientPlayer();
         if (ptChar->nUnitType != UNIT_PLAYER) return NULL;
-        if (!PCPY) return NULL;
+        if (!getPYPlayerData(ptChar)) return NULL;
         curStash = NULL;
         currentSawStash = 0;
         Unit *item = D2InventoryGetFirstItem(ptInventory);
