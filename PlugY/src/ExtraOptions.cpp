@@ -223,7 +223,7 @@ namespace PlugY {
 
 /****************************************************************************************************/
 
-    char *msgNBPlayersString = "players %u";
+    auto *msgNBPlayersString = "players %u";
     DWORD *infoEnabledSendPlayersCommand;
 
     void SendPlayersCommand() {

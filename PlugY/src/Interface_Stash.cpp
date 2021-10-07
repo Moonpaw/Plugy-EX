@@ -269,25 +269,25 @@ namespace PlugY {
             setFrame(&data, 2 + isDownBtn.takeGold);
             D2PrintImage(&data, getXTakeGoldBtn(), getYTakeGoldBtn(), -1, 5, 0);
         }
-        LPWSTR lpText;
+
         WCHAR text[100];
         DWORD mx = D2GetMouseX();
         DWORD my = D2GetMouseY();
         D2SetFont(1);
         if (isOnButtonPreviousStash(mx, my)) {
-            lpText = getLocalString(STR_STASH_PREVIOUS_PAGE);
+            auto lpText = const_cast<LPWSTR>(getLocalString(STR_STASH_PREVIOUS_PAGE));
             D2PrintPopup(lpText, getXPreviousBtn() + posWPreviousBtn / 2, getYPreviousBtn() - posHPreviousBtn, WHITE, 1);
 
         } else if (isOnButtonNextStash(mx, my)) {
-            lpText = getLocalString(STR_STASH_NEXT_PAGE);
+            auto lpText = const_cast<LPWSTR>(getLocalString(STR_STASH_NEXT_PAGE));
             D2PrintPopup(lpText, getXNextBtn() + posWNextBtn / 2, getYNextBtn() - posHNextBtn, WHITE, 1);
 
         } else if (isOnButtonToggleSharedStash(mx, my)) {
             if (active_sharedStash) {
-                lpText = getLocalString(getPYPlayerData(ptChar)->showSharedStash ? STR_TOGGLE_TO_PERSONAL : STR_TOGGLE_TO_SHARED);
+                auto lpText = const_cast<LPWSTR>(getLocalString(getPYPlayerData(ptChar)->showSharedStash ? STR_TOGGLE_TO_PERSONAL : STR_TOGGLE_TO_SHARED));
                 D2PrintPopup(lpText, getXSharedBtn() + posWSharedBtn / 2, getYSharedBtn() - posHSharedBtn, WHITE, 1);
             } else if (active_SharedStashInMultiPlayer == 1) {
-                lpText = getLocalString(STR_TOGGLE_MULTI_DISABLED);
+                auto lpText = const_cast<LPWSTR>(getLocalString(STR_TOGGLE_MULTI_DISABLED));
                 D2PrintPopup(
                     lpText, getXPreviousIndexBtn() + posWPreviousIndexBtn / 2, getYPreviousIndexBtn() - posHPreviousIndexBtn, WHITE, 1);
             }
@@ -302,11 +302,11 @@ namespace PlugY {
             D2PrintPopup(text, getXNextIndexBtn() + posWNextIndexBtn / 2, getYNextIndexBtn() - posHNextIndexBtn, WHITE, 1);
 
         } else if (active_sharedGold && isOnButtonPutGold(mx, my)) {
-            lpText = getLocalString(STR_PUT_GOLD);
+            auto lpText = const_cast<LPWSTR>(getLocalString(STR_PUT_GOLD));
             D2PrintPopup(lpText, getXPutGoldBtn() + posWPutGoldBtn / 2, getYPutGoldBtn() - posHPutGoldBtn, WHITE, 1);
 
         } else if (active_sharedGold && isOnButtonTakeGold(mx, my)) {
-            lpText = getLocalString(STR_TAKE_GOLD);
+            auto lpText = const_cast<LPWSTR>(getLocalString(STR_TAKE_GOLD));
             D2PrintPopup(lpText, getXTakeGoldBtn() + posWTakeGoldBtn / 2, getYTakeGoldBtn() - posHTakeGoldBtn, WHITE, 1);
         }
         return D2LoadBuySelBtn();
@@ -444,7 +444,7 @@ namespace PlugY {
         DWORD mx = D2GetMouseX();
         DWORD my = D2GetMouseY();
         if (!isOnStashNameField(mx, my)) return;
-        LPWSTR changePageTypeTxt = getLocalString(STR_PAGE_TYPE_CHANGE);
+        auto changePageTypeTxt = getLocalString(STR_PAGE_TYPE_CHANGE);
         _snwprintf(popupText, 0x400, changePageTypeTxt, pageId);
         DWORD halfFieldWidth = posWStashNameField / 2;
         DWORD x = getXStashNameField() + halfFieldWidth;
@@ -498,7 +498,7 @@ namespace PlugY {
         }
         auto *ptChar = D2GetClientPlayer();
         if (!getPYPlayerData(ptChar)->currentStash) {
-            D2PrintString(getLocalString(STR_NO_SELECTED_PAGE), x, y, WHITE, bfalse);
+            D2PrintString(const_cast<LPWSTR>(getLocalString(STR_NO_SELECTED_PAGE)), x, y, WHITE, bfalse);
             return;
         }
         DWORD currentId = getPYPlayerData(ptChar)->currentStash->id + 1;

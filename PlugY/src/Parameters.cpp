@@ -10,7 +10,7 @@
 #include "INIfile.h"
 #include "parameters.h"        // loadParameters()
 #include <stdio.h>
-#include <string.h>
+#include <string>
 #include <time.h>
 #include "statsPoints.h"
 #include "mainScreen.h"
@@ -38,8 +38,8 @@ namespace PlugY {
     const char *PARAMETERS_FILENAME = "PlugY.ini";
     const char *PARAM_FIXED_FILENAME = "PlugY\\PlugYFixed.ini";
     const char *PARAM_DEFAULT_FILENAME = "PlugY\\PlugYDefault.ini";
-#define BUFSIZE 0x400
-    char *modDataDirectory = "PlugY";
+    const DWORD BUFSIZE = 0x400;
+    const std::string modDataDirectory = "PlugY";
     bool active_plugin = true;
     bool active_DisableBattleNet = true;
     bool active_CheckMemory = true;
@@ -821,11 +821,11 @@ else log_msg(S_USER)
             GET_PRIVATE_PROFILE_STRING(S_WORLD_EVENT, S_showSOJSoldCounterInAllDiff, "0");
             showSOJSoldCounterInAllDiff = atoi(buffer);
             log_msg("showSOJSoldCounterInAllDiff\t= %d\n", showSOJSoldCounterInAllDiff);
-            GET_PRIVATE_PROFILE_STRING(S_WORLD_EVENT, S_itemsToSell, itemsToSell);
+            GET_PRIVATE_PROFILE_STRING(S_WORLD_EVENT, S_itemsToSell, itemsToSell.c_str());
             if (strlen(buffer) > 50) buffer[50] = '\0';
             itemsToSell = (char *) D2FogMemAlloc(strlen(buffer) + 1, __FILE__, __LINE__, 0);
-            strcpy(itemsToSell, buffer);
-            log_msg("itemsToSell\t\t\t\t\t= %s\n", itemsToSell);
+            strcpy_s(buffer, sizeof(buffer), itemsToSell.c_str());
+            log_msg("itemsToSell\t\t\t\t\t= %s\n", itemsToSell.c_str());
             GET_PRIVATE_PROFILE_STRING(S_WORLD_EVENT, S_worldEventmonsterID, "333");
             worldEventmonsterID = atoi(buffer);
             log_msg("worldEventmonsterID\t\t\t= %d\n", worldEventmonsterID);

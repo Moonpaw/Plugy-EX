@@ -532,11 +532,11 @@ namespace PlugY {
             D2PrintPopup(D2GetStringFromIndex(0x1030), getXCloseBtn() + getLCloseBtn() / 2, getYCloseBtn() - getHCloseBtn(), WHITE, 1);
         } else if (isOnPreviousPageBtn(x, y))    //print popup "previous page"
         {
-            lpText = getLocalString(STR_PREVIOUS_PAGE);
+            LPWSTR lpText =  const_cast<LPWSTR>(getLocalString(STR_PREVIOUS_PAGE));
             D2PrintPopup(lpText, getXPreviousPageBtn() + getLPreviousPageBtn() / 2, getYPreviousPageBtn() - getHPreviousPageBtn(), WHITE, 1);
         } else if (isOnNextPageBtn(x, y))    //print popup "next page"
         {
-            lpText = getLocalString(STR_NEXT_PAGE);
+            LPWSTR lpText =  const_cast<LPWSTR>(getLocalString(STR_NEXT_PAGE));
             D2PrintPopup(lpText, getXNextPageBtn() + getLNextPageBtn() / 2, getYNextPageBtn() - getHNextPageBtn(), WHITE, 1);
         } else if (isOnRect(x, y, 0xAD, 0x137, 0x15, 0x13)) {
             if (version_D2Client <= V110) {

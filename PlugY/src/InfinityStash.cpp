@@ -627,7 +627,7 @@ namespace PlugY {
             selectStash(ptChar, selStash);
     }
 
-    WCHAR *getDefaultStashName(Commons::Unit *ptChar) {
+    const WCHAR * getDefaultStashName(Commons::Unit *ptChar) {
         if (!autoRenameStashPage)
             return getLocalString(getPYPlayerData(ptChar)->currentStash->isShared ? STR_SHARED_PAGE_NUMBER : STR_PERSONAL_PAGE_NUMBER);
         int onlyOneUnique = -1;

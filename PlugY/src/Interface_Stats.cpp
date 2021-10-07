@@ -42,7 +42,6 @@ namespace PlugY {
 
     void __stdcall printStatsPageBtns() {
         if (!active_newInterfaces || !D2isLODGame()) return;
-        LPWSTR lpText;
         DWORD mx = D2GetMouseX();
         DWORD my = D2GetMouseY();
         sDrawImageInfo data;
@@ -65,10 +64,10 @@ namespace PlugY {
         D2SetFont(1);
         if (D2GetResolution() && isOnPreviousPageBtn(mx, my))    //print popup "previous page"
         {
-            lpText = getLocalString(STR_PREVIOUS_PAGE);
+            auto lpText = const_cast<LPWSTR>(getLocalString(STR_PREVIOUS_PAGE));
             D2PrintPopup(lpText, getXPreviousPageBtn() + getLPreviousPageBtn() / 2, getYPreviousPageBtn() - getHPreviousPageBtn(), WHITE, 1);
         } else if (isOnNextPageBtn(mx, my)) {
-            lpText = getLocalString(STR_NEXT_PAGE);
+            auto lpText =  const_cast<LPWSTR>(getLocalString(STR_NEXT_PAGE));
             D2PrintPopup(lpText, getXNextPageBtn() + getLNextPageBtn() / 2, getYNextPageBtn() - getHNextPageBtn(), WHITE, 1);
         }
     }

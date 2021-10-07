@@ -12,11 +12,11 @@
 namespace PlugY {
     void loadLocalizedStrings(int language);
 
-    LPWSTR getLocalString(int stringId);
+    LPCWSTR getLocalString(int stringId);
 
     LPCWSTR getLocalTypeString(DWORD code);
 
-    LPWSTR StripGender(LPWSTR text);
+//    LPCWSTR StripGender(LPWSTR text);
 
     LPCWSTR StripGender(LPCWSTR text);
 

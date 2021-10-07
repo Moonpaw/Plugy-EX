@@ -44,7 +44,7 @@ namespace PlugY {
             setFrame(&data, btnSkillIsDown);
             D2PrintImage(&data, getXSkillBtn(), getYSkillBtn(), -1, 5, 0);
             if (isOnButtonUnassignSkill(D2GetMouseX(), D2GetMouseY())) {
-                LPWSTR popupText = getLocalString(STR_SKILLS_UNASSIGN);
+                auto popupText = const_cast<LPWSTR>(getLocalString(STR_SKILLS_UNASSIGN));
                 D2PrintPopup(popupText, getXSkillBtn() + getLSkillBtn() / 2, getYSkillBtn() - getHSkillBtn(), 0, 1);
             }
         }

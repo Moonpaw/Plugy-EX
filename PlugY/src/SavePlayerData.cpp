@@ -121,14 +121,15 @@ namespace PlugY {
         if (!D2isLODGame()) return;//D2Game but in SP so np
 
         log_msg("\n--- Start SaveSPPlayerCustomData ---\n");
-        NetClient *ptClient = D2GetClient(ptChar, __FILE__, __LINE__);
+        char *file = (char *) __FILE__;
+        NetClient *ptClient = D2GetClient(ptChar, file, __LINE__);
         backupSaveFiles(getPlayerData(ptChar)->name, ptClient->isHardCoreGame);
         if (active_PlayerCustomData) {
             if (getPYPlayerData(ptChar)->selfStashIsOpened) {
                 DWORD curSizeExt = 0;
                 DWORD maxSizeExt = 0x4000;
-                BYTE *dataExt = (BYTE *) D2AllocMem(getGame(ptChar)->memoryPool, maxSizeExt, __FILE__, __LINE__, 0);
-                d2_assert(!dataExt, "Error : Memory allocation Extended SaveFile", __FILE__, __LINE__);
+                BYTE *dataExt = (BYTE *) D2AllocMem(getGame(ptChar)->memoryPool, maxSizeExt, file, __LINE__, 0);
+                d2_assert(!dataExt, "Error : Memory allocation Extended SaveFile", file, __LINE__);
                 saveExtendedSaveFile(ptChar, &dataExt, &maxSizeExt, &curSizeExt);
                 writeExtendedSaveFile(getPlayerData(ptChar)->name, dataExt, curSizeExt);
                 D2FreeMem(getGame(ptChar)->memoryPool, dataExt, __FILE__, __LINE__, 0);
@@ -136,11 +137,11 @@ namespace PlugY {
             if (active_sharedStash && getPYPlayerData(ptChar)->sharedStashIsOpened) {
                 DWORD curSizeShr = 0;
                 DWORD maxSizeShr = 0x4000;
-                BYTE *dataShr = (BYTE *) D2AllocMem(getGame(ptChar)->memoryPool, maxSizeShr, __FILE__, __LINE__, 0);
-                d2_assert(!dataShr, "Error : Memory allocation Shared SaveFile", __FILE__, __LINE__);
+                BYTE *dataShr = (BYTE *) D2AllocMem(getGame(ptChar)->memoryPool, maxSizeShr, file, __LINE__, 0);
+                d2_assert(!dataShr, "Error : Memory allocation Shared SaveFile", file, __LINE__);
                 saveSharedSaveFile(ptChar, &dataShr, &maxSizeShr, &curSizeShr);
                 writeSharedSaveFile(getPlayerData(ptChar)->name, dataShr, curSizeShr, ptClient->isHardCoreGame);
-                D2FreeMem(getGame(ptChar)->memoryPool, dataShr, __FILE__, __LINE__, 0);
+                D2FreeMem(getGame(ptChar)->memoryPool, dataShr, file, __LINE__, 0);
             }
         }
         log_msg("End saving.\n\n");
@@ -230,7 +231,7 @@ namespace PlugY {
 
     struct s_dataToSend {
         s_dataToSend *next;
-        int clientID;
+        DWORD clientID;
         int sizeExtended;
         int curExtended;
         BYTE *dataExtended;
@@ -274,24 +275,25 @@ void sendDataToSave(DWORD clientID, BYTE* data, DWORD size, bool isShared)
         BYTE *dataExt = NULL;
         DWORD curSizeShr = 0;
         BYTE *dataShr = NULL;
+        char *file = (char *) __FILE__;
         if (getPYPlayerData(ptChar)->selfStashIsOpened) {
             DWORD maxSizeExt = 0x4000;
-            dataExt = (BYTE *) D2AllocMem(getGame(ptChar)->memoryPool, maxSizeExt, __FILE__, __LINE__, 0);
-            d2_assert(!dataExt, "Error : Memory allocation Extended SaveFile", __FILE__, __LINE__);
+            dataExt = (BYTE *) D2AllocMem(getGame(ptChar)->memoryPool, maxSizeExt, file, __LINE__, 0);
+            d2_assert(!dataExt, "Error : Memory allocation Extended SaveFile", file, __LINE__);
             saveExtendedSaveFile(ptChar, &dataExt, &maxSizeExt, &curSizeExt);
         }
         if (active_sharedStash && getPYPlayerData(ptChar)->sharedStashIsOpened) {
             DWORD maxSizeShr = 0x4000;
-            dataShr = (BYTE *) D2AllocMem(getGame(ptChar)->memoryPool, maxSizeShr, __FILE__, __LINE__, 0);
-            d2_assert(!dataShr, "Error : Memory allocation Shared SaveFile", __FILE__, __LINE__);
+            dataShr = (BYTE *) D2AllocMem(getGame(ptChar)->memoryPool, maxSizeShr, file, __LINE__, 0);
+            d2_assert(!dataShr, "Error : Memory allocation Shared SaveFile", file, __LINE__);
             saveSharedSaveFile(ptChar, &dataShr, &maxSizeShr, &curSizeShr);
         }
-        NetClient *ptClient = D2GetClient(ptChar, __FILE__, __LINE__);
+        NetClient *ptClient = D2GetClient(ptChar, file, __LINE__);
         s_dataToSend *dataToSend = ptDataToSend;
         while (dataToSend && (dataToSend->clientID != ptClient->clientID))
             dataToSend = dataToSend->next;
         if (!dataToSend) {
-            dataToSend = (s_dataToSend *) D2AllocMem(getGame(ptChar)->memoryPool, sizeof(s_dataToSend), __FILE__, __LINE__, 0);
+            dataToSend = (s_dataToSend *) D2AllocMem(getGame(ptChar)->memoryPool, sizeof(s_dataToSend), file, __LINE__, 0);
             ZeroMemory(dataToSend, sizeof(s_dataToSend));
             dataToSend->next = ptDataToSend;
             ptDataToSend = dataToSend;
@@ -299,7 +301,7 @@ void sendDataToSave(DWORD clientID, BYTE* data, DWORD size, bool isShared)
 
         //Sending savefiles
         dataToSend->clientID = ptClient->clientID;
-        dataToSend->init = 1;
+        dataToSend->init = true;
         dataToSend->sizeExtended = curSizeExt;
         dataToSend->curExtended = 0;
         dataToSend->dataExtended = dataExt;

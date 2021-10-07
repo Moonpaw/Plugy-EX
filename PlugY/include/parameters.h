@@ -6,6 +6,8 @@
 =================================================================*/
 #pragma once
 
+#include <string>
+
 namespace PlugY {
 #define PLUGY_VERSION "14.03"
 
@@ -14,7 +16,7 @@ namespace PlugY {
     };
 
 // Global variable (user parameters)
-    extern char *modDataDirectory;
+    extern const std::string modDataDirectory;
     extern bool active_plugin;
     extern bool active_DisableBattleNet;
     extern bool active_CheckMemory;

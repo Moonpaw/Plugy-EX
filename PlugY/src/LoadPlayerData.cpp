@@ -314,7 +314,7 @@ int STDCALL ReceiveSaveFiles_9(DWORD clientID, SOCKET s, char *buf, int len, int
             return 0x1B;
         }//Unknow failure
 
-        NetClient *ptClient = D2GetClient(ptChar, __FILE__, __LINE__);
+        NetClient *ptClient = D2GetClient(ptChar, (char *)__FILE__, __LINE__);
         s_MPSaveFile *curSF = receivedSaveFiles;
         while (curSF && (ptClient->clientID != curSF->clientID))
             curSF = curSF->next;

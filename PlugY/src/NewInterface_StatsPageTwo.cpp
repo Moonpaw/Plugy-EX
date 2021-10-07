@@ -16,6 +16,7 @@
 #include "LocalizedStrings.h"
 #include <updatingConst.h>
 #include <d2constants.h>
+#include <vector>
 #include "modifMemory.h"
 
 namespace PlugY {
@@ -34,8 +35,11 @@ namespace PlugY {
 #define    getYNextPageBtn()        RY(D2GetResolution()?0x50:0x50)//40:0x70
 #define    getHNextPageBtn()        32
 #define isOnNextPageBtn(x, y)    isOnRect(x, y, getXNextPageBtn(), getYNextPageBtn(), getLNextPageBtn(), getHNextPageBtn())
+
     const char *STATS_INTERFACE_FILENAME = "PlugY\\statsinterface.txt";
+
 #define BUFSIZE 0x400
+
     static struct {
         union {
             DWORD all;
@@ -46,6 +50,7 @@ namespace PlugY {
             };
         };
     } isDownBtn;
+
     struct statsInterfaceBIN {
         WORD enabled;
         WORD page;
@@ -55,62 +60,40 @@ namespace PlugY {
         WORD font;
         WORD statsID;
     };
+
     extern int lastPage;
+
     int nbStatsInterface = 0;
-    statsInterfaceBIN *statsInterface = NULL;
+
+    statsInterfaceBIN *statsInterface = nullptr;
+
+    BINField createBINField(std::string fieldName, int type,DWORD offset, DWORD strLength = 0, void *lookup = nullptr) {
+        BINField field = {
+            .fieldName = fieldName.data(),
+            .type = type,
+            .strLength = strLength,
+            .offset = offset,
+            .lookup = lookup
+        };
+        return field;
+    }
 
     void loadStatsInterfaceDesc(DWORD mempool) {
         log_msg("loadStatsInterfaceDesc(%d)\n", mempool);
-        CREATE_TABLE_DESCRIPTION(8);
-        ADD_WORD_FIELD(0, "enabled");
-        ADD_WORD_FIELD(2, "page");
-        ADD_WORD_FIELD(4, "x");
-        ADD_WORD_FIELD(6, "y");
-        ADD_WORD_FIELD(8, "color");
-        ADD_WORD_FIELD(10, "font");
-//	ADD_LOOKUP_WORD(10,	"stat", lookupItemStatCost);
-        ADD_WORD_FIELD(12, "statID");
-        ADD_TERM_FIELD();
-        BUILD_BIN(statsInterfaceBIN, statsInterface, nbStatsInterface, STATS_INTERFACE_FILENAME);
-        //statsInterface = (statsInterfaceBIN*)compileTxtFile(mempool, STATS_INTERFACE_FILENAME, TableDesc, (DWORD*)&nbStatsInterface, sizeof(statsInterfaceBIN));
+        std::vector<BINField> fields = {
+            createBINField("enabled", 0x03, 0),
+            createBINField("page", 0x03, 2),
+            createBINField("x", 0x03, 4),
+            createBINField("y", 0x03, 6),
+            createBINField("color", 0x03, 8),
+            createBINField("font", 0x03, 10),
+            createBINField("statID", 0x03, 12),
+            createBINField("end", 0x00, 0)
+        };
 
-/*
-	int nbSize=0;
-	char* data = (char*)D2ReadFile(mempool, STATS_INTERFACE_FILENAME, (DWORD*)&nbSize, __FILE__, __LINE__);
-	if (!data || nbSize <= 0)
-	{
-		D2FogAssert("statsinterface.txt missing", D2GetInstructionPointer(), __LINE__);
-		exit(1);
-	}
-	//statsInterface = (statsInterfaceBIN*)compileTxtFile(mempool, STATS_INTERFACE_FILENAME, TableDesc, (DWORD*)&nbStatsInterface, sizeof(statsInterfaceBIN));
-	//statsInterface = (statsInterfaceBIN*)compileTxtFile((DWORD)nbSize, data, TableDesc, (DWORD*)&nbStatsInterface, sizeof(statsInterfaceBIN));
-*/
-/*
-	nbStatsInterface = 0;
-	for (int i = 0; i<nbSize;i++)
-		if (data[i] == '\n') nbStatsInterface++;
-	if (data[nbSize - 1] != '\n') nbStatsInterface++;
-	nbStatsInterface--;
-
-	statsInterface = (statsInterfaceBIN*)D2FogMemAlloc(nbStatsInterface * sizeof(statsInterfaceBIN),__FILE__,__LINE__,0);
-
-	strtok(data,"\n");
-	for (i=0; i<nbStatsInterface; i++)
-	{
-		strtok(NULL,"\t");
-		statsInterface[i].enabled = atoi(strtok(NULL,"\t"));
-		statsInterface[i].page = atoi(strtok(NULL,"\t"));
-		statsInterface[i].x = atoi(strtok(NULL,"\t"));
-		statsInterface[i].y = atoi(strtok(NULL,"\t"));
-		statsInterface[i].color = atoi(strtok(NULL,"\t"));
-		statsInterface[i].font = atoi(strtok(NULL,"\t"));
-		statsInterface[i].statsID = atoi(strtok(NULL,"\t"));
-		strtok(NULL,"\n");
-		log_msg("stats : %d, %d, %d, %d, %d, %d, %d\n", statsInterface[i].enabled, statsInterface[i].page, statsInterface[i].x, statsInterface[i].y, statsInterface[i].color, statsInterface[i].font, statsInterface[i].statsID);
-	}
-*/
+        statsInterface = (statsInterfaceBIN *) compileTxtFile(mempool, STATS_INTERFACE_FILENAME, fields.data(), (DWORD *) &nbStatsInterface, sizeof(statsInterfaceBIN));;
         lastPage = 0;
-        for (i = 0; i < nbStatsInterface; i++)
+        for (int i = 0; i < nbStatsInterface; i++)
             if (statsInterface[i].page > lastPage)
                 lastPage = statsInterface[i].page;
         log_msg("loadStatsInterfaceDesc - fin\n");
@@ -131,19 +114,19 @@ namespace PlugY {
         D2PrintString(lpText, x, y, color, 0);
         y += 33;
         D2SetFont(6);
-        LPWSTR sBreakpoint = getLocalString(STR_BREAKPOINT);
-        LPWSTR sBlockFrames = getLocalString(STR_BLOCK_FRAMES);
-        LPWSTR sCastingFrames = getLocalString(STR_CASTING_FRAMES);
-        LPWSTR sHitRecoveryFrames = getLocalString(STR_HIT_RECOVERY_FRAMES);
-        LPWSTR s1HSwingingWeapon = getLocalString(STR_1H_SWINGING_WEAPON);
-        LPWSTR sOtherWeapon = getLocalString(STR_OTHER_WEAPONS);
-        LPWSTR sHumanForm = getLocalString(STR_HUMAN_FORM);
-        LPWSTR sBearForm = getLocalString(STR_BEAR_FORM);
-        LPWSTR sWolfForm = getLocalString(STR_WOLF_FORM);
-        LPWSTR sVampireForm = getLocalString(STR_VAMPIRE_FORM);
-        LPWSTR sHolyShield = D2GetStringFromIndex(0x12EC);
-        LPWSTR sSpearsAndStaves = getLocalString(STR_SPEARS_AND_STAVES);
-        LPWSTR sLightningAndChainLightnings = getLocalString(STR_LIGHTNING_CHAIN_LIGHTNING);
+        auto sBreakpoint = getLocalString(STR_BREAKPOINT);
+        auto sBlockFrames = getLocalString(STR_BLOCK_FRAMES);
+        auto sCastingFrames = getLocalString(STR_CASTING_FRAMES);
+        auto sHitRecoveryFrames = getLocalString(STR_HIT_RECOVERY_FRAMES);
+        auto s1HSwingingWeapon = getLocalString(STR_1H_SWINGING_WEAPON);
+        auto sOtherWeapon = getLocalString(STR_OTHER_WEAPONS);
+        auto sHumanForm = getLocalString(STR_HUMAN_FORM);
+        auto sBearForm = getLocalString(STR_BEAR_FORM);
+        auto sWolfForm = getLocalString(STR_WOLF_FORM);
+        auto sVampireForm = getLocalString(STR_VAMPIRE_FORM);
+        auto sHolyShield = D2GetStringFromIndex(0x12EC);
+        auto sSpearsAndStaves = getLocalString(STR_SPEARS_AND_STAVES);
+        auto sLightningAndChainLightnings = getLocalString(STR_LIGHTNING_CHAIN_LIGHTNING);
         switch (ptChar->nPlayerClass) {
             case D2PC_AMAZON:
                 swprintf(lpText, L"%s:%s\n%s - %s: %d", sBreakpoint, L"4 6 11 15 23 29 40 56 80 120 200 480", sBlockFrames, s1HSwingingWeapon, 17);
@@ -279,9 +262,9 @@ namespace PlugY {
     }
 
     void printMercBreakpoints(Commons::Unit *ptChar, DWORD x, DWORD y, DWORD color, LPWSTR lpText) {
-        LPWSTR sBreakpoint = getLocalString(STR_BREAKPOINT);
-        LPWSTR sCastingFrames = getLocalString(STR_CASTING_FRAMES);
-        LPWSTR sHitRecoveryFrames = getLocalString(STR_HIT_RECOVERY_FRAMES);
+        auto sBreakpoint = getLocalString(STR_BREAKPOINT);
+        auto sCastingFrames = getLocalString(STR_CASTING_FRAMES);
+        auto sHitRecoveryFrames = getLocalString(STR_HIT_RECOVERY_FRAMES);
         swprintf(lpText, L"%s : %s", getLocalString(STR_BREAKPOINTS), getLocalString(STR_MERCENARIES));
         D2PrintString(lpText, x, y, color, 0);
         y += 33;
@@ -344,7 +327,7 @@ namespace PlugY {
     void __stdcall printNewStatsPageTwo(int currentPage) {
         if (!D2isLODGame()) return D2PrintStatsPage();
         WCHAR text[BUFSIZE];
-        LPWSTR lpText;
+//        LPWSTR lpText;
         bDontPrintBorder = false;
         Unit *ptChar = D2GetClientPlayer();
         d2_assert(!ptChar, "Printing stats page : no character selected", __FILE__, __LINE__);
@@ -429,11 +412,11 @@ namespace PlugY {
             D2PrintPopup(D2GetStringFromIndex(0x1030), getXCloseBtn() + getLCloseBtn() / 2, getYCloseBtn() - getHCloseBtn(), WHITE, 1);
         } else if (isOnPreviousPageBtn(mx, my))    //print popup "previous page"
         {
-            lpText = getLocalString(STR_PREVIOUS_PAGE);
+            auto lpText = const_cast<LPWSTR>(getLocalString(STR_PREVIOUS_PAGE));
             D2PrintPopup(lpText, getXPreviousPageBtn() + getLPreviousPageBtn() / 2, getYPreviousPageBtn() - getHPreviousPageBtn(), WHITE, 1);
         } else if (isOnNextPageBtn(mx, my))    //print popup "next page"
         {
-            lpText = getLocalString(STR_NEXT_PAGE);
+            auto lpText = const_cast<LPWSTR>(getLocalString(STR_NEXT_PAGE));
             D2PrintPopup(lpText, getXNextPageBtn() + getLNextPageBtn() / 2, getYNextPageBtn() - getHNextPageBtn(), WHITE, 1);
         }
     }
