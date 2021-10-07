@@ -4,8 +4,8 @@
 #include "error.h"
 
 namespace PlugY {
-    using namespace PlugY;
     s_shifting shifting;
+
     DataTables *SgptDataTables;
 
     typedef CharStatsBIN *(__stdcall *TD2Common10581)(DWORD charID);
@@ -19,37 +19,65 @@ namespace PlugY {
     TD2Common10673 D2Common10673;//ONLY in 1.09
 
     TD2AddPlayerStat V2AddPlayerStat;
+
     TD2GetPlayerStat V2GetPlayerStat;
+
     TD2GetPlayerBaseStat V2GetPlayerBaseStat;
+
     TD2SetSkillBaseLevel V2SetSkillBaseLevel;
+
     TD2SetSkillBaseLevelOnClient V2SetSkillBaseLevelOnClient;
+
     TD2PrintStat V2PrintStat;
+
     TD2CompileCubeInput V2CompileCubeInput;
+
     TD2BroadcastFunction V2BroadcastFunction;
+
     TD2GetGameByClientID V2GetGameByClientID;
+
     TD2SpawnSuperUnique V2SpawnSuperUnique;
+
     TD2SpawnMonster V2SpawnMonster;
+
     TD2VerifIfNotCarry1 V2VerifIfNotCarry1;
+
     TD2GameGetObject V2GameGetObject;
+
     TD2TestPositionInRoom V2TestPositionInRoom;
+
     TD2GetItemTypesBIN V2GetItemTypesBIN;
+
     TD2CompileTxtFile compileTxtFile;
 
     WORD (*getDescStrPos)(DWORD statID);
 
     TD2SendMsgToAll V2SendMsgToAll;
+
     TD2SetColorPopup V2SetColorPopup;
+
     TD2LoadImage V2LoadImage;
+
     TD2PlaySound V2PlaySound;
+
     TD2SendToServer V2SendToServer;
+
     TD2GetCharStatsBIN V2GetCharStatsBIN;
+
     TD2GetItemStatCostBIN V2GetItemStatCostBIN;
+
     TD2SendPacket V2SendPacket;
+
     TD2LoadInventory V2LoadInventory;
+
     TD2SaveGame V2SaveGame;
+
     TD2MonsterUseSkill V2MonsterUseSkill;
+
     TD2LinkPortal V2LinkPortal;
+
     TD2Game235C0 V2Game235C0;
+
     TD2ReadFile V2ReadFile;
 
     DWORD getStatDescIDFrom(DWORD statID)//FOR 1.09
@@ -145,8 +173,13 @@ namespace PlugY {
         return 0;
     }
 
-    void setImage(sDrawImageInfo *data, void *image) { ((void **) data)[shifting.ptImage / 4] = image; }//0x4 0x8 0x3C
-    void setFrame(sDrawImageInfo *data, DWORD frame) { ((DWORD *) data)[shifting.ptFrame / 4] = frame; }//0x8 0x44 0x40
+    void setImage(sDrawImageInfo *data, void *image) {
+        ((void **) data)[shifting.ptImage / 4] = image;
+    }//0x4 0x8 0x3C
+
+    void setFrame(sDrawImageInfo *data, DWORD frame) {
+        ((DWORD *) data)[shifting.ptFrame / 4] = frame;
+    }//0x8 0x44 0x40
 
     WORD getDescStrPos_9(DWORD statID) {
         DWORD *desc = &ptStatDescTable[getStatDescIDFrom(statID) * 4];
@@ -159,6 +192,7 @@ namespace PlugY {
     }
 
     const char *S_compileTxtFile = "compileTxtFile";
+
     const char *S_errorReadTxtFile = "pbData";
 
     __declspec(naked) void *__stdcall compileTxtFile_9(DWORD unused, const char *filename, BINField *ptFields, DWORD *ptRecordCount, DWORD recordLength) {
@@ -240,10 +274,15 @@ namespace PlugY {
     }
 
     DWORD compileTxtFile114_1;
+
     DWORD compileTxtFile114_2;
+
     DWORD compileTxtFile114_3;
+
     DWORD compileTxtFile114_5;
+
     DWORD compileTxtFile114_6;
+
     DWORD compileTxtFile114_7;
 
     __declspec(naked) void *__stdcall compileTxtFile_114(DWORD unused, const char *filename, BINField *ptFields, DWORD *ptRecordCount, DWORD recordLength) {
@@ -380,21 +419,35 @@ namespace PlugY {
             JMP ECX}
     }
 
-    DWORD __fastcall    D2isLODGame_111() { return (*ptIsLodGame); }
+    DWORD __fastcall    D2isLODGame_111() {
+        return (*ptIsLodGame);
+    }
 
-    BYTE __fastcall    D2GetDifficultyLevel_111() { return (*ptDifficultyLevel); }
+    BYTE __fastcall    D2GetDifficultyLevel_111() {
+        return (*ptDifficultyLevel);
+    }
 
-    DWORD __stdcall    D2GetMouseX_111() { return (*ptMouseX); }
+    DWORD __stdcall    D2GetMouseX_111() {
+        return (*ptMouseX);
+    }
 
-    DWORD __stdcall    D2GetMouseY_111() { return (*ptMouseY); }
+    DWORD __stdcall    D2GetMouseY_111() {
+        return (*ptMouseY);
+    }
 
-    Unit *__stdcall    D2GetClientPlayer_111() { return (*ptptClientChar); }
+    Unit *__stdcall    D2GetClientPlayer_111() {
+        return (*ptptClientChar);
+    }
 
     DWORD *StatMouse1, *StatMouse2, *StatMouse3, *StatMouse4;
 
-    void __fastcall D2CleanStatMouseUp_111() { *StatMouse1 = *StatMouse2 = *StatMouse3 = *StatMouse4 = 0; }
+    void __fastcall D2CleanStatMouseUp_111() {
+        *StatMouse1 = *StatMouse2 = *StatMouse3 = *StatMouse4 = 0;
+    }
 
-    Unit *__stdcall    D2GetRealItem_111(Commons::Unit *ptItem) { return ptItem; }
+    Unit *__stdcall    D2GetRealItem_111(Commons::Unit *ptItem) {
+        return ptItem;
+    }
 
     __declspec(naked)void D2SendMsgToAll_111() {
         __asm{
@@ -1010,6 +1063,7 @@ namespace PlugY {
     }
 
     std::map<D2DllName, eGameVersion> dllVersions;
+
     std::map<D2DllName, DWORD> dllOffsets;
 
     void initD2CommonFunctions() {

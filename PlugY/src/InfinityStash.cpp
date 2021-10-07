@@ -22,17 +22,28 @@ namespace PlugY {
     using namespace Commons;
 #define STASH_TAG 0x5453            //"ST"
 #define JM_TAG 0x4D4A                //"JM"
+
     DWORD maxSelfPages = -1;
+
     DWORD maxSharedPages = -1;
+
     DWORD nbPagesPerIndex = 10;
+
     DWORD nbPagesPerIndex2 = 100;
+
     bool active_multiPageStash = false;
+
     bool autoRenameStashPage = false;
+
     int active_SharedStashInMultiPlayer = 0;//0: disabled, 1:shared in SP, 2: shared in SP & TCP/IP
     bool active_sharedStash = false;
+
     bool separateHardSoftStash = false;
+
     bool active_sharedGold = false;
+
     char *sharedStashFilename = NULL;
+
     typedef int (*TchangeToSelectedStash)(Commons::Unit *ptChar, Stash *newStash, DWORD bOnlyItems, DWORD bIsClient);
 
     Commons::Unit *firstClassicStashItem(Commons::Unit *ptChar) {
@@ -700,6 +711,7 @@ namespace PlugY {
 
 //////////////////////////////////////////////////////////////////////
     Stash *curStash2;
+
     DWORD currentSawStash2;
 
     Commons::Unit *__stdcall getNextItem(Commons::Unit *ptChar, Unit *ptItem) {
@@ -756,7 +768,6 @@ namespace PlugY {
         RETN 4
         }
     }
-
 
 
     DWORD __stdcall carry1Limit(Commons::Unit *ptChar, Unit *ptItemParam, DWORD itemNum, BYTE page) {
@@ -1069,7 +1080,14 @@ end_carry1Limit:
             log_msg("Patch D2Game for carry1 unique item. (MultiPageStash)\n");
 
             // Cannot put 2 items carry1 in inventory
-            mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x14AC7F : (version_D2Game == V113d ? 0x6B013 : (version_D2Game == V113c ? 0xCF1E3 : (version_D2Game == V112 ? 0x99B03 : (version_D2Game == V111b ? 0x2FE63 : (version_D2Game == V111 ? 0x57CA3 : (version_D2Game == V110 ? 0x55050 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
+            mem_seek(
+                offset_D2Game + (
+                    version_D2Game == V114d ? 0x14AC7F : (
+                        version_D2Game == V113d ? 0x6B013 : (
+                            version_D2Game == V113c ? 0xCF1E3 : (
+                                version_D2Game == V112 ? 0x99B03 : (
+                                    version_D2Game == V111b ? 0x2FE63 : (
+                                        version_D2Game == V111 ? 0x57CA3 : (version_D2Game == V110 ? 0x55050 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
             MEMJ_REF4(D2ItemSetPage, version_D2Game >= V114d ? caller_carry1Limit_114 : version_D2Game >= V111 ? caller_carry1Limit_111 : caller_carry1Limit);
             //6FC8504F   . E8 94670900    CALL <JMP.&D2Common.#10720>
             //01FD7CA2   . E8 6329FBFF    CALL <JMP.&D2Common.#10485>
@@ -1080,7 +1098,14 @@ end_carry1Limit:
             //0054AC7E  |. E8 FDD50D00    CALL Game.00628280                       ; \Game.00628280
 
             // Cannot put 2 items carry1 in inventory by swapping
-            mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x14B179 : (version_D2Game == V113d ? 0x6BC78 : (version_D2Game == V113c ? 0xD10C8 : (version_D2Game == V112 ? 0x9B6E8 : (version_D2Game == V111b ? 0x310E8 : (version_D2Game == V111 ? 0x58968 : (version_D2Game == V110 ? 0x558D9 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
+            mem_seek(
+                offset_D2Game + (
+                    version_D2Game == V114d ? 0x14B179 : (
+                        version_D2Game == V113d ? 0x6BC78 : (
+                            version_D2Game == V113c ? 0xD10C8 : (
+                                version_D2Game == V112 ? 0x9B6E8 : (
+                                    version_D2Game == V111b ? 0x310E8 : (
+                                        version_D2Game == V111 ? 0x58968 : (version_D2Game == V110 ? 0x558D9 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
             MEMJ_REF4(D2ItemGetPage, version_D2Game >= V114d ? caller_carry1LimitSwap_114 : version_D2Game >= V112 ? caller_carry1LimitSwap_112 : version_D2Game >= V111 ? caller_carry1LimitSwap_111 : caller_carry1LimitSwap);
             //6FC858D8   . E8 175F0900    CALL <JMP.&D2Common.#10719>
             //01FD8967   . E8 8E1DFBFF    CALL <JMP.&D2Common.#10820>
@@ -1092,7 +1117,14 @@ end_carry1Limit:
 
             if (version_D2Game >= V111) {
                 // Cannot put 2 items carry1 in inventory when drop cube
-                mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x163A89 : (version_D2Game == V113d ? 0xB7B15 : (version_D2Game == V113c ? 0xD7B75 : (version_D2Game == V112 ? 0x17AD5 : (version_D2Game == V111b ? 0x49FD5 : (version_D2Game == V111 ? 0x3D935 : (version_D2Game == V110 ? 0x0000 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
+                mem_seek(
+                    offset_D2Game + (
+                        version_D2Game == V114d ? 0x163A89 : (
+                            version_D2Game == V113d ? 0xB7B15 : (
+                                version_D2Game == V113c ? 0xD7B75 : (
+                                    version_D2Game == V112 ? 0x17AD5 : (
+                                        version_D2Game == V111b ? 0x49FD5 : (
+                                            version_D2Game == V111 ? 0x3D935 : (version_D2Game == V110 ? 0x0000 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
                 MEMJ_REF4(D2CanPutItemInInv, version_D2Game >= V114d ? caller_carry1LimitWhenDrop_114 : caller_carry1LimitWhenDrop_111);
                 //01FBD934  |. E8 5BD3FCFF    |CALL <JMP.&D2Common.#10855>
                 //01FB9FD4  |. E8 3912FCFF    |CALL <JMP.&D2Common.#10813>
@@ -1102,16 +1134,31 @@ end_carry1Limit:
                 //00563A88   . E8 C37E0D00    CALL Game.0063B950                       ; \Game.0063B950
             } else {
                 // Cannot put 2 items carry1 in inventory when drop cube
-                mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x0000 : (version_D2Game == V113d ? 0x0000 : (version_D2Game == V113c ? 0x0000 : (version_D2Game == V112 ? 0x0000 : (version_D2Game == V111b ? 0x0000 : (version_D2Game == V111 ? 0x0000 : (version_D2Game == V110 ? 0x14341 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
+                mem_seek(
+                    offset_D2Game + (
+                        version_D2Game == V114d ? 0x0000 : (
+                            version_D2Game == V113d ? 0x0000 : (
+                                version_D2Game == V113c ? 0x0000 : (
+                                    version_D2Game == V112 ? 0x0000 : (
+                                        version_D2Game == V111b ? 0x0000 : (
+                                            version_D2Game == V111 ? 0x0000 : (version_D2Game == V110 ? 0x14341 : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
                 memt_byte(0xBA, 0xE8);
                 MEMT_REF4(0x00000806, caller_carry1LimitWhenDrop);
                 //6FC44341  |. BA 06080000    |MOV EDX,806
             }
 
             // Verif only carry1 out of stash page when pick up an item
-            mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x15CADD : (version_D2Game == V113d ? 0xB301B : (version_D2Game == V113c ? 0xD211B : (version_D2Game == V112 ? 0x1209B : (version_D2Game == V111b ? 0x43F0B : (version_D2Game == V111 ? 0x38E3B : (version_D2Game == V110 ? 0x1299E : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
+            mem_seek(
+                offset_D2Game + (
+                    version_D2Game == V114d ? 0x15CADD : (
+                        version_D2Game == V113d ? 0xB301B : (
+                            version_D2Game == V113c ? 0xD211B : (
+                                version_D2Game == V112 ? 0x1209B : (
+                                    version_D2Game == V111b ? 0x43F0B : (
+                                        version_D2Game == V111 ? 0x38E3B : (version_D2Game == V110 ? 0x1299E : (version_D2Game == V109d ? 0x0000 : 0x0000)))))))));
             memt_byte(0x8B, 0xE8);
-            MEMT_REF4(version_D2Game >= V114d ? 0xFF85FC7D : version_D2Game >= V111 ? 0x850C2474 : 0x85102444, version_D2Game >= V114d ? caller_carry1OutOfStash_114 : version_D2Game >= V111 ? caller_carry1OutOfStash_111 : caller_carry1OutOfStash);
+            MEMT_REF4(version_D2Game >= V114d ? 0xFF85FC7D : version_D2Game >= V111 ? 0x850C2474 : 0x85102444,
+                version_D2Game >= V114d ? caller_carry1OutOfStash_114 : version_D2Game >= V111 ? caller_carry1OutOfStash_111 : caller_carry1OutOfStash);
             if (version_D2Game < V114d) memt_byte(version_D2Game >= V111 ? 0xF6 : 0xC0, 0x90);
             //6FC4299E  |. 8B4424 10      |MOV EAX,DWORD PTR SS:[ESP+10]
             //6FC429A2  |. 85C0           |TEST EAX,EAX

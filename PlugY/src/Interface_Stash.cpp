@@ -38,89 +38,156 @@ namespace PlugY {
             };
         };
     } isDownBtn;
+
     bool displaySharedSetItemNameInGreen = true;
+
     int posXPreviousBtn = -1;
+
     int posYPreviousBtn = -1;
+
     int posWPreviousBtn = 32;
+
     int posHPreviousBtn = 32;
+
     int posXNextBtn = -1;
+
     int posYNextBtn = -1;
+
     int posWNextBtn = 32;
+
     int posHNextBtn = 32;
+
     int posXSharedBtn = -1;
+
     int posYSharedBtn = -1;
+
     int posWSharedBtn = 32;
+
     int posHSharedBtn = 32;
+
     int posXPreviousIndexBtn = -1;
+
     int posYPreviousIndexBtn = -1;
+
     int posWPreviousIndexBtn = 32;
+
     int posHPreviousIndexBtn = 32;
+
     int posXNextIndexBtn = -1;
+
     int posYNextIndexBtn = -1;
+
     int posWNextIndexBtn = 32;
+
     int posHNextIndexBtn = 32;
+
     int posXPutGoldBtn = -1;
+
     int posYPutGoldBtn = -1;
+
     int posWPutGoldBtn = 32;
+
     int posHPutGoldBtn = 32;
+
     int posXTakeGoldBtn = -1;
+
     int posYTakeGoldBtn = -1;
+
     int posWTakeGoldBtn = 32;
+
     int posHTakeGoldBtn = 32;
+
     int posXStashNameField = 170;
+
     int posYStashNameField = 60;
+
     int posWStashNameField = 175;
+
     int posHStashNameField = 20;
+
     int posXStashGoldField = 192;
+
     int posYStashGoldField = 20;
+
     int posWStashGoldField = 152;
+
     int posHStashGoldField = 18;
+
     DWORD PersonalNormalPageColor = WHITE;
+
     DWORD PersonalIndexPageColor = DARK_GREEN;
+
     DWORD PersonalMainIndexPageColor = YELLOW;
+
     DWORD SharedNormalPageColor = GOLD;
+
     DWORD SharedIndexPageColor = ORANGE;
+
     DWORD SharedMainIndexPageColor = RED;
 
-    DWORD getXPreviousBtn() { return RX(posXPreviousBtn < 0 ? D2GetResolution() ? 0x80 : 0xAF : posXPreviousBtn); }
+    DWORD getXPreviousBtn() {
+        return RX(posXPreviousBtn < 0 ? D2GetResolution() ? 0x80 : 0xAF : posXPreviousBtn);
+    }
 
-    DWORD getYPreviousBtn() { return RY(posYPreviousBtn < 0 ? 0x40 : posYPreviousBtn); }
+    DWORD getYPreviousBtn() {
+        return RY(posYPreviousBtn < 0 ? 0x40 : posYPreviousBtn);
+    }
 
     DWORD getXNextBtn() {
         return RX(posXNextBtn < 0 ? D2GetResolution() ? 0xA0 : 0xCF : posXNextBtn);
     }
 
-    DWORD getYNextBtn() { return RY(posYNextBtn < 0 ? 0x40 : posYNextBtn); }
+    DWORD getYNextBtn() {
+        return RY(posYNextBtn < 0 ? 0x40 : posYNextBtn);
+    }
 
     DWORD getXSharedBtn() {
         return RX(posXSharedBtn < 0 ? D2GetResolution() ? 0x10 : 0x6F : posXSharedBtn);
     }
 
-    DWORD getYSharedBtn() { return RY(posYSharedBtn < 0 ? 0x40 : posYSharedBtn); }
+    DWORD getYSharedBtn() {
+        return RY(posYSharedBtn < 0 ? 0x40 : posYSharedBtn);
+    }
 
     DWORD getXPreviousIndexBtn() {
         return RX(posXPreviousIndexBtn < 0 ? D2GetResolution() ? 0x60 : 0x8F : posXPreviousIndexBtn);
     }
 
-    DWORD getYPreviousIndexBtn() { return RY(posYPreviousIndexBtn < 0 ? 0x40 : posYPreviousIndexBtn); }
+    DWORD getYPreviousIndexBtn() {
+        return RY(posYPreviousIndexBtn < 0 ? 0x40 : posYPreviousIndexBtn);
+    }
 
     DWORD getXNextIndexBtn() {
         return RX(posXNextIndexBtn < 0 ? D2GetResolution() ? 0xC0 : 0xEF : posXNextIndexBtn);
     }
 
-    DWORD getYNextIndexBtn() { return RY(posYNextIndexBtn < 0 ? 0x40 : posYNextIndexBtn); }
+    DWORD getYNextIndexBtn() {
+        return RY(posYNextIndexBtn < 0 ? 0x40 : posYNextIndexBtn);
+    }
 
-    DWORD getXPutGoldBtn() { return RX(posXPutGoldBtn < 0 ? 0x1C : posXPutGoldBtn); }
+    DWORD getXPutGoldBtn() {
+        return RX(posXPutGoldBtn < 0 ? 0x1C : posXPutGoldBtn);
+    }
 
-    DWORD getYPutGoldBtn() { return RY(posYPutGoldBtn < 0 ? 0x1A8 : posYPutGoldBtn); }
+    DWORD getYPutGoldBtn() {
+        return RY(posYPutGoldBtn < 0 ? 0x1A8 : posYPutGoldBtn);
+    }
 
-    DWORD getXTakeGoldBtn() { return RX(posXTakeGoldBtn < 0 ? 0x105 : posXTakeGoldBtn); }
+    DWORD getXTakeGoldBtn() {
+        return RX(posXTakeGoldBtn < 0 ? 0x105 : posXTakeGoldBtn);
+    }
 
-    DWORD getYTakeGoldBtn() { return RY(posYTakeGoldBtn < 0 ? 0x1A8 : posYTakeGoldBtn); }
+    DWORD getYTakeGoldBtn() {
+        return RY(posYTakeGoldBtn < 0 ? 0x1A8 : posYTakeGoldBtn);
+    }
 
-    DWORD getXStashNameField() { return RX(posXStashNameField < 0 ? 0x4A : posXStashNameField); }
+    DWORD getXStashNameField() {
+        return RX(posXStashNameField < 0 ? 0x4A : posXStashNameField);
+    }
 
-    DWORD getYStashNameField() { return RY(posYStashNameField < 0 ? 0x19A : posYStashNameField); }
+    DWORD getYStashNameField() {
+        return RY(posYStashNameField < 0 ? 0x19A : posYStashNameField);
+    }
 
     bool isOnButtonNextStash(DWORD x, DWORD y) {
         return isOnRect(x, y, getXNextBtn(), getYNextBtn(), posWNextBtn, posHNextBtn);
@@ -221,14 +288,14 @@ namespace PlugY {
                 D2PrintPopup(lpText, getXSharedBtn() + posWSharedBtn / 2, getYSharedBtn() - posHSharedBtn, WHITE, 1);
             } else if (active_SharedStashInMultiPlayer == 1) {
                 lpText = getLocalString(STR_TOGGLE_MULTI_DISABLED);
-                D2PrintPopup(lpText, getXPreviousIndexBtn() + posWPreviousIndexBtn / 2,
-                             getYPreviousIndexBtn() - posHPreviousIndexBtn, WHITE, 1);
+                D2PrintPopup(
+                    lpText, getXPreviousIndexBtn() + posWPreviousIndexBtn / 2, getYPreviousIndexBtn() - posHPreviousIndexBtn, WHITE, 1);
             }
 
         } else if (isOnButtonPreviousIndexStash(mx, my)) {
             swprintf(text, getLocalString(STR_STASH_PREVIOUS_INDEX), nbPagesPerIndex, nbPagesPerIndex2);
-            D2PrintPopup(text, getXPreviousIndexBtn() + posWPreviousIndexBtn / 2,
-                         getYPreviousIndexBtn() - posHPreviousIndexBtn, WHITE, 1);
+            D2PrintPopup(
+                text, getXPreviousIndexBtn() + posWPreviousIndexBtn / 2, getYPreviousIndexBtn() - posHPreviousIndexBtn, WHITE, 1);
 
         } else if (isOnButtonNextIndexStash(mx, my)) {
             swprintf(text, getLocalString(STR_STASH_NEXT_INDEX), nbPagesPerIndex, nbPagesPerIndex2);
@@ -347,7 +414,9 @@ namespace PlugY {
         return 1;
     }
 
-    DWORD getXStashGoldField() { return RX(posXStashGoldField < 0 ? 0x61 : posXStashGoldField); }
+    DWORD getXStashGoldField() {
+        return RX(posXStashGoldField < 0 ? 0x61 : posXStashGoldField);
+    }
 
     bool isOnStashGoldField(DWORD x, DWORD y) {
         return isOnRect(x, y, getXStashGoldField(), 45, 152, 18);
@@ -360,12 +429,8 @@ namespace PlugY {
         DWORD y = 21;
         const DWORD center = 0;
         if (active_sharedGold) {
-            _snwprintf(sharedGoldText,
-                       sizeof(sharedGoldText),
-                       L"%s\n%s: %u",
-                       maxGoldText,
-                       getLocalString(STR_SHARED_GOLD_QUANTITY),
-                       getPYPlayerData(ptChar)->sharedGold);
+            _snwprintf(
+                sharedGoldText, sizeof(sharedGoldText), L"%s\n%s: %u", maxGoldText, getLocalString(STR_SHARED_GOLD_QUANTITY), getPYPlayerData(ptChar)->sharedGold);
             DWORD x = D2GetPixelLen(maxGoldText);
             DWORD x2 = D2GetPixelLen(sharedGoldText) - x;
             D2PrintPopup(sharedGoldText, RX(0xA8 - max(x, x2) / 2), y, WHITE, center);
@@ -392,11 +457,9 @@ namespace PlugY {
         bool isIndex = getPYPlayerData(ptChar)->currentStash->isIndex;
         bool isMainIndex = getPYPlayerData(ptChar)->currentStash->isMainIndex;
         if (getPYPlayerData(ptChar)->currentStash->isShared)
-            return isMainIndex ? SharedMainIndexPageColor : isIndex ? SharedIndexPageColor
-                                                                    : SharedNormalPageColor;
+            return isMainIndex ? SharedMainIndexPageColor : isIndex ? SharedIndexPageColor : SharedNormalPageColor;
         else
-            return isMainIndex ? PersonalMainIndexPageColor : isIndex ? PersonalIndexPageColor
-                                                                      : PersonalNormalPageColor;
+            return isMainIndex ? PersonalMainIndexPageColor : isIndex ? PersonalIndexPageColor : PersonalNormalPageColor;
     }
 
     void getEnrichedStashName(WCHAR *buffer, Unit *ptChar, DWORD currentId) {
@@ -457,6 +520,7 @@ namespace PlugY {
     }
 
     static Stash *curStash = NULL;
+
     static DWORD currentSawStash = 0;
 
     Unit *__stdcall getNextItemForSet(Commons::Unit *ptItem) {
@@ -661,7 +725,14 @@ namespace PlugY {
         log_msg("Patch D2Client for stash interface. (InterfaceStash)\n");
 
         // Print button images
-        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x8F308 : (version_D2Client == V113d ? 0x9DE26 : (version_D2Client == V113c ? 0x99A56 : (version_D2Client == V112 ? 0xB3656 : (version_D2Client == V111b ? 0x7DF86 : (version_D2Client == V111 ? 0xB1006 : (version_D2Client == V110 ? 0x3F399 : (version_D2Client == V109d ? 0x39060 : 0x39060)))))))));
+        mem_seek(
+            offset_D2Client + (
+                version_D2Client == V114d ? 0x8F308 : (
+                    version_D2Client == V113d ? 0x9DE26 : (
+                        version_D2Client == V113c ? 0x99A56 : (
+                            version_D2Client == V112 ? 0xB3656 : (
+                                version_D2Client == V111b ? 0x7DF86 : (
+                                    version_D2Client == V111 ? 0xB1006 : (version_D2Client == V110 ? 0x3F399 : (version_D2Client == V109d ? 0x39060 : 0x39060)))))))));
         MEMC_REF4(D2LoadBuySelBtn, printBtns);
         //6FADF398  |. E8 734D0400    CALL D2Client.6FB24110
         //6FB61005  |. E8 A6D3FEFF    CALL D2Client.6FB4E3B0
@@ -672,7 +743,14 @@ namespace PlugY {
         //0048F307  |. E8 F452FCFF    CALL Game.00454600
 
         // print page number
-        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x8F2E5 : (version_D2Client == V113d ? 0x9DE03 : (version_D2Client == V113c ? 0x99A33 : (version_D2Client == V112 ? 0xB3633 : (version_D2Client == V111b ? 0x7DF63 : (version_D2Client == V111 ? 0xB0FE3 : (version_D2Client == V110 ? 0x3F375 : (version_D2Client == V109d ? 0x3903C : 0x3903C)))))))));
+        mem_seek(
+            offset_D2Client + (
+                version_D2Client == V114d ? 0x8F2E5 : (
+                    version_D2Client == V113d ? 0x9DE03 : (
+                        version_D2Client == V113c ? 0x99A33 : (
+                            version_D2Client == V112 ? 0xB3633 : (
+                                version_D2Client == V111b ? 0x7DF63 : (
+                                    version_D2Client == V111 ? 0xB0FE3 : (version_D2Client == V110 ? 0x3F375 : (version_D2Client == V109d ? 0x3903C : 0x3903C)))))))));
         MEMJ_REF4(D2PrintString, printPageNumber);
         //6FADF374  |. E8 3FCC0800    CALL <JMP.&D2Win.#10117>
         //6FB60FE2  |. E8 99C2F5FF    CALL <JMP.&D2Win.#10020>
@@ -683,10 +761,15 @@ namespace PlugY {
         //0048F2E4  |. E8 37300700    CALL Game.00502320                       ; \Game.00502320
 
         // Manage mouse down (Play sound)
-        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x925B8 : (version_D2Client == V113d ? 0x9FC76 : (version_D2Client == V113c ? 0x9B8A6 : (version_D2Client == V112 ? 0xB54A6 : (version_D2Client == V111b ? 0x7FDD6 : (version_D2Client == V111 ? 0xB4666 : (version_D2Client == V110 ? 0x4BBA1 : (version_D2Client == V109d ? 0x45091 : 0x45091)))))))));
-        MEMC_REF4(version_D2Client >= V111 ? (DWORD) D2ClickOnStashButton : (DWORD) D2isLODGame,
-                  version_D2Client >= V114a ? caller_manageBtnDown_114 : version_D2Client >= V111 ? caller_manageBtnDown_111
-                                                                                                  : caller_manageBtnDown);
+        mem_seek(
+            offset_D2Client + (
+                version_D2Client == V114d ? 0x925B8 : (
+                    version_D2Client == V113d ? 0x9FC76 : (
+                        version_D2Client == V113c ? 0x9B8A6 : (
+                            version_D2Client == V112 ? 0xB54A6 : (
+                                version_D2Client == V111b ? 0x7FDD6 : (
+                                    version_D2Client == V111 ? 0xB4666 : (version_D2Client == V110 ? 0x4BBA1 : (version_D2Client == V109d ? 0x45091 : 0x45091)))))))));
+        MEMC_REF4(version_D2Client >= V111 ? (DWORD) D2ClickOnStashButton : (DWORD) D2isLODGame, version_D2Client >= V114a ? caller_manageBtnDown_114 : version_D2Client >= V111 ? caller_manageBtnDown_111 : caller_manageBtnDown);
         //6FAEBBA0   > E8 DB04FCFF    CALL D2Client.6FAAC080
         //6FB64665   . E8 B61EFFFF    CALL D2Client.6FB56520
         //6FB2FDD5   . E8 E612FFFF    CALL D2Client.6FB210C0
@@ -696,10 +779,15 @@ namespace PlugY {
         //004925B7  |. E8 C473FFFF    CALL Game.00489980
 
         // Manage mouse up
-        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x89B63 : (version_D2Client == V113d ? 0x9FAA9 : (version_D2Client == V113c ? 0x9B6D9 : (version_D2Client == V112 ? 0xB52D9 : (version_D2Client == V111b ? 0x7FC09 : (version_D2Client == V111 ? 0xB57B9 : (version_D2Client == V110 ? 0x4C0F9 : (version_D2Client == V109d ? 0x455F9 : 0x455F9)))))))));
-        MEMC_REF4(version_D2Client >= V111 ? (DWORD) D2ClickOnStashButton : (DWORD) D2isLODGame,
-                  version_D2Client >= V114a ? caller_manageBtnUp_114 : version_D2Client >= V111 ? caller_manageBtnUp_111
-                                                                                                : caller_manageBtnUp);
+        mem_seek(
+            offset_D2Client + (
+                version_D2Client == V114d ? 0x89B63 : (
+                    version_D2Client == V113d ? 0x9FAA9 : (
+                        version_D2Client == V113c ? 0x9B6D9 : (
+                            version_D2Client == V112 ? 0xB52D9 : (
+                                version_D2Client == V111b ? 0x7FC09 : (
+                                    version_D2Client == V111 ? 0xB57B9 : (version_D2Client == V110 ? 0x4C0F9 : (version_D2Client == V109d ? 0x455F9 : 0x455F9)))))))));
+        MEMC_REF4(version_D2Client >= V111 ? (DWORD) D2ClickOnStashButton : (DWORD) D2isLODGame, version_D2Client >= V114a ? caller_manageBtnUp_114 : version_D2Client >= V111 ? caller_manageBtnUp_111 : caller_manageBtnUp);
         //6FAEC0F8   > E8 83FFFBFF    CALL D2Client.6FAAC080
         //6FB657B8   > E8 630DFFFF    CALL D2Client.6FB56520
         //6FB2FC08   > E8 B314FFFF    CALL D2Client.6FB210C0
@@ -709,7 +797,14 @@ namespace PlugY {
         //00489B62  |> E8 19FEFFFF    CALL Game.00489980
 
         // init state of button on open stash page
-        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x89ED5 : (version_D2Client == V113d ? 0x9441A : (version_D2Client == V113c ? 0x8CC3A : (version_D2Client == V112 ? 0xA9D9A : (version_D2Client == V111b ? 0x749DA : (version_D2Client == V111 ? 0xA645A : (version_D2Client == V110 ? 0x4C63A : (version_D2Client == V109d ? 0x45B3A : 0x45B3A)))))))));
+        mem_seek(
+            offset_D2Client + (
+                version_D2Client == V114d ? 0x89ED5 : (
+                    version_D2Client == V113d ? 0x9441A : (
+                        version_D2Client == V113c ? 0x8CC3A : (
+                            version_D2Client == V112 ? 0xA9D9A : (
+                                version_D2Client == V111b ? 0x749DA : (
+                                    version_D2Client == V111 ? 0xA645A : (version_D2Client == V110 ? 0x4C63A : (version_D2Client == V109d ? 0x45B3A : 0x45B3A)))))))));
         if (version_D2Client >= V114d) {
             memt_byte(0x8B, 0xE9);    // CALL initBtnsStates
             MEMT_REF4(0xCCC35DE5, initBtnsStates_114);
@@ -732,7 +827,14 @@ namespace PlugY {
         //00489ED9     CC             INT3
 
         // init the search of print in green the item set name we have in stash
-        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x86774 : (version_D2Client == V113d ? 0x91A24 : (version_D2Client == V113c ? 0x8D434 : (version_D2Client == V112 ? 0xA7314 : (version_D2Client == V111b ? 0x71F64 : (version_D2Client == V111 ? 0xA71F4 : (version_D2Client == V110 ? 0x45997 : (version_D2Client == V109d ? 0x3F098 : 0x3F098)))))))));
+        mem_seek(
+            offset_D2Client + (
+                version_D2Client == V114d ? 0x86774 : (
+                    version_D2Client == V113d ? 0x91A24 : (
+                        version_D2Client == V113c ? 0x8D434 : (
+                            version_D2Client == V112 ? 0xA7314 : (
+                                version_D2Client == V111b ? 0x71F64 : (
+                                    version_D2Client == V111 ? 0xA71F4 : (version_D2Client == V110 ? 0x45997 : (version_D2Client == V109d ? 0x3F098 : 0x3F098)))))))));
         MEMJ_REF4(D2InventoryGetFirstItem, initGetNextItemForSet);
         //6FAE5996  |. E8 D5500800    CALL <JMP.&D2Common.#10277>
         //6FB571F3  |. E8 D64EF6FF    CALL <JMP.&D2Common.#10402>
@@ -743,7 +845,14 @@ namespace PlugY {
         //00486773  |. E8 484B1B00    CALL Game.0063B2C0                       ; \Game.0063B2C0
 
         // Get next item for print in green the item set name we have in stash
-        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x86807 : (version_D2Client == V113d ? 0x91ABB : (version_D2Client == V113c ? 0x8D4CB : (version_D2Client == V112 ? 0xA73AB : (version_D2Client == V111b ? 0x71FFB : (version_D2Client == V111 ? 0xA728B : (version_D2Client == V110 ? 0x45A1C : (version_D2Client == V109d ? 0x3F0FA : 0x3F0FA)))))))));
+        mem_seek(
+            offset_D2Client + (
+                version_D2Client == V114d ? 0x86807 : (
+                    version_D2Client == V113d ? 0x91ABB : (
+                        version_D2Client == V113c ? 0x8D4CB : (
+                            version_D2Client == V112 ? 0xA73AB : (
+                                version_D2Client == V111b ? 0x71FFB : (
+                                    version_D2Client == V111 ? 0xA728B : (version_D2Client == V110 ? 0x45A1C : (version_D2Client == V109d ? 0x3F0FA : 0x3F0FA)))))))));
         MEMJ_REF4(D2UnitGetNextItem, getNextItemForSet);
         //6FAE5A1B   E8 4A500800      CALL <JMP.&D2Common.#10304>
         //6FB5728A  |. E8 0B4FF6FF    |CALL <JMP.&D2Common.#10934>

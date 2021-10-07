@@ -11,7 +11,9 @@
 
 namespace PlugY {
     extern bool active_PlayerCustomData;
+
     extern bool openSharedStashOnLoading;
+
 //    struct Unit;
     struct Stash {
         DWORD id;
@@ -29,6 +31,7 @@ namespace PlugY {
         Stash *previousStash;
         Stash *nextStash;
     };
+
     struct PYPlayerData {
         union {
             DWORD flags;

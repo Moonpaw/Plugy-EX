@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+
 namespace Commons {
     struct CBPlayerData;
     struct CBItemData;

@@ -80,6 +80,7 @@ namespace PlugY {
     };
 
     extern std::map<D2DllName, Commons::eGameVersion> dllVersions;
+
     extern std::map<D2DllName, DWORD> dllOffsets;
 
     extern inline Commons::eGameVersion findVersionOrDefault(D2DllName d2DllName) {
@@ -92,8 +93,6 @@ namespace PlugY {
         return result != dllOffsets.end() ? result->second : defaultValue;
     }
 
-//    extern DWORD r8(D2DllName d2DllName, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d);
-
     extern DWORD getAddressOfVersion(Commons::eGameVersion version, DWORD defaultValue, DWORD v109d, DWORD v110, DWORD v111, DWORD v111b, DWORD v112, DWORD v113c, DWORD v113d, DWORD v114d = 0);
 
     extern DWORD RX(DWORD v);
@@ -101,11 +100,17 @@ namespace PlugY {
     extern DWORD RY(DWORD y);
 
     extern Commons::DataTables *SgptDataTables;
+
     extern TD2AddPlayerStat V2AddPlayerStat;
+
     extern TD2GetGameByClientID V2GetGameByClientID;
+
     extern TD2SpawnSuperUnique V2SpawnSuperUnique;
+
     extern TD2SpawnMonster V2SpawnMonster;
+
     extern TD2Game235C0 V2Game235C0;
+
     extern TD2ReadFile V2ReadFile;
 
     extern WORD (*getDescStrPos)(DWORD statID);
@@ -120,7 +125,6 @@ namespace PlugY {
         D2FillArea(x, y, x + Width, y + Height, color, transTbl);
     }
 
-//#define GameTypeMode (*ptGameTypeMode)
     void init_dll_maps();
 
     void initD2functions();

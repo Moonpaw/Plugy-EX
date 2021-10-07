@@ -132,6 +132,7 @@ return value :
         TS_TAKEGOLD
     };
 #pragma pack(1)
+
     typedef struct {
         BYTE packID;
         BYTE packSize;
@@ -140,6 +141,7 @@ return value :
         BYTE type;
         BYTE data[0xFF];
     } t_rcvMsg;
+
 #pragma pack()
     struct s_MPSaveFile {
         DWORD clientID;
@@ -153,7 +155,9 @@ return value :
         s_MPSaveFile *next;
         bool completed;
     };
+
     static BYTE customPackID = 0x6C;
+
     static s_MPSaveFile *receivedSaveFiles = NULL;
 
     void freeCurrentCF(DWORD memoryPool, s_MPSaveFile **curSF) {
@@ -506,7 +510,14 @@ int STDCALL ReceiveSaveFiles_9(DWORD clientID, SOCKET s, char *buf, int len, int
         log_msg("Patch D2Game & D2Client for load Player's custom data. (LoadPlayerData)\n");
 
         // Load SP player custom data.
-        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x13447A : (version_D2Game == V113d ? 0x3BCCD : (version_D2Game == V113c ? 0x5638D : (version_D2Game == V112 ? 0x465BD : (version_D2Game == V111b ? 0x278CD : (version_D2Game == V111 ? 0xBB8ED : (version_D2Game == V110 ? 0x5CB0F : (version_D2Game == V109d ? 0x5086F : 0x5046F)))))))));
+        mem_seek(
+            offset_D2Game + (
+                version_D2Game == V114d ? 0x13447A : (
+                    version_D2Game == V113d ? 0x3BCCD : (
+                        version_D2Game == V113c ? 0x5638D : (
+                            version_D2Game == V112 ? 0x465BD : (
+                                version_D2Game == V111b ? 0x278CD : (
+                                    version_D2Game == V111 ? 0xBB8ED : (version_D2Game == V110 ? 0x5CB0F : (version_D2Game == V109d ? 0x5086F : 0x5046F)))))))));
         memt_byte(0x8B, 0xE8); // CALL caller_LoadSPPlayerCustomData
         MEMT_REF4(version_D2Game >= V114d ? 0x75FF85F8 : 0x75F685F0, version_D2Game >= V114d ? caller_LoadSPPlayerCustomData_114 : caller_LoadSPPlayerCustomData);
         memt_byte(version_D2Game >= V114d ? 0x13 : 0x16, 0x90); // NOP
@@ -533,9 +544,17 @@ int STDCALL ReceiveSaveFiles_9(DWORD clientID, SOCKET s, char *buf, int len, int
         //0053447E  |. 75 13          JNZ SHORT Game.00534493
 
         // Load MP player custom data.
-        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x134572 : (version_D2Game == V113d ? 0x3BB57 : (version_D2Game == V113c ? 0x56217 : (version_D2Game == V112 ? 0x46447 : (version_D2Game == V111b ? 0x27757 : (version_D2Game == V111 ? 0xBB777 : (version_D2Game == V110 ? 0x5CC66 : (version_D2Game == V109d ? 0x50B90 : 0x50790)))))))));
+        mem_seek(
+            offset_D2Game + (
+                version_D2Game == V114d ? 0x134572 : (
+                    version_D2Game == V113d ? 0x3BB57 : (
+                        version_D2Game == V113c ? 0x56217 : (
+                            version_D2Game == V112 ? 0x46447 : (
+                                version_D2Game == V111b ? 0x27757 : (
+                                    version_D2Game == V111 ? 0xBB777 : (version_D2Game == V110 ? 0x5CC66 : (version_D2Game == V109d ? 0x50B90 : 0x50790)))))))));
         memt_byte(0x83, 0xE8);
-        MEMT_REF4(version_D2Game >= V114d ? 0x1D74003F : version_D2Game >= V111 ? 0x2174003B : version_D2Game == V110 ? 0x4674003F : 0x1D74003F, version_D2Game >= V114d ? caller_LoadMPPlayerCustomData_114 : version_D2Game >= V111 ? caller_LoadMPPlayerCustomData_111 : version_D2Game == V110 ? caller_LoadMPPlayerCustomData : caller_LoadMPPlayerCustomData_9);
+        MEMT_REF4(version_D2Game >= V114d ? 0x1D74003F : version_D2Game >= V111 ? 0x2174003B : version_D2Game == V110 ? 0x4674003F : 0x1D74003F,
+            version_D2Game >= V114d ? caller_LoadMPPlayerCustomData_114 : version_D2Game >= V111 ? caller_LoadMPPlayerCustomData_111 : version_D2Game == V110 ? caller_LoadMPPlayerCustomData : caller_LoadMPPlayerCustomData_9);
         //6FC8CC66  . 833F 00         CMP DWORD PTR DS:[EDI],0
         //6FC8CC69  . 74 46           JE SHORT D2Game.6FC8CCB1
         //0203B777  |> 833B 00        CMP DWORD PTR DS:[EBX],0
@@ -552,7 +571,14 @@ int STDCALL ReceiveSaveFiles_9(DWORD clientID, SOCKET s, char *buf, int len, int
         //00534575  |. 74 1D          JE SHORT Game.00534594
 
         // Send save files to Server.
-        mem_seek(offset_D2Client + (version_D2Client == V114d ? 0x7807E : (version_D2Client == V113d ? 0xB638C : (version_D2Client == V113c ? 0x1457C : (version_D2Client == V112 ? 0x7933C : (version_D2Client == V111b ? 0x5DFDC : (version_D2Client == V111 ? 0x733FC : (version_D2Client == V110 ? 0xD5A2 : (version_D2Client == V109d ? 0xCF32 : 0xCF42)))))))));
+        mem_seek(
+            offset_D2Client + (
+                version_D2Client == V114d ? 0x7807E : (
+                    version_D2Client == V113d ? 0xB638C : (
+                        version_D2Client == V113c ? 0x1457C : (
+                            version_D2Client == V112 ? 0x7933C : (
+                                version_D2Client == V111b ? 0x5DFDC : (
+                                    version_D2Client == V111 ? 0x733FC : (version_D2Client == V110 ? 0xD5A2 : (version_D2Client == V109d ? 0xCF32 : 0xCF42)))))))));
         MEMJ_REF4(D2FogGetSavePath, version_D2Game >= V111 ? caller_SendSaveFiles_111 : caller_SendSaveFiles);
         //6FAAD5A1  |. E8 88D10B00    CALL <JMP.&Fog.#10115>
         //6FB233FB  |. E8 CA8AF9FF    CALL <JMP.&Fog.#10115>
@@ -563,7 +589,14 @@ int STDCALL ReceiveSaveFiles_9(DWORD clientID, SOCKET s, char *buf, int len, int
         //0047807D  |. E8 CEEFF8FF    CALL Game.00407050
 
         // Receive save files from client.
-        mem_seek(offset_D2Game + (version_D2Game == V114d ? 0x13F114 : (version_D2Game == V113d ? 0xD53E9 : (version_D2Game == V113c ? 0xCAF39 : (version_D2Game == V112 ? 0x624D9 : (version_D2Game == V111b ? 0x703D9 : (version_D2Game == V111 ? 0x376E9 : (version_D2Game == V110 ? 0x191A : (version_D2Game == V109d ? 0x183A : 0x183A)))))))));
+        mem_seek(
+            offset_D2Game + (
+                version_D2Game == V114d ? 0x13F114 : (
+                    version_D2Game == V113d ? 0xD53E9 : (
+                        version_D2Game == V113c ? 0xCAF39 : (
+                            version_D2Game == V112 ? 0x624D9 : (
+                                version_D2Game == V111b ? 0x703D9 : (
+                                    version_D2Game == V111 ? 0x376E9 : (version_D2Game == V110 ? 0x191A : (version_D2Game == V109d ? 0x183A : 0x183A)))))))));
         memt_byte(0x8B, 0xE8);
         if (version_D2Game >= V111) {
             MEMT_REF4(version_D2Game >= V114d ? 0x46B60F1E : 0xB60F005D, version_D2Game >= V114d ? caller_ReceiveSaveFiles_114 : caller_ReceiveSaveFiles_111);
@@ -587,7 +620,15 @@ int STDCALL ReceiveSaveFiles_9(DWORD clientID, SOCKET s, char *buf, int len, int
             //6FC3191C  |. 8A46 04        MOV AL,BYTE PTR DS:[ESI+4]
         }
         if (version_Fog <= V109d) {
-            mem_seek(offset_Fog + (version_Fog == V114d ? 0x0000 : (version_Fog == V113d ? 0x0000 : (version_Fog == V113c ? 0x0000 : (version_Fog == V112 ? 0x0000 : (version_Fog == V111b ? 0x0000 : (version_Fog == V111 ? 0x0000 : (version_Fog == V110 ? 0x0000 : (version_Fog == V109d ? 0x45AE : 0x47DE)))))))));
+            mem_seek(
+                offset_Fog + (
+                    version_Fog == V114d ? 0x0000 : (
+                        version_Fog == V113d ? 0x0000 : (
+                            version_Fog == V113c ? 0x0000 : (
+                                version_Fog == V112 ? 0x0000 : (
+                                    version_Fog == V111b ? 0x0000 : (
+                                        version_Fog == V111 ? 0x0000 : (
+                                            version_Fog == V110 ? 0x0000 : (version_Fog == V109d ? 0x45AE : 0x47DE)))))))));
             memt_byte(0x8B, 0xE8);
             MEMT_REF4(0x891C2444, version_Fog == V109b ? caller_BugFix109b : caller_BugFix109d);
             memt_byte(0x44, 0x90);
