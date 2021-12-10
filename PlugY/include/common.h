@@ -2,7 +2,8 @@
 
 #include <Windows.h>
 #include <string>
-
+#include <algorithm>
+#include <iterator>
 #include "d2Struct.h"
 
 namespace PlugY {
@@ -21,5 +22,13 @@ namespace PlugY {
             wide += w;
         }
         return wide;
+    }
+
+    inline std::string from_wide (const std::wstring& wide){
+        std::string str;
+        std::transform(wide.begin(), wide.end(), std::back_inserter(str), [] (wchar_t c) {
+            return (char)c;
+        });
+        return str;
     }
 }
