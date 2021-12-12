@@ -1,5 +1,4 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "cert-err58-cpp"
+#include "newInterface_CubeListing.h"
 #include "updateClient.h"
 #include "common.h"
 #include "LocalizedStrings.h"
@@ -19,7 +18,7 @@ namespace PlugY {
     static const wchar_t *const SPACE = L" ";
 
 
-    std::wstring* replaceColorCodes(std::wstring *str){
+    std::wstring *replaceColorCodes(std::wstring *str) {
         std::map<std::wstring, std::wstring> wideColorCodes = {
                 {L"\\xFFc1", L"[Red]"},
                 {L"\\xFFc2", L"[Green]"},
@@ -34,7 +33,7 @@ namespace PlugY {
                 {L"\\xFFc9", L"[Yellow]"},
                 {L"\\xFFc;", L"[Purple]"}
         };
-        for (auto&& [code, color]: wideColorCodes) {
+        for (auto&&[code, color]: wideColorCodes) {
             *str = std::regex_replace(*str, std::wregex(code), color);
         }
         return str;
@@ -44,52 +43,66 @@ namespace PlugY {
 6FC9275F  |. E8 ECCCFFFF    |CALL D2Game.6FC8F450                    ; \D2Game.6FC8F450
 */
     void printOutputItem(CubeOutput *output, std::wstringstream &stream, int *nbOutputs, bool InNoSocket) {
+        auto streamLocal = [&str = stream](auto id) -> std::wstringstream & {
+            str << getLocalString(id);
+            return str;
+        };
+        auto streamLocalSpace = [streamLocal](auto id) {
+            streamLocal(id) << SPACE;
+        };
+        auto streamD2StringRaw = [&str = stream](auto index) {
+            str << D2GetStringFromIndex(index);
+        };
+        auto streamD2String = [&str = stream](auto index) {
+            str << StripGender(D2GetStringFromIndex(index));
+        };
         if (output->outputType == 0)
             return;
         if (*nbOutputs > 0)
             stream << L" + ";
         *nbOutputs += 1;
         if (output->outputType == 1) {
-            stream << getLocalString(STR_COW_PORTAL);
+
+            streamLocal(STR_COW_PORTAL);
             return;
         } else if (output->outputType == 2) {
-            stream << getLocalString(STR_PANDEMONIUM_PORTAL);
+            streamLocal(STR_PANDEMONIUM_PORTAL);
             return;
         } else if (output->outputType == 3) {
-            stream << getLocalString(STR_PANDEMONIUM_FINAL_PORTAL);
+            streamLocal(STR_PANDEMONIUM_FINAL_PORTAL);
             return;
         }
         if ((output->quantityOrNbSockets > 1) && !output->haveSockets) {
             if (output->quantityOrNbSockets == 255)
-                stream << getLocalString(STR_FULL) << SPACE;
+                streamLocalSpace(STR_FULL);
             else
                 stream << output->quantityOrNbSockets << SPACE;
         }
         if (output->repair)
-            stream << getLocalString(STR_REPAIR) << SPACE;
+            streamLocalSpace(STR_REPAIR);
         if (output->repair && output->recharge)
-            stream << getLocalString(STR_AND) << SPACE;
+            streamLocalSpace(STR_AND);
         if (output->recharge)
-            stream << getLocalString(STR_RECHARGE) << SPACE;
+            streamLocalSpace(STR_RECHARGE);
         if (output->destroysFillers)
-            stream << getLocalString(STR_DESTROY_FILLERS) << SPACE;
+            streamLocalSpace(STR_DESTROY_FILLERS);
         if (output->removeFillers)
-            stream << getLocalString(STR_REMOVE_FILLERS) << SPACE;
+            streamLocalSpace(STR_REMOVE_FILLERS);
         if (output->regeneratesUnique)
-            stream << getLocalString(STR_REGENERATE) << SPACE;
+            streamLocalSpace(STR_REGENERATE);
         if (output->upgradeToExceptional)
-            stream << getLocalString(STR_UPGRADE_TO_EXCEPTIONAL) << SPACE;
+            streamLocalSpace(STR_UPGRADE_TO_EXCEPTIONAL);
         if (output->upgradeToElite)
-            stream << getLocalString(STR_UPGRADE_TO_ELITE) << SPACE;
+            streamLocalSpace(STR_UPGRADE_TO_ELITE);
         if (output->isEthereal)
-            stream << getLocalString(STR_ETHERAL) << SPACE;
+            streamLocalSpace(STR_ETHERAL);
         if (output->isSpecificItem) {
             if (output->quality == ITEMQUALITY_UNIQUE) {
                 UniqueItemsBIN *uniqueItems = SgptDataTables->uniqueItems + output->specificID - 1;
-                stream << D2GetStringFromIndex(uniqueItems->uniqueNameId);
+                streamD2StringRaw(uniqueItems->uniqueNameId);
             } else if (output->quality == ITEMQUALITY_SET) {
                 SetItemsBIN *setItems = SgptDataTables->setItems + output->specificID - 1;
-                stream <<  D2GetStringFromIndex(setItems->setNameId);
+                streamD2StringRaw(setItems->setNameId);
             } else {
                 stream << STRING_ERROR;
                 return;
@@ -97,37 +110,37 @@ namespace PlugY {
         } else {
             switch (output->quality) {
                 case 1:
-                    stream << getLocalString(STR_CRACKED) << SPACE;
+                    streamLocalSpace(STR_CRACKED);
                     break;
                 case 2:
-                    stream << getLocalString(STR_NORMAL) << SPACE;
+                    streamLocalSpace(STR_NORMAL);
                     break;
                 case 3:
-                    stream << getLocalString(STR_SUPERIOR) << SPACE;
+                    streamLocalSpace(STR_SUPERIOR);
                     break;
                 case 4:
-                    stream << getLocalString(STR_MAGIC) << SPACE;
+                    streamLocalSpace(STR_MAGIC);
                     break;
                 case 5:
-                    stream << getLocalString(STR_SET) << SPACE;
+                    streamLocalSpace(STR_SET);
                     break;
                 case 6:
-                    stream << getLocalString(STR_RARE) << SPACE;
+                    streamLocalSpace(STR_RARE);
                     break;
                 case 7:
-                    stream << getLocalString(STR_UNIQUE) << SPACE;
+                    streamLocalSpace(STR_UNIQUE);
                     break;
                 case 8:
-                    stream << getLocalString(STR_CRAFTED) << SPACE;
+                    streamLocalSpace(STR_CRAFTED);
                     break;
                 case 9:
-                    stream << getLocalString(STR_TEMPERED) << SPACE;
+                    streamLocalSpace(STR_TEMPERED);
                     break;
             }
             switch (output->outputType) {
                 case 0xFC: {
                     ItemsBIN *items = D2GetItemsBIN(output->ID);
-                    stream << StripGender(D2GetStringFromIndex(items->NameStr));
+                    streamD2String(items->NameStr);
                     break;
                 }
                 case 0xFD: {
@@ -135,14 +148,14 @@ namespace PlugY {
                     if (!itemTypeData)
                         stream << L"Unknown Item Type";
                     else
-                        stream << getLocalTypeString(itemTypeData->code);
+                        streamLocal(itemTypeData->code);
                     break;
                 }
                 case 0xFE:
-                    stream << getLocalString(STR_ITEM);
+                    streamLocal(STR_ITEM);
                     break;
                 case 0xFF:
-                    stream << getLocalString(STR_ITEM_SAME_TYPE);
+                    streamLocal(STR_ITEM_SAME_TYPE);
                     break;
                 default:
                     stream << STRING_ERROR << SPACE;
@@ -156,11 +169,24 @@ namespace PlugY {
                 swprintf_s(buffer, sizeof buffer, getLocalString(STR_WITH_N_SOCKETS), output->quantityOrNbSockets);
                 stream << buffer;
             } else
-                stream << getLocalString(STR_WITH_SOCKETS);
+                streamLocal(STR_WITH_SOCKETS);
         }
     }
 
     void printInputItem(CubeInput *input, std::wstringstream &stream, BYTE *nbInputs, bool *InNoSocket) {
+        auto streamLocal = [&str = stream](auto id) -> std::wstringstream & {
+            str << getLocalString(id);
+            return str;
+        };
+        auto streamLocalSpace = [streamLocal](auto id) {
+            streamLocal(id) << SPACE;
+        };
+        auto streamSpaceLocal = [&str = stream](auto id) {
+            str << SPACE << getLocalString(id);
+        };
+        auto streamD2String = [&str = stream](auto index) {
+            str << StripGender(D2GetStringFromIndex(index));
+        };
         if (!input->byItemID && !input->byItemTypeID)
             return;
         if (*nbInputs)
@@ -170,24 +196,24 @@ namespace PlugY {
         if (nb > 1)
             stream << nb << SPACE;
         if (input->isEthereal)
-            stream << getLocalString(STR_ETHERAL) << SPACE;
+            streamLocalSpace(STR_ETHERAL);
         if (input->isNotEthereal)
-            stream << getLocalString(STR_NOT_ETHERAL) << SPACE;
+            streamLocalSpace(STR_NOT_ETHERAL);
         if (input->isNotRuneword)
-            stream << getLocalString(STR_NOT_RUNEWORD) << SPACE;
+            streamLocalSpace(STR_NOT_RUNEWORD);
         if (input->isBasic)
-            stream << getLocalString(STR_BASIC) << SPACE;
+            streamLocalSpace(STR_BASIC);
         if (input->isExceptional)
-            stream << getLocalString(STR_EXCEPTIONAL) << SPACE;
+            streamLocalSpace(STR_EXCEPTIONAL);
         if (input->isElite)
-            stream << getLocalString(STR_ELITE) << SPACE;
+            streamLocalSpace(STR_ELITE);
         if (input->isSpecificItem) {
             if (input->quality == ITEMQUALITY_UNIQUE) {
                 UniqueItemsBIN *uniqueItems = SgptDataTables->uniqueItems + input->specificID - 1;
-                stream << StripGender(D2GetStringFromIndex(uniqueItems->uniqueNameId));
+                streamD2String(uniqueItems->uniqueNameId);
             } else if (input->quality == ITEMQUALITY_SET) {
                 SetItemsBIN *setItems = SgptDataTables->setItems + input->specificID - 1;
-                stream << StripGender(D2GetStringFromIndex(setItems->setNameId));
+                streamD2String(setItems->setNameId);
             } else {
                 stream << STRING_ERROR << SPACE;
                 return;
@@ -195,31 +221,31 @@ namespace PlugY {
         } else {
             switch (input->quality) {
                 case 1:
-                    stream << getLocalString(STR_CRACKED) << SPACE;
+                    streamLocalSpace(STR_CRACKED);
                     break;
                 case 2:
-                    stream << getLocalString(STR_NORMAL) << SPACE;
+                    streamLocalSpace(STR_NORMAL);
                     break;
                 case 3:
-                    stream << getLocalString(STR_SUPERIOR) << SPACE;
+                    streamLocalSpace(STR_SUPERIOR);
                     break;
                 case 4:
-                    stream << getLocalString(STR_MAGIC) << SPACE;
+                    streamLocalSpace(STR_MAGIC);
                     break;
                 case 5:
-                    stream << getLocalString(STR_SET) << SPACE;
+                    streamLocalSpace(STR_SET);
                     break;
                 case 6:
-                    stream << getLocalString(STR_RARE) << SPACE;
+                    streamLocalSpace(STR_RARE);
                     break;
                 case 7:
-                    stream << getLocalString(STR_UNIQUE) << SPACE;
+                    streamLocalSpace(STR_UNIQUE);
                     break;
                 case 8:
-                    stream << getLocalString(STR_CRAFTED) << SPACE;
+                    streamLocalSpace(STR_CRAFTED);
                     break;
                 case 9:
-                    stream << getLocalString(STR_TEMPERED) << SPACE;
+                    streamLocalSpace(STR_TEMPERED);
                     break;
             }
             if (input->byItemTypeID) {
@@ -227,22 +253,22 @@ namespace PlugY {
                 if (!itemTypeData)
                     stream << L"Unknown Item Type";
                 else
-                    stream << getLocalTypeString(itemTypeData->code);
+                    streamLocal(itemTypeData->code);
             } else if (input->ID == 0xFFFF) {
-                stream << getLocalString(STR_ITEM);
+                streamLocal(STR_ITEM);
             } else {
                 ItemsBIN *items = D2GetItemsBIN(input->ID);
-                stream << StripGender(D2GetStringFromIndex(items->NameStr));
+                streamD2String(items->NameStr);
             }
         }
         if (input->includeUpgradedVersions && !input->isElite)
-            stream << SPACE << getLocalString(STR_INCLUDE_UPGRADED);
+            streamSpaceLocal(STR_INCLUDE_UPGRADED);
         if (input->haveNoSocket) {
-            stream << SPACE << getLocalString(STR_WITHOUT_SOCKET);
+            streamSpaceLocal(STR_WITHOUT_SOCKET);
             *InNoSocket = true;
         }
         if (input->haveSockets)
-            stream << SPACE << getLocalString(STR_WITH_SOCKETS);
+            streamSpaceLocal(STR_WITH_SOCKETS);
     }
 
     std::wstring printLine(CubeMainBIN *bin, int i) {
@@ -251,26 +277,36 @@ namespace PlugY {
         BYTE realNbInputs = 0;
         std::wstringstream stream;
         stream << std::setfill(L' ') << std::setw(6) << i << L": ";
-        printInputItem(&bin->input1, stream, &realNbInputs, &InNoSocket);
-        printInputItem(&bin->input2, stream, &realNbInputs, &InNoSocket);
-        printInputItem(&bin->input3, stream, &realNbInputs, &InNoSocket);
-        printInputItem(&bin->input4, stream, &realNbInputs, &InNoSocket);
-        printInputItem(&bin->input5, stream, &realNbInputs, &InNoSocket);
-        printInputItem(&bin->input6, stream, &realNbInputs, &InNoSocket);
-        printInputItem(&bin->input7, stream, &realNbInputs, &InNoSocket);
+        auto streamInput = [&stream , &realNbInputs, &InNoSocket](auto input) {
+            printInputItem(input, stream, &realNbInputs, &InNoSocket);
+        };
+        streamInput(&bin->input1);
+        streamInput(&bin->input2);
+        streamInput(&bin->input3);
+        streamInput(&bin->input4);
+        streamInput(&bin->input5);
+        streamInput(&bin->input6);
+        streamInput(&bin->input7);
         if (realNbInputs != bin->numinputs) {
             stream << L" *** ERROR : numInputs(" << bin->numinputs << ") != realNbInputs(" << realNbInputs << ") ***";
             return stream.str();
         }
         stream << L" => ";
         int realNbOutputs = 0;
-        printOutputItem(&bin->output1, stream, &realNbOutputs, InNoSocket);
-        printOutputItem(&bin->output2, stream, &realNbOutputs, InNoSocket);
-        printOutputItem(&bin->output3, stream, &realNbOutputs, InNoSocket);
+        auto streamOutput = [&stream , &realNbOutputs, &InNoSocket](auto output) {
+            printOutputItem(output, stream, &realNbOutputs, InNoSocket);
+        };
+        streamOutput(&bin->output1);
+        streamOutput(&bin->output2);
+        streamOutput(&bin->output3);
+        auto streamSpaceLocal = [&str = stream](auto id) {
+            str << SPACE << getLocalString(id);
+        };
+
         if (bin->minDiff == 1)
-            stream << SPACE << getLocalString(STR_ONLY_N_H);
+            streamSpaceLocal(STR_ONLY_N_H);
         else if (bin->minDiff == 2)
-            stream << SPACE << getLocalString(STR_ONLY_HELL);
+            streamSpaceLocal(STR_ONLY_HELL);
         if (bin->playerClass != 0xFF) {
             CharStatsBIN *charStats = D2GetCharStatsBIN(bin->playerClass);
             stream << L" (";
@@ -280,14 +316,14 @@ namespace PlugY {
             stream << L")";
         }
         if ((bin->op > 0) && (bin->op != 28)) {
-            stream << L" [op" << bin->op << L"(" << bin->param << L"," << bin->value<< L")]";
+            stream << L" [op" << bin->op << L"(" << bin->param << L"," << bin->value << L")]";
         }
         return std::regex_replace(stream.str(), std::wregex(L"\n"), L"");
     }
 
-    std::wstring vectorToWstring(std::vector<std::wstring> vec){
+    std::wstring vectorToWstring(const std::vector<std::wstring>& vec) {
         std::wstringstream stream;
-        for (std::wstring str: vec) {
+        for (const std::wstring& str: vec) {
             stream << str << std::endl;
         }
         return stream.str();
@@ -299,7 +335,7 @@ namespace PlugY {
         int lines = D2GetNbCubeMainBIN();
         for (int i = 0; i < lines; i++) {
             auto str = printLine(D2GetCubeMainBIN(i), i);
-            if(!str.empty())
+            if (!str.empty())
                 recipes.push_back(str);
         }
         recipes.shrink_to_fit();
@@ -318,7 +354,7 @@ namespace PlugY {
         log_msg("\n\n********** Print all cube formula **********\n");
         char filename[MAX_PATH];
         D2FogGetSavePath(filename, MAX_PATH);
-        strcat(filename, CUBEFORMULA_FILE);
+        strcat_s(filename, CUBEFORMULA_FILE);
         int nbLines = D2GetNbCubeMainBIN();
         log_msg("nbLines : %d\n", nbLines);
         auto stream = printAllCubeMainBIN();
@@ -327,4 +363,3 @@ namespace PlugY {
     }
 
 }
-#pragma clang diagnostic pop
