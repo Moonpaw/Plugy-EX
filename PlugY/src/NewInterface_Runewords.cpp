@@ -378,7 +378,7 @@ namespace PlugY {
         D2PrintImage(&data, RX(256), RY(0), -1, 5, 0);
     }
 
-    void PrintPopupRuneWords(LPWSTR &lpText) {
+    void PrintPopupRuneWords() {
         DWORD x = D2GetMouseX();
         DWORD y = D2GetMouseY();
         if (isOnCloseBtn(x, y))            // print popup "close"
@@ -389,15 +389,14 @@ namespace PlugY {
                          WHITE, 1);
         } else if (isOnNextPageBtn(x, y))    // print popup "next page"
         {
-            lpText = getLocalString(STR_NEXT_PAGE);
-            D2PrintPopup(lpText, getXNextPageBtn() + ButtonLength / 2, getYNextPageBtn() - ButtonHeight, WHITE, 1);
+            auto text = const_cast<LPWSTR>(getLocalString(STR_NEXT_PAGE));
+            D2PrintPopup(text, getXNextPageBtn() + ButtonLength / 2, getYNextPageBtn() - ButtonHeight, WHITE, 1);
         }
     }
 
     void __stdcall printRuneWordsPage() {
         EnsureGlobalRunesAreCached();
         if (IsUnexpectedGameType()) return D2PrintStatsPage();
-        LPWSTR lpText;
         bDontPrintBorder = true;
         sDrawImageInfo data = {};
         PrintBackground(data);
@@ -409,7 +408,7 @@ namespace PlugY {
         D2SetFont(6);
         if (allowedTypes.empty()) return;
         PrintRuneWords();
-        PrintPopupRuneWords(lpText);
+        PrintPopupRuneWords();
     }
 
     DWORD __stdcall mouseRuneWordsPageLeftDown(sWinMessage *msg) {

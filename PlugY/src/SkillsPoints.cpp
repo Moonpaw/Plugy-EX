@@ -43,7 +43,8 @@ namespace PlugY {
         DWORD skillID, keepBonus, maxSkillLevel;
         int skpoints;
         DWORD nbPoints = 0;
-        void *ptClient = D2GetClient(ptChar, __FILE__, __LINE__);
+        char *file = (char *) __FILE__;
+        void *ptClient = D2GetClient(ptChar, file, __LINE__);
         SkillData *ptSkill = PCSkills(ptChar)->ptFirstSkill;
         while (ptSkill) {
             if (getCharClass(ptSkill) == ptChar->nPlayerClass)//ptSkill->ptSkillBin->charclass
@@ -53,11 +54,11 @@ namespace PlugY {
                     maxSkillLevel = D2GetSkillLevel(ptChar, ptSkill, 0);
                     skpoints = getskPoint(ptSkill);
                     if (skpoints == -1 || unassignSkillsPointsOneForOne) {
-                        D2SetSkillBaseLevel(ptChar, skillID, 0, keepBonus, __FILE__, __LINE__);
+                        D2SetSkillBaseLevel(ptChar, skillID, 0, keepBonus, file, __LINE__);
                         nbPoints += maxSkillLevel;
                     } else {
                         while (maxSkillLevel--) {
-                            D2SetSkillBaseLevel(ptChar, skillID, maxSkillLevel, keepBonus, __FILE__, __LINE__);
+                            D2SetSkillBaseLevel(ptChar, skillID, maxSkillLevel, keepBonus, file, __LINE__);
                             nbPoints += D2GetSkillCost(ptChar, skpoints, skillID, maxSkillLevel);
                         }
                     }

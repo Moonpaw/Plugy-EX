@@ -86,6 +86,6 @@ namespace PlugY {
     DWORD loadStashList(Commons::Unit *ptChar, BYTE *data, DWORD maxSize, DWORD *curSize, bool isShared);
     void saveStashList(Commons::Unit *ptChar, Stash *ptStash, BYTE **data, DWORD *maxSize, DWORD *curSize);
     void getCurrentStashName(WCHAR *buffer, DWORD maxSize, Unit *ptChar);
-    WCHAR *getDefaultStashName(Commons::Unit *ptChar);
+    const WCHAR * getDefaultStashName(Commons::Unit *ptChar);
     void Install_MultiPageStash();
 }

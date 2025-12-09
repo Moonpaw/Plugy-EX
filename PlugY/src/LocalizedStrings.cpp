@@ -12,14 +12,18 @@
 #include <stdio.h>
 #include "language.h"
 #include <d2constants.h>
+#include <vector>
 #include "D2TypeDefMacros.h"
+#include <nameof.hpp>
+#include <map>
 //#include "D2TypeNameMacros.h"
 
 namespace PlugY {
     using namespace Commons;
+
     const char *LOCALIZED_STRINGS_FILENAME = "PlugY\\LocalizedStrings.ini";
 
-    LPWSTR StripGender(LPWSTR text) {
+    LPCWSTR StripGender(LPCWSTR text) {
         if (text[0] == L' ')
             text++;
         if (text[0] != L'[')
@@ -31,7 +35,7 @@ namespace PlugY {
         return text;
     }
 
-    LPCWSTR StripGender(LPCWSTR text) { return StripGender((LPWSTR) text); }
+    //LPCWSTR StripGender(LPCWSTR text) { return StripGender((LPWSTR) text); }
 
 ///////////////////////////////////////// Get Local Strings /////////////////////////////////////////
 
@@ -40,10 +44,12 @@ namespace PlugY {
         LPSTR itemStr;
         LPWSTR typeLocalizedString;
     } *sLocalizedTypeStrings;
+
     LPWSTR sLocalizedStrings[100];
+
     int nbLocalizedTypeString = 0;
 
-    LPWSTR getLocalString(int stringId) {
+    LPCWSTR getLocalString(int stringId) {
         if (stringId < 0 || stringId >= 100)
             return L"";
         return sLocalizedStrings[stringId];
@@ -55,7 +61,7 @@ namespace PlugY {
                 log_msg("Code=%08X\n", code);
                 if (sLocalizedTypeStrings[i].itemStr)
                     return StripGender(D2GetStringFromString(sLocalizedTypeStrings[i].itemStr));
-                LPWSTR text = StripGender(sLocalizedTypeStrings[i].typeLocalizedString);
+                auto text = StripGender(sLocalizedTypeStrings[i].typeLocalizedString);
                 if (!text || !text[0])
                     break;
                 return text;
@@ -67,7 +73,7 @@ namespace PlugY {
         itemIdx[2] = (code >> 16) & 0xFF;
         itemIdx[3] = (code >> 24) & 0xFF;
         itemIdx[4] = 0;
-        LPWSTR typeName = StripGender(D2GetStringFromString(itemIdx));
+        auto typeName = StripGender(D2GetStringFromString(itemIdx));
         if (wcsstr(typeName, L"-not xlated call ken") == NULL)
             return typeName;
         static WCHAR itemIdxW[5];
@@ -166,18 +172,15 @@ namespace PlugY {
             if (cur != end) {
                 sLocalizedTypeStrings[i].code |= (*cur & 0xFF) << 8;
                 cur++;
-            }
-            else sLocalizedTypeStrings[i].code |= ' ' << 8;
+            } else sLocalizedTypeStrings[i].code |= ' ' << 8;
             if (cur != end) {
                 sLocalizedTypeStrings[i].code |= (*cur & 0xFF) << 16;
                 cur++;
-            }
-            else sLocalizedTypeStrings[i].code |= ' ' << 16;
+            } else sLocalizedTypeStrings[i].code |= ' ' << 16;
             if (cur != end) {
                 sLocalizedTypeStrings[i].code |= (*cur & 0xFF) << 24;
                 cur++;
-            }
-            else sLocalizedTypeStrings[i].code |= ' ' << 24;
+            } else sLocalizedTypeStrings[i].code |= ' ' << 24;
             sLocalizedTypeStrings[i].itemStr = NULL;
 
             // Search item key
@@ -246,6 +249,11 @@ namespace PlugY {
         return nb;
     }
 
+    LPCWSTR findLanguageOrDefault(int language, std::map<int, LPCWSTR>& languages) {
+        auto result = languages.find(language);
+        return result != languages.end() ? result->second : L"ENG";
+    }
+
     void loadLocalizedStrings(int language) {
         if (sLocalizedTypeStrings)
             return;
@@ -259,135 +267,105 @@ namespace PlugY {
             log_msg("Failed to load %s.\n\n", LOCALIZED_STRINGS_FILENAME);
             return;
         }
-        LPCWSTR key;
-        switch (language) {
-            case LNG_ENG:
-                key = L"ENG";
-                break;
-            case LNG_ESP:
-                key = L"ESP";
-                break;
-            case LNG_DEU:
-                key = L"DEU";
-                break;
-            case LNG_FRA:
-                key = L"FRA";
-                break;
-            case LNG_POR:
-                key = L"POR";
-                break;
-            case LNG_ITA:
-                key = L"ITA";
-                break;
-            case LNG_JPN:
-                key = L"JPN";
-                break;
-            case LNG_KOR:
-                key = L"KOR";
-                break;
-            case LNG_SIN:
-                key = L"SIN";
-                break;
-            case LNG_CHI:
-                key = L"CHI";
-                break;
-            case LNG_POL:
-                key = L"POL";
-                break;
-            case LNG_RUS:
-                key = L"RUS";
-                break;
-            case LNG_DEF:
-                key = L"ENG";
-                break;
-            default:
-                key = L"ENG";
-        }
-
+        auto languages = std::map<int, LPCWSTR>{{LNG_ENG, L"ENG"},
+                                                   {LNG_ESP, L"ESP"},
+                                                   {LNG_DEU, L"DEU"},
+                                                   {LNG_FRA, L"FRA"},
+                                                   {LNG_POR, L"POR"},
+                                                   {LNG_ITA, L"ITA"},
+                                                   {LNG_JPN, L"JPN"},
+                                                   {LNG_KOR, L"KOR"},
+                                                   {LNG_SIN, L"SIN"},
+                                                   {LNG_CHI, L"CHI"},
+                                                   {LNG_POL, L"POL"},
+                                                   {LNG_RUS, L"RUS"},
+                                                   {LNG_DEF, L"ENG"},};
+        auto key = findLanguageOrDefault(language, languages);
         // Load localized type string
         nbLocalizedTypeString = GetPrivateProfileStringList(iniFile->m_cache, L"TYPE_", key);
-
         // PlugY localized string
-        LOAD(STR_STATS_UNASSIGN_WITH_LIMIT);
-        LOAD(STR_STATS_UNASSIGN_WITHOUT_LIMIT);
-        LOAD(STR_STATS_BASE_MIN);
-        LOAD(STR_SKILLS_UNASSIGN);
-        LOAD(STR_STASH_PREVIOUS_PAGE);
-        LOAD(STR_STASH_NEXT_PAGE);
-        LOAD(STR_TOGGLE_TO_PERSONAL);
-        LOAD(STR_TOGGLE_TO_SHARED);
-        LOAD(STR_TOGGLE_MULTI_DISABLED);
-        LOAD(STR_STASH_PREVIOUS_INDEX);
-        LOAD(STR_STASH_NEXT_INDEX);
-        LOAD(STR_PUT_GOLD);
-        LOAD(STR_TAKE_GOLD);
-        LOAD(STR_PERSONAL_PAGE_NUMBER);
-        LOAD(STR_SHARED_PAGE_NUMBER);
-        LOAD(STR_NO_SELECTED_PAGE);
-        LOAD(STR_SHARED_GOLD_QUANTITY);
-        LOAD(STR_PREVIOUS_PAGE);
-        LOAD(STR_NEXT_PAGE);
-        LOAD(STR_ITEM_LEVEL);
-        LOAD(STR_PAGE_TYPE_CHANGE);
 
-        // Cube receipt :
-        LOAD(STR_COW_PORTAL);
-        LOAD(STR_PANDEMONIUM_PORTAL);
-        LOAD(STR_PANDEMONIUM_FINAL_PORTAL);
-        LOAD(STR_FULL);
-        LOAD(STR_REPAIR);
-        LOAD(STR_AND);
-        LOAD(STR_RECHARGE);
-        LOAD(STR_DESTROY_FILLERS);
-        LOAD(STR_REMOVE_FILLERS);
-        LOAD(STR_REGENERATE);
-        LOAD(STR_UPGRADE_TO_EXCEPTIONAL);
-        LOAD(STR_UPGRADE_TO_ELITE);
-        LOAD(STR_ETHERAL);
-        LOAD(STR_NOT_ETHERAL);
-        LOAD(STR_NOT_RUNEWORD);
-        LOAD(STR_BASIC);
-        LOAD(STR_EXCEPTIONAL);
-        LOAD(STR_ELITE);
-        LOAD(STR_CRACKED);
-        LOAD(STR_NORMAL);
-        LOAD(STR_SUPERIOR);
-        LOAD(STR_MAGIC);
-        LOAD(STR_SET);
-        LOAD(STR_RARE);
-        LOAD(STR_UNIQUE);
-        LOAD(STR_CRAFTED);
-        LOAD(STR_TEMPERED);
-        LOAD(STR_ITEM);
-        LOAD(STR_ITEM_SAME_TYPE);
-        LOAD(STR_INCLUDE_UPGRADED);
-        LOAD(STR_WITHOUT_SOCKET);
-        LOAD(STR_WITH_SOCKETS);
-        LOAD(STR_WITH_N_SOCKETS);
-        LOAD(STR_ONLY_N_H);
-        LOAD(STR_ONLY_HELL);
-        LOAD(STR_ONLY_CLASS);
-
-        // Breakpoints :
-        LOAD(STR_MERCENARIES);
-        LOAD(STR_MERC_ACT_1);
-        LOAD(STR_MERC_ACT_2);
-        LOAD(STR_MERC_ACT_3);
-        LOAD(STR_MERC_ACT_5);
-        LOAD(STR_BREAKPOINT);
-        LOAD(STR_BREAKPOINTS);
-        LOAD(STR_BLOCK_FRAMES);
-        LOAD(STR_CASTING_FRAMES);
-        LOAD(STR_HIT_RECOVERY_FRAMES);
-        LOAD(STR_1H_SWINGING_WEAPON);
-        LOAD(STR_OTHER_WEAPONS);
-        LOAD(STR_HUMAN_FORM);
-        LOAD(STR_BEAR_FORM);
-        LOAD(STR_WOLF_FORM);
-        LOAD(STR_VAMPIRE_FORM);
-        LOAD(STR_SPEARS_AND_STAVES);
-        LOAD(STR_LIGHTNING_CHAIN_LIGHTNING);
-        LOAD(STR_OTHER_SPELLS);
+        auto stringNames = std::vector<eStringList>{
+            STR_STATS_UNASSIGN_WITH_LIMIT,
+            STR_STATS_UNASSIGN_WITHOUT_LIMIT,
+            STR_STATS_BASE_MIN,
+            STR_SKILLS_UNASSIGN,
+            STR_STASH_PREVIOUS_PAGE,
+            STR_STASH_NEXT_PAGE,
+            STR_TOGGLE_TO_PERSONAL,
+            STR_TOGGLE_TO_SHARED,
+            STR_TOGGLE_MULTI_DISABLED,
+            STR_STASH_PREVIOUS_INDEX,
+            STR_STASH_NEXT_INDEX,
+            STR_PUT_GOLD,
+            STR_TAKE_GOLD,
+            STR_PERSONAL_PAGE_NUMBER,
+            STR_SHARED_PAGE_NUMBER,
+            STR_NO_SELECTED_PAGE,
+            STR_SHARED_GOLD_QUANTITY,
+            STR_PREVIOUS_PAGE,
+            STR_NEXT_PAGE,
+            STR_ITEM_LEVEL,
+            STR_PAGE_TYPE_CHANGE,
+            STR_COW_PORTAL,
+            STR_PANDEMONIUM_PORTAL,
+            STR_PANDEMONIUM_FINAL_PORTAL,
+            STR_FULL,
+            STR_REPAIR,
+            STR_AND,
+            STR_RECHARGE,
+            STR_DESTROY_FILLERS,
+            STR_REMOVE_FILLERS,
+            STR_REGENERATE,
+            STR_UPGRADE_TO_EXCEPTIONAL,
+            STR_UPGRADE_TO_ELITE,
+            STR_ETHERAL,
+            STR_NOT_ETHERAL,
+            STR_NOT_RUNEWORD,
+            STR_BASIC,
+            STR_EXCEPTIONAL,
+            STR_ELITE,
+            STR_CRACKED,
+            STR_NORMAL,
+            STR_SUPERIOR,
+            STR_MAGIC,
+            STR_SET,
+            STR_RARE,
+            STR_UNIQUE,
+            STR_CRAFTED,
+            STR_TEMPERED,
+            STR_ITEM,
+            STR_ITEM_SAME_TYPE,
+            STR_INCLUDE_UPGRADED,
+            STR_WITHOUT_SOCKET,
+            STR_WITH_SOCKETS,
+            STR_WITH_N_SOCKETS,
+            STR_ONLY_N_H,
+            STR_ONLY_HELL,
+            STR_ONLY_CLASS,
+            STR_MERCENARIES,
+            STR_MERC_ACT_1,
+            STR_MERC_ACT_2,
+            STR_MERC_ACT_3,
+            STR_MERC_ACT_5,
+            STR_BREAKPOINT,
+            STR_BREAKPOINTS,
+            STR_BLOCK_FRAMES,
+            STR_CASTING_FRAMES,
+            STR_HIT_RECOVERY_FRAMES,
+            STR_1H_SWINGING_WEAPON,
+            STR_OTHER_WEAPONS,
+            STR_HUMAN_FORM,
+            STR_BEAR_FORM,
+            STR_WOLF_FORM,
+            STR_VAMPIRE_FORM,
+            STR_SPEARS_AND_STAVES,
+            STR_LIGHTNING_CHAIN_LIGHTNING,
+            STR_OTHER_SPELLS};
+        for (const auto &item: stringNames) {
+            auto name = to_wide(std::string(nameof::nameof_enum(item)));
+            loadLocalString(iniFile, item, name.c_str(), key);
+        }
         iniFile->close();
         delete iniFile;
     }

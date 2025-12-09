@@ -31,7 +31,7 @@ namespace PlugY {
 
 
     DWORD __stdcall isModFile(char *filename) {
-        if (strstr(filename, modDataDirectory)) {
+        if (strstr(filename, modDataDirectory.c_str())) {
             log_msg("Load custom file : %s\n", filename);
             if ((GetFileAttributesA(filename) & 0x10) == 0)
                 return true;
@@ -47,7 +47,7 @@ namespace PlugY {
     }
 
     DWORD __stdcall isModFile_114(char *filename) {
-        if (strstr(filename, modDataDirectory)) {
+        if (strstr(filename, modDataDirectory.c_str())) {
             log_msg("Load custom file : %s\n", filename);
             if ((GetFileAttributesA(filename) & 0x10) == 0)
                 return true;
@@ -168,7 +168,7 @@ ISNOTMODDATA:
         if (!images || !name) return;
         if (!*images) {
             char buffer[MAX_PATH];
-            sprintf(buffer, "%s\\%s", modDataDirectory, name);
+            sprintf(buffer, "%s\\%s", modDataDirectory.c_str(), name);
             log_msg("Images file to load : %s\n", buffer);
             *images = D2LoadImage(buffer, 0);
             if (!*images) {

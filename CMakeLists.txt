@@ -28,7 +28,8 @@ add_custom_command(TARGET ${PROJECT_NAME}
 project(PlugY VERSION 0.0.1)
 include(CMakePrintHelpers)
 
-set(CMAKE_CXX_STANDARD 17)
+find_package(nameof REQUIRED)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_C_STANDARD 17)
 cmake_print_variables(PROJECT_NAME)
 
@@ -101,9 +102,11 @@ cmake_print_properties(
 )
 
 target_link_libraries(${PROJECT_NAME}
-        Commons)
+        Commons
+        nameof::nameof)
 target_link_libraries(${PROJECT_NAME}Static
-        Commons)
+        Commons
+        nameof::nameof)
 
 add_custom_command(TARGET ${PROJECT_NAME}
         POST_BUILD

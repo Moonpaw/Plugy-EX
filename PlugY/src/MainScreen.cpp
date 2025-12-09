@@ -21,10 +21,10 @@
 //using namespace std;
 
 namespace PlugY {
-    char *versionText = "";
-    bool active_VersionTextChange = 0;
+    char * versionText = std::string("").data();
+    bool active_VersionTextChange = false;
     BYTE modVersionColor = 0;
-    bool active_PrintPlugYVersion = 1;
+    bool active_PrintPlugYVersion = true;
     BYTE colorOfPlugYVersion = 4;
     DWORD newTextBoxData[] = {4, 0x237, 0x243, 0xC8, 0x14, 0, 0, 0, 0, 0, 0, 2};//type,x,y,l,h,?,?,?,?,?,?,?(0,257,C8,28)
 
@@ -95,7 +95,7 @@ namespace PlugY {
 /*************************************************************************************/
 
     void __fastcall versionChange(void *screen, char *text, DWORD color) {
-        D2PrintLineOnTextBox(screen, versionText, modVersionColor);
+        D2PrintLineOnTextBox(screen, const_cast<char *>(versionText), modVersionColor);
     }
 
     __declspec(naked)void caller_VersionChange_114() {

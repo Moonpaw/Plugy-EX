@@ -15,16 +15,8 @@ namespace PlugY {
     extern void *newStatsInterfaceImages;
     extern void *statsBackgroundImages;
     extern void *sharedGoldBtnsImages;
-#define CREATE_TABLE_DESCRIPTION(N)    \
-BINField  TableDesc[N]; int i=0
 
 // 0 - null data, used by the End (Term) fields only
-#define ADD_TERM_FIELD()                \
-TableDesc[i].fieldName = "end";            \
-TableDesc[i].type = 0x00;                \
-TableDesc[i].strLength = 0x00;            \
-TableDesc[i].offset = 0x00;                \
-TableDesc[i].lookup = 0x00000000; i++
 
 // 1 - String (needs length field)
 #define ADD_STRING_FIELD(O, N, L)        \
@@ -43,12 +35,6 @@ TableDesc[i].offset = O;                \
 TableDesc[i].lookup = 0x00000000; i++
 
 // 3 - WORD field
-#define ADD_WORD_FIELD(O, N)            \
-TableDesc[i].fieldName = N;                \
-TableDesc[i].type = 0x03;                \
-TableDesc[i].strLength = 0x00;            \
-TableDesc[i].offset = O;                \
-TableDesc[i].lookup = 0x00000000; i++
 
 // 4 - BYTE field
 #define ADD_BYTE_FIELD(O, N)            \
@@ -94,8 +80,6 @@ TableDesc[i].lookup = (void*)(L); i++
 //14,16:Lookup for WORD
 //11:Lookup fo DWORD
 //1A: flag
-
-#define BUILD_BIN(T, V, N, F) V = (T*)compileTxtFile(mempool, F, TableDesc, (DWORD*)&nbStatsInterface, sizeof(T));
 
 
 //extern void* lookupItemStatCost;

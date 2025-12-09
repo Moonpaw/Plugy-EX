@@ -13,6 +13,7 @@
 #include <d2constants.h>
 #include "modifMemory.h"
 #include "error.h"
+#include <string>
 
 namespace PlugY {
 #pragma pack(1)
@@ -25,7 +26,7 @@ namespace PlugY {
         BYTE uk[31];
     };
 #pragma pack()
-    bool active_WorldEvent = 0;
+    bool active_WorldEvent = false;
     DWORD WEactive = 0;
     DWORD DCloneSpawned = 0;
     DWORD nbSOJSold = 0;
@@ -34,14 +35,14 @@ namespace PlugY {
     DWORD nbTicksForNextSOJSold = 0;
     DWORD prevTicks = 0;
     DWORD showSOJSoldCounterInAllDiff = 0;
-    char *itemsToSell = "The Stone of Jordan";
+    std::string itemsToSell = "The Stone of Jordan";
     DWORD worldEventmonsterID = 333;
     DWORD valueOfOwnSOJSold = 100;
     DWORD valueInitSOJSoldMin = 200;
     DWORD valueInitSOJSoldDelta = 2000;
     DWORD triggerAtSolJSoldMin = 75;
     DWORD triggerAtSolJSoldDelta = 51;
-    bool active_AutomaticSell = 1;
+    bool active_AutomaticSell = true;
     DWORD timeBeforeAutoSellMin = 00000;
     DWORD timeBeforeAutoSellDelta = 120000;
     CubeInput itemNeeded;
@@ -132,7 +133,7 @@ namespace PlugY {
     void initWorldEventVariables() {
         char buf[50];
         memset(&itemNeeded, 0, sizeof(itemNeeded));
-        strncpy(buf, itemsToSell, 50);
+        strncpy(buf, itemsToSell.c_str(), 50);
         D2CompileCubeInput(&itemNeeded, buf, 0, 0);
         nbManagedSOJSold = 0;
         DCloneSpawned = 0;

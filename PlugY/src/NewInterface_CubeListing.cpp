@@ -1,316 +1,364 @@
-/*=================================================================
-	File created by Yohann NICOLAS.
-
-	Cube Listing functions
-
-=================================================================*/
-
+#include "newInterface_CubeListing.h"
 #include "updateClient.h"
 #include "common.h"
 #include "LocalizedStrings.h"
 #include "d2functions.h"
 #include "error.h"
-#include <stdio.h>
-#include <direct.h>			// _getcwd()
+#include <direct.h>
 #include <d2constants.h>
+#include <sstream>
+#include <fstream>
+#include <iomanip>
+#include <map>
+#include <regex>
 
 namespace PlugY {
-    const char *CUBEFORMULA_FILE = "cube.txt";
-    const LPCWSTR STRING_ERROR = L"***Error***";
-    bool InNoSocket;
-#define BUF (&buf[*len])
-#define PRINT *len += swprintf
+    static const char *CUBEFORMULA_FILE = "cube.txt";
+    static const LPCWSTR STRING_ERROR = L"***Error***";
+    static const wchar_t *const SPACE = L" ";
+
+
+    std::wstring *replaceColorCodes(std::wstring *str) {
+        std::map<std::wstring, std::wstring> wideColorCodes = {
+                {L"\\xFFc1", L"[Red]"},
+                {L"\\xFFc2", L"[Green]"},
+                {L"\\xFFc3", L"[Blue]"},
+                {L"\\xFFc4", L"[Gold]"},
+                {L"\\xFFc8", L"[Orange]"},
+                {L"\\xFFc:", L"[Dark Green]"},
+                {L"\\xFFc0", L"[white]"},
+                {L"\\xFFc5", L"[grey]"},
+                {L"\\xFFc6", L"[black]"},
+                {L"\\xFFc7", L"[gold]"},
+                {L"\\xFFc9", L"[Yellow]"},
+                {L"\\xFFc;", L"[Purple]"}
+        };
+        for (auto&&[code, color]: wideColorCodes) {
+            *str = std::regex_replace(*str, std::wregex(code), color);
+        }
+        return str;
+    }
 
 /*
 6FC9275F  |. E8 ECCCFFFF    |CALL D2Game.6FC8F450                    ; \D2Game.6FC8F450
 */
-    void printOutputItem(CubeOutput *output, LPWSTR buf, LPINT len, LPINT nbOutputs) {
+    void printOutputItem(CubeOutput *output, std::wstringstream &stream, int *nbOutputs, bool InNoSocket) {
+        auto streamLocal = [&str = stream](auto id) -> std::wstringstream & {
+            str << getLocalString(id);
+            return str;
+        };
+        auto streamLocalSpace = [streamLocal](auto id) {
+            streamLocal(id) << SPACE;
+        };
+        auto streamD2StringRaw = [&str = stream](auto index) {
+            str << D2GetStringFromIndex(index);
+        };
+        auto streamD2String = [&str = stream](auto index) {
+            str << StripGender(D2GetStringFromIndex(index));
+        };
         if (output->outputType == 0)
             return;
         if (*nbOutputs > 0)
-            PRINT(BUF, L" + ");
+            stream << L" + ";
         *nbOutputs += 1;
         if (output->outputType == 1) {
-            PRINT(BUF, getLocalString(STR_COW_PORTAL));
+
+            streamLocal(STR_COW_PORTAL);
             return;
         } else if (output->outputType == 2) {
-            PRINT(BUF, getLocalString(STR_PANDEMONIUM_PORTAL));
+            streamLocal(STR_PANDEMONIUM_PORTAL);
             return;
         } else if (output->outputType == 3) {
-            PRINT(BUF, getLocalString(STR_PANDEMONIUM_FINAL_PORTAL));
+            streamLocal(STR_PANDEMONIUM_FINAL_PORTAL);
             return;
         }
         if ((output->quantityOrNbSockets > 1) && !output->haveSockets) {
             if (output->quantityOrNbSockets == 255)
-                PRINT(BUF, L"%s ", getLocalString(STR_FULL));
+                streamLocalSpace(STR_FULL);
             else
-                PRINT(BUF, L"%u ", output->quantityOrNbSockets);
+                stream << output->quantityOrNbSockets << SPACE;
         }
         if (output->repair)
-            PRINT(BUF, L"%s ", getLocalString(STR_REPAIR));
+            streamLocalSpace(STR_REPAIR);
         if (output->repair && output->recharge)
-            PRINT(BUF, L"%s ", getLocalString(STR_AND));
+            streamLocalSpace(STR_AND);
         if (output->recharge)
-            PRINT(BUF, L"%s ", getLocalString(STR_RECHARGE));
+            streamLocalSpace(STR_RECHARGE);
         if (output->destroysFillers)
-            PRINT(BUF, L"%s ", getLocalString(STR_DESTROY_FILLERS));
+            streamLocalSpace(STR_DESTROY_FILLERS);
         if (output->removeFillers)
-            PRINT(BUF, L"%s ", getLocalString(STR_REMOVE_FILLERS));
+            streamLocalSpace(STR_REMOVE_FILLERS);
         if (output->regeneratesUnique)
-            PRINT(BUF, L"%s ", getLocalString(STR_REGENERATE));
+            streamLocalSpace(STR_REGENERATE);
         if (output->upgradeToExceptional)
-            PRINT(BUF, L"%s ", getLocalString(STR_UPGRADE_TO_EXCEPTIONAL));
+            streamLocalSpace(STR_UPGRADE_TO_EXCEPTIONAL);
         if (output->upgradeToElite)
-            PRINT(BUF, L"%s ", getLocalString(STR_UPGRADE_TO_ELITE));
+            streamLocalSpace(STR_UPGRADE_TO_ELITE);
         if (output->isEthereal)
-            PRINT(BUF, L"%s ", getLocalString(STR_ETHERAL));
+            streamLocalSpace(STR_ETHERAL);
         if (output->isSpecificItem) {
             if (output->quality == ITEMQUALITY_UNIQUE) {
                 UniqueItemsBIN *uniqueItems = SgptDataTables->uniqueItems + output->specificID - 1;
-                PRINT(BUF, D2GetStringFromIndex(uniqueItems->uniqueNameId));
+                streamD2StringRaw(uniqueItems->uniqueNameId);
             } else if (output->quality == ITEMQUALITY_SET) {
                 SetItemsBIN *setItems = SgptDataTables->setItems + output->specificID - 1;
-                PRINT(BUF, D2GetStringFromIndex(setItems->setNameId));
+                streamD2StringRaw(setItems->setNameId);
             } else {
-                PRINT(BUF, STRING_ERROR);
+                stream << STRING_ERROR;
                 return;
             }
         } else {
             switch (output->quality) {
                 case 1:
-                    PRINT(BUF, L"%s ", getLocalString(STR_CRACKED));
+                    streamLocalSpace(STR_CRACKED);
                     break;
                 case 2:
-                    PRINT(BUF, L"%s ", getLocalString(STR_NORMAL));
+                    streamLocalSpace(STR_NORMAL);
                     break;
                 case 3:
-                    PRINT(BUF, L"%s ", getLocalString(STR_SUPERIOR));
+                    streamLocalSpace(STR_SUPERIOR);
                     break;
                 case 4:
-                    PRINT(BUF, L"%s ", getLocalString(STR_MAGIC));
+                    streamLocalSpace(STR_MAGIC);
                     break;
                 case 5:
-                    PRINT(BUF, L"%s ", getLocalString(STR_SET));
+                    streamLocalSpace(STR_SET);
                     break;
                 case 6:
-                    PRINT(BUF, L"%s ", getLocalString(STR_RARE));
+                    streamLocalSpace(STR_RARE);
                     break;
                 case 7:
-                    PRINT(BUF, L"%s ", getLocalString(STR_UNIQUE));
+                    streamLocalSpace(STR_UNIQUE);
                     break;
                 case 8:
-                    PRINT(BUF, L"%s ", getLocalString(STR_CRAFTED));
+                    streamLocalSpace(STR_CRAFTED);
                     break;
                 case 9:
-                    PRINT(BUF, L"%s ", getLocalString(STR_TEMPERED));
+                    streamLocalSpace(STR_TEMPERED);
                     break;
             }
             switch (output->outputType) {
                 case 0xFC: {
                     ItemsBIN *items = D2GetItemsBIN(output->ID);
-                    PRINT(BUF, StripGender(D2GetStringFromIndex(items->NameStr)));
+                    streamD2String(items->NameStr);
                     break;
                 }
                 case 0xFD: {
                     ItemTypesBIN *itemTypeData = D2GetItemTypesBIN(output->ID);
                     if (!itemTypeData)
-                        PRINT(BUF, L"Unknow Item Type");
+                        stream << L"Unknown Item Type";
                     else
-                        PRINT(BUF, getLocalTypeString(itemTypeData->code));
+                        streamLocal(itemTypeData->code);
                     break;
                 }
                 case 0xFE:
-                    PRINT(BUF, L"%s", getLocalString(STR_ITEM));
+                    streamLocal(STR_ITEM);
                     break;
                 case 0xFF:
-                    PRINT(BUF, L"%s", getLocalString(STR_ITEM_SAME_TYPE));
+                    streamLocal(STR_ITEM_SAME_TYPE);
                     break;
                 default:
-                    PRINT(BUF, L"%s ", STRING_ERROR);
+                    stream << STRING_ERROR << SPACE;
                     return;
             }
         }
         if (output->haveSockets == 1 || InNoSocket) {
-            PRINT(BUF, L" ");
-            if (output->quantityOrNbSockets >= 1)
-                PRINT(BUF, getLocalString(STR_WITH_N_SOCKETS), output->quantityOrNbSockets);
-//		else if (output->quantityOrNbSockets == 1)
-                //			PRINT(BUF, getLocalString(STR_WITH_ONE_SOCKET));
-            else
-                PRINT(BUF, getLocalString(STR_WITH_SOCKETS));
+            stream << SPACE;
+            if (output->quantityOrNbSockets >= 1) {
+                wchar_t buffer[200];
+                swprintf_s(buffer, sizeof buffer, getLocalString(STR_WITH_N_SOCKETS), output->quantityOrNbSockets);
+                stream << buffer;
+            } else
+                streamLocal(STR_WITH_SOCKETS);
         }
     }
 
-    void printInputItem(CubeInput *input, LPWSTR buf, LPINT len, LPINT nbInputs)//maxsize)
-    {
+    void printInputItem(CubeInput *input, std::wstringstream &stream, BYTE *nbInputs, bool *InNoSocket) {
+        auto streamLocal = [&str = stream](auto id) -> std::wstringstream & {
+            str << getLocalString(id);
+            return str;
+        };
+        auto streamLocalSpace = [streamLocal](auto id) {
+            streamLocal(id) << SPACE;
+        };
+        auto streamSpaceLocal = [&str = stream](auto id) {
+            str << SPACE << getLocalString(id);
+        };
+        auto streamD2String = [&str = stream](auto index) {
+            str << StripGender(D2GetStringFromIndex(index));
+        };
         if (!input->byItemID && !input->byItemTypeID)
             return;
         if (*nbInputs)
-            PRINT(BUF, L" + ");
+            stream << L" + ";
         BYTE nb = input->quantity > 0 ? input->quantity : 1;
         *nbInputs += nb;
         if (nb > 1)
-            PRINT(BUF, L"%u ", nb);
+            stream << nb << SPACE;
         if (input->isEthereal)
-            PRINT(BUF, L"%s ", getLocalString(STR_ETHERAL));
+            streamLocalSpace(STR_ETHERAL);
         if (input->isNotEthereal)
-            PRINT(BUF, L"%s ", getLocalString(STR_NOT_ETHERAL));
+            streamLocalSpace(STR_NOT_ETHERAL);
         if (input->isNotRuneword)
-            PRINT(BUF, L"%s ", getLocalString(STR_NOT_RUNEWORD));
+            streamLocalSpace(STR_NOT_RUNEWORD);
         if (input->isBasic)
-            PRINT(BUF, L"%s ", getLocalString(STR_BASIC));
+            streamLocalSpace(STR_BASIC);
         if (input->isExceptional)
-            PRINT(BUF, L"%s ", getLocalString(STR_EXCEPTIONAL));
+            streamLocalSpace(STR_EXCEPTIONAL);
         if (input->isElite)
-            PRINT(BUF, L"%s ", getLocalString(STR_ELITE));
+            streamLocalSpace(STR_ELITE);
         if (input->isSpecificItem) {
             if (input->quality == ITEMQUALITY_UNIQUE) {
                 UniqueItemsBIN *uniqueItems = SgptDataTables->uniqueItems + input->specificID - 1;
-                PRINT(BUF, StripGender(D2GetStringFromIndex(uniqueItems->uniqueNameId)));
+                streamD2String(uniqueItems->uniqueNameId);
             } else if (input->quality == ITEMQUALITY_SET) {
                 SetItemsBIN *setItems = SgptDataTables->setItems + input->specificID - 1;
-                PRINT(BUF, StripGender(D2GetStringFromIndex(setItems->setNameId)));
+                streamD2String(setItems->setNameId);
             } else {
-                PRINT(BUF, L"%s ", STRING_ERROR);
+                stream << STRING_ERROR << SPACE;
                 return;
             }
         } else {
             switch (input->quality) {
                 case 1:
-                    PRINT(BUF, L"%s ", getLocalString(STR_CRACKED));
+                    streamLocalSpace(STR_CRACKED);
                     break;
                 case 2:
-                    PRINT(BUF, L"%s ", getLocalString(STR_NORMAL));
+                    streamLocalSpace(STR_NORMAL);
                     break;
                 case 3:
-                    PRINT(BUF, L"%s ", getLocalString(STR_SUPERIOR));
+                    streamLocalSpace(STR_SUPERIOR);
                     break;
                 case 4:
-                    PRINT(BUF, L"%s ", getLocalString(STR_MAGIC));
+                    streamLocalSpace(STR_MAGIC);
                     break;
                 case 5:
-                    PRINT(BUF, L"%s ", getLocalString(STR_SET));
+                    streamLocalSpace(STR_SET);
                     break;
                 case 6:
-                    PRINT(BUF, L"%s ", getLocalString(STR_RARE));
+                    streamLocalSpace(STR_RARE);
                     break;
                 case 7:
-                    PRINT(BUF, L"%s ", getLocalString(STR_UNIQUE));
+                    streamLocalSpace(STR_UNIQUE);
                     break;
                 case 8:
-                    PRINT(BUF, L"%s ", getLocalString(STR_CRAFTED));
+                    streamLocalSpace(STR_CRAFTED);
                     break;
                 case 9:
-                    PRINT(BUF, L"%s ", getLocalString(STR_TEMPERED));
+                    streamLocalSpace(STR_TEMPERED);
                     break;
             }
             if (input->byItemTypeID) {
                 ItemTypesBIN *itemTypeData = D2GetItemTypesBIN(input->ID);
                 if (!itemTypeData)
-                    PRINT(BUF, L"Unknow Item Type");
+                    stream << L"Unknown Item Type";
                 else
-                    PRINT(BUF, getLocalTypeString(itemTypeData->code));
+                    streamLocal(itemTypeData->code);
             } else if (input->ID == 0xFFFF) {
-                PRINT(BUF, getLocalString(STR_ITEM));
+                streamLocal(STR_ITEM);
             } else {
                 ItemsBIN *items = D2GetItemsBIN(input->ID);
-                PRINT(BUF, StripGender(D2GetStringFromIndex(items->NameStr)));
+                streamD2String(items->NameStr);
             }
         }
         if (input->includeUpgradedVersions && !input->isElite)
-            PRINT(BUF, L" %s", getLocalString(STR_INCLUDE_UPGRADED));
+            streamSpaceLocal(STR_INCLUDE_UPGRADED);
         if (input->haveNoSocket) {
-            PRINT(BUF, L" %s", getLocalString(STR_WITHOUT_SOCKET));
-            InNoSocket = true;
+            streamSpaceLocal(STR_WITHOUT_SOCKET);
+            *InNoSocket = true;
         }
         if (input->haveSockets)
-            PRINT(BUF, L" %s", getLocalString(STR_WITH_SOCKETS));
+            streamSpaceLocal(STR_WITH_SOCKETS);
     }
 
-    DWORD print(CubeMainBIN *curForm, LPWSTR buf, LPINT len, DWORD)//maxsize)
-    {
-        if (!buf || !curForm || !curForm->enabled) return 0;
-        InNoSocket = false;
-        int realNbInputs = 0;
-        printInputItem(&curForm->input1, buf, len, &realNbInputs);
-        printInputItem(&curForm->input2, buf, len, &realNbInputs);
-        printInputItem(&curForm->input3, buf, len, &realNbInputs);
-        printInputItem(&curForm->input4, buf, len, &realNbInputs);
-        printInputItem(&curForm->input5, buf, len, &realNbInputs);
-        printInputItem(&curForm->input6, buf, len, &realNbInputs);
-        printInputItem(&curForm->input7, buf, len, &realNbInputs);
-        if (realNbInputs != curForm->numinputs) {
-            PRINT(BUF, L" *** ERROR : numInputs(%d) != realNbInputs(%d) ***", curForm->numinputs, realNbInputs);
-            return 1;
+    std::wstring printLine(CubeMainBIN *bin, int i) {
+        if (!bin || !bin->enabled) return L"";
+        bool InNoSocket = false;
+        BYTE realNbInputs = 0;
+        std::wstringstream stream;
+        stream << std::setfill(L' ') << std::setw(6) << i << L": ";
+        auto streamInput = [&stream , &realNbInputs, &InNoSocket](auto input) {
+            printInputItem(input, stream, &realNbInputs, &InNoSocket);
+        };
+        streamInput(&bin->input1);
+        streamInput(&bin->input2);
+        streamInput(&bin->input3);
+        streamInput(&bin->input4);
+        streamInput(&bin->input5);
+        streamInput(&bin->input6);
+        streamInput(&bin->input7);
+        if (realNbInputs != bin->numinputs) {
+            stream << L" *** ERROR : numInputs(" << bin->numinputs << ") != realNbInputs(" << realNbInputs << ") ***";
+            return stream.str();
         }
-        PRINT(BUF, L" => ");
+        stream << L" => ";
         int realNbOutputs = 0;
-        printOutputItem(&curForm->output1, buf, len, &realNbOutputs);
-        printOutputItem(&curForm->output2, buf, len, &realNbOutputs);
-        printOutputItem(&curForm->output3, buf, len, &realNbOutputs);
+        auto streamOutput = [&stream , &realNbOutputs, &InNoSocket](auto output) {
+            printOutputItem(output, stream, &realNbOutputs, InNoSocket);
+        };
+        streamOutput(&bin->output1);
+        streamOutput(&bin->output2);
+        streamOutput(&bin->output3);
+        auto streamSpaceLocal = [&str = stream](auto id) {
+            str << SPACE << getLocalString(id);
+        };
 
-
-//	if (curForm->ladder)
-//		sprintf(BUF," [ladder only]");
-
-        if (curForm->minDiff == 1)
-            PRINT(BUF, L" %s", getLocalString(STR_ONLY_N_H));
-        else if (curForm->minDiff == 2)
-            PRINT(BUF, L" %s", getLocalString(STR_ONLY_HELL));
-        if (curForm->playerClass != 0xFF) {
-            CharStatsBIN *charStats = D2GetCharStatsBIN(curForm->playerClass);
-            PRINT(BUF, L" (");
-            PRINT(BUF, getLocalString(STR_ONLY_CLASS), charStats->name);
-            PRINT(BUF, L")");
+        if (bin->minDiff == 1)
+            streamSpaceLocal(STR_ONLY_N_H);
+        else if (bin->minDiff == 2)
+            streamSpaceLocal(STR_ONLY_HELL);
+        if (bin->playerClass != 0xFF) {
+            CharStatsBIN *charStats = D2GetCharStatsBIN(bin->playerClass);
+            stream << L" (";
+            wchar_t buffer[200];
+            swprintf_s(buffer, sizeof buffer, getLocalString(STR_ONLY_CLASS), charStats->name);
+            stream << buffer;
+            stream << L")";
         }
-        if ((curForm->op > 0) && (curForm->op != 28))
-            PRINT(BUF, L" [op%d(%d,%d)]", curForm->op, curForm->param, curForm->value);
-
-//	if (curForm->version == 100)
-//		sprintf(BUF, " [expansion only]");
-
-        return 1;
+        if ((bin->op > 0) && (bin->op != 28)) {
+            stream << L" [op" << bin->op << L"(" << bin->param << L"," << bin->value << L")]";
+        }
+        return std::regex_replace(stream.str(), std::wregex(L"\n"), L"");
     }
 
-#undef BUF
+    std::wstring vectorToWstring(const std::vector<std::wstring>& vec) {
+        std::wstringstream stream;
+        for (const std::wstring& str: vec) {
+            stream << str << std::endl;
+        }
+        return stream.str();
+    }
+
+    std::wstring printAllCubeMainBIN() {
+        std::vector<std::wstring> recipes = std::vector<std::wstring>();
+        recipes.reserve(12000);
+        int lines = D2GetNbCubeMainBIN();
+        for (int i = 0; i < lines; i++) {
+            auto str = printLine(D2GetCubeMainBIN(i), i);
+            if (!str.empty())
+                recipes.push_back(str);
+        }
+        recipes.shrink_to_fit();
+        auto str = vectorToWstring(recipes);
+        auto fixedStr = replaceColorCodes(&str);
+        return *fixedStr;
+    }
+
+    void writeStreamToFile(std::wstring &string, const std::string &filename) {
+        std::wofstream outFile(filename);
+        outFile << string;
+        outFile.close();
+    }
 
     void listAllCubeFormula() {
         log_msg("\n\n********** Print all cube formula **********\n");
         char filename[MAX_PATH];
         D2FogGetSavePath(filename, MAX_PATH);
-        strcat(filename, CUBEFORMULA_FILE);
-        FILE *file = fopen(filename, "w");
-        if (!file) {
-            log_msg("Failed to open save file.\n");
-            return;
-        }
+        strcat_s(filename, CUBEFORMULA_FILE);
         int nbLines = D2GetNbCubeMainBIN();
         log_msg("nbLines : %d\n", nbLines);
-        WCHAR buf[512];
-
-        // Print BOM UTF-16
-        //buf[0] = 0xFEFF;
-        //buf[1] = NULL;
-        //write(buf, 2, 2, file);
-
-        // Print BOM UTF-8
-        //printf(file, "﻿");
-
-        int len = 0;
-        int nbCubeReceipt = 0;
-        int line = 0;
-        for (int i = 0; i < nbLines; i++) {
-            DWORD res = 1;
-            len = 0;
-            buf[len] = NULL;
-            res = print(D2GetCubeMainBIN(i), buf, &len, 512);
-            //wcstombs(bufa, buf, 1024);
-            if (res) {
-                nbCubeReceipt++;
-                fwprintf(file, L"%3u: %s\n", ++line, buf);
-            }
-        }
-        fclose(file);
+        auto stream = printAllCubeMainBIN();
+        writeStreamToFile(stream, filename);
         log_msg("\n********** Printing over **********\n\n");
     }
 

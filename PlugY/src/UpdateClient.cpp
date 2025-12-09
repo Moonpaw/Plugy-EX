@@ -30,7 +30,7 @@ namespace PlugY {
         packet.mParam1 = p1;
         packet.mParam2 = p2;
         packet.mParam3 = p3;
-        ptNetClient = D2GetClient(ptChar, __FILE__, __LINE__);
+        ptNetClient = D2GetClient(ptChar, (char *)__FILE__, __LINE__);
 
         // Send packet to client for remove placed skills
         D2SendPacket(ptNetClient, &packet, sizeof(DataPacket));
@@ -50,7 +50,7 @@ namespace PlugY {
             return;
         if (msg != NULL)
             strncpy((char *) &packet.mItemID, msg, 20);
-        ptNetClient = D2GetClient(ptChar, __FILE__, __LINE__);
+        ptNetClient = D2GetClient(ptChar, (char *)__FILE__, __LINE__);
 
         // Send packet to client for remove placed skills
         D2SendPacket(ptNetClient, &packet, sizeof(DataPacket));

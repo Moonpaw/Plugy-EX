@@ -6,11 +6,12 @@
 =================================================================*/
 #pragma once
 
+#include <string>
 #include "common.h"
 namespace PlugY {
     extern bool active_WorldEvent;
     extern DWORD showSOJSoldCounterInAllDiff;
-    extern char *itemsToSell;
+    extern std::string itemsToSell;
     extern DWORD worldEventmonsterID;
     extern DWORD valueOfOwnSOJSold;
     extern DWORD valueInitSOJSoldMin;

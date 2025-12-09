@@ -4,6 +4,8 @@
 #include <VersionInfo.h>
 #include <d2wrapper.h>
 #include <d2functions.h>
+#include <regex>
+#include "newInterface_CubeListing.h"
 
 namespace PlugY_Tests {
     using namespace Commons;
@@ -65,6 +67,50 @@ namespace PlugY_Tests {
 //                int addressVersion = version_D2Common == V113d ? v113d : (version_D2Common == V113c ? v113c : (version_D2Common == V112 ? v112 : (version_D2Common == V111b ? v111b : (version_D2Common == V111 ? v111 : (version_D2Common == V110 ? v110 : (version_D2Common == V109d ? v109d : defaultValue))))));
                 setFctAddr((DWORD *) &D2Common11084, (HMODULE) offset_D2Common, (LPCSTR) getAddressOfVersion(version_D2Common, defaultValue, v109d, v110, v111, v111b, v112, v113c, v113d));
             }
+        }
+    }
+
+    TEST_SUITE("Cube Functions") {
+
+        TEST_CASE("replaceColorCodes should replace ÿc2 with [Gold]") {
+            auto source = std::wstring(L"     1: Unique Item + Death's Hand + Death's Guard + Death's Touch + ÿc2ZyEl Scroll => Item");
+            auto result = PlugY::replaceColorCodes(&source);
+            auto expected = std::wstring (L"     1: Unique Item + Death's Hand + Death's Guard + Death's Touch + [Green]ZyEl Scroll => Item");
+            INFO("The result is :", from_wide(*result));
+            REQUIRE(result->compare(expected) == 0);
+        }
+
+        TEST_CASE("replaceColorCodes should replace color codes with [colors]") {
+            auto source = std::wstring(L"ÿc1ÿc2ÿc3ÿc4ÿc8ÿc:ÿc0ÿc5ÿc6ÿc7ÿc9ÿc;");
+            auto result = PlugY::replaceColorCodes(&source);
+            auto expected = std::wstring (L"[Red][Green][Blue][Gold][Orange][Dark Green][white][grey][black][gold][Yellow][Purple]");
+            INFO("The result is :", from_wide(*result));
+            REQUIRE(result->compare(expected) == 0);
+        }
+
+        TEST_CASE("regex replace ÿc2 with [Gold]") {
+            auto source = std::wstring(L"ÿc2..");
+            auto result = std::regex_replace(source, std::wregex(L"ÿc2"), L"[Gold]");
+            auto expected = std::wstring (L"[Gold]..");
+            INFO("The result is :", from_wide(result));
+            REQUIRE(result.compare(expected) == 0);
+        }
+
+        TEST_CASE("regex replace ÿc2:ÿc2 with [Gold]:[Gold]") {
+            auto source = std::wstring(L"ÿc2:ÿc2");
+            auto result = std::regex_replace(source, std::wregex(L"ÿc2"), L"[Gold]");
+            auto expected = std::wstring (L"[Gold]:[Gold]");
+            INFO("The result is :", result);
+            REQUIRE(result.compare(expected) == 0);
+        }
+
+        TEST_CASE("vectorToWstring should concatenate to a single string") {
+            auto source = std::wstring(L"Item");
+            std::vector<std::wstring> vec;
+            vec.push_back(source);
+            auto result = PlugY::vectorToWstring(vec);
+            auto expected = L"Item\n";
+            REQUIRE(result.compare(expected) == 0);
         }
     }
 }
